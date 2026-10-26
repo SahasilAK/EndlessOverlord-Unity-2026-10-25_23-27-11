@@ -172,16 +172,16 @@ namespace FinalBoss.Tests
             float baseCost = AbilityProgressionMath.CalculateEffectiveResourceCost(def, 1);
             int baseSummons = AbilityProgressionMath.CalculateEffectiveSummonCount(def, 1);
             Assert.AreEqual(8.0f, baseCd, 0.01f);
-            Assert.AreEqual(20.0f, baseCost, 0.01f);
+            Assert.AreEqual(def.ResourceCost, baseCost, 0.01f);
             Assert.AreEqual(1, baseSummons);
 
             // Rank 5: Cooldown reduced by 15% (8.0 * 0.85 = 6.8s)
             float r5Cd = AbilityProgressionMath.CalculateEffectiveCooldown(def, 5);
             Assert.AreEqual(8.0f * 0.85f, r5Cd, 0.01f);
 
-            // Rank 10: Resource cost reduced by 25% (20.0 * 0.75 = 15.0)
+            // Rank 10: Resource cost reduced by 25% (def.ResourceCost * 0.75)
             float r10Cost = AbilityProgressionMath.CalculateEffectiveResourceCost(def, 10);
-            Assert.AreEqual(20.0f * 0.75f, r10Cost, 0.01f);
+            Assert.AreEqual(def.ResourceCost * 0.75f, r10Cost, 0.01f);
 
             // Rank 20: Master Mutation: Extra summon count (+1 = 2 sentinels)
             int r20Summons = AbilityProgressionMath.CalculateEffectiveSummonCount(def, 20);

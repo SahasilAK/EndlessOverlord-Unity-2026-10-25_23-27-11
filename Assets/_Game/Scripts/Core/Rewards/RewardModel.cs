@@ -124,7 +124,14 @@ namespace FinalBoss.Core
         public const string FallbackId = "generic_fallback_essence";
         public const string ArmorId = "lich_lord_wave_01";
         public const string ExtraProjId = "lich_lord_wave_02";
+        public const string CryptDisciplineId = "lich_lord_wave_03";
+        public const string EternalServitudeId = "lich_lord_wave_04";
+        public const string MarrowGrowthId = "lich_lord_wave_05";
+        public const string WightAuthorityId = "lich_lord_wave_06";
+        public const string BoneSplintersId = "lich_lord_wave_07";
         public const string MoveSpeedId = "lich_lord_wave_08";
+        public const string SoulboundLegionId = "lich_lord_wave_09";
+        public const string OssuarySwarmId = "lich_lord_wave_10";
         public const string RangeId = "lich_lord_wave_11";
         public const string LifeStealId = "lich_lord_wave_15";
         public const string AttackSpeedId = "lich_lord_wave_21";
@@ -141,21 +148,117 @@ namespace FinalBoss.Core
                     "Bone Reinforcement",
                     "Strengthen protective armor plating (+5 Armor)",
                     RewardRarity.Common,
-                    "all",
+                    "lich_lord",
                     RewardModifierType.Armor,
                     5f,
                     maxRank: 5)
+            },
+            {
+                ExtraProjId,
+                new RewardDefinition(
+                    ExtraProjId,
+                    "Grave Barrage",
+                    "Skeleton archers and lich attacks launch additional strikes (+1 Projectile)",
+                    RewardRarity.Epic,
+                    "lich_lord",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                CryptDisciplineId,
+                new RewardDefinition(
+                    CryptDisciplineId,
+                    "Crypt Discipline",
+                    "Extends minion targeting and attack reach (+1.5m Range)",
+                    RewardRarity.Uncommon,
+                    "lich_lord",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                EternalServitudeId,
+                new RewardDefinition(
+                    EternalServitudeId,
+                    "Eternal Servitude",
+                    "Hasten summon recovery and mobility (+15% Cooldown Recovery)",
+                    RewardRarity.Uncommon,
+                    "lich_lord",
+                    RewardModifierType.DashCooldownReductionPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                MarrowGrowthId,
+                new RewardDefinition(
+                    MarrowGrowthId,
+                    "Marrow Growth",
+                    "Enlarge undead bone frame and vitality (+35 Max HP)",
+                    RewardRarity.Uncommon,
+                    "lich_lord",
+                    RewardModifierType.MaxHealth,
+                    35f,
+                    maxRank: 5)
+            },
+            {
+                WightAuthorityId,
+                new RewardDefinition(
+                    WightAuthorityId,
+                    "Wight Authority",
+                    "Empower commander presence and minion swing rate (+15% Attack Speed)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.AttackSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                BoneSplintersId,
+                new RewardDefinition(
+                    BoneSplintersId,
+                    "Bone Splinters",
+                    "Attacks shatter into razor bone fragments (+1 Projectile)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 2)
             },
             {
                 MoveSpeedId,
                 new RewardDefinition(
                     MoveSpeedId,
                     "Death March",
-                    "Hasten footsteps (+12% Move Speed)",
+                    "Hasten footsteps of the Lich and undead army (+12% Move Speed)",
                     RewardRarity.Common,
-                    "all",
+                    "lich_lord",
                     RewardModifierType.MoveSpeedPercent,
                     0.12f,
+                    maxRank: 5)
+            },
+            {
+                SoulboundLegionId,
+                new RewardDefinition(
+                    SoulboundLegionId,
+                    "Soulbound Legion",
+                    "Siphon spiritual energy of fallen allies (+20% Damage)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                OssuarySwarmId,
+                new RewardDefinition(
+                    OssuarySwarmId,
+                    "Ossuary Swarm",
+                    "Swarms of minor bone shards leech essence from invaders (+6% Life Steal)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.LifeStealPercent,
+                    0.06f,
                     maxRank: 5)
             },
             {
@@ -217,18 +320,6 @@ namespace FinalBoss.Core
                     RewardModifierType.LifeStealPercent,
                     0.08f,
                     maxRank: 5)
-            },
-            {
-                ExtraProjId,
-                new RewardDefinition(
-                    ExtraProjId,
-                    "Grave Barrage",
-                    "Attack with an additional spread strike (+1 Projectile)",
-                    RewardRarity.Epic,
-                    "all",
-                    RewardModifierType.ExtraProjectiles,
-                    1f,
-                    maxRank: 3)
             },
             {
                 MonarchId,

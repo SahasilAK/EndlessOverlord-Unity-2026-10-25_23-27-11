@@ -119,6 +119,206 @@ namespace FinalBoss.Core
             ));
 
             Register(new AbilityDefinition(
+                id: "lich_lord_active_03",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Grave Spearman",
+                description: "Summon a piercing melee defender that impales invaders in a line and knocks them back.",
+                branchName: "Branch A — Undead Summoning",
+                tier: 2,
+                prerequisiteAbilityId: "lich_lord_active_01",
+                resourceCost: 30f,
+                cooldownDuration: 9f,
+                range: 8f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.MeleeArc,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 18f,
+                baseRadius: 1.5f,
+                duration: 20f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Spear thrust reach +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Spear thrust damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Thrust knockback force doubled", bonusUtility: 1.0f),
+                    new AbilityRankMilestone(20, "Mastery: Spearman gains sweeping 180-degree counter-strike", damageMultiplier: 1.50f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_04",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Grave Hound",
+                description: "Summon a rapid undead hunter that sprints swiftly toward distant threats and tears into invaders.",
+                branchName: "Branch A — Undead Summoning",
+                tier: 3,
+                prerequisiteAbilityId: "lich_lord_active_03",
+                resourceCost: 30f,
+                cooldownDuration: 7f,
+                range: 9f,
+                effects: AbilityEffectType.Summon,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 10f,
+                baseRadius: 0.8f,
+                duration: 18f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Hound movement speed +25%", bonusUtility: 0.25f),
+                    new AbilityRankMilestone(10, "Bite attack damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Pounce slows targets by 40% for 2s", bonusUtility: 0.40f),
+                    new AbilityRankMilestone(20, "Mastery: Spawns a pack of 2 Grave Hounds (+1 summon)", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_05",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Bone Mage",
+                description: "Summon an elemental skeleton caster that casts concentrated bolts of dark elemental magic.",
+                branchName: "Branch A — Undead Summoning",
+                tier: 3,
+                prerequisiteAbilityId: "lich_lord_active_02",
+                resourceCost: 35f,
+                cooldownDuration: 10f,
+                range: 10f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 16f,
+                baseRadius: 1.5f,
+                duration: 20f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Spell cast cooldown -20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(10, "Spell damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Spells burst in 2.5m AoE on impact", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(20, "Mastery: Bone Mage casts dual elemental bolts (frost + fire)", damageMultiplier: 1.50f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_06",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Ossuary Guardian",
+                description: "Summon a colossal armored skeleton defender that absorbs damage and intercepts enemy strikes.",
+                branchName: "Branch A — Undead Summoning",
+                tier: 4,
+                prerequisiteAbilityId: "lich_lord_active_03",
+                resourceCost: 40f,
+                cooldownDuration: 12f,
+                range: 8f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 22f,
+                baseRadius: 1.2f,
+                duration: 24f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Guardian armor +4 (12 total armor)", bonusUtility: 4f),
+                    new AbilityRankMilestone(10, "Guardian Max HP +40% (140 HP)", bonusUtility: 40f),
+                    new AbilityRankMilestone(15, "Ground slam taunts and knocks back nearby enemies", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(20, "Mastery: Guardian reflects 30% of incoming damage back to attackers", bonusUtility: 0.30f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_07",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Wight Captain",
+                description: "Summon a dread undead commander whose authoritative presence buffs all nearby allied summons.",
+                branchName: "Branch A — Undead Summoning",
+                tier: 4,
+                prerequisiteAbilityId: "lich_lord_active_05",
+                resourceCost: 45f,
+                cooldownDuration: 14f,
+                range: 8f,
+                effects: AbilityEffectType.Summon,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 20f,
+                baseRadius: 4.5f,
+                duration: 25f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Commander aura radius +50%", radiusMultiplier: 1.50f),
+                    new AbilityRankMilestone(10, "Aura damage buff increased to +50%", damageMultiplier: 1.50f),
+                    new AbilityRankMilestone(15, "Aura grants 10% lifesteal to summons", bonusUtility: 0.10f),
+                    new AbilityRankMilestone(20, "Mastery: Captain summons 2 skeleton honor guards on arrival", extraSummonsOrProjectiles: 2)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_08",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Corpse Collector",
+                description: "Summon a scavenger minion that gathers soul fragments and channels extra Soul Essence directly to the Lich.",
+                branchName: "Branch A — Undead Summoning",
+                tier: 4,
+                prerequisiteAbilityId: "lich_lord_active_04",
+                resourceCost: 30f,
+                cooldownDuration: 11f,
+                range: 8f,
+                effects: AbilityEffectType.Summon,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 8f,
+                baseRadius: 5f,
+                duration: 25f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Collector movement speed +30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Soul harvest bonus increased to +8 Essence", bonusUtility: 3f),
+                    new AbilityRankMilestone(15, "Harvest magnet radius increased to 6m", radiusMultiplier: 1.50f),
+                    new AbilityRankMilestone(20, "Mastery: Collector detonates corpses when full, dealing 30 damage", damageMultiplier: 1.40f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_09",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Dread Abomination",
+                description: "Summon a massive stitched monstrosity that crushes enemies with devastating area slams.",
+                branchName: "Branch A — Undead Summoning",
+                tier: 5,
+                prerequisiteAbilityId: "lich_lord_active_06",
+                resourceCost: 55f,
+                cooldownDuration: 18f,
+                range: 8f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 35f,
+                baseRadius: 3.5f,
+                duration: 28f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Smash radius +30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Abomination Max HP +50% (240 HP)", bonusUtility: 80f),
+                    new AbilityRankMilestone(15, "Smash damage +40% (49 damage)", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(20, "Mastery: Abomination unleashes toxic rot cloud dealing 20 DoT", damageMultiplier: 1.50f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_10",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Skeletal Dragon",
+                description: "Summon a colossal undead dragon that glides above the arena and blankets invaders in dark fire.",
+                branchName: "Branch A — Undead Summoning",
+                tier: 5,
+                prerequisiteAbilityId: "lich_lord_active_07",
+                resourceCost: 70f,
+                cooldownDuration: 22f,
+                range: 9f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.MeleeArc,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 45f,
+                baseRadius: 5f,
+                duration: 30f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Dragon breath cone range +30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Dragon breath damage +35% (60 damage)", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Skeletal Dragon unleashes dual necrotic strafing runs", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
                 id: "lich_lord_active_11",
                 characterId: CharacterCatalog.LichLordId,
                 name: "Frost Nova",
@@ -167,6 +367,114 @@ namespace FinalBoss.Core
                     new AbilityRankMilestone(10, "Necrotic blast damage +35%", damageMultiplier: 1.35f),
                     new AbilityRankMilestone(15, "Blast radius +30%", radiusMultiplier: 1.30f),
                     new AbilityRankMilestone(20, "Mastery: Army summon count doubled (+2 sentinels)", extraSummonsOrProjectiles: 2)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_ultimate_100",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Ossuary Dragon",
+                description: "Summon a colossal ancient undead dragon that swoops across the arena bathed in dark flames.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "lich_lord_ultimate_50",
+                resourceCost: 75f,
+                cooldownDuration: 30f,
+                range: 10f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 80f,
+                baseRadius: 6.5f,
+                duration: 30f,
+                isUltimate: true,
+                requiredLevel: 100,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Cooldown reduced by 15%", cooldownMultiplier: 0.85f),
+                    new AbilityRankMilestone(10, "Dragon flame damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Dragon breath radius +30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(20, "Mastery: Summon an additional Frost Drake companion", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_ultimate_150",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Eternal Winter Court",
+                description: "Unleash an absolute glacial domain that deep-freezes invaders and summons 2 frost guardians.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "lich_lord_ultimate_100",
+                resourceCost: 75f,
+                cooldownDuration: 30f,
+                range: 10f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 70f,
+                baseRadius: 7.5f,
+                duration: 25f,
+                isUltimate: true,
+                requiredLevel: 150,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Freeze slow intensity +20%", bonusUtility: 0.20f),
+                    new AbilityRankMilestone(10, "Glacial burst damage +35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Glacial radius +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(20, "Mastery: Frost Guardians gain frost-nova counter attack on death", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_ultimate_200",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Black Star Eclipse",
+                description: "Conjure an apocalyptic dying dark star that bombards the arena and harvests 40 Soul Essence.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "lich_lord_ultimate_150",
+                resourceCost: 80f,
+                cooldownDuration: 32f,
+                range: 10f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 110f,
+                baseRadius: 8.5f,
+                duration: 25f,
+                isUltimate: true,
+                requiredLevel: 200,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(10, "Dark star impact damage +40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Harvested Soul Essence doubled (+80 Essence)", bonusUtility: 40f),
+                    new AbilityRankMilestone(20, "Mastery: Eclipse inflicts continuous gravitational collapse dragging invaders to center", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_ultimate_250",
+                characterId: CharacterCatalog.LichLordId,
+                name: "World Grave Awakening",
+                description: "Awaken all dead across the arena in a necrotic apocalypse, reviving 4 sentinels, 2 archers, and 1 wight captain.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "lich_lord_ultimate_200",
+                resourceCost: 90f,
+                cooldownDuration: 35f,
+                range: 12f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 90f,
+                baseRadius: 9f,
+                duration: 35f,
+                isUltimate: true,
+                requiredLevel: 250,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(10, "Necrotic shockwave damage +40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Summoned minion duration increased by 50%", bonusUtility: 0.50f),
+                    new AbilityRankMilestone(20, "Mastery: World Grave also summons an ancient Dread Abomination", extraSummonsOrProjectiles: 1)
                 }
             ));
 

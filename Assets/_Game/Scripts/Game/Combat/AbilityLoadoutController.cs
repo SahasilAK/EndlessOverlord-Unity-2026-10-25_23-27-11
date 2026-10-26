@@ -359,6 +359,94 @@ namespace FinalBoss.Game
                     SpawnVisualBurst(playerPos, 1.2f, new Color(0.6f, 0.85f, 1f, 0.85f), 0.25f);
                     break;
 
+                case "lich_lord_active_03": // Grave Spearman
+                    for (int i = 0; i < summonCount; i++)
+                    {
+                        Vector2 offset = aimDir * (1.2f + i * 0.8f);
+                        UndeadMinionActor.Spawn(UndeadMinionType.Spearman, playerPos + offset, damage);
+                        result.SummonsCreated++;
+                    }
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    SpawnVisualBurst(playerPos + aimDir, 1.2f, new Color(0.7f, 0.9f, 0.85f, 0.8f), 0.25f);
+                    break;
+
+                case "lich_lord_active_04": // Grave Hound
+                    for (int i = 0; i < summonCount; i++)
+                    {
+                        Vector2 offset = aimDir * (1.0f + i * 0.7f);
+                        UndeadMinionActor.Spawn(UndeadMinionType.Hound, playerPos + offset, damage);
+                        result.SummonsCreated++;
+                    }
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    SpawnVisualBurst(playerPos + aimDir, 1.0f, new Color(0.55f, 0.6f, 0.65f, 0.8f), 0.25f);
+                    break;
+
+                case "lich_lord_active_05": // Bone Mage
+                    for (int i = 0; i < summonCount; i++)
+                    {
+                        Vector2 offset = -aimDir * (1.5f + i * 0.8f);
+                        UndeadMinionActor.Spawn(UndeadMinionType.Mage, playerPos + offset, damage);
+                        result.SummonsCreated++;
+                    }
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    SpawnVisualBurst(playerPos, 1.2f, new Color(0.6f, 0.5f, 0.95f, 0.8f), 0.25f);
+                    break;
+
+                case "lich_lord_active_06": // Ossuary Guardian
+                    for (int i = 0; i < summonCount; i++)
+                    {
+                        Vector2 offset = aimDir * (1.5f + i * 0.8f);
+                        UndeadMinionActor.Spawn(UndeadMinionType.Guardian, playerPos + offset, damage);
+                        result.SummonsCreated++;
+                    }
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    SpawnVisualBurst(playerPos + aimDir, 1.5f, new Color(0.85f, 0.85f, 0.92f, 0.85f), 0.3f);
+                    break;
+
+                case "lich_lord_active_07": // Wight Captain
+                    for (int i = 0; i < summonCount; i++)
+                    {
+                        Vector2 offset = aimDir * (1.3f + i * 0.8f);
+                        UndeadMinionActor.Spawn(UndeadMinionType.Captain, playerPos + offset, damage);
+                        result.SummonsCreated++;
+                    }
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    SpawnVisualBurst(playerPos, 2.0f, new Color(1.0f, 0.9f, 0.5f, 0.85f), 0.35f);
+                    break;
+
+                case "lich_lord_active_08": // Corpse Collector
+                    for (int i = 0; i < summonCount; i++)
+                    {
+                        Vector2 offset = aimDir * (1.0f + i * 0.7f);
+                        UndeadMinionActor.Spawn(UndeadMinionType.Scavenger, playerPos + offset, damage);
+                        result.SummonsCreated++;
+                    }
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    SpawnVisualBurst(playerPos, 1.2f, new Color(0.5f, 0.9f, 0.5f, 0.8f), 0.25f);
+                    break;
+
+                case "lich_lord_active_09": // Dread Abomination
+                    for (int i = 0; i < summonCount; i++)
+                    {
+                        Vector2 offset = aimDir * (2.0f + i * 1.0f);
+                        UndeadMinionActor.Spawn(UndeadMinionType.Abomination, playerPos + offset, damage);
+                        result.SummonsCreated++;
+                    }
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    SpawnVisualBurst(playerPos + aimDir * 2f, 2.5f, new Color(0.4f, 0.7f, 0.4f, 0.9f), 0.4f);
+                    break;
+
+                case "lich_lord_active_10": // Skeletal Dragon
+                    for (int i = 0; i < summonCount; i++)
+                    {
+                        Vector2 offset = aimDir * (2.5f + i * 1.2f);
+                        UndeadMinionActor.Spawn(UndeadMinionType.Dragon, playerPos + offset, damage);
+                        result.SummonsCreated++;
+                    }
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    SpawnVisualBurst(playerPos + aimDir * 2.5f, 3.0f, new Color(0.35f, 0.2f, 0.65f, 0.9f), 0.5f);
+                    break;
+
                 case "lich_lord_active_11": // Frost Nova
                     result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 1.5f, slowPercent: 0.5f, slowDuration: 3f);
                     result.TargetsHit += _hitBuffer.Count;
@@ -377,6 +465,62 @@ namespace FinalBoss.Game
                     result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 4f);
                     result.TargetsHit += _hitBuffer.Count;
                     SpawnVisualBurst(playerPos, radius * 2f, new Color(0.2f, 0.9f, 0.7f, 0.9f), 0.5f);
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    break;
+
+                case "lich_lord_ultimate_100": // Ossuary Dragon
+                    Vector2 dragonPos = playerPos + aimDir * 2.5f;
+                    UndeadMinionActor.Spawn(UndeadMinionType.Dragon, dragonPos, damage, overrideMaxHp: 250f);
+                    result.SummonsCreated++;
+                    result.DamageDealt += DamageArea(dragonPos, radius, damage, knockbackForce: 4.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(dragonPos, radius * 2f, new Color(0.4f, 0.15f, 0.7f, 0.9f), 0.6f);
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    break;
+
+                case "lich_lord_ultimate_150": // Eternal Winter Court
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 2f, slowPercent: 0.7f, slowDuration: 5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < 2; i++)
+                    {
+                        float side = i == 0 ? -1.5f : 1.5f;
+                        Vector2 gPos = playerPos + new Vector2(side, 0f);
+                        UndeadMinionActor.Spawn(UndeadMinionType.Guardian, gPos, damage * 0.4f, overrideMaxHp: 120f);
+                        result.SummonsCreated++;
+                    }
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.3f, 0.75f, 1f, 0.9f), 0.6f);
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    break;
+
+                case "lich_lord_ultimate_200": // Black Star Eclipse
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (_run != null && _run.Hud != null)
+                    {
+                        _run.Hud.AddResource(40f);
+                    }
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.15f, 0.05f, 0.35f, 0.95f), 0.7f);
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    break;
+
+                case "lich_lord_ultimate_250": // World Grave Awakening
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 6f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < 4; i++)
+                    {
+                        float angle = i * (Mathf.PI * 0.5f);
+                        BoneSentinelActor.Spawn(playerPos + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * 2f);
+                        result.SummonsCreated++;
+                    }
+                    for (int i = 0; i < 2; i++)
+                    {
+                        float side = i == 0 ? -2.5f : 2.5f;
+                        CryptArcherActor.Spawn(playerPos + new Vector2(side, -1f));
+                        result.SummonsCreated++;
+                    }
+                    UndeadMinionActor.Spawn(UndeadMinionType.Captain, playerPos + aimDir * 2f);
+                    result.SummonsCreated++;
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.2f, 0.85f, 0.4f, 0.95f), 0.8f);
                     CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
                     break;
 
