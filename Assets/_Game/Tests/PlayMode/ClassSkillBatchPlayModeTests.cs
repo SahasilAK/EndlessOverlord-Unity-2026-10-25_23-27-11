@@ -1573,5 +1573,89 @@ namespace FinalBoss.Tests
             Assert.GreaterOrEqual(_player.BarrierAmount, 30f, "Blasphemous Banner should grant protective barrier.");
             Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Demon Monarch Branch C demonic abilities.");
         }
+
+        [UnityTest]
+        public IEnumerator DemonMonarch_BranchD_Part1_DevastatingPhysicalAttacks_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.DemonMonarchId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.DemonMonarchId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.DemonMonarchId, "Branch D — Devastating Physical Attacks", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.DemonMonarchId,
+                new List<string>
+                {
+                    "demon_monarch_active_31", // Brutal Smash
+                    "demon_monarch_active_32", // Titanic Swing
+                    "demon_monarch_active_33", // Rupture Stomp
+                    "demon_monarch_active_34", // Colossal Crush
+                    "demon_monarch_active_35"  // Iron Sledge
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Demon Monarch Branch D slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 40f, "Iron Sledge should grant protective iron barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Demon Monarch Branch D physical attacks.");
+        }
+
+        [UnityTest]
+        public IEnumerator DemonMonarch_BranchD_Part2_DevastatingPhysicalAttacks_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.DemonMonarchId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.DemonMonarchId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.DemonMonarchId, "Branch D — Devastating Physical Attacks", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.DemonMonarchId,
+                new List<string>
+                {
+                    "demon_monarch_active_36", // Devastating Quake
+                    "demon_monarch_active_37", // Bone Pulverizer
+                    "demon_monarch_active_38", // Brutal Cleaver
+                    "demon_monarch_active_39", // Sunder the Earth
+                    "demon_monarch_active_40"  // Wrathful Guillotine
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Demon Monarch Branch D slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 50f, "Wrathful Guillotine should grant execution barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Demon Monarch Branch D physical attacks.");
+        }
     }
 }

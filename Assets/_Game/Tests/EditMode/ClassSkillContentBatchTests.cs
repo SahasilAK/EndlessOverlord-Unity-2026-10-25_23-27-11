@@ -1222,5 +1222,89 @@ namespace FinalBoss.Tests
                 }
             }
         }
+
+        // =========================================================================
+        // DEMON MONARCH (Batch 14 / Demon Monarch Branch D)
+        // =========================================================================
+
+        [Test]
+        public void DemonMonarch_BranchD_AllTenAbilitiesRegisteredAndValid()
+        {
+            var branchDIds = new[]
+            {
+                "demon_monarch_active_31",
+                "demon_monarch_active_32",
+                "demon_monarch_active_33",
+                "demon_monarch_active_34",
+                "demon_monarch_active_35",
+                "demon_monarch_active_36",
+                "demon_monarch_active_37",
+                "demon_monarch_active_38",
+                "demon_monarch_active_39",
+                "demon_monarch_active_40"
+            };
+
+            for (int i = 0; i < branchDIds.Length; i++)
+            {
+                string id = branchDIds[i];
+                var def = AbilityRegistry.Get(id);
+                Assert.IsNotNull(def, $"Ability {id} must be registered in AbilityRegistry.");
+                Assert.AreEqual(CharacterCatalog.DemonMonarchId, def.CharacterId);
+                Assert.IsNotEmpty(def.Name);
+                Assert.IsNotEmpty(def.Description);
+                Assert.AreEqual("Branch D — Devastating Physical Attacks", def.BranchName);
+                Assert.GreaterOrEqual(def.Tier, 1);
+                Assert.LessOrEqual(def.Tier, 5);
+                Assert.Greater(def.ResourceCost, 0f);
+                Assert.Greater(def.CooldownDuration, 0f);
+                Assert.IsNotNull(def.Milestones);
+                Assert.AreEqual(4, def.Milestones.Count, $"Ability {id} must define milestones at ranks 5, 10, 15, and 20.");
+
+                Assert.AreEqual(5, def.Milestones[0].Rank);
+                Assert.AreEqual(10, def.Milestones[1].Rank);
+                Assert.AreEqual(15, def.Milestones[2].Rank);
+                Assert.AreEqual(20, def.Milestones[3].Rank);
+            }
+        }
+
+        [Test]
+        public void DemonMonarch_BranchD_WaveSkills31Through40_RegisteredAndDraftExclusivity()
+        {
+            var expectedWaveSkills = new[]
+            {
+                "demon_monarch_wave_31",
+                "demon_monarch_wave_32",
+                "demon_monarch_wave_33",
+                "demon_monarch_wave_34",
+                "demon_monarch_wave_35",
+                "demon_monarch_wave_36",
+                "demon_monarch_wave_37",
+                "demon_monarch_wave_38",
+                "demon_monarch_wave_39",
+                "demon_monarch_wave_40"
+            };
+
+            foreach (var id in expectedWaveSkills)
+            {
+                var def = RewardRegistry.GetById(id);
+                Assert.IsNotNull(def, $"Wave skill {id} must be registered in RewardRegistry.");
+                Assert.AreEqual(CharacterCatalog.DemonMonarchId, def.CharacterId, $"Skill {id} must be exclusive to Demon Monarch.");
+                Assert.IsNotEmpty(def.Name);
+                Assert.IsNotEmpty(def.Description);
+                Assert.Greater(def.ValuePerRank, 0f);
+            }
+
+            // Test draft exclusion: Cursed Golem drafting should NEVER receive Demon Monarch exclusive wave skills 31-40
+            var inv = new RewardInventory();
+            for (int seed = 1; seed <= 25; seed++)
+            {
+                var golemOffer = RewardDraftSystem.GenerateOffer(waveNumber: seed, seed: seed * 40404L, inventory: inv, characterId: CharacterCatalog.CursedGolemId);
+                for (int c = 0; c < golemOffer.Choices.Count; c++)
+                {
+                    var choice = golemOffer.Choices[c];
+                    Assert.AreNotEqual(CharacterCatalog.DemonMonarchId, choice.CharacterId, $"Cursed Golem must never be offered Demon Monarch exclusive skill {choice.Id}");
+                }
+            }
+        }
     }
 }

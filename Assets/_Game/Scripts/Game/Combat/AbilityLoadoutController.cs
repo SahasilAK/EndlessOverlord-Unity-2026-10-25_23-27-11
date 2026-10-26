@@ -1640,6 +1640,118 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
                     break;
 
+                // Branch D — Devastating Physical Attacks (Actives 31-40)
+                case "demon_monarch_active_31": // Brutal Smash
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 4.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.2f, new Color(0.9f, 0.2f, 0.05f, 0.95f), 0.3f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_active_32": // Titanic Swing
+                    Vector2 swingPos = playerPos + aimDir * 2.5f;
+                    result.DamageDealt += DamageArea(swingPos, radius, damage, knockbackForce: 6.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(swingPos, radius * 2.4f, new Color(1f, 0.3f, 0.1f, 0.95f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, swingPos.x, swingPos.y);
+                    break;
+
+                case "demon_monarch_active_33": // Rupture Stomp
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 5.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(playerPos, radius, duration: def.Duration > 0 ? def.Duration : 2.0f, damagePerTick: damage * 0.25f, tickInterval: 0.5f, slowPercent: 0.4f, slowDuration: 1.5f, color: new Color(0.85f, 0.3f, 0.1f, 0.55f), label: "[RUPTURE_GRAVEL]");
+                    SpawnVisualBurst(playerPos, radius * 2.4f, new Color(0.95f, 0.25f, 0.05f, 0.95f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_active_34": // Colossal Crush
+                    Vector2 crushPos = playerPos + aimDir * 2.2f;
+                    result.DamageDealt += DamageArea(crushPos, radius, damage * 1.25f, knockbackForce: 7.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.5f, 2.0f);
+                        }
+                    }
+                    SpawnVisualBurst(crushPos, radius * 2.2f, new Color(1f, 0.2f, 0.05f, 0.95f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, crushPos.x, crushPos.y);
+                    break;
+
+                case "demon_monarch_active_35": // Iron Sledge
+                    Vector2 sledgeStart = playerPos;
+                    Vector2 sledgeDest = ValidateLandingDestination(sledgeStart, sledgeStart + aimDir * def.Range);
+                    _player.Teleport(sledgeDest);
+                    result.DamageDealt += DamageArea(sledgeDest, radius, damage, knockbackForce: 6.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(40f, duration: 4.0f);
+                    SpawnVisualBurst(sledgeStart, radius * 1.8f, new Color(0.8f, 0.3f, 0.1f, 0.8f), 0.3f);
+                    SpawnVisualBurst(sledgeDest, radius * 2.2f, new Color(1f, 0.4f, 0.1f, 0.95f), 0.4f);
+                    CueBus.Raise(CueIds.PlayerDash, sledgeDest.x, sledgeDest.y);
+                    break;
+
+                case "demon_monarch_active_36": // Devastating Quake
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 8.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.7f, 2.5f);
+                        }
+                    }
+                    SpawnVisualBurst(playerPos, radius * 2.8f, new Color(1f, 0.35f, 0.05f, 0.95f), 0.6f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_active_37": // Bone Pulverizer
+                    Vector2 bonePos = playerPos + aimDir * 2.5f;
+                    result.DamageDealt += DamageArea(bonePos, radius, damage * 1.3f, knockbackForce: 6.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(bonePos, radius * 2.2f, new Color(0.95f, 0.2f, 0.15f, 0.95f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, bonePos.x, bonePos.y);
+                    break;
+
+                case "demon_monarch_active_38": // Brutal Cleaver
+                    Vector2 cleaverPos = playerPos + aimDir * 2.5f;
+                    result.DamageDealt += DamageArea(cleaverPos, radius, damage, knockbackForce: 5.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (result.DamageDealt > 0f)
+                    {
+                        float heal = result.DamageDealt * (0.15f + (rank >= 20 ? 0.15f : 0f));
+                        _player.Health?.Heal(heal);
+                        result.HealingDone += heal;
+                    }
+                    SpawnVisualBurst(cleaverPos, radius * 2.5f, new Color(1f, 0.15f, 0.1f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, cleaverPos.x, cleaverPos.y);
+                    break;
+
+                case "demon_monarch_active_39": // Sunder the Earth
+                    Vector2 sunderEarthPos = playerPos + aimDir * 3.5f;
+                    result.DamageDealt += DamageArea(sunderEarthPos, radius, damage, knockbackForce: 7.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(sunderEarthPos, radius, duration: def.Duration > 0 ? def.Duration : 3.0f, damagePerTick: damage * 0.35f, tickInterval: 0.5f, slowPercent: 0.45f, slowDuration: 1.5f, color: new Color(1f, 0.25f, 0.05f, 0.65f), label: "[SUNDERED_EARTH]");
+                    SpawnVisualBurst(sunderEarthPos, radius * 2.8f, new Color(1f, 0.3f, 0.05f, 0.95f), 0.7f);
+                    CueBus.Raise(CueIds.InvaderStrike, sunderEarthPos.x, sunderEarthPos.y);
+                    break;
+
+                case "demon_monarch_active_40": // Wrathful Guillotine
+                    Vector2 guillotinePos = playerPos + aimDir * 3.5f;
+                    result.DamageDealt += DamageArea(guillotinePos, radius, damage * 1.5f, knockbackForce: 9.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.75f, 2.5f);
+                        }
+                    }
+                    _player.SetBarrier(50f, duration: 4.0f);
+                    SpawnVisualBurst(guillotinePos, radius * 3.2f, new Color(1f, 0.2f, 0.05f, 0.95f), 0.8f);
+                    CueBus.Raise(CueIds.InvaderStrike, guillotinePos.x, guillotinePos.y);
+                    break;
+
                 // Milestone Ultimates
                 case "demon_monarch_ultimate_50": // Hellblade Judgment
                     Vector2 bladeImpact = playerPos + aimDir * 3f;

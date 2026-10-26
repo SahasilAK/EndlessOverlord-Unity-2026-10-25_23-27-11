@@ -2209,6 +2209,257 @@ namespace FinalBoss.Core
                 }
             ));
 
+            // Branch D — Devastating Physical Attacks (Actives 31-40)
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_31",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Brutal Smash",
+                description: "Slam your titanic fist into the earth, sending a concussive shockwave through surrounding invaders.",
+                branchName: "Branch D — Devastating Physical Attacks",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 15f,
+                cooldownDuration: 2.2f,
+                range: 3.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 34f,
+                baseRadius: 3.5f,
+                duration: 0.2f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Smash shockwave radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Smash impact damage increased by 25%", damageMultiplier: 1.25f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Smash cracks the earth, inflicting heavy 50% slow for 2 seconds", bonusUtility: 0.50f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_32",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Titanic Swing",
+                description: "Swing your heavy greatsword in a wide sweeping arc, sending shattered enemies flying backward.",
+                branchName: "Branch D — Devastating Physical Attacks",
+                tier: 1,
+                prerequisiteAbilityId: "demon_monarch_active_31",
+                resourceCost: 20f,
+                cooldownDuration: 3.0f,
+                range: 4.5f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 40f,
+                baseRadius: 4.0f,
+                duration: 0.3f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Swing arc angle and reach increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Swing damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Massive swing knockback sends struck foes crashing into one another", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_33",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Rupture Stomp",
+                description: "Stomp violently on the dungeon floor, shattering stone tiles and knocking down encroaching foes.",
+                branchName: "Branch D — Devastating Physical Attacks",
+                tier: 2,
+                prerequisiteAbilityId: "demon_monarch_active_31",
+                resourceCost: 25f,
+                cooldownDuration: 4.5f,
+                range: 4.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 42f,
+                baseRadius: 4.0f,
+                duration: 2.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Stomp radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Rupture shock damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Stomp leaves a fractured gravel zone that slows enemies by 40%", bonusUtility: 0.40f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_34",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Colossal Crush",
+                description: "Bring your clenched fists down in a crushing hammer strike that pulverizes invaders directly in front.",
+                branchName: "Branch D — Devastating Physical Attacks",
+                tier: 2,
+                prerequisiteAbilityId: "demon_monarch_active_32",
+                resourceCost: 30f,
+                cooldownDuration: 4.8f,
+                range: 4.0f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 52f,
+                baseRadius: 3.5f,
+                duration: 0.35f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Crush impact radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Crush impact damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Crushed targets suffer 30% armor reduction for 4 seconds", bonusUtility: 0.30f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_35",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Iron Sledge",
+                description: "Drive your shoulder forward in a brutal battering-ram rush, plowing through the enemy line and absorbing impacts.",
+                branchName: "Branch D — Devastating Physical Attacks",
+                tier: 2,
+                prerequisiteAbilityId: "demon_monarch_active_33",
+                resourceCost: 30f,
+                cooldownDuration: 5.5f,
+                range: 5.5f,
+                effects: AbilityEffectType.Dash | AbilityEffectType.MeleeArc | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 46f,
+                baseRadius: 3.0f,
+                duration: 0.3f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Rush distance increased by 30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Shoulder ram damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Ramming invaders grants a reinforced 40 point iron barrier", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_36",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Devastating Quake",
+                description: "Leap and smash the arena with catastrophic force, unleashing a violent seismic shockwave across the room.",
+                branchName: "Branch D — Devastating Physical Attacks",
+                tier: 3,
+                prerequisiteAbilityId: "demon_monarch_active_34",
+                resourceCost: 35f,
+                cooldownDuration: 6.5f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 58f,
+                baseRadius: 5.0f,
+                duration: 0.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Quake radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Seismic impact damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Quake stuns all hit invaders for 1.2 seconds", bonusUtility: 1.2f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_37",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Bone Pulverizer",
+                description: "Unleash a ferocious two-handed overhead chop that shatters bones and fractures the ground.",
+                branchName: "Branch D — Devastating Physical Attacks",
+                tier: 3,
+                prerequisiteAbilityId: "demon_monarch_active_35",
+                resourceCost: 35f,
+                cooldownDuration: 6.0f,
+                range: 4.5f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 64f,
+                baseRadius: 3.5f,
+                duration: 0.35f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Overhead chop reach increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Chop impact damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Pulverized enemies emit bone shrapnel hitting surrounding foes", extraSummonsOrProjectiles: 3)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_38",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Brutal Cleaver",
+                description: "Perform a rapid succession of brutal cleaves, tearing through frontline enemy ranks with relentless ferocity.",
+                branchName: "Branch D — Devastating Physical Attacks",
+                tier: 3,
+                prerequisiteAbilityId: "demon_monarch_active_36",
+                resourceCost: 40f,
+                cooldownDuration: 7.0f,
+                range: 4.5f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 66f,
+                baseRadius: 4.0f,
+                duration: 0.45f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Cleaver cleave radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Brutal Cleaver damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Cleaver restores 15% of damage dealt as health", bonusUtility: 0.15f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_39",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Sunder the Earth",
+                description: "Drive your greatsword into the floor with world-splitting force, tearing open a massive fracture.",
+                branchName: "Branch D — Devastating Physical Attacks",
+                tier: 4,
+                prerequisiteAbilityId: "demon_monarch_active_37",
+                resourceCost: 45f,
+                cooldownDuration: 8.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.Hazard | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 78f,
+                baseRadius: 4.5f,
+                duration: 3.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Sunder trench length and width increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Sunder eruption damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Earth fracture erupts with secondary magma bursts dealing continuous damage", extraSummonsOrProjectiles: 2)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_40",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Wrathful Guillotine",
+                description: "Leap high into the air and deliver the ultimate execution slam, cleaving the earth and crushing all in its radius.",
+                branchName: "Branch D — Devastating Physical Attacks",
+                tier: 4,
+                prerequisiteAbilityId: "demon_monarch_active_38",
+                resourceCost: 55f,
+                cooldownDuration: 10.0f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.MeleeArc | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 92f,
+                baseRadius: 6.0f,
+                duration: 0.6f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Guillotine impact radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Execution slam damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Guillotine instantly executes regular invaders below 30% maximum HP", bonusUtility: 0.30f)
+                }
+            ));
+
             // Milestone Ultimates (Levels 50 through 250)
             Register(new AbilityDefinition(
                 id: "demon_monarch_ultimate_50",

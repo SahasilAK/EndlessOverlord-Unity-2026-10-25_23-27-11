@@ -269,6 +269,18 @@ namespace FinalBoss.Core
         public const string MonarchUnbrokenAssaultId = "demon_monarch_wave_29";
         public const string MonarchCrownedViolenceId = "demon_monarch_wave_30";
 
+        // Demon Monarch Wave Skills (Batch 4: 31-40)
+        public const string MonarchTitanBreakerId = "demon_monarch_wave_31";
+        public const string MonarchBrutalImpactId = "demon_monarch_wave_32";
+        public const string MonarchIronhidePlatingId = "demon_monarch_wave_33";
+        public const string MonarchRampagingStrideId = "demon_monarch_wave_34";
+        public const string MonarchColossalReachId = "demon_monarch_wave_35";
+        public const string MonarchShatteringSlamId = "demon_monarch_wave_36";
+        public const string MonarchOverpoweringForceId = "demon_monarch_wave_37";
+        public const string MonarchViciousMomentumId = "demon_monarch_wave_38";
+        public const string MonarchRelentlessCarnageId = "demon_monarch_wave_39";
+        public const string MonarchApocalypticBrawnId = "demon_monarch_wave_40";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -1844,6 +1856,127 @@ namespace FinalBoss.Core
                     "demon_monarch",
                     RewardModifierType.ProjectileDamagePercent,
                     0.30f,
+                    maxRank: 5)
+            },
+            // Demon Monarch Wave Skills 31-40
+            {
+                MonarchTitanBreakerId,
+                new RewardDefinition(
+                    MonarchTitanBreakerId,
+                    "Titan Breaker",
+                    "Colossal blows shatter heavy enemy defenses (+25% Damage)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                MonarchBrutalImpactId,
+                new RewardDefinition(
+                    MonarchBrutalImpactId,
+                    "Brutal Impact",
+                    "Sledgehammer strikes stun and crush foes (+20% Damage)",
+                    RewardRarity.Common,
+                    "demon_monarch",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                MonarchIronhidePlatingId,
+                new RewardDefinition(
+                    MonarchIronhidePlatingId,
+                    "Ironhide Plating",
+                    "Thick demonic carapace deflects crushing blows (+8 Armor)",
+                    RewardRarity.Common,
+                    "demon_monarch",
+                    RewardModifierType.Armor,
+                    8f,
+                    maxRank: 5)
+            },
+            {
+                MonarchRampagingStrideId,
+                new RewardDefinition(
+                    MonarchRampagingStrideId,
+                    "Rampaging Stride",
+                    "Thunderous strides shake the stones beneath your feet (+15% Move Speed)",
+                    RewardRarity.Uncommon,
+                    "demon_monarch",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                MonarchColossalReachId,
+                new RewardDefinition(
+                    MonarchColossalReachId,
+                    "Colossal Reach",
+                    "Extend the reach of all melee cleaves and shockwaves (+1.5m Range)",
+                    RewardRarity.Uncommon,
+                    "demon_monarch",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                MonarchShatteringSlamId,
+                new RewardDefinition(
+                    MonarchShatteringSlamId,
+                    "Shattering Slam",
+                    "Overwhelming impact reverberates through secondary shockwaves (+1 Projectile)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                MonarchOverpoweringForceId,
+                new RewardDefinition(
+                    MonarchOverpoweringForceId,
+                    "Overpowering Force",
+                    "Savage physical might swings heavy blades with greater fury (+15% Attack Speed)",
+                    RewardRarity.Common,
+                    "demon_monarch",
+                    RewardModifierType.AttackSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                MonarchViciousMomentumId,
+                new RewardDefinition(
+                    MonarchViciousMomentumId,
+                    "Vicious Momentum",
+                    "Furious rushes recover evasive mobility instantly (+25% Dash Cooldown Recovery)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.DashCooldownReductionPercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                MonarchRelentlessCarnageId,
+                new RewardDefinition(
+                    MonarchRelentlessCarnageId,
+                    "Relentless Carnage",
+                    "Gorge on the blood spilled by heavy physical cleaves (+7% Life Steal)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.LifeStealPercent,
+                    0.07f,
+                    maxRank: 5)
+            },
+            {
+                MonarchApocalypticBrawnId,
+                new RewardDefinition(
+                    MonarchApocalypticBrawnId,
+                    "Apocalyptic Brawn",
+                    "Colossal primeval demonic muscles grant titanic resilience (+60 Max HP, Epic)",
+                    RewardRarity.Epic,
+                    "demon_monarch",
+                    RewardModifierType.MaxHealth,
+                    60f,
                     maxRank: 5)
             },
             {
