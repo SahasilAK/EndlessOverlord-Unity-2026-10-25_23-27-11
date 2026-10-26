@@ -7,8 +7,34 @@ namespace FinalBoss.Core
     {
         Swordsman = 1,
         Archer = 2,
+        Crossbowman = 3,
+        Spearman = 4,
+        Berserker = 5,
+        Rogue = 6,
+        Assassin = 7,
+        Knight = 8,
+        Paladin = 9,
         Cleric = 10,
-        RoyalChampion = 28
+        Priest = 11,
+        FireMage = 12,
+        IceMage = 13,
+        LightningMage = 14,
+        ArcaneWizard = 15,
+        WitchHunter = 16,
+        MonsterHunter = 17,
+        Ranger = 18,
+        Druid = 19,
+        Alchemist = 20,
+        Beastmaster = 21,
+        Summoner = 22,
+        ShieldGuardian = 23,
+        BattleMonk = 24,
+        HolyTemplar = 25,
+        RuneKnight = 26,
+        Spellblade = 27,
+        RoyalChampion = 28,
+        DragonHunter = 29,
+        ShadowDuelist = 30
     }
 
     /// <summary>
@@ -172,17 +198,17 @@ namespace FinalBoss.Core
                     double roll = rng.NextDouble();
                     if (waveNumber >= 3 && roll < 0.25 && budget >= 3)
                     {
-                        archetype = InvaderArchetype.Cleric;
+                        archetype = SelectSupportOrCasterArchetype(waveNumber, rng);
                         cost = 3;
                     }
                     else if (waveNumber >= 2 && roll < 0.60 && budget >= 2)
                     {
-                        archetype = InvaderArchetype.Archer;
+                        archetype = SelectRangedArchetype(waveNumber, rng);
                         cost = 2;
                     }
                     else
                     {
-                        archetype = InvaderArchetype.Swordsman;
+                        archetype = SelectMeleeArchetype(waveNumber, rng);
                         cost = 1;
                     }
 
@@ -195,6 +221,76 @@ namespace FinalBoss.Core
             }
 
             return new WaveSpec(waveNumber, spawns, isBossWave);
+        }
+
+        private static InvaderArchetype SelectSupportOrCasterArchetype(int waveNumber, SplitMix64Rng rng)
+        {
+            if (waveNumber < 7)
+                return InvaderArchetype.Cleric;
+
+            var pool = new List<InvaderArchetype> { InvaderArchetype.Cleric, InvaderArchetype.Priest, InvaderArchetype.FireMage, InvaderArchetype.IceMage };
+            if (waveNumber >= 11)
+            {
+                pool.Add(InvaderArchetype.LightningMage);
+                pool.Add(InvaderArchetype.ArcaneWizard);
+                pool.Add(InvaderArchetype.Druid);
+                pool.Add(InvaderArchetype.Alchemist);
+            }
+            if (waveNumber >= 16)
+            {
+                pool.Add(InvaderArchetype.Beastmaster);
+                pool.Add(InvaderArchetype.Summoner);
+            }
+            int idx = (int)(rng.NextDouble() * pool.Count);
+            return pool[Math.Clamp(idx, 0, pool.Count - 1)];
+        }
+
+        private static InvaderArchetype SelectRangedArchetype(int waveNumber, SplitMix64Rng rng)
+        {
+            if (waveNumber < 6)
+                return InvaderArchetype.Archer;
+
+            var pool = new List<InvaderArchetype> { InvaderArchetype.Archer, InvaderArchetype.Crossbowman };
+            if (waveNumber >= 11)
+            {
+                pool.Add(InvaderArchetype.WitchHunter);
+                pool.Add(InvaderArchetype.MonsterHunter);
+                pool.Add(InvaderArchetype.Ranger);
+            }
+            if (waveNumber >= 20)
+            {
+                pool.Add(InvaderArchetype.DragonHunter);
+            }
+            int idx = (int)(rng.NextDouble() * pool.Count);
+            return pool[Math.Clamp(idx, 0, pool.Count - 1)];
+        }
+
+        private static InvaderArchetype SelectMeleeArchetype(int waveNumber, SplitMix64Rng rng)
+        {
+            if (waveNumber < 4)
+                return InvaderArchetype.Swordsman;
+
+            var pool = new List<InvaderArchetype> { InvaderArchetype.Swordsman, InvaderArchetype.Spearman, InvaderArchetype.Berserker, InvaderArchetype.Rogue };
+            if (waveNumber >= 8)
+            {
+                pool.Add(InvaderArchetype.Assassin);
+                pool.Add(InvaderArchetype.Knight);
+                pool.Add(InvaderArchetype.Paladin);
+            }
+            if (waveNumber >= 15)
+            {
+                pool.Add(InvaderArchetype.ShieldGuardian);
+                pool.Add(InvaderArchetype.BattleMonk);
+                pool.Add(InvaderArchetype.HolyTemplar);
+            }
+            if (waveNumber >= 20)
+            {
+                pool.Add(InvaderArchetype.RuneKnight);
+                pool.Add(InvaderArchetype.Spellblade);
+                pool.Add(InvaderArchetype.ShadowDuelist);
+            }
+            int idx = (int)(rng.NextDouble() * pool.Count);
+            return pool[Math.Clamp(idx, 0, pool.Count - 1)];
         }
     }
 }

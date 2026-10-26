@@ -38,6 +38,7 @@ namespace FinalBoss.Game
 
         public Health Health { get; private set; }
         public InvaderArchetype Archetype { get; private set; } = InvaderArchetype.Swordsman;
+        public InvaderDefinition Definition { get; private set; }
         public bool IsElite { get; private set; }
         public bool IsBoss => Archetype == InvaderArchetype.RoyalChampion;
 
@@ -99,50 +100,26 @@ namespace FinalBoss.Game
             Archetype = archetype;
             IsElite = isElite;
             _id = ActorRegistry.NextActorId();
+            Definition = InvaderCatalog.Get(archetype);
 
-            float hp;
-            float armor;
-            float speed;
+            float hp = Definition.BaseHealth;
+            float armor = Definition.BaseArmor;
+            float speed = Definition.BaseMoveSpeed;
+            Radius = Definition.Radius;
+            _baseColor = new Color(Definition.ColorR, Definition.ColorG, Definition.ColorB);
 
-            switch (archetype)
+            if (archetype == InvaderArchetype.RoyalChampion)
             {
-                case InvaderArchetype.Archer:
-                    hp = CombatTuning.ArcherHealth;
-                    armor = CombatTuning.ArcherArmor;
-                    speed = CombatTuning.ArcherMoveSpeed;
-                    Radius = CombatTuning.ArcherRadius;
-                    _baseColor = new Color(0.95f, 0.65f, 0.2f); // Amber Orange
-                    _actionCooldown = 1.0f; // Initial delay
-                    break;
-
-                case InvaderArchetype.Cleric:
-                    hp = CombatTuning.ClericHealth;
-                    armor = CombatTuning.ClericArmor;
-                    speed = CombatTuning.ClericMoveSpeed;
-                    Radius = CombatTuning.ClericRadius;
-                    _baseColor = new Color(0.95f, 0.9f, 0.3f); // Golden Yellow
-                    _actionCooldown = 1.5f;
-                    break;
-
-                case InvaderArchetype.RoyalChampion:
-                    hp = CombatTuning.BossHealth;
-                    armor = CombatTuning.BossArmor;
-                    speed = CombatTuning.BossMoveSpeed;
-                    Radius = CombatTuning.BossRadius;
-                    _baseColor = new Color(0.6f, 0.2f, 0.75f); // Royal Purple
-                    _melee = new MeleeAttackSim(CombatTuning.BossCleaveRange, CombatTuning.BossCleaveWindup, CombatTuning.BossCleaveRecover);
-                    _bossDashTimer = CombatTuning.BossDashCooldown;
-                    break;
-
-                case InvaderArchetype.Swordsman:
-                default:
-                    hp = CombatTuning.InvaderHealth;
-                    armor = CombatTuning.InvaderArmor;
-                    speed = CombatTuning.InvaderMoveSpeed;
-                    Radius = CombatTuning.InvaderRadius;
-                    _baseColor = new Color(0.9f, 0.35f, 0.3f); // Crimson Red
-                    _melee = new MeleeAttackSim(CombatTuning.InvaderMeleeRange, CombatTuning.InvaderWindup, CombatTuning.InvaderRecover);
-                    break;
+                _melee = new MeleeAttackSim(CombatTuning.BossCleaveRange, CombatTuning.BossCleaveWindup, CombatTuning.BossCleaveRecover);
+                _bossDashTimer = CombatTuning.BossDashCooldown;
+            }
+            else if (Definition.Role == InvaderCombatRole.Melee || Definition.Role == InvaderCombatRole.Tank || Definition.Role == InvaderCombatRole.Assassin)
+            {
+                _melee = new MeleeAttackSim(Definition.AttackRange, Definition.AttackWindup, Math.Max(0.4f, Definition.AttackCooldown * 0.5f));
+            }
+            else
+            {
+                _actionCooldown = 1.0f;
             }
 
             if (isElite)
@@ -181,7 +158,7 @@ namespace FinalBoss.Game
             tg.transform.SetParent(transform, false);
             _telegraph = tg.AddComponent<SpriteRenderer>();
             _telegraph.sprite = PlaceholderSprites.Square;
-            _telegraph.color = archetype == InvaderArchetype.Cleric
+            _telegraph.color = (Definition != null && Definition.Role == InvaderCombatRole.HealerSupport)
                 ? new Color(0.2f, 1f, 0.4f, 0.35f) // Green/Gold for heal
                 : new Color(1f, 0.15f, 0.1f, 0.35f); // Red for attack
             _telegraph.sortingOrder = 4;
@@ -280,30 +257,40 @@ namespace FinalBoss.Game
             Vector2 toPlayer = targetValid ? player.Position - Position : Vector2.zero;
             float distToPlayer = toPlayer.magnitude;
 
-            switch (Archetype)
+            if (Archetype == InvaderArchetype.RoyalChampion)
             {
-                case InvaderArchetype.Swordsman:
-                    UpdateSwordsman(dt, player, targetValid, toPlayer, distToPlayer);
-                    break;
-                case InvaderArchetype.Archer:
-                    UpdateArcher(dt, player, targetValid, toPlayer, distToPlayer);
-                    break;
-                case InvaderArchetype.Cleric:
-                    UpdateCleric(dt, player, targetValid, toPlayer, distToPlayer);
-                    break;
-                case InvaderArchetype.RoyalChampion:
-                    UpdateBoss(dt, player, targetValid, toPlayer, distToPlayer);
-                    break;
+                UpdateBoss(dt, player, targetValid, toPlayer, distToPlayer);
+            }
+            else if (Definition != null && Definition.Role == InvaderCombatRole.HealerSupport)
+            {
+                UpdateCleric(dt, player, targetValid, toPlayer, distToPlayer);
+            }
+            else if (Definition != null && (Definition.Role == InvaderCombatRole.Ranged || Definition.Role == InvaderCombatRole.Caster))
+            {
+                UpdateArcher(dt, player, targetValid, toPlayer, distToPlayer);
+            }
+            else
+            {
+                UpdateSwordsman(dt, player, targetValid, toPlayer, distToPlayer);
             }
         }
 
         private void UpdateSwordsman(float dt, PlayerActor player, bool targetValid, Vector2 toPlayer, float distToPlayer)
         {
+            if (_melee == null)
+            {
+                float range = Definition != null ? Definition.AttackRange : CombatTuning.InvaderMeleeRange;
+                float windup = Definition != null ? Definition.AttackWindup : CombatTuning.InvaderWindup;
+                float recover = Definition != null ? Math.Max(0.4f, Definition.AttackCooldown * 0.5f) : CombatTuning.InvaderRecover;
+                _melee = new MeleeAttackSim(range, windup, recover);
+            }
+
             bool struck = _melee.Tick(dt, distToPlayer, targetValid);
             if (struck)
             {
                 CueBus.Raise(CueIds.InvaderStrike, Position.x, Position.y);
-                float dmg = CombatTuning.InvaderMeleeDamage * (IsElite ? CombatTuning.EliteDamageMultiplier : 1f);
+                float baseDmg = Definition != null ? Definition.AttackDamage : CombatTuning.InvaderMeleeDamage;
+                float dmg = baseDmg * (IsElite ? CombatTuning.EliteDamageMultiplier : 1f);
                 if (targetValid && distToPlayer <= _melee.Range * 1.15f)
                     player.ReceiveDamage(dmg);
             }
@@ -328,12 +315,20 @@ namespace FinalBoss.Game
                 if (_actionWindup <= 0f)
                 {
                     _isActionWinding = false;
-                    _actionCooldown = CombatTuning.ArcherCooldown;
+                    _actionCooldown = Definition != null ? Definition.AttackCooldown : CombatTuning.ArcherCooldown;
 
-                    // Fire arrow projectile
-                    float dmg = CombatTuning.ArcherArrowDamage * (IsElite ? CombatTuning.EliteDamageMultiplier : 1f);
+                    // Fire projectile
+                    float baseDmg = Definition != null ? Definition.AttackDamage : CombatTuning.ArcherArrowDamage;
+                    float dmg = baseDmg * (IsElite ? CombatTuning.EliteDamageMultiplier : 1f);
                     if (ProjectileManager.Instance != null)
                     {
+                        Color projColor = (Definition != null && Definition.Role == InvaderCombatRole.Caster)
+                            ? new Color(Definition.ColorR, Definition.ColorG, Definition.ColorB)
+                            : new Color(1f, 0.75f, 0.2f);
+                        string cue = (Definition != null && Definition.Role == InvaderCombatRole.Caster)
+                            ? CueIds.BoltFire
+                            : CueIds.ArrowFire;
+
                         ProjectileManager.Instance.FireCustom(
                             Faction.Invader,
                             Position,
@@ -342,8 +337,8 @@ namespace FinalBoss.Game
                             CombatTuning.ArcherArrowRadius,
                             dmg,
                             CombatTuning.ArcherArrowLifetime,
-                            new Color(1f, 0.75f, 0.2f),
-                            CueIds.ArrowFire);
+                            projColor,
+                            cue);
                     }
                 }
                 return;
@@ -355,13 +350,16 @@ namespace FinalBoss.Game
                 return;
             }
 
+            float minRange = Definition != null ? Math.Max(2.5f, Definition.AttackRange * 0.55f) : CombatTuning.ArcherMinRange;
+            float maxRange = Definition != null ? Definition.AttackRange : CombatTuning.ArcherMaxRange;
+
             // Kiting logic
-            if (distToPlayer < CombatTuning.ArcherMinRange)
+            if (distToPlayer < minRange)
             {
                 // Retreat away from player
                 _rb.linearVelocity = (-toPlayer / distToPlayer) * MoveSpeed;
             }
-            else if (distToPlayer > CombatTuning.ArcherMaxRange)
+            else if (distToPlayer > maxRange)
             {
                 // Approach
                 _rb.linearVelocity = (toPlayer / distToPlayer) * MoveSpeed;
@@ -375,7 +373,7 @@ namespace FinalBoss.Game
                 if (_actionCooldown <= 0f)
                 {
                     _isActionWinding = true;
-                    _actionWindup = CombatTuning.ArcherWindup;
+                    _actionWindup = Definition != null ? Definition.AttackWindup : CombatTuning.ArcherWindup;
                     CueBus.Raise(CueIds.InvaderWindup, Position.x, Position.y);
                 }
             }
