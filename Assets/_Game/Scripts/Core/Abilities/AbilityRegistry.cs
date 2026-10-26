@@ -3352,6 +3352,257 @@ namespace FinalBoss.Core
                 }
             ));
 
+            // Branch C — Swarm & Dominance (Actives 21-30)
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_21",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Bat Swarm",
+                description: "Summon a ferocious swarm of spectral bats that harass enemies and hinder their movement.",
+                branchName: "Branch C — Swarm & Dominance",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 20f,
+                cooldownDuration: 4.5f,
+                range: 7.0f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.Projectile | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 30f,
+                baseRadius: 3.5f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Bat swarm size +2", extraSummonsOrProjectiles: 2),
+                    new AbilityRankMilestone(10, "Slow potency +30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(15, "Cooldown -20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Bats return 100% of damage as Blood Essence", bonusUtility: 1f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_22",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Blood Thrall",
+                description: "Raise a loyal vampiric blood thrall from crimson essence to engage invaders and draw enemy aggression.",
+                branchName: "Branch C — Swarm & Dominance",
+                tier: 1,
+                prerequisiteAbilityId: "vampire_queen_active_21",
+                resourceCost: 25f,
+                cooldownDuration: 5.5f,
+                range: 5.0f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 34f,
+                baseRadius: 3.0f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Thrall health increased by 30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Thrall strike damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Summons 2 blood thralls simultaneously", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_23",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Leech Infestation",
+                description: "Release a crawling wave of crimson leeches that latch onto invaders, siphoning life and slowing their advance.",
+                branchName: "Branch C — Swarm & Dominance",
+                tier: 2,
+                prerequisiteAbilityId: "vampire_queen_active_21",
+                resourceCost: 25f,
+                cooldownDuration: 5.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Heal | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 40f,
+                baseRadius: 3.8f,
+                duration: 3.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Infestation area radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Leech drain damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Blood Essence cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Leeches transfer 50% of damage dealt back as player health", bonusUtility: 0.50f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_24",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Vampiric Command",
+                description: "Exert imperial dominance over all summoned thralls and swarms, sending them into a berserk frenzy.",
+                branchName: "Branch C — Swarm & Dominance",
+                tier: 2,
+                prerequisiteAbilityId: "vampire_queen_active_22",
+                resourceCost: 30f,
+                cooldownDuration: 6.0f,
+                range: 5.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 42f,
+                baseRadius: 5.0f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Command aura radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Command radial shockwave damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Vampiric Command grants a 35 point royal blood shield", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_25",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Shroud of Night",
+                description: "Disperse into a nocturnal cloud of chittering bats, gaining evasive speed and continuously damaging encroaching foes.",
+                branchName: "Branch C — Swarm & Dominance",
+                tier: 2,
+                prerequisiteAbilityId: "vampire_queen_active_23",
+                resourceCost: 30f,
+                cooldownDuration: 5.5f,
+                range: 4.5f,
+                effects: AbilityEffectType.Dash | AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 45f,
+                baseRadius: 4.0f,
+                duration: 2.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Shroud radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Nocturnal cloud damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Blood Essence cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Shroud grants +25% move speed and 30 shield points", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_26",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Dominion Choke",
+                description: "Grip an invader with spectral telekinetic vampire claws, crushing their airway and slamming them into the stone.",
+                branchName: "Branch C — Swarm & Dominance",
+                tier: 3,
+                prerequisiteAbilityId: "vampire_queen_active_24",
+                resourceCost: 35f,
+                cooldownDuration: 6.5f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 54f,
+                baseRadius: 3.5f,
+                duration: 1.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Choke reach increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Crushing slam damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Choking enemies inflicts 70% slow and restores 25 health", bonusUtility: 0.70f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_27",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Hive Shriek",
+                description: "Emit an ultrasound screech that disorients and pushes all surrounding invaders backward, leaving them vulnerable.",
+                branchName: "Branch C — Swarm & Dominance",
+                tier: 3,
+                prerequisiteAbilityId: "vampire_queen_active_25",
+                resourceCost: 35f,
+                cooldownDuration: 6.0f,
+                range: 5.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 52f,
+                baseRadius: 5.0f,
+                duration: 0.4f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Shriek radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Shriek damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Blood Essence cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Shriek disorients invaders, amplifying damage taken by 30% for 3 seconds", bonusUtility: 0.30f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_28",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Crimson Gargoyle",
+                description: "Animate a gargoyle of hardened crystalline blood from dungeon masonry to crush foes with devastating aerial slams.",
+                branchName: "Branch C — Swarm & Dominance",
+                tier: 3,
+                prerequisiteAbilityId: "vampire_queen_active_26",
+                resourceCost: 40f,
+                cooldownDuration: 7.5f,
+                range: 6.0f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 62f,
+                baseRadius: 4.0f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Gargoyle duration increased by 2.0 seconds", bonusUtility: 2.0f),
+                    new AbilityRankMilestone(10, "Gargoyle slam damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Gargoyle slam creates a shockwave knocking down surrounding invaders", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_29",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Apex Colony",
+                description: "Summon a massive vortex of thousands of carnivorous vampire bats that completely engulfs a targeted sector.",
+                branchName: "Branch C — Swarm & Dominance",
+                tier: 4,
+                prerequisiteAbilityId: "vampire_queen_active_27",
+                resourceCost: 45f,
+                cooldownDuration: 8.5f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 74f,
+                baseRadius: 5.5f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Colony radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Colony feeding damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Blood Essence cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Colony siphons 40% of damage dealt back to the Queen as health", bonusUtility: 0.40f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_30",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Queen's Dominion",
+                description: "Proclaim ultimate nocturnal authority over the battlefield, summoning royal vanguard thralls and blasting all foes.",
+                branchName: "Branch C — Swarm & Dominance",
+                tier: 4,
+                prerequisiteAbilityId: "vampire_queen_active_28",
+                resourceCost: 55f,
+                cooldownDuration: 10.0f,
+                range: 7.5f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 90f,
+                baseRadius: 6.5f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Dominion aura radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Dominion burst damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Summons an Elite Vampire Captain and grants 60 royal shield", bonusUtility: 1.0f)
+                }
+            ));
+
             // Legacy Needle alias
             Register(new AbilityDefinition(
                 id: "vampire_queen_active_needle",

@@ -1950,5 +1950,89 @@ namespace FinalBoss.Tests
             Assert.GreaterOrEqual(_player.BarrierAmount, 50f, "Aristocratic Execution should grant execution barrier.");
             Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Vampire Queen Branch B precision attacks.");
         }
+
+        [UnityTest]
+        public IEnumerator VampireQueen_BranchC_Part1_SwarmAndDominance_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.VampireQueenId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.VampireQueenId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.VampireQueenId, "Branch C — Swarm & Dominance", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.VampireQueenId,
+                new List<string>
+                {
+                    "vampire_queen_active_21", // Bat Swarm
+                    "vampire_queen_active_22", // Blood Thrall
+                    "vampire_queen_active_23", // Leech Infestation
+                    "vampire_queen_active_24", // Vampiric Command
+                    "vampire_queen_active_25"  // Shroud of Night
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Vampire Queen Branch C slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 30f, "Shroud of Night or Vampiric Command should grant barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Vampire Queen Branch C swarm abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator VampireQueen_BranchC_Part2_SwarmAndDominance_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.VampireQueenId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.VampireQueenId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.VampireQueenId, "Branch C — Swarm & Dominance", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.VampireQueenId,
+                new List<string>
+                {
+                    "vampire_queen_active_26", // Dominion Choke
+                    "vampire_queen_active_27", // Hive Shriek
+                    "vampire_queen_active_28", // Crimson Gargoyle
+                    "vampire_queen_active_29", // Apex Colony
+                    "vampire_queen_active_30"  // Queen's Dominion
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Vampire Queen Branch C slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 60f, "Queen's Dominion should grant dominion barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Vampire Queen Branch C dominance abilities.");
+        }
     }
 }

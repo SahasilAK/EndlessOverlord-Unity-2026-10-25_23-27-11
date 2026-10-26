@@ -317,6 +317,18 @@ namespace FinalBoss.Core
         public const string QueenAristocraticEleganceId = "vampire_queen_wave_19";
         public const string QueenGrandDuchessId = "vampire_queen_wave_20";
 
+        // Vampire Queen Wave Skills (Batch 3: 21-30)
+        public const string QueenBatSwarmAmplifierId = "vampire_queen_wave_21";
+        public const string QueenSanguineThrallVigorId = "vampire_queen_wave_22";
+        public const string QueenNightstalkerWingsId = "vampire_queen_wave_23";
+        public const string QueenChitteringPoxId = "vampire_queen_wave_24";
+        public const string QueenColonySurgeId = "vampire_queen_wave_25";
+        public const string QueenCarapaceOfNightId = "vampire_queen_wave_26";
+        public const string QueenApexPredatorId = "vampire_queen_wave_27";
+        public const string QueenSwarmHarvesterId = "vampire_queen_wave_28";
+        public const string QueenDominionVitalityId = "vampire_queen_wave_29";
+        public const string QueenMatriarchOfNightId = "vampire_queen_wave_30";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -2376,6 +2388,127 @@ namespace FinalBoss.Core
                     "vampire_queen",
                     RewardModifierType.ProjectileDamagePercent,
                     0.30f,
+                    maxRank: 5)
+            },
+            // Vampire Queen Wave Skills 21-30
+            {
+                QueenBatSwarmAmplifierId,
+                new RewardDefinition(
+                    QueenBatSwarmAmplifierId,
+                    "Bat Swarm Amplifier",
+                    "Spectral bat swarms multiply in density (+1 Projectile)",
+                    RewardRarity.Uncommon,
+                    "vampire_queen",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                QueenSanguineThrallVigorId,
+                new RewardDefinition(
+                    QueenSanguineThrallVigorId,
+                    "Sanguine Thrall Vigor",
+                    "Empowered vampiric thralls siphon life for their queen (+7% Life Steal)",
+                    RewardRarity.Rare,
+                    "vampire_queen",
+                    RewardModifierType.LifeStealPercent,
+                    0.07f,
+                    maxRank: 5)
+            },
+            {
+                QueenNightstalkerWingsId,
+                new RewardDefinition(
+                    QueenNightstalkerWingsId,
+                    "Nightstalker Wings",
+                    "Wings of the night accelerate flight across the dungeon (+15% Move Speed)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                QueenChitteringPoxId,
+                new RewardDefinition(
+                    QueenChitteringPoxId,
+                    "Chittering Pox",
+                    "Vampire swarm bites inflict agonizing septic damage (+20% Damage)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                QueenColonySurgeId,
+                new RewardDefinition(
+                    QueenColonySurgeId,
+                    "Colony Surge",
+                    "Swarm ferocity accelerates spellcasting and rapier thrust cadence (+15% Attack Speed)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.AttackSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                QueenCarapaceOfNightId,
+                new RewardDefinition(
+                    QueenCarapaceOfNightId,
+                    "Carapace of Night",
+                    "A shroud of clinging shadows hardens royal defenses (+6 Armor)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                QueenApexPredatorId,
+                new RewardDefinition(
+                    QueenApexPredatorId,
+                    "Apex Predator",
+                    "Uncontested dominance tears through elite invader armor (+25% Damage)",
+                    RewardRarity.Rare,
+                    "vampire_queen",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                QueenSwarmHarvesterId,
+                new RewardDefinition(
+                    QueenSwarmHarvesterId,
+                    "Swarm Harvester",
+                    "Swarms siphon kinetic energy to refresh evasive cooldowns (+20% Dash Cooldown Recovery)",
+                    RewardRarity.Rare,
+                    "vampire_queen",
+                    RewardModifierType.DashCooldownReductionPercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                QueenDominionVitalityId,
+                new RewardDefinition(
+                    QueenDominionVitalityId,
+                    "Dominion Vitality",
+                    "Vast nocturnal sovereignty bolsters vital health pools (+45 Max HP)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.MaxHealth,
+                    45f,
+                    maxRank: 5)
+            },
+            {
+                QueenMatriarchOfNightId,
+                new RewardDefinition(
+                    QueenMatriarchOfNightId,
+                    "Matriarch of Night",
+                    "Supreme ruler of the colony: all swarms and thralls dominate (+35% Damage, +1 Projectile, Epic)",
+                    RewardRarity.Epic,
+                    "vampire_queen",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.35f,
                     maxRank: 5)
             },
             {
