@@ -162,6 +162,16 @@ namespace FinalBoss.Core
         public const string BoneSanctuaryId = "lich_lord_wave_38";
         public const string NecroticRecoveryId = "lich_lord_wave_39";
         public const string KingsRemainsId = "lich_lord_wave_40";
+        public const string GraveSovereignId = "lich_lord_wave_41";
+        public const string UndyingBastionId = "lich_lord_wave_42";
+        public const string PhantomAlacrityId = "lich_lord_wave_43";
+        public const string PhylacteryCoreId = "lich_lord_wave_44";
+        public const string CatacombMasteryId = "lich_lord_wave_45";
+        public const string SoulReapingId = "lich_lord_wave_46";
+        public const string BoneFortressId = "lich_lord_wave_47";
+        public const string EtherealVeilId = "lich_lord_wave_48";
+        public const string EternalDreadId = "lich_lord_wave_49";
+        public const string ApexLichdomId = "lich_lord_wave_50";
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -650,6 +660,126 @@ namespace FinalBoss.Core
                     RewardModifierType.ProjectileDamagePercent,
                     0.20f,
                     maxRank: 5)
+            },
+            {
+                GraveSovereignId,
+                new RewardDefinition(
+                    GraveSovereignId,
+                    "Grave Sovereign",
+                    "Assert necromantic dominion over the realm (+25% Damage)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                UndyingBastionId,
+                new RewardDefinition(
+                    UndyingBastionId,
+                    "Undying Bastion",
+                    "Dense calcified defenses ward off mortal strikes (+8 Armor)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.Armor,
+                    8f,
+                    maxRank: 5)
+            },
+            {
+                PhantomAlacrityId,
+                new RewardDefinition(
+                    PhantomAlacrityId,
+                    "Phantom Alacrity",
+                    "Spectral quickening enhances supernatural speed (+15% Move Speed)",
+                    RewardRarity.Uncommon,
+                    "lich_lord",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                PhylacteryCoreId,
+                new RewardDefinition(
+                    PhylacteryCoreId,
+                    "Phylactery Core",
+                    "Ancient soul vessel deeply reinforces mortality threshold (+50 Max Health)",
+                    RewardRarity.Epic,
+                    "lich_lord",
+                    RewardModifierType.MaxHealth,
+                    50f,
+                    maxRank: 5)
+            },
+            {
+                CatacombMasteryId,
+                new RewardDefinition(
+                    CatacombMasteryId,
+                    "Catacomb Mastery",
+                    "Mastery of underworld passages accelerates spell cycles (+20% Cooldown Recovery)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.DashCooldownReductionPercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                SoulReapingId,
+                new RewardDefinition(
+                    SoulReapingId,
+                    "Soul Reaping",
+                    "Harvest vibrant vital energies from damaged invaders (+8% Life Steal)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.LifeStealPercent,
+                    0.08f,
+                    maxRank: 5)
+            },
+            {
+                BoneFortressId,
+                new RewardDefinition(
+                    BoneFortressId,
+                    "Bone Fortress",
+                    "Impenetrable ossuary plating protects against incoming assaults (+8 Armor)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.Armor,
+                    8f,
+                    maxRank: 5)
+            },
+            {
+                EtherealVeilId,
+                new RewardDefinition(
+                    EtherealVeilId,
+                    "Ethereal Veil",
+                    "Drift weightlessly through necrotic ether (+15% Move Speed)",
+                    RewardRarity.Uncommon,
+                    "lich_lord",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                EternalDreadId,
+                new RewardDefinition(
+                    EternalDreadId,
+                    "Eternal Dread",
+                    "Project overwhelming dread terrifying all mortal invaders (+25% Damage)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                ApexLichdomId,
+                new RewardDefinition(
+                    ApexLichdomId,
+                    "Apex Lichdom",
+                    "The pinnacle of lich transcendence: supreme death magic prowess (+35% Damage)",
+                    RewardRarity.Mythic,
+                    "lich_lord",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.35f,
+                    maxRank: 3)
             },
             {
                 MonarchId,

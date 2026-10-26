@@ -21,7 +21,7 @@ namespace FinalBoss.Tests
         [SetUp]
         public void SetUp()
         {
-            _keyboard = InputSystem.AddDevice<Keyboard>();
+            _keyboard = Keyboard.current ?? InputSystem.AddDevice<Keyboard>();
             _keyboard.MakeCurrent();
         }
 
@@ -29,7 +29,10 @@ namespace FinalBoss.Tests
         public void TearDown()
         {
             if (_keyboard != null)
-                InputSystem.RemoveDevice(_keyboard);
+            {
+                InputSystem.QueueStateEvent(_keyboard, new KeyboardState());
+                InputSystem.Update();
+            }
             Time.timeScale = 1f;
         }
 

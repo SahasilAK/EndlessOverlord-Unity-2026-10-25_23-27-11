@@ -12,21 +12,17 @@ namespace FinalBoss.Tests
 {
     public class SaveAndProgressionPlayModeTests
     {
-        private Keyboard _keyboard;
         private ArenaController _arena;
         private PlayerActor _player;
 
         [SetUp]
         public void SetUp()
         {
-            _keyboard = InputSystem.AddDevice<Keyboard>();
         }
 
         [TearDown]
         public void TearDown()
         {
-            if (_keyboard != null)
-                InputSystem.RemoveDevice(_keyboard);
             Time.timeScale = 1f;
         }
 

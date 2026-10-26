@@ -649,5 +649,135 @@ namespace FinalBoss.Tests
             Assert.Less(invader1.Health.Current, hp1Before, "Invader 1 should have received damage from forbidden void spells.");
             Assert.Less(invader2.Health.Current, hp2Before, "Invader 2 should have received chained/aoe damage.");
         }
+        [UnityTest]
+        public IEnumerator LichLord_BranchE_NecromanticRituals_SummonsAndFormation_Execute()
+        {
+            yield return StartArena(CharacterCatalog.LichLordId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.LichLordId, 95, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.LichLordId, "Branch E — Necromantic Rituals", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.LichLordId,
+                new List<string>
+                {
+                    "lich_lord_active_41", // Reanimate Fallen
+                    "lich_lord_active_42", // Tomb Relay
+                    "lich_lord_active_43", // Legion Formation
+                    "lich_lord_active_45", // Boneshield
+                    "lich_lord_active_48"  // Death Pact
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            // 1. Cast Slot 0 (Reanimate Fallen) -> Spawns minion
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(0), "Slot 0 (Reanimate Fallen) should activate.");
+            yield return new WaitForSeconds(0.15f);
+
+            var minions = Object.FindObjectsByType<UndeadMinionActor>(FindObjectsSortMode.None);
+            Assert.GreaterOrEqual(minions.Length, 1, "Reanimate Fallen should spawn at least 1 minion.");
+            var initialMinionPos = minions[0].Position;
+
+            // 2. Cast Slot 1 (Tomb Relay) -> Relocates summons
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(1), "Slot 1 (Tomb Relay) should activate.");
+            yield return new WaitForSeconds(0.15f);
+
+            // Minion position should have changed due to relay
+            Assert.AreNotEqual(initialMinionPos, minions[0].Position, "Tomb Relay should move minions to target location.");
+
+            // 3. Cast Slot 2 (Legion Formation)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(2), "Slot 2 (Legion Formation) should activate.");
+            yield return new WaitForSeconds(0.15f);
+
+            // 4. Cast Slot 3 (Boneshield) -> Grants barrier to player
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(3), "Slot 3 (Boneshield) should activate.");
+            yield return new WaitForSeconds(0.15f);
+            Assert.Greater(_player.BarrierAmount, 0f, "Boneshield should grant barrier absorption to player.");
+
+            // 5. Cast Slot 4 (Death Pact) -> Sacrifices minion, heals player, restores essence
+            // Deal 100 damage so 70 is absorbed by Boneshield and remaining penetrates to health
+            _player.ReceiveDamage(100f);
+            float hpBeforeSacrifice = _player.Health.Current;
+            Assert.Less(hpBeforeSacrifice, _player.Health.Max, "Player should have taken health damage after barrier broke.");
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(4), "Slot 4 (Death Pact) should activate.");
+            yield return new WaitForSeconds(0.15f);
+            Assert.Greater(_player.Health.Current, hpBeforeSacrifice, "Death Pact should heal the player upon sacrificing minion.");
+        }
+
+        [UnityTest]
+        public IEnumerator LichLord_BranchE_SoulFurnace_CorpseExplosion_CrownOfSilence_CastAndDamage()
+        {
+            yield return StartArena(CharacterCatalog.LichLordId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.LichLordId, 100, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.LichLordId, "Branch E — Necromantic Rituals", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.LichLordId,
+                new List<string>
+                {
+                    "lich_lord_active_44", // Soul Furnace
+                    "lich_lord_active_46", // Corpse Explosion
+                    "lich_lord_active_47", // Soul Anchor
+                    "lich_lord_active_49", // Necropolis Gate
+                    "lich_lord_active_50"  // Crown of Silence
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            // Spawn boss so it absorbs full damage
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 1.5f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            // 1. Cast Slot 0 (Soul Furnace)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(0), "Slot 0 (Soul Furnace) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 2. Cast Slot 1 (Corpse Explosion)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(1), "Slot 1 (Corpse Explosion) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 3. Cast Slot 2 (Soul Anchor)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(2), "Slot 2 (Soul Anchor) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 4. Cast Slot 3 (Necropolis Gate)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(3), "Slot 3 (Necropolis Gate) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 5. Cast Slot 4 (Crown of Silence)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(4), "Slot 4 (Crown of Silence) should activate.");
+            yield return new WaitForSeconds(0.3f);
+
+            var hazards = Object.FindObjectsByType<HazardZoneActor>();
+            Assert.GreaterOrEqual(hazards.Length, 3, "Soul Furnace, Soul Anchor, and Necropolis Gate should produce hazard zones.");
+
+            Assert.Less(invader.Health.Current, startHp, "Invader should have received damage from necrotic ritual spells.");
+            Assert.IsTrue(invader.IsSlowed, "Invader should be slowed by Crown of Silence / rituals.");
+        }
     }
 }

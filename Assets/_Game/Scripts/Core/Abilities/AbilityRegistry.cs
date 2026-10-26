@@ -1069,6 +1069,256 @@ namespace FinalBoss.Core
             ));
 
             Register(new AbilityDefinition(
+                id: "lich_lord_active_41",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Reanimate Fallen",
+                description: "Perform an unholy ritual raising fallen foes as temporary skeletal revenants to fight at the Lich Lord's side.",
+                branchName: "Branch E — Necromantic Rituals",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 20f,
+                cooldownDuration: 4.5f,
+                range: 5.0f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 20f,
+                baseRadius: 1.5f,
+                duration: 8.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Reanimated summon attack damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Revenant lifespan extended by 4 seconds", bonusUtility: 4.0f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Reanimates 2 skeletal revenants simultaneously", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_42",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Tomb Relay",
+                description: "Instantly teleport all active undead minions to the target location with a violent necrotic impact shockwave.",
+                branchName: "Branch E — Necromantic Rituals",
+                tier: 2,
+                prerequisiteAbilityId: "lich_lord_active_41",
+                resourceCost: 18f,
+                cooldownDuration: 5.0f,
+                range: 8.0f,
+                effects: AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 25f,
+                baseRadius: 2.5f,
+                duration: 0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Relay arrival blast radius +30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Arrival shockwave damage +40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Relayed minions gain 100 bonus armor and +50% haste for 5s", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_43",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Legion Formation",
+                description: "Command all active undead into an aggressive combat formation, granting massive attack speed and armor for 6 seconds.",
+                branchName: "Branch E — Necromantic Rituals",
+                tier: 2,
+                prerequisiteAbilityId: "lich_lord_active_41",
+                resourceCost: 22f,
+                cooldownDuration: 7.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 0f,
+                baseRadius: 6.0f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Legion formation duration +3s (9s total)", bonusUtility: 3.0f),
+                    new AbilityRankMilestone(10, "Minion haste bonus increased to +60%", bonusUtility: 0.60f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Undead minions heal 5 HP per second while formation is active", bonusUtility: 5.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_44",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Soul Furnace",
+                description: "Convert stored Soul Essence into a volcanic eruption of necrotic flame, incinerating all nearby invaders.",
+                branchName: "Branch E — Necromantic Rituals",
+                tier: 3,
+                prerequisiteAbilityId: "lich_lord_active_43",
+                resourceCost: 35f,
+                cooldownDuration: 6.5f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 45f,
+                baseRadius: 3.5f,
+                duration: 3.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Furnace eruption blast radius +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Necrotic furnace blast damage +35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Enemies below 25% health are incinerated instantly", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_45",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Boneshield",
+                description: "Conjure a whirling barrier of dense bone plates around the Lich Lord, granting armor and absorbing incoming damage.",
+                branchName: "Branch E — Necromantic Rituals",
+                tier: 3,
+                prerequisiteAbilityId: "lich_lord_active_42",
+                resourceCost: 28f,
+                cooldownDuration: 8.0f,
+                range: 0f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 18f,
+                baseRadius: 2.2f,
+                duration: 8.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Boneshield absorption capacity +40% (70 HP shield)", bonusUtility: 20f),
+                    new AbilityRankMilestone(10, "Orbiting bone fragments damage nearby enemies +50%", damageMultiplier: 1.50f),
+                    new AbilityRankMilestone(15, "Duration extended to 12 seconds", bonusUtility: 4.0f),
+                    new AbilityRankMilestone(20, "Mastery: When Boneshield breaks or expires, detonates in a bone shrapnel burst", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_46",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Corpse Explosion",
+                description: "Detonate fallen remains or marked targets in the targeted area, unleashing a catastrophic concussive blast of bone and gore.",
+                branchName: "Branch E — Necromantic Rituals",
+                tier: 3,
+                prerequisiteAbilityId: "lich_lord_active_41",
+                resourceCost: 30f,
+                cooldownDuration: 5.5f,
+                range: 8.5f,
+                effects: AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 52f,
+                baseRadius: 3.8f,
+                duration: 0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Corpse blast radius +30% (4.9m blast)", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Detonation burst damage +35% (70 dmg)", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Slain enemies trigger secondary chain explosions", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_47",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Soul Anchor",
+                description: "Plant an unholy obelisk at targeted location that pulses protective wards, healing the Lich Lord and all nearby summons.",
+                branchName: "Branch E — Necromantic Rituals",
+                tier: 4,
+                prerequisiteAbilityId: "lich_lord_active_45",
+                resourceCost: 36f,
+                cooldownDuration: 9.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.Heal | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 15f,
+                baseRadius: 3.2f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Anchor pulse healing increased by +40%", bonusUtility: 0.40f),
+                    new AbilityRankMilestone(10, "Anchor aura pulses slow enemy movement by 40%", bonusUtility: 0.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: If player takes fatal damage near anchor, consume anchor to cheat death with 40% HP", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_48",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Death Pact",
+                description: "Sacrifice active undead minions to instantly restore health and Soul Essence to the Lich Lord.",
+                branchName: "Branch E — Necromantic Rituals",
+                tier: 4,
+                prerequisiteAbilityId: "lich_lord_active_43",
+                resourceCost: 15f,
+                cooldownDuration: 6.0f,
+                range: 0f,
+                effects: AbilityEffectType.Heal | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 30f,
+                baseRadius: 3.5f,
+                duration: 0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Life restored increased by +35%", bonusUtility: 0.35f),
+                    new AbilityRankMilestone(10, "Restores 35 Soul Essence upon sacrifice", bonusUtility: 35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Sacrificing summons creates a radial necrotic burst dealing 60 damage", damageMultiplier: 2.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_49",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Necropolis Gate",
+                description: "Tear open a portal to the underworld, periodically summoning undead reinforcements over 6 seconds.",
+                branchName: "Branch E — Necromantic Rituals",
+                tier: 4,
+                prerequisiteAbilityId: "lich_lord_active_44",
+                resourceCost: 45f,
+                cooldownDuration: 11.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 22f,
+                baseRadius: 3.0f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Gate portal spawns +1 additional sentinel", extraSummonsOrProjectiles: 1),
+                    new AbilityRankMilestone(10, "Portal necrotic ground aura deals +40% damage", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Gate duration extended to 8 seconds", bonusUtility: 2.0f),
+                    new AbilityRankMilestone(20, "Mastery: Final gate surge summons a Wight Captain before collapsing", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_50",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Crown of Silence",
+                description: "Unleash a deafening necrotic silence across a 7.5m radius, interrupting and silencing all enemies for 3.5 seconds.",
+                branchName: "Branch E — Necromantic Rituals",
+                tier: 5,
+                prerequisiteAbilityId: "lich_lord_active_47",
+                resourceCost: 55f,
+                cooldownDuration: 14.0f,
+                range: 8.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 68f,
+                baseRadius: 7.5f,
+                duration: 3.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Crown radius increased to 9.5m area", radiusMultiplier: 1.27f),
+                    new AbilityRankMilestone(10, "Crown psychic burst damage +40% (95 dmg)", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Silenced enemies suffer 40% increased damage from all sources", bonusUtility: 0.40f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
                 id: "lich_lord_ultimate_50",
                 characterId: CharacterCatalog.LichLordId,
                 name: "Army of the Damned",

@@ -1036,6 +1036,165 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.BossEnrage, playerPos.x, playerPos.y);
                     break;
 
+                case "lich_lord_active_41": // Reanimate Fallen
+                    int reanimateCount = 1 + (rank >= 20 ? 1 : 0);
+                    for (int i = 0; i < reanimateCount; i++)
+                    {
+                        Vector2 offset = aimDir * (1.2f + i * 0.8f);
+                        UndeadMinionActor.Spawn(UndeadMinionType.Spearman, playerPos + offset, overrideDamage: damage, overrideMaxHp: 60f + (rank >= 10 ? 25f : 0f), lifetime: def.Duration > 0 ? def.Duration : 8.0f);
+                        result.SummonsCreated++;
+                    }
+                    result.DamageDealt += DamageArea(playerPos + aimDir * 2f, radius, damage);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos + aimDir * 2f, radius * 2f, new Color(0.2f, 0.8f, 0.5f, 0.8f), 0.35f);
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    break;
+
+                case "lich_lord_active_42": // Tomb Relay
+                    Vector2 relayTarget = playerPos + aimDir * Math.Min(6.0f, def.Range > 0 ? def.Range : 6.0f);
+                    var allUndead = UnityEngine.Object.FindObjectsByType<UndeadMinionActor>(FindObjectsSortMode.None);
+                    int relayedCount = 0;
+                    for (int i = 0; i < allUndead.Length; i++)
+                    {
+                        if (allUndead[i].Alive)
+                        {
+                            float angle = relayedCount * (Mathf.PI * 2f / Mathf.Max(1, allUndead.Length));
+                            Vector2 dest = relayTarget + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * 1.2f;
+                            allUndead[i].transform.position = dest;
+                            var rb = allUndead[i].GetComponent<Rigidbody2D>();
+                            if (rb != null) rb.position = dest;
+                            relayedCount++;
+                        }
+                    }
+                    var sentinels = UnityEngine.Object.FindObjectsByType<BoneSentinelActor>(FindObjectsSortMode.None);
+                    for (int i = 0; i < sentinels.Length; i++)
+                    {
+                        sentinels[i].transform.position = relayTarget + new Vector2(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f));
+                    }
+                    result.DamageDealt += DamageArea(relayTarget, radius, damage, knockbackForce: 3.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(relayTarget, radius * 2f, new Color(0.3f, 0.9f, 0.7f, 0.85f), 0.4f);
+                    CueBus.Raise(CueIds.BoltFire, relayTarget.x, relayTarget.y);
+                    break;
+
+                case "lich_lord_active_43": // Legion Formation
+                    var formationMinions = UnityEngine.Object.FindObjectsByType<UndeadMinionActor>(FindObjectsSortMode.None);
+                    for (int i = 0; i < formationMinions.Length; i++)
+                    {
+                        if (formationMinions[i].Alive)
+                        {
+                            formationMinions[i].Health.Heal(rank >= 20 ? 15f : 5f);
+                        }
+                    }
+                    _player.Health?.Heal(10f);
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.4f, 0.85f, 0.4f, 0.75f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderHit, playerPos.x, playerPos.y);
+                    break;
+
+                case "lich_lord_active_44": // Soul Furnace
+                    Vector2 furnacePos = playerPos + aimDir * Math.Min(4.0f, def.Range > 0 ? def.Range : 4.0f);
+                    float furnaceDur = def.Duration > 0 ? def.Duration : 3.0f;
+                    HazardZoneActor.Spawn(furnacePos, radius, furnaceDur, damagePerTick: damage * 0.35f, tickInterval: 0.3f, slowPercent: 0.3f, slowDuration: 0.6f, color: new Color(0.85f, 0.3f, 0.1f, 0.6f), label: "[SOUL_FURNACE]");
+                    result.DamageDealt += DamageArea(furnacePos, radius, damage, knockbackForce: 3.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(furnacePos, radius * 2f, new Color(0.9f, 0.35f, 0.1f, 0.9f), 0.5f);
+                    CueBus.Raise(CueIds.BoltFire, furnacePos.x, furnacePos.y);
+                    break;
+
+                case "lich_lord_active_45": // Boneshield
+                    float shieldHp = 50f + (rank >= 5 ? 20f : 0f);
+                    float shieldDur = def.Duration > 0 ? def.Duration : (rank >= 15 ? 12.0f : 8.0f);
+                    _player.SetBarrier(shieldHp, shieldDur);
+                    result.DamageDealt += DamageArea(playerPos, radius, damage);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.85f, 0.9f, 0.95f, 0.85f), 0.4f);
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    break;
+
+                case "lich_lord_active_46": // Corpse Explosion
+                    Vector2 explodePos = playerPos + aimDir * Math.Min(5.0f, def.Range > 0 ? def.Range : 5.0f);
+                    float nearestDist = float.MaxValue;
+                    var allExplodeTargets = ActorRegistry.AllActors;
+                    for (int i = 0; i < allExplodeTargets.Count; i++)
+                    {
+                        var a = allExplodeTargets[i];
+                        if (a.Team == Faction.Invader && a.Alive)
+                        {
+                            float d = Vector2.Distance(playerPos, a.Position);
+                            if (d < nearestDist && d <= (def.Range > 0 ? def.Range : 8.5f))
+                            {
+                                nearestDist = d;
+                                explodePos = a.Position;
+                            }
+                        }
+                    }
+                    result.DamageDealt += DamageArea(explodePos, radius, damage, knockbackForce: 4.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(explodePos, radius * 2f, new Color(0.8f, 0.15f, 0.15f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.BossEnrage, explodePos.x, explodePos.y);
+                    break;
+
+                case "lich_lord_active_47": // Soul Anchor
+                    Vector2 anchorPos = playerPos + aimDir * Math.Min(4.0f, def.Range > 0 ? def.Range : 4.0f);
+                    float anchorDur = def.Duration > 0 ? def.Duration : 6.0f;
+                    HazardZoneActor.Spawn(anchorPos, radius, anchorDur, damagePerTick: damage * 0.25f, tickInterval: 0.5f, slowPercent: 0.4f, slowDuration: 1.0f, color: new Color(0.2f, 0.8f, 0.7f, 0.55f), label: "[SOUL_ANCHOR]");
+                    _player.Health?.Heal(20f + (rank >= 5 ? 10f : 0f));
+                    SpawnVisualBurst(anchorPos, radius * 2f, new Color(0.25f, 0.85f, 0.75f, 0.8f), 0.4f);
+                    CueBus.Raise(CueIds.BoltFire, anchorPos.x, anchorPos.y);
+                    break;
+
+                case "lich_lord_active_48": // Death Pact
+                    var sacrificeCandidates = UnityEngine.Object.FindObjectsByType<UndeadMinionActor>(FindObjectsSortMode.None);
+                    int sacrificed = 0;
+                    for (int i = 0; i < sacrificeCandidates.Length && sacrificed < 2; i++)
+                    {
+                        if (sacrificeCandidates[i].Alive)
+                        {
+                            sacrificeCandidates[i].ReceiveDamage(9999f);
+                            sacrificed++;
+                        }
+                    }
+                    float healRatio = 0.25f + (rank >= 5 ? 0.10f : 0f);
+                    if (_player.Health != null)
+                    {
+                        _player.Health.Heal(_player.Health.Max * healRatio);
+                    }
+                    if (_run?.Hud != null)
+                    {
+                        _run.Hud.AddResource(20f + (rank >= 10 ? 15f : 0f));
+                    }
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 3.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.6f, 0.1f, 0.3f, 0.85f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderHit, playerPos.x, playerPos.y);
+                    break;
+
+                case "lich_lord_active_49": // Necropolis Gate
+                    Vector2 gatePos = playerPos + aimDir * Math.Min(4.0f, def.Range > 0 ? def.Range : 4.0f);
+                    float gateDur = def.Duration > 0 ? def.Duration : 6.0f;
+                    HazardZoneActor.Spawn(gatePos, radius, gateDur, damagePerTick: damage * 0.25f, tickInterval: 0.5f, slowPercent: 0.35f, slowDuration: 1.0f, color: new Color(0.25f, 0.1f, 0.35f, 0.6f), label: "[NECROPOLIS_GATE]");
+                    int gateSummonCount = 1 + (rank >= 5 ? 1 : 0);
+                    for (int i = 0; i < gateSummonCount; i++)
+                    {
+                        BoneSentinelActor.Spawn(gatePos + new Vector2(UnityEngine.Random.Range(-0.8f, 0.8f), UnityEngine.Random.Range(-0.8f, 0.8f)));
+                        result.SummonsCreated++;
+                    }
+                    if (rank >= 20)
+                    {
+                        UndeadMinionActor.Spawn(UndeadMinionType.Captain, gatePos + Vector2.up * 0.5f, overrideDamage: damage);
+                        result.SummonsCreated++;
+                    }
+                    SpawnVisualBurst(gatePos, radius * 2f, new Color(0.35f, 0.15f, 0.45f, 0.85f), 0.45f);
+                    CueBus.Raise(CueIds.BoltFire, gatePos.x, gatePos.y);
+                    break;
+
+                case "lich_lord_active_50": // Crown of Silence
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 4.5f, slowPercent: 0.85f, slowDuration: def.Duration > 0 ? def.Duration : 3.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.4f, 0.15f, 0.55f, 0.95f), 0.6f);
+                    CueBus.Raise(CueIds.BossEnrage, playerPos.x, playerPos.y);
+                    break;
+
                 case "lich_lord_ultimate_50": // Army of the Damned
                     for (int i = 0; i < summonCount + 1; i++)
                     {

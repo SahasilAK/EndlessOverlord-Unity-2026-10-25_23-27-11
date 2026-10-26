@@ -427,5 +427,93 @@ namespace FinalBoss.Tests
                 }
             }
         }
+        [Test]
+        public void LichLord_BranchE_AllTenAbilitiesRegisteredAndValid()
+        {
+            var branchEIds = new[]
+            {
+                "lich_lord_active_41",
+                "lich_lord_active_42",
+                "lich_lord_active_43",
+                "lich_lord_active_44",
+                "lich_lord_active_45",
+                "lich_lord_active_46",
+                "lich_lord_active_47",
+                "lich_lord_active_48",
+                "lich_lord_active_49",
+                "lich_lord_active_50"
+            };
+
+            for (int i = 0; i < branchEIds.Length; i++)
+            {
+                string id = branchEIds[i];
+                var def = AbilityRegistry.Get(id);
+                Assert.IsNotNull(def, $"Ability {id} must be registered in AbilityRegistry.");
+                Assert.AreEqual(CharacterCatalog.LichLordId, def.CharacterId);
+                Assert.IsNotEmpty(def.Name);
+                Assert.IsNotEmpty(def.Description);
+                Assert.AreEqual("Branch E — Necromantic Rituals", def.BranchName);
+                Assert.GreaterOrEqual(def.Tier, 1);
+                Assert.LessOrEqual(def.Tier, 5);
+                Assert.Greater(def.ResourceCost, 0f);
+                Assert.Greater(def.CooldownDuration, 0f);
+
+                // Verify milestones
+                Assert.IsNotNull(def.Milestones);
+                Assert.AreEqual(4, def.Milestones.Count);
+                Assert.AreEqual(5, def.Milestones[0].Rank);
+                Assert.AreEqual(10, def.Milestones[1].Rank);
+                Assert.AreEqual(15, def.Milestones[2].Rank);
+                Assert.AreEqual(20, def.Milestones[3].Rank);
+            }
+        }
+
+        [Test]
+        public void LichLord_BranchE_WaveSkills41Through50_RegisteredAndDraftExclusivity()
+        {
+            var expectedWaveSkills = new[]
+            {
+                "lich_lord_wave_41",
+                "lich_lord_wave_42",
+                "lich_lord_wave_43",
+                "lich_lord_wave_44",
+                "lich_lord_wave_45",
+                "lich_lord_wave_46",
+                "lich_lord_wave_47",
+                "lich_lord_wave_48",
+                "lich_lord_wave_49",
+                "lich_lord_wave_50"
+            };
+
+            foreach (var id in expectedWaveSkills)
+            {
+                var def = RewardRegistry.GetById(id);
+                Assert.IsNotNull(def, $"Wave skill {id} must be registered in RewardRegistry.");
+                Assert.AreEqual(CharacterCatalog.LichLordId, def.CharacterId, $"Skill {id} must be exclusive to Lich Lord.");
+                Assert.IsNotEmpty(def.Name);
+                Assert.IsNotEmpty(def.Description);
+                Assert.Greater(def.ValuePerRank, 0f);
+            }
+
+            // Test draft exclusion: Demon Monarch drafting should NEVER receive Lich Lord exclusive wave skills 41-50
+            var inv = new RewardInventory();
+            for (int seed = 1; seed <= 25; seed++)
+            {
+                var demonOffer = RewardDraftSystem.GenerateOffer(waveNumber: seed, seed: seed * 54321L, inventory: inv, characterId: CharacterCatalog.DemonMonarchId);
+                for (int c = 0; c < demonOffer.Choices.Count; c++)
+                {
+                    var choice = demonOffer.Choices[c];
+                    Assert.AreNotEqual(CharacterCatalog.LichLordId, choice.CharacterId, $"Demon Monarch must never be offered Lich Lord exclusive skill {choice.Id}");
+                }
+            }
+        }
+
+        [Test]
+        public void LichLord_AllFiftyActiveAbilities_RegisteredAndValid()
+        {
+            var allLichAbilities = AbilityRegistry.GetForCharacter(CharacterCatalog.LichLordId);
+            // 50 branch actives + 5 milestone ultimates = 55 total
+            Assert.AreEqual(55, allLichAbilities.Count, "Lich Lord must have 50 active branch abilities and 5 milestone ultimates registered.");
+        }
     }
 }
