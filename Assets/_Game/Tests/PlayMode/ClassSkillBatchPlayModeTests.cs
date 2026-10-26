@@ -2580,5 +2580,89 @@ namespace FinalBoss.Tests
             Assert.GreaterOrEqual(_player.BarrierAmount, 60f, "Harvest Eclipse should grant eclipse barrier.");
             Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Shadow Reaper harvest eclipse abilities.");
         }
+
+        [UnityTest]
+        public IEnumerator ShadowReaper_BranchE_Part1_ForbiddenArts_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.ShadowReaperId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.ShadowReaperId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.ShadowReaperId, "Branch E — Forbidden Reaper Arts", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.ShadowReaperId,
+                new List<string>
+                {
+                    "shadow_reaper_active_41", // Death's Embrace
+                    "shadow_reaper_active_42", // Scythe of Silence
+                    "shadow_reaper_active_43", // Shadow Hourglass
+                    "shadow_reaper_active_44", // Nightfall Domain
+                    "shadow_reaper_active_45"  // Phantom Reversal
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(10f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Shadow Reaper Branch E slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 35f, "Nightfall Domain and Phantom Reversal should grant barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Shadow Reaper forbidden arts.");
+        }
+
+        [UnityTest]
+        public IEnumerator ShadowReaper_BranchE_Part2_ForbiddenArts_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.ShadowReaperId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.ShadowReaperId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.ShadowReaperId, "Branch E — Forbidden Reaper Arts", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.ShadowReaperId,
+                new List<string>
+                {
+                    "shadow_reaper_active_46", // Reaper's Judgment
+                    "shadow_reaper_active_47", // Endless Footsteps
+                    "shadow_reaper_active_48", // Spectral Overdrive
+                    "shadow_reaper_active_49", // Crown of Oblivion
+                    "shadow_reaper_active_50"  // Final Silence
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(10f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Shadow Reaper Branch E slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 80f, "Final Silence should grant ultimate silence barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Shadow Reaper final forbidden arts.");
+        }
     }
 }

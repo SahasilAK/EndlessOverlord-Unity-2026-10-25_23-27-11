@@ -3094,6 +3094,109 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.InvaderStrike, srEclipseHarvestPos.x, srEclipseHarvestPos.y);
                     break;
 
+                // -------------------------------------------------------------
+                // SHADOW REAPER — Branch E — Forbidden Reaper Arts (Actives 41-50)
+                // -------------------------------------------------------------
+                case "shadow_reaper_active_41": // Death's Embrace
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 3.5f, slowPercent: 0.50f, slowDuration: 2.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.4f, new Color(0.5f, 0.05f, 0.75f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "shadow_reaper_active_42": // Scythe of Silence
+                    Vector2 srSilencePos = playerPos + aimDir * Math.Min(3.0f, def.Range > 0 ? def.Range : 3.0f);
+                    result.DamageDealt += DamageArea(srSilencePos, radius, damage * 1.25f, knockbackForce: 5.0f, slowPercent: 0.50f, slowDuration: 1.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srSilencePos, radius * 2.5f, new Color(0.8f, 0.15f, 0.9f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, srSilencePos.x, srSilencePos.y);
+                    break;
+
+                case "shadow_reaper_active_43": // Shadow Hourglass
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.2f, knockbackForce: 3.0f, slowPercent: 0.70f, slowDuration: 3.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.6f, new Color(0.4f, 0.1f, 0.6f, 0.85f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "shadow_reaper_active_44": // Nightfall Domain
+                    Vector2 srDomainPos = playerPos + aimDir * Math.Min(3.5f, def.Range > 0 ? def.Range : 3.5f);
+                    HazardZoneActor.Spawn(srDomainPos, radius, duration: 5.0f, damagePerTick: damage * 0.35f, tickInterval: 0.4f, slowPercent: 0.50f, slowDuration: 1.5f, color: new Color(0.25f, 0.05f, 0.4f, 0.65f), label: "[NIGHTFALL_DOMAIN]");
+                    _player.SetBarrier(40f, duration: 5.0f);
+                    result.DamageDealt += DamageArea(srDomainPos, radius, damage * 1.2f, knockbackForce: 4.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srDomainPos, radius * 2.6f, new Color(0.6f, 0.1f, 0.8f, 0.9f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, srDomainPos.x, srDomainPos.y);
+                    break;
+
+                case "shadow_reaper_active_45": // Phantom Reversal
+                    Vector2 srReversalSlash = playerPos + aimDir * 2.5f;
+                    result.DamageDealt += DamageArea(srReversalSlash, radius, damage * 1.35f, knockbackForce: 4.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    Vector2 srReversalDest = ValidateLandingDestination(playerPos, playerPos - aimDir * 2.5f);
+                    _player.Teleport(srReversalDest);
+                    _player.SetBarrier(35f, duration: 4.0f);
+                    SpawnVisualBurst(srReversalDest, radius * 2.4f, new Color(0.7f, 0.15f, 0.95f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, srReversalDest.x, srReversalDest.y);
+                    break;
+
+                case "shadow_reaper_active_46": // Reaper's Judgment
+                    Vector2 srJudgmentPos = playerPos + aimDir * Math.Min(4.0f, def.Range > 0 ? def.Range : 4.0f);
+                    var srJudgmentActors = ActorRegistry.AllActors;
+                    float srJudgmentDist = float.MaxValue;
+                    for (int i = 0; i < srJudgmentActors.Count; i++)
+                    {
+                        var a = srJudgmentActors[i];
+                        if (a != null && a.Team == Faction.Invader && a.Alive)
+                        {
+                            float d = Vector2.Distance(playerPos, a.Position);
+                            if (d <= (def.Range > 0 ? def.Range : 7.5f) && d < srJudgmentDist)
+                            {
+                                srJudgmentDist = d;
+                                srJudgmentPos = a.Position;
+                            }
+                        }
+                    }
+                    result.DamageDealt += DamageArea(srJudgmentPos, radius, damage * 1.5f, knockbackForce: 6.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srJudgmentPos, radius * 2.8f, new Color(0.85f, 0.1f, 0.9f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, srJudgmentPos.x, srJudgmentPos.y);
+                    break;
+
+                case "shadow_reaper_active_47": // Endless Footsteps
+                    Vector2 srFootstepsPos = playerPos + aimDir * Math.Min(3.5f, def.Range > 0 ? def.Range : 3.5f);
+                    _player.SetBarrier(40f, duration: 5.0f);
+                    result.DamageDealt += DamageArea(srFootstepsPos, radius, damage * 1.45f, knockbackForce: 5.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srFootstepsPos, radius * 2.9f, new Color(0.8f, 0.2f, 1f, 0.95f), 0.55f);
+                    CueBus.Raise(CueIds.InvaderStrike, srFootstepsPos.x, srFootstepsPos.y);
+                    break;
+
+                case "shadow_reaper_active_48": // Spectral Overdrive
+                    _player.SetBarrier(50f, duration: 5.0f);
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.55f, knockbackForce: 6.5f, slowPercent: 0.50f, slowDuration: 2.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 3.0f, new Color(0.9f, 0.2f, 1f, 0.95f), 0.6f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "shadow_reaper_active_49": // Crown of Oblivion
+                    _player.SetBarrier(70f, duration: 6.0f);
+                    result.DamageDealt += DamageArea(playerPos, radius * 1.2f, damage * 1.7f, knockbackForce: 7.0f, slowPercent: 0.50f, slowDuration: 3.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 3.2f, new Color(0.95f, 0.1f, 0.95f, 0.98f), 0.65f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "shadow_reaper_active_50": // Final Silence
+                    Vector2 srSilenceFinalPos = playerPos + aimDir * Math.Min(4.0f, def.Range > 0 ? def.Range : 4.0f);
+                    _player.SetBarrier(80f, duration: 7.0f);
+                    result.DamageDealt += DamageArea(srSilenceFinalPos, radius * 1.35f, damage * 1.95f, knockbackForce: 8.5f, slowPercent: 0.70f, slowDuration: 3.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srSilenceFinalPos, radius * 3.8f, new Color(1f, 0.15f, 0.95f, 1f), 0.75f);
+                    CueBus.Raise(CueIds.InvaderStrike, srSilenceFinalPos.x, srSilenceFinalPos.y);
+                    break;
+
                 // Milestone Ultimates
                 case "shadow_reaper_ultimate_50": // Dance of Ten Thousand Cuts
                     result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 5.0f);

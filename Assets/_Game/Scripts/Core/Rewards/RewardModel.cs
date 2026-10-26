@@ -401,6 +401,18 @@ namespace FinalBoss.Core
         public const string ReaperOblivionEchoId = "shadow_reaper_wave_39";
         public const string ReaperSoulCollectorsGraceId = "shadow_reaper_wave_40";
 
+        // Shadow Reaper Wave Skills (Batch 5: 41-50)
+        public const string ReaperVeilguardId = "shadow_reaper_wave_41";
+        public const string ReaperPatienceId = "shadow_reaper_wave_42";
+        public const string ReaperGhostlyArmorId = "shadow_reaper_wave_43";
+        public const string ReaperMidnightRecoveryId = "shadow_reaper_wave_44";
+        public const string ReaperSoulboundTreasureId = "shadow_reaper_wave_45";
+        public const string ReaperPhantomSpoilsId = "shadow_reaper_wave_46";
+        public const string ReaperAncientScytheMasteryId = "shadow_reaper_wave_47";
+        public const string ReaperExecutionersFortuneId = "shadow_reaper_wave_48";
+        public const string ReaperEclipsedKnowledgeId = "shadow_reaper_wave_49";
+        public const string ReaperEndlessHarvestId = "shadow_reaper_wave_50";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -3297,6 +3309,126 @@ namespace FinalBoss.Core
                     ReaperSoulCollectorsGraceId,
                     "Soul Collector's Grace",
                     "Ultimate communion of souls grants unparalleled lethal ascendancy (+35% Damage, +40 Max HP, Mythic)",
+                    RewardRarity.Mythic,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.35f,
+                    maxRank: 5)
+            },
+            {
+                ReaperVeilguardId,
+                new RewardDefinition(
+                    ReaperVeilguardId,
+                    "Veilguard",
+                    "Brief defensive veil after shadow maneuvers (+6 Armor)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                ReaperPatienceId,
+                new RewardDefinition(
+                    ReaperPatienceId,
+                    "Reaper's Patience",
+                    "Clean evasions hasten dash recovery (+20% Dash Cooldown Recovery)",
+                    RewardRarity.Rare,
+                    "shadow_reaper",
+                    RewardModifierType.DashCooldownReductionPercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                ReaperGhostlyArmorId,
+                new RewardDefinition(
+                    ReaperGhostlyArmorId,
+                    "Ghostly Armor",
+                    "Ethereal deflection blunts projectile kinetic force (+6 Armor)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                ReaperMidnightRecoveryId,
+                new RewardDefinition(
+                    ReaperMidnightRecoveryId,
+                    "Midnight Recovery",
+                    "Elite executions replenish max vitality reserves (+35 Max HP)",
+                    RewardRarity.Uncommon,
+                    "shadow_reaper",
+                    RewardModifierType.MaxHealth,
+                    35f,
+                    maxRank: 5)
+            },
+            {
+                ReaperSoulboundTreasureId,
+                new RewardDefinition(
+                    ReaperSoulboundTreasureId,
+                    "Soulbound Treasure",
+                    "Harvesting resonance expands weapon reach (+1.5m Range)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                ReaperPhantomSpoilsId,
+                new RewardDefinition(
+                    ReaperPhantomSpoilsId,
+                    "Phantom Spoils",
+                    "Supernatural spoils empower all scythe attacks (+20% Damage)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                ReaperAncientScytheMasteryId,
+                new RewardDefinition(
+                    ReaperAncientScytheMasteryId,
+                    "Ancient Scythe Mastery",
+                    "Timeless combat arts accelerate weapon flurry (+15% Attack Speed)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.AttackSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                ReaperExecutionersFortuneId,
+                new RewardDefinition(
+                    ReaperExecutionersFortuneId,
+                    "Executioner's Fortune",
+                    "Finishing elite foes unleashes bonus execution damage (+20% Damage)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                ReaperEclipsedKnowledgeId,
+                new RewardDefinition(
+                    ReaperEclipsedKnowledgeId,
+                    "Eclipsed Knowledge",
+                    "Ancient reaper knowledge massively amplifies strike power (+25% Damage, Epic)",
+                    RewardRarity.Epic,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                ReaperEndlessHarvestId,
+                new RewardDefinition(
+                    ReaperEndlessHarvestId,
+                    "Endless Harvest",
+                    "The boundless eternal harvest: cataclysmic reaper supremacy (+35% Damage, +40 Max HP, Mythic)",
                     RewardRarity.Mythic,
                     "shadow_reaper",
                     RewardModifierType.ProjectileDamagePercent,

@@ -5278,6 +5278,259 @@ namespace FinalBoss.Core
                 }
             ));
 
+            // =========================================================================
+            // Shadow Reaper — Branch E — Forbidden Reaper Arts (Actives 41-50)
+            // =========================================================================
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_41",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Death's Embrace",
+                description: "Radiate an icy aura of mortality, debilitating and weakening all nearby enemies.",
+                branchName: "Branch E — Forbidden Reaper Arts",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 2f,
+                cooldownDuration: 5.0f,
+                range: 5.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 48f,
+                baseRadius: 4.5f,
+                duration: 3.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Embrace radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Aura damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Inflicts 50% slow and vulnerability on nearby enemies", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_42",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Scythe of Silence",
+                description: "Sweep a massive nullifying scythe arc ahead, interrupting enemy actions and inflicting heavy damage.",
+                branchName: "Branch E — Forbidden Reaper Arts",
+                tier: 1,
+                prerequisiteAbilityId: "shadow_reaper_active_41",
+                resourceCost: 3f,
+                cooldownDuration: 5.5f,
+                range: 6.5f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 56f,
+                baseRadius: 4.0f,
+                duration: 0.4f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Sweep width increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Nullifying slash damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Silences and stuns hit enemies for 1.0s", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_43",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Shadow Hourglass",
+                description: "Invert temporal shadow flow, trapping surrounding invaders in extreme temporal dilation.",
+                branchName: "Branch E — Forbidden Reaper Arts",
+                tier: 2,
+                prerequisiteAbilityId: "shadow_reaper_active_41",
+                resourceCost: 3f,
+                cooldownDuration: 6.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 60f,
+                baseRadius: 5.0f,
+                duration: 3.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Hourglass radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Temporal damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Inflicts 70% slow on enemies within area", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_44",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Nightfall Domain",
+                description: "Conceal the battlefield in an expansive nightfall zone that accelerates the Reaper and grants barrier.",
+                branchName: "Branch E — Forbidden Reaper Arts",
+                tier: 2,
+                prerequisiteAbilityId: "shadow_reaper_active_42",
+                resourceCost: 3f,
+                cooldownDuration: 6.5f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 65f,
+                baseRadius: 4.8f,
+                duration: 5.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Domain radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Nightfall damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 40 barrier upon creation", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_45",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Phantom Reversal",
+                description: "Deliver a devastating forward scythe slash and instantly snap backwards into shadow to dodge retaliation.",
+                branchName: "Branch E — Forbidden Reaper Arts",
+                tier: 2,
+                prerequisiteAbilityId: "shadow_reaper_active_43",
+                resourceCost: 3f,
+                cooldownDuration: 6.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.Dash | AbilityEffectType.MeleeArc | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 70f,
+                baseRadius: 3.8f,
+                duration: 0.4f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Slash range increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Reversal damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 35 barrier upon reversing position", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_46",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Reaper's Judgment",
+                description: "Pass solemn supernatural judgment upon marked invaders, executing weakened foes in rapid succession.",
+                branchName: "Branch E — Forbidden Reaper Arts",
+                tier: 3,
+                prerequisiteAbilityId: "shadow_reaper_active_44",
+                resourceCost: 4f,
+                cooldownDuration: 7.0f,
+                range: 7.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 78f,
+                baseRadius: 4.2f,
+                duration: 0.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Judgment range increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Execution damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Deals 50% increased damage against champions", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_47",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Endless Footsteps",
+                description: "Unleash a breathless chain of spectral afterimages crisscrossing the combat zone with lethal precision.",
+                branchName: "Branch E — Forbidden Reaper Arts",
+                tier: 3,
+                prerequisiteAbilityId: "shadow_reaper_active_45",
+                resourceCost: 4f,
+                cooldownDuration: 7.5f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Dash,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 82f,
+                baseRadius: 5.0f,
+                duration: 0.8f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Footsteps radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Afterimage strike damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 40 barrier and refunds 1 Mark", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_48",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Spectral Overdrive",
+                description: "Ignite forbidden spiritual power to supercharge combat speed and unleash continuous slicing shockwaves.",
+                branchName: "Branch E — Forbidden Reaper Arts",
+                tier: 3,
+                prerequisiteAbilityId: "shadow_reaper_active_46",
+                resourceCost: 4f,
+                cooldownDuration: 8.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 88f,
+                baseRadius: 5.2f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Overdrive radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Overdrive damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 50 barrier and 40% increased attack speed", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_49",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Crown of Oblivion",
+                description: "Don the forbidden dark crown: summon colossal execution blades and fortify the Reaper with impregnable barrier.",
+                branchName: "Branch E — Forbidden Reaper Arts",
+                tier: 4,
+                prerequisiteAbilityId: "shadow_reaper_active_47",
+                resourceCost: 5f,
+                cooldownDuration: 9.0f,
+                range: 7.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Shield | AbilityEffectType.Transform,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 96f,
+                baseRadius: 5.5f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Crown aura radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Crown strike damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 70 barrier and 50% slow to nearby foes", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_50",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Final Silence",
+                description: "Unleash the ultimate forbidden art: an apocalyptic, screen-wide scythe execution bringing absolute silence to all enemies.",
+                branchName: "Branch E — Forbidden Reaper Arts",
+                tier: 4,
+                prerequisiteAbilityId: "shadow_reaper_active_48",
+                resourceCost: 5f,
+                cooldownDuration: 10.0f,
+                range: 8.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Shield | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 110f,
+                baseRadius: 6.5f,
+                duration: 1.2f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Silence execution radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Final execution damage increased by 45%", damageMultiplier: 1.45f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 80 barrier and 70% slow to all surviving invaders", bonusUtility: 1.0f)
+                }
+            ));
+
             // Legacy shadowstep alias
             Register(new AbilityDefinition(
                 id: "shadow_reaper_active_shadowstep",
