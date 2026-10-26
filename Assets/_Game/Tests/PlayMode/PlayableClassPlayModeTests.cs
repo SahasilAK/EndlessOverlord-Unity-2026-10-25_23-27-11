@@ -17,11 +17,17 @@ namespace FinalBoss.Tests
         [SetUp]
         public void SetUp()
         {
+            var fresh = new PlayerSaveProfile();
+            SaveStorage.Save(fresh);
+            SaveStorage.CurrentProfile = fresh;
         }
 
         [TearDown]
         public void TearDown()
         {
+            var fresh = new PlayerSaveProfile();
+            SaveStorage.Save(fresh);
+            SaveStorage.CurrentProfile = fresh;
             Time.timeScale = 1f;
         }
 

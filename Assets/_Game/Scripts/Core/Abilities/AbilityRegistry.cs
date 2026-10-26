@@ -1456,12 +1456,13 @@ namespace FinalBoss.Core
             // -------------------------------------------------------------
             // DEMON MONARCH
             // -------------------------------------------------------------
+            // Legacy signature ability definition
             Register(new AbilityDefinition(
                 id: "demon_monarch_active_22",
                 characterId: CharacterCatalog.DemonMonarchId,
                 name: "Hellstep",
                 description: "Teleport swiftly across the battlefield, unleashing infernal explosions at departure and arrival.",
-                branchName: "Branch C — Demonic Mobility",
+                branchName: "Branch C — Demonic Powers",
                 tier: 1,
                 prerequisiteAbilityId: null,
                 resourceCost: 25f,
@@ -1480,56 +1481,265 @@ namespace FinalBoss.Core
                     new AbilityRankMilestone(20, "Mastery: Hellstep deals 50% more damage and leaves an incinerating trail", damageMultiplier: 1.50f)
                 }
             ));
-            // Alias for active_01
+
+            // Branch A — Infernal Swordsmanship (Actives 01-10)
             Register(new AbilityDefinition(
                 id: "demon_monarch_active_01",
                 characterId: CharacterCatalog.DemonMonarchId,
-                name: "Hellstep",
-                description: "Teleport swiftly across the battlefield, unleashing infernal explosions at departure and arrival.",
-                branchName: "Branch C — Demonic Mobility",
-                tier: 1,
-                prerequisiteAbilityId: null,
-                resourceCost: 25f,
-                cooldownDuration: 4f,
-                range: 5f,
-                effects: AbilityEffectType.Dash | AbilityEffectType.RadialAoE,
-                targeting: AbilityTargetingRule.AimDirection,
-                baseDamage: 30f,
-                baseRadius: 3f,
-                duration: 0.3f
-            ));
-
-            Register(new AbilityDefinition(
-                id: "demon_monarch_active_02",
-                characterId: CharacterCatalog.DemonMonarchId,
                 name: "Infernal Cleave",
-                description: "Unleash a devastating 140-degree flaming sword slash, sundering enemies and inflicting burn.",
+                description: "Unleash a devastating wide flaming sword strike, sundering enemies and inflicting burn.",
                 branchName: "Branch A — Infernal Swordsmanship",
                 tier: 1,
                 prerequisiteAbilityId: null,
                 resourceCost: 15f,
-                cooldownDuration: 2.5f,
-                range: 3.2f,
+                cooldownDuration: 2.2f,
+                range: 3.5f,
                 effects: AbilityEffectType.MeleeArc | AbilityEffectType.Hazard,
                 targeting: AbilityTargetingRule.AimDirection,
-                baseDamage: 35f,
-                baseRadius: 3.2f,
-                duration: 0.2f,
+                baseDamage: 32f,
+                baseRadius: 3.5f,
+                duration: 0.25f,
                 milestones: new[]
                 {
-                    new AbilityRankMilestone(5, "Slash damage +25%", damageMultiplier: 1.25f),
+                    new AbilityRankMilestone(5, "Infernal Cleave slash damage +25%", damageMultiplier: 1.25f),
                     new AbilityRankMilestone(10, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
-                    new AbilityRankMilestone(15, "Cleave reach +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(15, "Cleave arc reach +25%", radiusMultiplier: 1.25f),
                     new AbilityRankMilestone(20, "Mastery: Cleave unleashes an infernal flame wave erupting forward", damageMultiplier: 1.40f)
                 }
             ));
 
             Register(new AbilityDefinition(
+                id: "demon_monarch_active_02",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Hellbrand Thrust",
+                description: "Deliver a lightning-fast piercing forward stab that impales invaders and ignites them with hellfire.",
+                branchName: "Branch A — Infernal Swordsmanship",
+                tier: 1,
+                prerequisiteAbilityId: "demon_monarch_active_01",
+                resourceCost: 18f,
+                cooldownDuration: 3.0f,
+                range: 4.5f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.Projectile,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 38f,
+                baseRadius: 2.0f,
+                duration: 0.3f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Thrust range increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Hellbrand damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 20%", resourceCostMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Thrust releases piercing flame lances through impaled enemies", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_03",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Flaming Arc",
+                description: "Sweep your blade in a wide arc, launching a ranged crescent-shaped wave of demonic fire forward.",
+                branchName: "Branch A — Infernal Swordsmanship",
+                tier: 2,
+                prerequisiteAbilityId: "demon_monarch_active_01",
+                resourceCost: 25f,
+                cooldownDuration: 4.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.Projectile | AbilityEffectType.MeleeArc,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 40f,
+                baseRadius: 3.0f,
+                duration: 0.8f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Flaming Arc speed and reach +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Wave fire damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Launches a triple spread of blazing crescent waves", extraSummonsOrProjectiles: 2)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_04",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Ember Uppercut",
+                description: "Execute a rising fiery blade strike that launches invaders into the air and leaves a trail of burning embers.",
+                branchName: "Branch A — Infernal Swordsmanship",
+                tier: 2,
+                prerequisiteAbilityId: "demon_monarch_active_02",
+                resourceCost: 22f,
+                cooldownDuration: 3.5f,
+                range: 3.5f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 42f,
+                baseRadius: 3.0f,
+                duration: 0.35f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Knockup launch force increased by 40%", bonusUtility: 0.40f),
+                    new AbilityRankMilestone(10, "Uppercut damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Creates an explosive pillar of fire upon landing", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_05",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Blazing Riposte",
+                description: "Assume an infernal parry stance, gaining a barrier and violently counterattacking with an eruptive fiery slash.",
+                branchName: "Branch A — Infernal Swordsmanship",
+                tier: 2,
+                prerequisiteAbilityId: "demon_monarch_active_03",
+                resourceCost: 25f,
+                cooldownDuration: 5.0f,
+                range: 4.0f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.MeleeArc | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 45f,
+                baseRadius: 3.5f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Riposte barrier increased by 30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Counterattack damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Counterattack reflects 100% of mitigated damage as an infernal burst", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_06",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Molten Lunge",
+                description: "Dash forward in a streak of molten flame, thrusting your hellblade through all invaders in your path.",
+                branchName: "Branch A — Infernal Swordsmanship",
+                tier: 3,
+                prerequisiteAbilityId: "demon_monarch_active_04",
+                resourceCost: 30f,
+                cooldownDuration: 5.5f,
+                range: 6.0f,
+                effects: AbilityEffectType.Dash | AbilityEffectType.MeleeArc | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 48f,
+                baseRadius: 3.0f,
+                duration: 0.4f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Lunge travel distance increased by 30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Lunge impact damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Leaves a lingering molten lava track dealing continuous damage", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_07",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Burning Whirl",
+                description: "Spin rapidly with your blazing sword, slicing all surrounding enemies in a fiery vortex.",
+                branchName: "Branch A — Infernal Swordsmanship",
+                tier: 3,
+                prerequisiteAbilityId: "demon_monarch_active_05",
+                resourceCost: 35f,
+                cooldownDuration: 6.0f,
+                range: 4.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 52f,
+                baseRadius: 4.5f,
+                duration: 0.6f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Whirl radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Spinning slash damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 20%", resourceCostMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Spawns orbiting fire blades that continue damaging nearby foes", extraSummonsOrProjectiles: 3)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_08",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Volcanic Slash",
+                description: "Slam your greatsword into the dungeon stone, carving a trench of erupting molten lava.",
+                branchName: "Branch A — Infernal Swordsmanship",
+                tier: 3,
+                prerequisiteAbilityId: "demon_monarch_active_06",
+                resourceCost: 35f,
+                cooldownDuration: 6.5f,
+                range: 5.5f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 56f,
+                baseRadius: 3.5f,
+                duration: 3.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Volcanic trench length increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Eruption damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Molten lava pools erupt with explosive magma geysers", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_09",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Sundering Edge",
+                description: "A titanic downward greatsword cleave that sunders physical defenses and shatters enemy armor.",
+                branchName: "Branch A — Infernal Swordsmanship",
+                tier: 4,
+                prerequisiteAbilityId: "demon_monarch_active_07",
+                resourceCost: 40f,
+                cooldownDuration: 7.5f,
+                range: 4.5f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 65f,
+                baseRadius: 3.5f,
+                duration: 0.4f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Armor sundering vulnerability increased by 30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Sundering Edge damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Sundered targets suffer double damage from all fire attacks", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_10",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Royal Execution",
+                description: "Execute a sovereign lethal finishing strike against weakened invaders, detonating them into infernal shrapnel.",
+                branchName: "Branch A — Infernal Swordsmanship",
+                tier: 4,
+                prerequisiteAbilityId: "demon_monarch_active_08",
+                resourceCost: 45f,
+                cooldownDuration: 8.5f,
+                range: 5.0f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 80f,
+                baseRadius: 4.0f,
+                duration: 0.45f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Execution damage against low-health enemies increased by 40%", bonusUtility: 0.40f),
+                    new AbilityRankMilestone(10, "Royal Execution base damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Kills reset Royal Execution cooldown and refund full Fury cost", bonusUtility: 1.0f)
+                }
+            ));
+
+            // Legacy branch B ability preserved
+            Register(new AbilityDefinition(
                 id: "demon_monarch_active_11",
                 characterId: CharacterCatalog.DemonMonarchId,
                 name: "Blazing Eruption",
                 description: "Ignite the ground beneath foes, creating a fiery hazard that burns all targets inside it.",
-                branchName: "Branch B — Fire Sorcery",
+                branchName: "Branch B — Hellfire Magic",
                 tier: 2,
                 prerequisiteAbilityId: "demon_monarch_active_02",
                 resourceCost: 30f,
@@ -1549,6 +1759,7 @@ namespace FinalBoss.Core
                 }
             ));
 
+            // Milestone Ultimates (Levels 50 through 250)
             Register(new AbilityDefinition(
                 id: "demon_monarch_ultimate_50",
                 characterId: CharacterCatalog.DemonMonarchId,
@@ -1573,6 +1784,114 @@ namespace FinalBoss.Core
                     new AbilityRankMilestone(10, "Impact damage +40%", damageMultiplier: 1.40f),
                     new AbilityRankMilestone(15, "Fury cost -25%", resourceCostMultiplier: 0.75f),
                     new AbilityRankMilestone(20, "Mastery: The judgment blade creates a secondary volcanic aftershock", damageMultiplier: 1.50f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_ultimate_100",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Demon King's Awakening",
+                description: "Transform into a towering armored demon, gaining immense barrier and unleashing devastating fiery sword waves.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "demon_monarch_active_01",
+                resourceCost: 65f,
+                cooldownDuration: 30f,
+                range: 6.5f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE | AbilityEffectType.Transform,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 90f,
+                baseRadius: 6.5f,
+                duration: 10f,
+                isUltimate: true,
+                requiredLevel: 100,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Awakening barrier increased to 180", bonusUtility: 40f),
+                    new AbilityRankMilestone(10, "Demonic slash damage +35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Attacks during Awakening fire molten blade projectiles", extraSummonsOrProjectiles: 2)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_ultimate_150",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Rain of a Thousand Blades",
+                description: "Unleash countless burning demonic swords from the sky, bombarding invaders across the entire arena.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "demon_monarch_active_01",
+                resourceCost: 75f,
+                cooldownDuration: 35f,
+                range: 8.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 100f,
+                baseRadius: 8.0f,
+                duration: 4.5f,
+                isUltimate: true,
+                requiredLevel: 150,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Sword barrage radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Blade rain bombardment damage +35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Each blade impact detonates into cluster flame bursts", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_ultimate_200",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Infernal Apocalypse",
+                description: "Fracture the earth to trigger devastating volcanic eruptions across the arena, immolating all invaders.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "demon_monarch_active_01",
+                resourceCost: 80f,
+                cooldownDuration: 40f,
+                range: 9.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 120f,
+                baseRadius: 8.5f,
+                duration: 5.0f,
+                isUltimate: true,
+                requiredLevel: 200,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Apocalyptic eruption radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Volcanic cataclysm damage +40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Arena becomes a sea of lava slowing invaders by 60%", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_ultimate_250",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Throne of Eternal Flame",
+                description: "Assume the true Monarch form, combining supreme demonic swordsmanship, aerial meteor strikes, and infernal flames.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "demon_monarch_active_01",
+                resourceCost: 90f,
+                cooldownDuration: 45f,
+                range: 10.0f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE | AbilityEffectType.Transform | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 150f,
+                baseRadius: 9.0f,
+                duration: 12f,
+                isUltimate: true,
+                requiredLevel: 250,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Grants a gargantuan 250 absorption barrier", bonusUtility: 100f),
+                    new AbilityRankMilestone(10, "Supreme Monarch damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Continuous radial infernal pulse incinerating all nearby foes", bonusUtility: 1.0f)
                 }
             ));
 

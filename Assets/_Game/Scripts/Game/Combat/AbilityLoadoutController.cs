@@ -1268,8 +1268,151 @@ namespace FinalBoss.Game
                 // -------------------------------------------------------------
                 // DEMON MONARCH
                 // -------------------------------------------------------------
-                case "demon_monarch_active_01": // Hellstep
-                case "demon_monarch_active_22":
+                // Branch A — Infernal Swordsmanship (Actives 01-10)
+                case "demon_monarch_active_01": // Infernal Cleave
+                    result.DamageDealt += DamageArc(playerPos, aimDir, radius, 140f, damage, knockbackForce: 2.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualArc(playerPos, aimDir, radius, new Color(1f, 0.4f, 0.1f, 0.85f), 0.25f);
+                    CueBus.Raise(CueIds.BossCleave, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_active_02": // Hellbrand Thrust
+                    Vector2 thrustPos = playerPos + aimDir * 2.2f;
+                    result.DamageDealt += DamageArea(thrustPos, radius, damage, knockbackForce: 3.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(thrustPos, radius * 1.8f, new Color(1f, 0.35f, 0.1f, 0.9f), 0.3f);
+                    CueBus.Raise(CueIds.InvaderStrike, thrustPos.x, thrustPos.y);
+                    break;
+
+                case "demon_monarch_active_03": // Flaming Arc
+                    if (ProjectileManager.Instance != null)
+                    {
+                        int waves = rank >= 20 ? 3 : 1;
+                        for (int w = 0; w < waves; w++)
+                        {
+                            float angleOffset = (w - (waves - 1) * 0.5f) * 18f * Mathf.Deg2Rad;
+                            Vector2 wDir = new Vector2(
+                                aimDir.x * Mathf.Cos(angleOffset) - aimDir.y * Mathf.Sin(angleOffset),
+                                aimDir.x * Mathf.Sin(angleOffset) + aimDir.y * Mathf.Cos(angleOffset)
+                            );
+                            ProjectileManager.Instance.FireCustom(
+                                Faction.Player,
+                                playerPos,
+                                wDir,
+                                speed: 9f,
+                                radius: 0.45f,
+                                damage: damage * 0.7f,
+                                lifetime: 1.2f,
+                                color: new Color(1f, 0.45f, 0.1f),
+                                cueId: CueIds.InvaderStrike,
+                                pierce: 3
+                            );
+                        }
+                    }
+                    Vector2 arcBurstPos = playerPos + aimDir * 2f;
+                    result.DamageDealt += DamageArc(playerPos, aimDir, radius, 120f, damage * 0.5f, knockbackForce: 2f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualArc(playerPos, aimDir, radius, new Color(1f, 0.5f, 0.15f, 0.9f), 0.3f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_active_04": // Ember Uppercut
+                    Vector2 uppercutPos = playerPos + aimDir * 1.8f;
+                    result.DamageDealt += DamageArea(uppercutPos, radius, damage, knockbackForce: 6.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(uppercutPos, radius * 2f, new Color(1f, 0.6f, 0.2f, 0.9f), 0.35f);
+                    CueBus.Raise(CueIds.BossCleave, uppercutPos.x, uppercutPos.y);
+                    break;
+
+                case "demon_monarch_active_05": // Blazing Riposte
+                    float riposteBarrier = 60f * (1f + (rank >= 5 ? 0.30f : 0f));
+                    _player.SetBarrier(riposteBarrier, duration: def.Duration);
+                    result.BarrierGranted += riposteBarrier;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 4f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.2f, new Color(1f, 0.3f, 0.1f, 0.9f), 0.4f);
+                    CueBus.Raise(CueIds.BossCleave, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_active_06": // Molten Lunge
+                    Vector2 lungeStart = playerPos;
+                    Vector2 lungeEnd = ValidateLandingDestination(lungeStart, lungeStart + aimDir * (def.Range > 0 ? def.Range : 5f));
+                    _player.Teleport(lungeEnd);
+                    result.DamageDealt += DamageArea(lungeEnd, radius, damage, knockbackForce: 5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(lungeStart, radius * 0.8f, duration: 2.5f, damagePerTick: damage * 0.25f, tickInterval: 0.4f, slowPercent: 0.3f, slowDuration: 1f, color: new Color(1f, 0.35f, 0.1f, 0.6f), label: "[MOLTEN_TRACK]");
+                    SpawnVisualBurst(lungeEnd, radius * 2f, new Color(1f, 0.45f, 0.1f, 0.9f), 0.35f);
+                    CueBus.Raise(CueIds.PlayerDash, lungeEnd.x, lungeEnd.y);
+                    break;
+
+                case "demon_monarch_active_07": // Burning Whirl
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 4f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (ProjectileManager.Instance != null && rank >= 20)
+                    {
+                        for (int p = 0; p < 4; p++)
+                        {
+                            float ang = p * 90f * Mathf.Deg2Rad;
+                            Vector2 bDir = new Vector2(Mathf.Cos(ang), Mathf.Sin(ang));
+                            ProjectileManager.Instance.FireCustom(
+                                Faction.Player,
+                                playerPos,
+                                bDir,
+                                speed: 8f,
+                                radius: 0.3f,
+                                damage: damage * 0.35f,
+                                lifetime: 0.8f,
+                                color: new Color(1f, 0.35f, 0.15f),
+                                cueId: CueIds.InvaderStrike,
+                                pierce: 2
+                            );
+                        }
+                    }
+                    SpawnVisualBurst(playerPos, radius * 2.2f, new Color(1f, 0.4f, 0.15f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.BossCleave, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_active_08": // Volcanic Slash
+                    Vector2 slashPos = playerPos + aimDir * 2.5f;
+                    result.DamageDealt += DamageArc(playerPos, aimDir, radius, 120f, damage, knockbackForce: 3f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(slashPos, radius, duration: 3.0f, damagePerTick: damage * 0.3f, tickInterval: 0.4f, slowPercent: 0.35f, slowDuration: 1.0f, color: new Color(1f, 0.25f, 0.05f, 0.65f), label: "[VOLCANIC_TRENCH]");
+                    SpawnVisualBurst(slashPos, radius * 2.2f, new Color(1f, 0.35f, 0.1f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.BossCleave, slashPos.x, slashPos.y);
+                    break;
+
+                case "demon_monarch_active_09": // Sundering Edge
+                    Vector2 sunderPos = playerPos + aimDir * 2.5f;
+                    result.DamageDealt += DamageArea(sunderPos, radius, damage, knockbackForce: 5.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.40f, 3.0f);
+                        }
+                    }
+                    SpawnVisualBurst(sunderPos, radius * 2.2f, new Color(0.95f, 0.2f, 0.1f, 0.95f), 0.45f);
+                    CueBus.Raise(CueIds.BossCleave, sunderPos.x, sunderPos.y);
+                    break;
+
+                case "demon_monarch_active_10": // Royal Execution
+                    Vector2 execPos = playerPos + aimDir * 2.5f;
+                    result.DamageDealt += DamageArea(execPos, radius, damage, knockbackForce: 7f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(execPos, radius * 2.5f, new Color(1f, 0.2f, 0.05f, 0.95f), 0.6f);
+                    CueBus.Raise(CueIds.BossCleave, execPos.x, execPos.y);
+                    break;
+
+                case "demon_monarch_active_11": // Blazing Eruption
+                    Vector2 eruptionPos = playerPos + aimDir * Math.Min(3.5f, def.Range);
+                    result.DamageDealt += DamageArea(eruptionPos, radius, damage, knockbackForce: 2f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(eruptionPos, radius * 2f, new Color(1f, 0.2f, 0.1f, 0.9f), def.Duration);
+                    CueBus.Raise(CueIds.InvaderStrike, eruptionPos.x, eruptionPos.y);
+                    break;
+
+                case "demon_monarch_active_22": // Hellstep
                     Vector2 startPos = playerPos;
                     Vector2 destPos = ValidateLandingDestination(startPos, startPos + aimDir * def.Range);
                     _player.Teleport(destPos);
@@ -1281,27 +1424,49 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.PlayerDash, destPos.x, destPos.y);
                     break;
 
-                case "demon_monarch_active_02": // Infernal Cleave
-                    result.DamageDealt += DamageArc(playerPos, aimDir, radius, 140f, damage, knockbackForce: 2.5f);
-                    result.TargetsHit += _hitBuffer.Count;
-                    SpawnVisualArc(playerPos, aimDir, radius, new Color(1f, 0.4f, 0.1f, 0.85f), 0.25f);
-                    CueBus.Raise(CueIds.BossCleave, playerPos.x, playerPos.y);
-                    break;
-
-                case "demon_monarch_active_11": // Blazing Eruption
-                    Vector2 eruptionPos = playerPos + aimDir * Math.Min(3.5f, def.Range);
-                    result.DamageDealt += DamageArea(eruptionPos, radius, damage, knockbackForce: 2f);
-                    result.TargetsHit += _hitBuffer.Count;
-                    SpawnVisualBurst(eruptionPos, radius * 2f, new Color(1f, 0.2f, 0.1f, 0.9f), def.Duration);
-                    CueBus.Raise(CueIds.InvaderStrike, eruptionPos.x, eruptionPos.y);
-                    break;
-
+                // Milestone Ultimates
                 case "demon_monarch_ultimate_50": // Hellblade Judgment
                     Vector2 bladeImpact = playerPos + aimDir * 3f;
                     result.DamageDealt += DamageArea(bladeImpact, radius, damage, knockbackForce: 5f);
                     result.TargetsHit += _hitBuffer.Count;
                     SpawnVisualBurst(bladeImpact, radius * 2f, new Color(1f, 0.25f, 0.05f, 0.95f), 0.6f);
                     CueBus.Raise(CueIds.InvaderStrike, bladeImpact.x, bladeImpact.y);
+                    break;
+
+                case "demon_monarch_ultimate_100": // Demon King's Awakening
+                    _player.SetBarrier(140f, duration: def.Duration);
+                    result.BarrierGranted += 140f;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 5.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.4f, new Color(1f, 0.2f, 0.1f, 0.95f), 0.7f);
+                    CueBus.Raise(CueIds.BossCleave, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_ultimate_150": // Rain of a Thousand Blades
+                    Vector2 bladeRainPos = playerPos + aimDir * 3.5f;
+                    result.DamageDealt += DamageArea(bladeRainPos, radius, damage, knockbackForce: 6f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(bladeRainPos, radius, duration: 4.5f, damagePerTick: damage * 0.35f, tickInterval: 0.4f, slowPercent: 0.4f, slowDuration: 1.5f, color: new Color(1f, 0.3f, 0.1f, 0.65f), label: "[BLADE_RAIN]");
+                    SpawnVisualBurst(bladeRainPos, radius * 2.5f, new Color(1f, 0.35f, 0.1f, 0.95f), 0.75f);
+                    CueBus.Raise(CueIds.InvaderStrike, bladeRainPos.x, bladeRainPos.y);
+                    break;
+
+                case "demon_monarch_ultimate_200": // Infernal Apocalypse
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 7.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(playerPos, radius, duration: 5.0f, damagePerTick: damage * 0.4f, tickInterval: 0.45f, slowPercent: 0.5f, slowDuration: 2.0f, color: new Color(1f, 0.2f, 0.05f, 0.7f), label: "[APOCALYPSE_LAVA]");
+                    SpawnVisualBurst(playerPos, radius * 2.8f, new Color(1f, 0.25f, 0.05f, 0.95f), 0.8f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_ultimate_250": // Throne of Eternal Flame
+                    _player.SetBarrier(250f, duration: def.Duration);
+                    result.BarrierGranted += 250f;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 8.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(playerPos, radius, duration: 6.0f, damagePerTick: damage * 0.45f, tickInterval: 0.4f, slowPercent: 0.55f, slowDuration: 2.5f, color: new Color(1f, 0.15f, 0.05f, 0.75f), label: "[ETERNAL_FLAME]");
+                    SpawnVisualBurst(playerPos, radius * 3.2f, new Color(1f, 0.35f, 0.1f, 0.95f), 0.9f);
+                    CueBus.Raise(CueIds.BossCleave, playerPos.x, playerPos.y);
                     break;
 
                 // -------------------------------------------------------------

@@ -233,6 +233,18 @@ namespace FinalBoss.Core
         public const string GolemWorldstoneFortuneId = "cursed_golem_wave_49";
         public const string GolemEternalMountainId = "cursed_golem_wave_50";
 
+        // Demon Monarch Wave Skills (Batch 1: 01-10)
+        public const string MonarchSerratedHellsteelId = "demon_monarch_wave_01";
+        public const string MonarchCrimsonEdgeId = "demon_monarch_wave_02";
+        public const string MonarchMoltenReachId = "demon_monarch_wave_03";
+        public const string MonarchTwinFlameCutsId = "demon_monarch_wave_04";
+        public const string MonarchEmberRicochetId = "demon_monarch_wave_05";
+        public const string MonarchBladeMomentumId = "demon_monarch_wave_06";
+        public const string MonarchArmorSunderingId = "demon_monarch_wave_07";
+        public const string MonarchRoyalBladeDisciplineId = "demon_monarch_wave_08";
+        public const string MonarchExecutionersFuryId = "demon_monarch_wave_09";
+        public const string MonarchThousandCutInfernoId = "demon_monarch_wave_10";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -1446,6 +1458,127 @@ namespace FinalBoss.Core
                     RewardModifierType.MaxHealth,
                     60f,
                     maxRank: 3)
+            },
+            // Demon Monarch Wave Skills 01-10
+            {
+                MonarchSerratedHellsteelId,
+                new RewardDefinition(
+                    MonarchSerratedHellsteelId,
+                    "Serrated Hellsteel",
+                    "Hellforged serrations cause deep lacerations and hemorrhaging (+15% Damage)",
+                    RewardRarity.Common,
+                    "demon_monarch",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                MonarchCrimsonEdgeId,
+                new RewardDefinition(
+                    MonarchCrimsonEdgeId,
+                    "Crimson Edge",
+                    "Crimson tempered blade lethality tears through enemy vital points (+20% Damage)",
+                    RewardRarity.Uncommon,
+                    "demon_monarch",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                MonarchMoltenReachId,
+                new RewardDefinition(
+                    MonarchMoltenReachId,
+                    "Molten Reach",
+                    "Superheated blade elongation extends strike range (+1.5m Range)",
+                    RewardRarity.Common,
+                    "demon_monarch",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                MonarchTwinFlameCutsId,
+                new RewardDefinition(
+                    MonarchTwinFlameCutsId,
+                    "Twin Flame Cuts",
+                    "Twin fiery arc echoes slice alongside every strike (+1 Projectile)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                MonarchEmberRicochetId,
+                new RewardDefinition(
+                    MonarchEmberRicochetId,
+                    "Ember Ricochet",
+                    "Severed blade embers ricochet across the battlefield (+1 Projectile)",
+                    RewardRarity.Uncommon,
+                    "demon_monarch",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                MonarchBladeMomentumId,
+                new RewardDefinition(
+                    MonarchBladeMomentumId,
+                    "Blade Momentum",
+                    "Furious relentless swing pacing accelerates sword cadence (+15% Attack Speed)",
+                    RewardRarity.Common,
+                    "demon_monarch",
+                    RewardModifierType.AttackSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                MonarchArmorSunderingId,
+                new RewardDefinition(
+                    MonarchArmorSunderingId,
+                    "Armor Sundering",
+                    "Heavy demonic impacts shatter enemy armor and harden your shell (+6 Armor)",
+                    RewardRarity.Common,
+                    "demon_monarch",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                MonarchRoyalBladeDisciplineId,
+                new RewardDefinition(
+                    MonarchRoyalBladeDisciplineId,
+                    "Royal Blade Discipline",
+                    "Sovereign martial perfection maximizes sword precision (+25% Damage)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                MonarchExecutionersFuryId,
+                new RewardDefinition(
+                    MonarchExecutionersFuryId,
+                    "Executioner's Fury",
+                    "Slain invaders fuel demonic bloodthirst, restoring vitality (+6% Life Steal)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.LifeStealPercent,
+                    0.06f,
+                    maxRank: 5)
+            },
+            {
+                MonarchThousandCutInfernoId,
+                new RewardDefinition(
+                    MonarchThousandCutInfernoId,
+                    "Thousand-Cut Inferno",
+                    "A torrential storm of burning sword slashes consumes the battlefield (+30% Damage, +10% Attack Speed)",
+                    RewardRarity.Epic,
+                    "demon_monarch",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.30f,
+                    maxRank: 5)
             },
             {
                 MonarchId,

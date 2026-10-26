@@ -105,7 +105,7 @@ namespace FinalBoss.Core
                 baseArmor: 6f,
                 startingWeapon: "Monarch's Hellblade",
                 basicAttackName: "Infernal Cleave",
-                signatureAbilityId: "demon_monarch_active_01",
+                signatureAbilityId: "demon_monarch_active_22",
                 signatureAbilityName: "Hellstep",
                 signatureResourceCost: 25f,
                 signatureCooldown: 3.5f,

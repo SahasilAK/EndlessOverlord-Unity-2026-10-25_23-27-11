@@ -1282,5 +1282,130 @@ namespace FinalBoss.Tests
             Assert.GreaterOrEqual(_player.BarrierAmount, 160f, "Colossus Ascension should grant massive barrier.");
             Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Cursed Golem Branch E gravity and cataclysm abilities.");
         }
+
+        [UnityTest]
+        public IEnumerator DemonMonarch_BranchA_Part1_InfernalSwordsmanship_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.DemonMonarchId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.DemonMonarchId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.DemonMonarchId, "Branch A — Infernal Swordsmanship", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.DemonMonarchId,
+                new List<string>
+                {
+                    "demon_monarch_active_01", // Infernal Cleave
+                    "demon_monarch_active_02", // Hellbrand Thrust
+                    "demon_monarch_active_03", // Flaming Arc
+                    "demon_monarch_active_04", // Ember Uppercut
+                    "demon_monarch_active_05"  // Blazing Riposte
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Demon Monarch Branch A slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 60f, "Blazing Riposte should grant barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Demon Monarch Branch A swordsmanship abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator DemonMonarch_BranchA_Part2_InfernalSwordsmanship_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.DemonMonarchId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.DemonMonarchId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.DemonMonarchId, "Branch A — Infernal Swordsmanship", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.DemonMonarchId,
+                new List<string>
+                {
+                    "demon_monarch_active_06", // Molten Lunge
+                    "demon_monarch_active_07", // Burning Whirl
+                    "demon_monarch_active_08", // Volcanic Slash
+                    "demon_monarch_active_09", // Sundering Edge
+                    "demon_monarch_active_10"  // Royal Execution
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Demon Monarch Branch A slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Demon Monarch Branch A swordsmanship abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator DemonMonarch_Ultimates_ExecuteAndGrantBarriersAndDisplacement()
+        {
+            yield return StartArena(CharacterCatalog.DemonMonarchId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.DemonMonarchId, 250, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.DemonMonarchId, "Milestone Ultimates", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.DemonMonarchId,
+                new List<string>
+                {
+                    "demon_monarch_ultimate_50",
+                    "demon_monarch_ultimate_100",
+                    "demon_monarch_ultimate_150",
+                    "demon_monarch_ultimate_200",
+                    "demon_monarch_ultimate_250"
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2.5f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Demon Monarch ultimate slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 250f, "Throne of Eternal Flame should grant 250 barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Demon Monarch ultimates.");
+        }
     }
 }

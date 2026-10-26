@@ -255,12 +255,12 @@ namespace FinalBoss.Tests
             charRec.SpentSkillPoints = 3;
             charRec.UnlockedAbilities = new List<AbilityProgressRecord>
             {
-                new AbilityProgressRecord("demon_monarch_active_01", rank: 3, masteryXp: 120, ascensionRank: 0),
+                new AbilityProgressRecord(CharacterCatalog.Get(CharacterCatalog.DemonMonarchId).SignatureAbilityId, rank: 3, masteryXp: 120, ascensionRank: 0),
                 new AbilityProgressRecord("demon_monarch_active_02", rank: 1, masteryXp: 40, ascensionRank: 0)
             };
             charRec.EquippedLoadout = new List<string>
             {
-                "demon_monarch_active_01",
+                CharacterCatalog.Get(CharacterCatalog.DemonMonarchId).SignatureAbilityId,
                 "demon_monarch_active_02",
                 "",
                 "",
@@ -281,12 +281,12 @@ namespace FinalBoss.Tests
             Assert.AreEqual(15, restoredRec.Level);
             Assert.AreEqual(3, restoredRec.SpentSkillPoints);
             Assert.AreEqual(2, restoredRec.UnlockedAbilities.Count);
-            Assert.AreEqual("demon_monarch_active_01", restoredRec.UnlockedAbilities[0].AbilityId);
+            Assert.AreEqual(CharacterCatalog.Get(CharacterCatalog.DemonMonarchId).SignatureAbilityId, restoredRec.UnlockedAbilities[0].AbilityId);
             Assert.AreEqual(3, restoredRec.UnlockedAbilities[0].Rank);
             Assert.AreEqual(120, restoredRec.UnlockedAbilities[0].MasteryXp);
 
             Assert.AreEqual(5, restoredRec.EquippedLoadout.Count);
-            Assert.AreEqual("demon_monarch_active_01", restoredRec.EquippedLoadout[0]);
+            Assert.AreEqual(CharacterCatalog.Get(CharacterCatalog.DemonMonarchId).SignatureAbilityId, restoredRec.EquippedLoadout[0]);
             Assert.AreEqual("demon_monarch_active_02", restoredRec.EquippedLoadout[1]);
             Assert.AreEqual(true, restoredRec.AutocastSettings[0]);
             Assert.AreEqual(false, restoredRec.AutocastSettings[1]);
