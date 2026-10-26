@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using FinalBoss.Core;
 using UnityEngine;
 
@@ -541,11 +542,59 @@ namespace FinalBoss.Game
             ActorRegistry.Unregister(this);
             CueBus.Raise(CueIds.InvaderDeath, Position.x, Position.y);
 
+            SpawnLoot();
+
             var handler = Killed;
             Killed = null;
             handler?.Invoke(this);
 
             Destroy(gameObject);
+        }
+
+        private void SpawnLoot()
+        {
+            var session = GameSession.State;
+            if (session == null || session.Run == null)
+                return;
+
+            var hud = session.Run.Hud;
+            var inv = session.Run.Inventory;
+            Vector2 dropPos = Position;
+
+            if (IsBoss)
+            {
+                LootPickupActor.SpawnGold(dropPos + new Vector2(-0.4f, 0f), 50, hud);
+                var rareItems = new[] { ItemCatalog.DeathScytheId, ItemCatalog.NecroticShroudId, ItemCatalog.AmuletOfTormentId };
+                var pickedId = rareItems[UnityEngine.Random.Range(0, rareItems.Length)];
+                var def = ItemCatalog.GetById(pickedId);
+                if (def != null)
+                {
+                    LootPickupActor.SpawnItem(dropPos + new Vector2(0.4f, 0f), new ItemInstance(def), inv);
+                }
+            }
+            else if (IsElite)
+            {
+                LootPickupActor.SpawnGold(dropPos, 15, hud);
+                if (UnityEngine.Random.value < 0.5f)
+                {
+                    var allDefs = new List<ItemDefinition>(ItemCatalog.All);
+                    var def = allDefs[UnityEngine.Random.Range(0, allDefs.Count)];
+                    LootPickupActor.SpawnItem(dropPos + new Vector2(0.3f, 0.2f), new ItemInstance(def), inv);
+                }
+            }
+            else
+            {
+                if (UnityEngine.Random.value < 0.75f)
+                {
+                    LootPickupActor.SpawnGold(dropPos, 5, hud);
+                }
+                else if (UnityEngine.Random.value < 0.2f)
+                {
+                    var allDefs = new List<ItemDefinition>(ItemCatalog.All);
+                    var def = allDefs[UnityEngine.Random.Range(0, allDefs.Count)];
+                    LootPickupActor.SpawnItem(dropPos, new ItemInstance(def), inv);
+                }
+            }
         }
     }
 }

@@ -12,6 +12,7 @@ namespace FinalBoss.Core
         PlayingWave,
         ChoosingReward,
         Intermission,
+        Merchant,
         Paused,
         Death,
         Results
@@ -28,10 +29,11 @@ namespace FinalBoss.Core
             { RunState.MainMenu,        new[] { RunState.CharacterSelect } },
             { RunState.CharacterSelect, new[] { RunState.MainMenu, RunState.RunSetup } },
             { RunState.RunSetup,        new[] { RunState.PlayingWave, RunState.MainMenu } },
-            { RunState.PlayingWave,     new[] { RunState.Paused, RunState.Death, RunState.ChoosingReward } },
+            { RunState.PlayingWave,     new[] { RunState.Paused, RunState.Death, RunState.ChoosingReward, RunState.Merchant } },
             { RunState.ChoosingReward,  new[] { RunState.Intermission, RunState.PlayingWave, RunState.Paused, RunState.Death } },
-            { RunState.Intermission,    new[] { RunState.PlayingWave, RunState.Paused, RunState.Death, RunState.MainMenu } },
-            { RunState.Paused,          new[] { RunState.PlayingWave, RunState.ChoosingReward, RunState.Intermission, RunState.MainMenu } },
+            { RunState.Intermission,    new[] { RunState.PlayingWave, RunState.Merchant, RunState.Paused, RunState.Death, RunState.MainMenu } },
+            { RunState.Merchant,        new[] { RunState.Intermission, RunState.PlayingWave, RunState.Paused, RunState.Death, RunState.MainMenu } },
+            { RunState.Paused,          new[] { RunState.PlayingWave, RunState.ChoosingReward, RunState.Intermission, RunState.Merchant, RunState.MainMenu } },
             { RunState.Death,           new[] { RunState.Results } },
             { RunState.Results,         new[] { RunState.MainMenu } },
         };
@@ -64,7 +66,7 @@ namespace FinalBoss.Core
 
         public bool TryPause()
         {
-            if (Current == RunState.PlayingWave || Current == RunState.ChoosingReward || Current == RunState.Intermission)
+            if (Current == RunState.PlayingWave || Current == RunState.ChoosingReward || Current == RunState.Intermission || Current == RunState.Merchant)
             {
                 _prePauseState = Current;
                 return TryTransition(RunState.Paused);

@@ -164,18 +164,24 @@ namespace FinalBoss.Game
             _projectiles = projectiles;
             _sim = new AutoAttackSim(CombatTuning.BoltCooldown);
 
-            if (_player != null && _player.Run != null && _player.Run.Rewards != null)
+            if (_player != null && _player.Run != null)
             {
-                _player.Run.Rewards.RewardAcquired += OnRewardAcquired;
+                if (_player.Run.Rewards != null)
+                    _player.Run.Rewards.RewardAcquired += OnRewardAcquired;
+                if (_player.Run.Inventory != null)
+                    _player.Run.Inventory.Changed += OnEquipmentChanged;
                 UpdateCooldown();
             }
         }
 
         private void OnDestroy()
         {
-            if (_player != null && _player.Run != null && _player.Run.Rewards != null)
+            if (_player != null && _player.Run != null)
             {
-                _player.Run.Rewards.RewardAcquired -= OnRewardAcquired;
+                if (_player.Run.Rewards != null)
+                    _player.Run.Rewards.RewardAcquired -= OnRewardAcquired;
+                if (_player.Run.Inventory != null)
+                    _player.Run.Inventory.Changed -= OnEquipmentChanged;
             }
         }
 
@@ -187,9 +193,15 @@ namespace FinalBoss.Game
             }
         }
 
+        private void OnEquipmentChanged()
+        {
+            UpdateCooldown();
+        }
+
         private void UpdateCooldown()
         {
-            float speedMult = 1f + (_player.Run != null && _player.Run.Rewards != null ? _player.Run.Rewards.BonusAttackSpeedPercent : 0f);
+            var equipStats = _player.Run != null && _player.Run.Inventory != null ? _player.Run.Inventory.GetEquippedStats() : default(ItemStats);
+            float speedMult = 1f + (_player.Run != null && _player.Run.Rewards != null ? _player.Run.Rewards.BonusAttackSpeedPercent : 0f) + equipStats.AttackSpeedPercent;
             _sim.SetCooldownDuration(CombatTuning.BoltCooldown / speedMult);
         }
 
@@ -218,7 +230,10 @@ namespace FinalBoss.Game
                 dir.Normalize();
                 _player.AimDirection = dir;
 
-                float damage = CombatTuning.BoltDamage * (1f + (_player.Run != null && _player.Run.Rewards != null ? _player.Run.Rewards.BonusDamagePercent : 0f));
+                var equipStats = _player.Run != null && _player.Run.Inventory != null ? _player.Run.Inventory.GetEquippedStats() : default(ItemStats);
+                float baseDmg = CombatTuning.BoltDamage + equipStats.FlatDamage;
+                float dmgMult = 1f + (_player.Run != null && _player.Run.Rewards != null ? _player.Run.Rewards.BonusDamagePercent : 0f) + equipStats.DamagePercent;
+                float damage = baseDmg * dmgMult;
                 int extra = _player.Run != null && _player.Run.Rewards != null ? _player.Run.Rewards.ExtraProjectiles : 0;
 
                 if (extra <= 0)

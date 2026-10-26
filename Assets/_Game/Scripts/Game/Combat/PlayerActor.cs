@@ -1,3 +1,4 @@
+using System;
 using FinalBoss.Core;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace FinalBoss.Game
     /// <summary>
     /// Graybox Lich Lord. Owns health, dash and facing; movement runs in FixedUpdate on a Rigidbody2D.
     /// Damage is decided here in the simulation layer, never by visuals.
-    /// Integrates with <see cref="RewardInventory"/> to apply real runtime stat buffs.
+    /// Integrates with <see cref="RewardInventory"/> and <see cref="PlayerInventory"/> to apply real runtime stat buffs.
     /// </summary>
     public sealed class PlayerActor : MonoBehaviour, IDamageable
     {
@@ -31,7 +32,15 @@ namespace FinalBoss.Game
         public float Radius { get { return CombatTuning.PlayerRadius; } }
         public bool Alive { get { return Health != null && !Health.IsDead; } }
 
-        public float LifeStealFraction => _run != null && _run.Rewards != null ? _run.Rewards.LifeStealFraction : 0f;
+        public float LifeStealFraction
+        {
+            get
+            {
+                float rewards = _run != null && _run.Rewards != null ? _run.Rewards.LifeStealFraction : 0f;
+                float equip = _run != null && _run.Inventory != null ? _run.Inventory.GetEquippedStats().LifeStealPercent : 0f;
+                return rewards + equip;
+            }
+        }
 
         public void Initialize(RunContext run, PlayerInputAdapter input)
         {
@@ -73,6 +82,9 @@ namespace FinalBoss.Game
             if (_run != null && _run.Rewards != null)
                 _run.Rewards.RewardAcquired += OnRewardAcquired;
 
+            if (_run != null && _run.Inventory != null)
+                _run.Inventory.Changed += OnEquipmentChanged;
+
             ActorRegistry.Player = this;
             ActorRegistry.Register(this);
             OnHealthChanged();
@@ -86,6 +98,8 @@ namespace FinalBoss.Game
                 Health.Changed -= OnHealthChanged;
             if (_run != null && _run.Rewards != null)
                 _run.Rewards.RewardAcquired -= OnRewardAcquired;
+            if (_run != null && _run.Inventory != null)
+                _run.Inventory.Changed -= OnEquipmentChanged;
 
             ActorRegistry.Unregister(this);
             if (ActorRegistry.Player == this)
@@ -94,21 +108,44 @@ namespace FinalBoss.Game
 
         private void OnRewardAcquired(RewardDefinition def, int newRank)
         {
-            if (def.ModifierType == RewardModifierType.MaxHealth)
+            RecalculateMaxHealth();
+            UpdateDashCooldown();
+        }
+
+        private void OnEquipmentChanged()
+        {
+            RecalculateMaxHealth();
+            UpdateDashCooldown();
+        }
+
+        private void RecalculateMaxHealth()
+        {
+            if (_run == null || Health == null) return;
+            float baseMax = _run.Character.BaseMaxHealth;
+            float rewardHp = _run.Rewards != null ? _run.Rewards.BonusMaxHealth : 0f;
+            float equipHp = _run.Inventory != null ? _run.Inventory.GetEquippedStats().FlatMaxHealth : 0f;
+            float targetMax = baseMax + rewardHp + equipHp;
+
+            if (Math.Abs(Health.Max - targetMax) > 0.01f)
             {
-                Health.IncreaseMax(def.ValuePerRank, healDelta: true);
+                float delta = targetMax - Health.Max;
+                Health.IncreaseMax(delta, healDelta: delta > 0f);
                 if (_hud != null)
                 {
                     _hud.SetMaxHealth(Health.Max);
                     _hud.SetHealth(Health.Current);
                 }
             }
-            else if (def.ModifierType == RewardModifierType.DashCooldownReductionPercent)
-            {
-                float baseCd = CombatTuning.DashCooldown;
-                float reduction = _run != null ? _run.Rewards.BonusDashCooldownReductionPercent : 0f;
-                _dash.SetCooldownTime(baseCd * (1f - reduction));
-            }
+        }
+
+        private void UpdateDashCooldown()
+        {
+            if (_run == null || _dash == null) return;
+            float baseCd = CombatTuning.DashCooldown;
+            float rewardRed = _run.Rewards != null ? _run.Rewards.BonusDashCooldownReductionPercent : 0f;
+            float equipRed = _run.Inventory != null ? _run.Inventory.GetEquippedStats().CooldownReductionPercent : 0f;
+            float totalRed = Math.Min(0.75f, rewardRed + equipRed);
+            _dash.SetCooldownTime(baseCd * (1f - totalRed));
         }
 
         private void OnHealthChanged()
@@ -144,7 +181,8 @@ namespace FinalBoss.Game
             else
             {
                 Vector2 move = _input != null ? _input.Move : Vector2.zero;
-                float speedMultiplier = 1f + (_run != null && _run.Rewards != null ? _run.Rewards.BonusMoveSpeedPercent : 0f);
+                var equipStats = _run != null && _run.Inventory != null ? _run.Inventory.GetEquippedStats() : default(ItemStats);
+                float speedMultiplier = 1f + (_run != null && _run.Rewards != null ? _run.Rewards.BonusMoveSpeedPercent : 0f) + equipStats.MoveSpeedPercent;
                 MovementMath.Velocity(move.x, move.y, CombatTuning.PlayerMoveSpeed * speedMultiplier, out vx, out vy);
                 _rb.linearVelocity = new Vector2(vx, vy);
                 if (move.sqrMagnitude > 0.01f && !HasTargetAim)
@@ -175,7 +213,8 @@ namespace FinalBoss.Game
         {
             if (!Alive || _dash.Invulnerable)
                 return 0f;
-            float armor = CombatTuning.PlayerArmor + (_run != null && _run.Rewards != null ? _run.Rewards.BonusArmor : 0f);
+            var equipStats = _run != null && _run.Inventory != null ? _run.Inventory.GetEquippedStats() : default(ItemStats);
+            float armor = CombatTuning.PlayerArmor + (_run != null && _run.Rewards != null ? _run.Rewards.BonusArmor : 0f) + equipStats.FlatArmor;
             float dealt = Health.TakeDamage(DamageCalculator.Compute(rawDamage, armor));
             if (dealt > 0f)
             {

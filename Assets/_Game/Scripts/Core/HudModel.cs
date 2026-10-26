@@ -61,6 +61,15 @@ namespace FinalBoss.Core
             Changed?.Invoke();
         }
 
+        public bool TrySpendGold(int amount)
+        {
+            if (amount <= 0 || Gold < amount)
+                return false;
+            Gold -= amount;
+            Changed?.Invoke();
+            return true;
+        }
+
         public void AddScore(long amount)
         {
             long total;
