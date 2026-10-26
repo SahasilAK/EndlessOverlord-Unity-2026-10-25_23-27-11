@@ -2735,11 +2735,120 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.InvaderStrike, reaperDest.x, reaperDest.y);
                     break;
 
-                case "shadow_reaper_active_11": // Umbral Shroud (legacy placeholder)
-                    result.DamageDealt += DamageArea(playerPos, radius, damage, slowPercent: 0.5f, slowDuration: 4f);
+                case "shadow_reaper_active_11": // Shadowstep
+                    Vector2 srStepDest = ValidateLandingDestination(playerPos, playerPos + aimDir * Math.Min(5.5f, def.Range > 0 ? def.Range : 5.5f));
+                    _player.Teleport(srStepDest);
+                    result.DamageDealt += DamageArea(srStepDest, radius, damage);
                     result.TargetsHit += _hitBuffer.Count;
-                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.3f, 0.1f, 0.5f, 0.8f), def.Duration);
-                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    SpawnVisualBurst(srStepDest, radius * 2.2f, new Color(0.6f, 0.2f, 0.9f, 0.85f), 0.35f);
+                    CueBus.Raise(CueIds.InvaderStrike, srStepDest.x, srStepDest.y);
+                    break;
+
+                case "shadow_reaper_active_12": // Nightfall Dash
+                    Vector2 srDashDest = ValidateLandingDestination(playerPos, playerPos + aimDir * Math.Min(5.0f, def.Range > 0 ? def.Range : 5.0f));
+                    float srTrailDur = def.Duration > 0 ? def.Duration : 2.5f;
+                    HazardZoneActor.Spawn(playerPos, radius * 0.8f, srTrailDur, damagePerTick: damage * 0.25f, tickInterval: 0.35f, slowPercent: 0.50f, slowDuration: 1.0f, color: new Color(0.4f, 0.1f, 0.6f, 0.65f), label: "[NIGHTFALL_TRAIL]");
+                    _player.Teleport(srDashDest);
+                    result.DamageDealt += DamageArea(srDashDest, radius, damage * 0.6f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srDashDest, radius * 2.2f, new Color(0.5f, 0.15f, 0.8f, 0.9f), 0.35f);
+                    CueBus.Raise(CueIds.InvaderStrike, srDashDest.x, srDashDest.y);
+                    break;
+
+                case "shadow_reaper_active_13": // Phantom Crossing
+                    Vector2 srCrossDest = ValidateLandingDestination(playerPos, playerPos + aimDir * Math.Min(4.5f, def.Range > 0 ? def.Range : 4.5f));
+                    _player.Teleport(srCrossDest);
+                    result.DamageDealt += DamageArea(srCrossDest, radius, damage, knockbackForce: 3.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(30f, duration: 3.0f);
+                    SpawnVisualBurst(srCrossDest, radius * 2.4f, new Color(0.7f, 0.2f, 0.95f, 0.9f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, srCrossDest.x, srCrossDest.y);
+                    break;
+
+                case "shadow_reaper_active_14": // Shadow Exchange
+                    Vector2 srSwapDest = ValidateLandingDestination(playerPos, playerPos + aimDir * Math.Min(5.5f, def.Range > 0 ? def.Range : 5.5f));
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 0.5f, knockbackForce: 4.0f);
+                    _player.Teleport(srSwapDest);
+                    result.DamageDealt += DamageArea(srSwapDest, radius, damage * 0.8f, knockbackForce: 4.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srSwapDest, radius * 2.5f, new Color(0.65f, 0.15f, 0.9f, 0.9f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, srSwapDest.x, srSwapDest.y);
+                    break;
+
+                case "shadow_reaper_active_15": // Midnight Leap
+                    Vector2 srLeapDest = ValidateLandingDestination(playerPos, playerPos + aimDir * Math.Min(6.5f, def.Range > 0 ? def.Range : 6.5f));
+                    _player.Teleport(srLeapDest);
+                    result.DamageDealt += DamageArea(srLeapDest, radius, damage * 1.25f, knockbackForce: 6.0f, slowPercent: 0.60f, slowDuration: 2.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srLeapDest, radius * 2.8f, new Color(0.75f, 0.1f, 1f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, srLeapDest.x, srLeapDest.y);
+                    break;
+
+                case "shadow_reaper_active_16": // Veil Slide
+                    Vector2 srSlideDest = ValidateLandingDestination(playerPos, playerPos + aimDir * Math.Min(4.5f, def.Range > 0 ? def.Range : 4.5f));
+                    UndeadMinionActor.Spawn(UndeadMinionType.Hound, playerPos, overrideDamage: damage * 0.7f, overrideMaxHp: 80f, lifetime: 3.0f);
+                    _player.Teleport(srSlideDest);
+                    result.DamageDealt += DamageArea(srSlideDest, radius, damage * 0.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(35f, duration: 3.5f);
+                    SpawnVisualBurst(srSlideDest, radius * 2.2f, new Color(0.55f, 0.1f, 0.85f, 0.9f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, srSlideDest.x, srSlideDest.y);
+                    break;
+
+                case "shadow_reaper_active_17": // Black Corridor
+                    Vector2 srCorridorPos = playerPos + aimDir * Math.Min(3.5f, def.Range > 0 ? def.Range : 3.5f);
+                    float srCorridorDur = def.Duration > 0 ? def.Duration : 3.5f;
+                    HazardZoneActor.Spawn(srCorridorPos, radius, srCorridorDur, damagePerTick: damage * 0.28f, tickInterval: 0.35f, slowPercent: 0.40f, slowDuration: 1.2f, color: new Color(0.3f, 0.05f, 0.45f, 0.65f), label: "[BLACK_CORRIDOR]");
+                    result.DamageDealt += DamageArea(srCorridorPos, radius, damage * 0.55f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srCorridorPos, radius * 2.5f, new Color(0.5f, 0.05f, 0.75f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, srCorridorPos.x, srCorridorPos.y);
+                    break;
+
+                case "shadow_reaper_active_18": // Silent Pursuit
+                    Vector2 srPursuitPos = playerPos + aimDir * Math.Min(4.5f, def.Range > 0 ? def.Range : 4.5f);
+                    var srAllActors = ActorRegistry.AllActors;
+                    float srBestDist = float.MaxValue;
+                    for (int i = 0; i < srAllActors.Count; i++)
+                    {
+                        var a = srAllActors[i];
+                        if (a != null && a.Team == Faction.Invader && a.Alive)
+                        {
+                            float d = Vector2.Distance(playerPos, a.Position);
+                            if (d <= (def.Range > 0 ? def.Range : 7.5f) && d < srBestDist)
+                            {
+                                srBestDist = d;
+                                srPursuitPos = a.Position - aimDir * 0.5f;
+                            }
+                        }
+                    }
+                    Vector2 srPursuitDest = ValidateLandingDestination(playerPos, srPursuitPos);
+                    _player.Teleport(srPursuitDest);
+                    result.DamageDealt += DamageArea(srPursuitDest, radius, damage * 1.35f, knockbackForce: 5.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(35f, duration: 4.0f);
+                    SpawnVisualBurst(srPursuitDest, radius * 2.4f, new Color(0.8f, 0.15f, 1f, 0.95f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, srPursuitDest.x, srPursuitDest.y);
+                    break;
+
+                case "shadow_reaper_active_19": // Spectral Blink
+                    Vector2 srBlinkDest = ValidateLandingDestination(playerPos, playerPos + aimDir * Math.Min(5.5f, def.Range > 0 ? def.Range : 5.5f));
+                    _player.Teleport(srBlinkDest);
+                    result.DamageDealt += DamageArea(srBlinkDest, radius, damage * 1.35f, knockbackForce: 4.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(40f, duration: 4.0f);
+                    SpawnVisualBurst(srBlinkDest, radius * 2.8f, new Color(0.7f, 0.1f, 0.95f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, srBlinkDest.x, srBlinkDest.y);
+                    break;
+
+                case "shadow_reaper_active_20": // Shadow Horizon
+                    Vector2 srHorizonDest = ValidateLandingDestination(playerPos, playerPos + aimDir * Math.Min(6.0f, def.Range > 0 ? def.Range : 6.0f));
+                    _player.Teleport(srHorizonDest);
+                    result.DamageDealt += DamageArea(srHorizonDest, radius, damage * 1.55f, knockbackForce: 7.5f, slowPercent: 0.60f, slowDuration: 3.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(60f, duration: 5.0f);
+                    SpawnVisualBurst(srHorizonDest, radius * 3.2f, new Color(0.9f, 0.1f, 1f, 0.98f), 0.65f);
+                    CueBus.Raise(CueIds.InvaderStrike, srHorizonDest.x, srHorizonDest.y);
                     break;
 
                 // Milestone Ultimates

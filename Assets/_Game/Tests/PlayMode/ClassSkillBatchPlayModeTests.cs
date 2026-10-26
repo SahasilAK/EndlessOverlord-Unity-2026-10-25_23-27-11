@@ -2328,5 +2328,89 @@ namespace FinalBoss.Tests
             Assert.GreaterOrEqual(_player.BarrierAmount, 120f, "Eclipse Reaper should grant 120 barrier.");
             Assert.Less(invader.Health.Current, startHp, "Invader should take heavy damage from Shadow Reaper milestone ultimates.");
         }
+
+        [UnityTest]
+        public IEnumerator ShadowReaper_BranchB_Part1_ShadowMovement_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.ShadowReaperId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.ShadowReaperId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.ShadowReaperId, "Branch B — Shadow Movement", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.ShadowReaperId,
+                new List<string>
+                {
+                    "shadow_reaper_active_11", // Shadowstep
+                    "shadow_reaper_active_12", // Nightfall Dash
+                    "shadow_reaper_active_13", // Phantom Crossing
+                    "shadow_reaper_active_14", // Shadow Exchange
+                    "shadow_reaper_active_15"  // Midnight Leap
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(10f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Shadow Reaper Branch B slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 30f, "Phantom Crossing should grant crossing barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Shadow Reaper movement abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator ShadowReaper_BranchB_Part2_ShadowMovement_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.ShadowReaperId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.ShadowReaperId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.ShadowReaperId, "Branch B — Shadow Movement", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.ShadowReaperId,
+                new List<string>
+                {
+                    "shadow_reaper_active_16", // Veil Slide
+                    "shadow_reaper_active_17", // Black Corridor
+                    "shadow_reaper_active_18", // Silent Pursuit
+                    "shadow_reaper_active_19", // Spectral Blink
+                    "shadow_reaper_active_20"  // Shadow Horizon
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(10f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Shadow Reaper Branch B slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 60f, "Shadow Horizon should grant horizon barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Shadow Reaper horizon abilities.");
+        }
     }
 }

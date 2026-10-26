@@ -365,6 +365,18 @@ namespace FinalBoss.Core
         public const string ReaperDreadfulPrecisionId = "shadow_reaper_wave_09";
         public const string ReaperFinalCrescentId = "shadow_reaper_wave_10";
 
+        // Shadow Reaper Wave Skills (Batch 2: 11-20)
+        public const string ReaperMidnightMomentumId = "shadow_reaper_wave_11";
+        public const string ReaperPhantomReflexId = "shadow_reaper_wave_12";
+        public const string ReaperDimensionalFootworkId = "shadow_reaper_wave_13";
+        public const string ReaperUnseenMomentumId = "shadow_reaper_wave_14";
+        public const string ReaperShadowTrailId = "shadow_reaper_wave_15";
+        public const string ReaperSilentPassageId = "shadow_reaper_wave_16";
+        public const string ReaperGhoststrideId = "shadow_reaper_wave_17";
+        public const string ReaperUmbralDriftId = "shadow_reaper_wave_18";
+        public const string ReaperRepositionedBladeId = "shadow_reaper_wave_19";
+        public const string ReaperSpectralPursuitId = "shadow_reaper_wave_20";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -2901,6 +2913,126 @@ namespace FinalBoss.Core
                     ReaperFinalCrescentId,
                     "Final Crescent",
                     "The ultimate harvesting arc: obliterate all invaders in reach (+35% Damage, +40 Max HP, Mythic)",
+                    RewardRarity.Mythic,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.35f,
+                    maxRank: 5)
+            },
+            {
+                ReaperMidnightMomentumId,
+                new RewardDefinition(
+                    ReaperMidnightMomentumId,
+                    "Midnight Momentum",
+                    "Teleporting and shadow movement surge ground velocity (+15% Move Speed)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                ReaperPhantomReflexId,
+                new RewardDefinition(
+                    ReaperPhantomReflexId,
+                    "Phantom Reflex",
+                    "Supernatural evasive reflexes harden incoming defense (+6 Armor)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                ReaperDimensionalFootworkId,
+                new RewardDefinition(
+                    ReaperDimensionalFootworkId,
+                    "Dimensional Footwork",
+                    "Fold spatial dimensions to strike from greater distance (+1.5m Range)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                ReaperUnseenMomentumId,
+                new RewardDefinition(
+                    ReaperUnseenMomentumId,
+                    "Unseen Momentum",
+                    "Surprise strikes from shadows deal devastating damage (+20% Damage)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                ReaperShadowTrailId,
+                new RewardDefinition(
+                    ReaperShadowTrailId,
+                    "Shadow Trail",
+                    "Phantasmal trail residue lacerates advancing invaders (+20% Damage)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                ReaperSilentPassageId,
+                new RewardDefinition(
+                    ReaperSilentPassageId,
+                    "Silent Passage",
+                    "Slip unnoticed between spectral realms (+6 Armor)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                ReaperGhoststrideId,
+                new RewardDefinition(
+                    ReaperGhoststrideId,
+                    "Ghoststride",
+                    "Phantom movement cooldowns replenish rapidly (+20% Dash Cooldown Recovery)",
+                    RewardRarity.Rare,
+                    "shadow_reaper",
+                    RewardModifierType.DashCooldownReductionPercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                ReaperUmbralDriftId,
+                new RewardDefinition(
+                    ReaperUmbralDriftId,
+                    "Umbral Drift",
+                    "Glide through enemy ranks with frictionless acceleration (+15% Move Speed)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                ReaperRepositionedBladeId,
+                new RewardDefinition(
+                    ReaperRepositionedBladeId,
+                    "Repositioned Blade",
+                    "Deadly critical strikes upon emerging from shadow steps (+25% Damage, +1 Projectile, Epic)",
+                    RewardRarity.Epic,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                ReaperSpectralPursuitId,
+                new RewardDefinition(
+                    ReaperSpectralPursuitId,
+                    "Spectral Pursuit",
+                    "Relentless stalker: teleporting triggers colossal kinetic cascades (+35% Damage, +40 Max HP, Mythic)",
                     RewardRarity.Mythic,
                     "shadow_reaper",
                     RewardModifierType.ProjectileDamagePercent,

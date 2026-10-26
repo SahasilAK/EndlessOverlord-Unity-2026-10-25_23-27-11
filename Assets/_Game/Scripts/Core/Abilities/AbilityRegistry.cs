@@ -4521,6 +4521,257 @@ namespace FinalBoss.Core
                 }
             ));
 
+            // Branch B — Shadow Movement (Actives 11-20)
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_11",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Shadowstep",
+                description: "Teleport a short distance through the shadow realm, reappearing with a devastating 360-degree shadow whirlwind.",
+                branchName: "Branch B — Shadow Movement",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 2f,
+                cooldownDuration: 3.5f,
+                range: 5.5f,
+                effects: AbilityEffectType.Dash | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 38f,
+                baseRadius: 3.5f,
+                duration: 0.3f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Whirlwind radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Shadow damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Refunds 1 Mark on hitting 3 or more enemies", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_12",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Nightfall Dash",
+                description: "Dash rapidly through enemy ranks, leaving a lingering trail of dark shadow flames that burns invaders.",
+                branchName: "Branch B — Shadow Movement",
+                tier: 1,
+                prerequisiteAbilityId: "shadow_reaper_active_11",
+                resourceCost: 2f,
+                cooldownDuration: 4.0f,
+                range: 5.0f,
+                effects: AbilityEffectType.Dash | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 40f,
+                baseRadius: 3.0f,
+                duration: 2.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Shadow trail duration increased by 1.5s", bonusUtility: 1.5f),
+                    new AbilityRankMilestone(10, "Trail burn damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Trailing shadows slow passing enemies by 50%", bonusUtility: 0.50f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_13",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Phantom Crossing",
+                description: "Step across the veil of reality, becoming intangible while moving and releasing a phase burst upon rematerializing.",
+                branchName: "Branch B — Shadow Movement",
+                tier: 2,
+                prerequisiteAbilityId: "shadow_reaper_active_11",
+                resourceCost: 2f,
+                cooldownDuration: 4.5f,
+                range: 4.5f,
+                effects: AbilityEffectType.Dash | AbilityEffectType.Shield | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 44f,
+                baseRadius: 3.5f,
+                duration: 0.4f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Crossing distance increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Phase burst damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Crossing grants 30 barrier for 3 seconds", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_14",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Shadow Exchange",
+                description: "Project a shadow shade forward and instantly swap places with it, triggering explosive spatial shockwaves at both points.",
+                branchName: "Branch B — Shadow Movement",
+                tier: 2,
+                prerequisiteAbilityId: "shadow_reaper_active_12",
+                resourceCost: 3f,
+                cooldownDuration: 5.0f,
+                range: 5.5f,
+                effects: AbilityEffectType.Dash | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 48f,
+                baseRadius: 3.2f,
+                duration: 0.35f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Exchange reach increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Shockwave damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Swap shockwaves knock enemies back 5m", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_15",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Midnight Leap",
+                description: "Vault high into the air on wings of midnight, crashing down at the target location in an earth-shattering impact.",
+                branchName: "Branch B — Shadow Movement",
+                tier: 2,
+                prerequisiteAbilityId: "shadow_reaper_active_13",
+                resourceCost: 3f,
+                cooldownDuration: 5.5f,
+                range: 6.5f,
+                effects: AbilityEffectType.Dash | AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 54f,
+                baseRadius: 4.0f,
+                duration: 0.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Impact radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Crash damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Knocks down enemies and inflicts 60% slow for 2 seconds", bonusUtility: 0.60f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_16",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Veil Slide",
+                description: "Slide fluidly beneath oncoming attacks while leaving behind an explosive shadow decoy to draw enemy aggression.",
+                branchName: "Branch B — Shadow Movement",
+                tier: 3,
+                prerequisiteAbilityId: "shadow_reaper_active_14",
+                resourceCost: 3f,
+                cooldownDuration: 5.0f,
+                range: 4.5f,
+                effects: AbilityEffectType.Dash | AbilityEffectType.Summon | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 56f,
+                baseRadius: 3.5f,
+                duration: 3.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Decoy duration increased by 1.5s", bonusUtility: 1.5f),
+                    new AbilityRankMilestone(10, "Decoy explosion damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Slide grants 35 barrier", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_17",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Black Corridor",
+                description: "Rip open a dimensional corridor of pure umbral energy that damages invaders and propels the Reaper forward.",
+                branchName: "Branch B — Shadow Movement",
+                tier: 3,
+                prerequisiteAbilityId: "shadow_reaper_active_15",
+                resourceCost: 3f,
+                cooldownDuration: 6.0f,
+                range: 7.0f,
+                effects: AbilityEffectType.Hazard | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 62f,
+                baseRadius: 3.5f,
+                duration: 3.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Corridor dimensions increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Corridor damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Reaper gains +30% movement speed while in corridor", bonusUtility: 0.30f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_18",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Silent Pursuit",
+                description: "Instantly lock onto and blink behind the nearest invader, delivering a guaranteed critical backstab.",
+                branchName: "Branch B — Shadow Movement",
+                tier: 3,
+                prerequisiteAbilityId: "shadow_reaper_active_16",
+                resourceCost: 3f,
+                cooldownDuration: 6.5f,
+                range: 7.5f,
+                effects: AbilityEffectType.Dash | AbilityEffectType.MeleeArc,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 70f,
+                baseRadius: 3.0f,
+                duration: 0.25f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Pursuit blink range increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Backstab damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 35 barrier on successful hit", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_19",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Spectral Blink",
+                description: "Perform a rapid three-stage sequence of micro-teleports, weaving through combat while slicing in every direction.",
+                branchName: "Branch B — Shadow Movement",
+                tier: 4,
+                prerequisiteAbilityId: "shadow_reaper_active_17",
+                resourceCost: 4f,
+                cooldownDuration: 7.0f,
+                range: 5.5f,
+                effects: AbilityEffectType.Dash | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 78f,
+                baseRadius: 3.8f,
+                duration: 0.6f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Blink distance increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Slice flurry damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 40 barrier and refunds 1 Mark", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_20",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Shadow Horizon",
+                description: "Disperse across the horizon, sequentially teleporting between and executing multiple invaders in a cascade of darkness.",
+                branchName: "Branch B — Shadow Movement",
+                tier: 4,
+                prerequisiteAbilityId: "shadow_reaper_active_18",
+                resourceCost: 5f,
+                cooldownDuration: 9.0f,
+                range: 8.0f,
+                effects: AbilityEffectType.Dash | AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 96f,
+                baseRadius: 5.5f,
+                duration: 0.8f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Horizon radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Cascade damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 60 barrier and 60% slow to all struck invaders", bonusUtility: 1.0f)
+                }
+            ));
+
             // Legacy shadowstep alias
             Register(new AbilityDefinition(
                 id: "shadow_reaper_active_shadowstep",
