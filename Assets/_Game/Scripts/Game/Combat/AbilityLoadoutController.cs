@@ -1408,34 +1408,156 @@ namespace FinalBoss.Game
                 // -------------------------------------------------------------
                 // CURSED GOLEM
                 // -------------------------------------------------------------
-                case "cursed_golem_active_01": // Rune of Protection
-                case "cursed_golem_active_22":
-                    float barrierHp = 60f * (1f + (rank >= 5 ? 0.30f : 0f));
-                    _player.SetBarrier(barrierHp, duration: def.Duration);
-                    result.BarrierGranted += barrierHp;
-                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 3.5f);
+                // Branch A — Colossal Physical Combat (Actives 01-10)
+                case "cursed_golem_active_01": // Titan Punch
+                    Vector2 punchCenter = playerPos + aimDir * 1.5f;
+                    float punchKb = 4.5f * (1f + (rank >= 15 ? 0.50f : 0f));
+                    result.DamageDealt += DamageArea(punchCenter, radius, damage, knockbackForce: punchKb);
                     result.TargetsHit += _hitBuffer.Count;
-                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.1f, 0.8f, 0.7f, 0.85f), 0.4f);
+                    if (rank >= 20)
+                    {
+                        result.DamageDealt += DamageArea(punchCenter + aimDir * 1.0f, radius * 1.2f, damage * 0.5f, knockbackForce: punchKb * 1.2f);
+                        result.TargetsHit += _hitBuffer.Count;
+                    }
+                    SpawnVisualBurst(punchCenter, radius * 2f, new Color(0.85f, 0.65f, 0.3f, 0.9f), 0.35f);
                     CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
                     break;
 
-                case "cursed_golem_active_02": // Boulder Toss
+                case "cursed_golem_active_02": // Stonebreaker
+                    Vector2 stonebreakerPos = playerPos + aimDir * 1.5f;
+                    result.DamageDealt += DamageArea(stonebreakerPos, radius, damage, knockbackForce: 3.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(stonebreakerPos, radius * 2f, new Color(0.75f, 0.55f, 0.25f, 0.9f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_03": // Boulder Uppercut
+                    Vector2 upperPos = playerPos + aimDir * 1.5f;
+                    float upperKb = 6f * (1f + (rank >= 5 ? 0.35f : 0f));
+                    result.DamageDealt += DamageArea(upperPos, radius, damage, knockbackForce: upperKb);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (rank >= 20)
+                    {
+                        result.DamageDealt += DamageArea(upperPos, radius * 1.5f, 25f, knockbackForce: 4f);
+                        result.TargetsHit += _hitBuffer.Count;
+                    }
+                    SpawnVisualBurst(upperPos, radius * 2.2f, new Color(0.8f, 0.7f, 0.5f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_04": // Mountain Slam
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (rank >= 20)
+                    {
+                        for (int i = 0; i < _hitBuffer.Count; i++)
+                        {
+                            if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                            {
+                                invader.ApplySlow(0.40f, 3.0f);
+                            }
+                        }
+                    }
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.7f, 0.5f, 0.3f, 0.9f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_05": // Granite Sweep
+                    Vector2 sweepPos = playerPos + aimDir * 1.8f;
+                    float sweepKb = rank >= 15 ? 8f : 4f;
+                    result.DamageDealt += DamageArea(sweepPos, radius, damage, knockbackForce: sweepKb);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (rank >= 20)
+                    {
+                        result.DamageDealt += DamageArea(sweepPos, radius, damage * 0.75f, knockbackForce: sweepKb);
+                        result.TargetsHit += _hitBuffer.Count;
+                    }
+                    SpawnVisualBurst(sweepPos, radius * 2.2f, new Color(0.65f, 0.6f, 0.55f, 0.9f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_06": // Crushing Charge
+                    Vector2 chargeDir = aimDir.sqrMagnitude > 0.01f ? aimDir.normalized : Vector2.right;
+                    float rushDist = 3.5f * (1f + (rank >= 5 ? 0.30f : 0f));
+                    if (_player != null)
+                    {
+                        _player.transform.position += (Vector3)(chargeDir * rushDist);
+                    }
+                    Vector2 chargePos = _player != null ? (Vector2)_player.transform.position : playerPos + chargeDir * rushDist;
+                    if (rank >= 20 && _player != null)
+                    {
+                        _player.SetBarrier(40f, 4f);
+                        result.BarrierGranted += 40f;
+                    }
+                    result.DamageDealt += DamageArea(chargePos, radius, damage, knockbackForce: 5.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(chargePos, radius * 2f, new Color(0.9f, 0.6f, 0.2f, 0.9f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, chargePos.x, chargePos.y);
+                    break;
+
+                case "cursed_golem_active_07": // Bedrock Hammer
+                    Vector2 hammerPos = playerPos + aimDir * 2.0f;
+                    result.DamageDealt += DamageArea(hammerPos, radius, damage, knockbackForce: 5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (rank >= 20)
+                    {
+                        result.DamageDealt += DamageArea(hammerPos, radius * 1.5f, 25f, knockbackForce: 3f);
+                        result.TargetsHit += _hitBuffer.Count;
+                    }
+                    SpawnVisualBurst(hammerPos, radius * 2f, new Color(0.6f, 0.5f, 0.4f, 0.95f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_08": // Colossus Grip
+                    Vector2 gripPos = playerPos + aimDir * 2.5f;
+                    result.DamageDealt += DamageArea(gripPos, radius, damage, knockbackForce: 2f, pullTowardCenter: true);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(gripPos, radius * 2f, new Color(0.5f, 0.6f, 0.7f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_09": // Double Fist Impact
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 6f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (rank >= 20)
+                    {
+                        result.DamageDealt += DamageArea(playerPos, radius * 1.3f, damage * 0.5f, knockbackForce: 4f);
+                        result.TargetsHit += _hitBuffer.Count;
+                    }
+                    SpawnVisualBurst(playerPos, radius * 2.2f, new Color(0.85f, 0.55f, 0.2f, 0.95f), 0.55f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_10": // Worldbreaker Punch
+                    Vector2 worldbreakerPos = playerPos + aimDir * 2.5f;
+                    result.DamageDealt += DamageArea(worldbreakerPos, radius, damage, knockbackForce: 7f);
+                    result.TargetsHit += _hitBuffer.Count;
                     if (ProjectileManager.Instance != null)
                     {
                         ProjectileManager.Instance.FireCustom(
                             Faction.Player,
                             playerPos,
                             aimDir,
-                            speed: 11f,
-                            radius: 0.35f,
-                            damage: damage,
+                            speed: 12f,
+                            radius: 0.5f,
+                            damage: damage * 0.5f,
                             lifetime: 1.0f,
-                            color: new Color(0.7f, 0.6f, 0.45f),
+                            color: new Color(0.9f, 0.6f, 0.2f),
                             cueId: CueIds.InvaderStrike,
-                            pierce: 1
+                            pierce: 5
                         );
                     }
-                    result.TargetsHit += 1;
+                    SpawnVisualBurst(worldbreakerPos, radius * 2.5f, new Color(1f, 0.7f, 0.2f, 1f), 0.6f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_22": // Rune of Protection
+                    float barrierHp = 60f * (1f + (rank >= 5 ? 0.30f : 0f));
+                    _player.SetBarrier(barrierHp, duration: def.Duration);
+                    result.BarrierGranted += barrierHp;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 3.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.1f, 0.8f, 0.7f, 0.85f), 0.4f);
                     CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
                     break;
 
@@ -1446,12 +1568,57 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
                     break;
 
+                // Milestone Ultimates
                 case "cursed_golem_ultimate_50": // Colossus Awakening
                     _player.SetBarrier(120f, duration: def.Duration);
                     result.BarrierGranted += 120f;
                     result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 5f);
                     result.TargetsHit += _hitBuffer.Count;
                     SpawnVisualBurst(playerPos, radius * 2f, new Color(0.9f, 0.75f, 0.3f, 0.95f), 0.6f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_ultimate_100": // Faultline Dominion
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 6f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.50f, 4.0f);
+                        }
+                    }
+                    SpawnVisualBurst(playerPos, radius * 2.2f, new Color(0.8f, 0.5f, 0.2f, 0.95f), 0.7f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_ultimate_150": // Heart of the Mountain
+                    float mountainBarrier = 160f * (1f + (rank >= 15 ? 0.3125f : 0f));
+                    _player.SetBarrier(mountainBarrier, duration: def.Duration);
+                    result.BarrierGranted += mountainBarrier;
+                    float healAmt = rank >= 20 ? 80f : 40f;
+                    _player.Health?.Heal(healAmt);
+                    result.HealingDone += healAmt;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 4f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.2f, new Color(0.3f, 0.9f, 0.6f, 0.95f), 0.7f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_ultimate_200": // Gravitic Cataclysm
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 2f, pullTowardCenter: true);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.5f, new Color(0.5f, 0.2f, 0.9f, 0.95f), 0.8f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_ultimate_250": // Worldstone Avatar
+                    float avatarBarrier = rank >= 20 ? 300f : 200f;
+                    _player.SetBarrier(avatarBarrier, duration: def.Duration);
+                    result.BarrierGranted += avatarBarrier;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 8f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.5f, new Color(1f, 0.85f, 0.3f, 1f), 1.0f);
                     CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
                     break;
 

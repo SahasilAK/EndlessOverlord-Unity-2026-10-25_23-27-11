@@ -19,6 +19,7 @@ namespace FinalBoss.Tests
         public void SetUp()
         {
             ResetLichLordProfile();
+            ResetCursedGolemProfile();
         }
 
         [TearDown]
@@ -26,12 +27,24 @@ namespace FinalBoss.Tests
         {
             Time.timeScale = 1f;
             ResetLichLordProfile();
+            ResetCursedGolemProfile();
         }
 
         private static void ResetLichLordProfile()
         {
             var profile = SaveStorage.Load();
             var charRec = profile.GetOrAddCharacter(CharacterCatalog.LichLordId);
+            charRec.EquippedLoadout = new List<string> { string.Empty, string.Empty, string.Empty, string.Empty, string.Empty };
+            charRec.AutocastSettings = new List<bool> { false, false, false, false, false };
+            profile.SaveCharacter(charRec);
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+        }
+
+        private static void ResetCursedGolemProfile()
+        {
+            var profile = SaveStorage.Load();
+            var charRec = profile.GetOrAddCharacter(CharacterCatalog.CursedGolemId);
             charRec.EquippedLoadout = new List<string> { string.Empty, string.Empty, string.Empty, string.Empty, string.Empty };
             charRec.AutocastSettings = new List<bool> { false, false, false, false, false };
             profile.SaveCharacter(charRec);
@@ -778,6 +791,158 @@ namespace FinalBoss.Tests
 
             Assert.Less(invader.Health.Current, startHp, "Invader should have received damage from necrotic ritual spells.");
             Assert.IsTrue(invader.IsSlowed, "Invader should be slowed by Crown of Silence / rituals.");
+        }
+
+        // =========================================================================
+        // CURSED GOLEM (Batch 6 / Cursed Golem Batch 1)
+        // =========================================================================
+
+        [UnityTest]
+        public IEnumerator CursedGolem_BranchA_Part1_ColossalPhysicalAbilities_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.CursedGolemId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.CursedGolemId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.CursedGolemId, "Branch A — Colossal Physical Combat", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.CursedGolemId,
+                new List<string>
+                {
+                    "cursed_golem_active_01", // Titan Punch
+                    "cursed_golem_active_02", // Stonebreaker
+                    "cursed_golem_active_03", // Boulder Uppercut
+                    "cursed_golem_active_04", // Mountain Slam
+                    "cursed_golem_active_05"  // Granite Sweep
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 1.5f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Cursed Golem slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Cursed Golem Branch A physical abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator CursedGolem_BranchA_Part2_ColossalPhysicalAbilities_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.CursedGolemId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.CursedGolemId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.CursedGolemId, "Branch A — Colossal Physical Combat", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.CursedGolemId,
+                new List<string>
+                {
+                    "cursed_golem_active_06", // Crushing Charge
+                    "cursed_golem_active_07", // Bedrock Hammer
+                    "cursed_golem_active_08", // Colossus Grip
+                    "cursed_golem_active_09", // Double Fist Impact
+                    "cursed_golem_active_10"  // Worldbreaker Punch
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 1.5f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Cursed Golem slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Cursed Golem Branch A physical abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator CursedGolem_Ultimates_ExecuteAndGrantBarriersAndDisplacement()
+        {
+            yield return StartArena(CharacterCatalog.CursedGolemId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.CursedGolemId, 250, profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.CursedGolemId,
+                new List<string>
+                {
+                    "cursed_golem_ultimate_50",  // Colossus Awakening
+                    "cursed_golem_ultimate_100", // Faultline Dominion
+                    "cursed_golem_ultimate_150", // Heart of the Mountain
+                    "cursed_golem_ultimate_200", // Gravitic Cataclysm
+                    "cursed_golem_ultimate_250"  // Worldstone Avatar
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 1.5f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            // 1. Ultimate 50 (Colossus Awakening) -> 120 Barrier
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(0), "Slot 0 (Colossus Awakening) should activate.");
+            Assert.GreaterOrEqual(_player.BarrierAmount, 120f, "Colossus Awakening should grant at least 120 barrier.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 2. Ultimate 100 (Faultline Dominion) -> Slows enemies
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(1), "Slot 1 (Faultline Dominion) should activate.");
+            Assert.IsTrue(invader.IsSlowed, "Faultline Dominion should slow hit invaders.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 3. Ultimate 150 (Heart of the Mountain) -> 160 Barrier & Heal
+            // Damage player first
+            _player.ReceiveDamage(150f);
+            float hpBeforeHeal = _player.Health.Current;
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(2), "Slot 2 (Heart of the Mountain) should activate.");
+            Assert.GreaterOrEqual(_player.BarrierAmount, 160f, "Heart of the Mountain should grant at least 160 barrier.");
+            Assert.GreaterOrEqual(_player.Health.Current, hpBeforeHeal, "Heart of the Mountain should restore health.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 4. Ultimate 200 (Gravitic Cataclysm) -> Vortex damage & pull
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(3), "Slot 3 (Gravitic Cataclysm) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 5. Ultimate 250 (Worldstone Avatar) -> 200 Barrier & Massive Damage
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(4), "Slot 4 (Worldstone Avatar) should activate.");
+            Assert.GreaterOrEqual(_player.BarrierAmount, 200f, "Worldstone Avatar should grant at least 200 barrier.");
+            yield return new WaitForSeconds(0.2f);
+
+            Assert.Less(invader.Health.Current, startHp, "Invader should have received heavy damage from ultimates.");
         }
     }
 }

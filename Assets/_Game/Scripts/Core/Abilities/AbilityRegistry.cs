@@ -1808,12 +1808,264 @@ namespace FinalBoss.Core
             // -------------------------------------------------------------
             // CURSED GOLEM
             // -------------------------------------------------------------
+            // Branch A — Colossal Physical Combat (Actives 01-10)
             Register(new AbilityDefinition(
                 id: "cursed_golem_active_01",
                 characterId: CharacterCatalog.CursedGolemId,
+                name: "Titan Punch",
+                description: "Deliver an extremely powerful forward punch that staggers enemies and knocks them back.",
+                branchName: "Branch A — Colossal Physical Combat",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 20f,
+                cooldownDuration: 3.5f,
+                range: 3.5f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 32f,
+                baseRadius: 2.2f,
+                duration: 0.3f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Punch cooldown reduced by 15%", cooldownMultiplier: 0.85f),
+                    new AbilityRankMilestone(10, "Punch impact damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Runic Charge cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Titan Punch evolves into a two-stage seismic strike with a secondary shockwave", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_02",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Stonebreaker",
+                description: "Deliver a heavy armor-crushing strike that shatters enemy defenses.",
+                branchName: "Branch A — Colossal Physical Combat",
+                tier: 1,
+                prerequisiteAbilityId: "cursed_golem_active_01",
+                resourceCost: 25f,
+                cooldownDuration: 4.5f,
+                range: 3.5f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 38f,
+                baseRadius: 2.5f,
+                duration: 0.4f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Stonebreaker strike damage +25%", damageMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Runic Charge cost reduced by 20%", resourceCostMultiplier: 0.80f),
+                    new AbilityRankMilestone(15, "Strike impact area +30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(20, "Mastery: Stonebreaker shatters enemy defenses, inflicting heavy vulnerability", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_03",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Boulder Uppercut",
+                description: "Launch enemies violently into the air with a rising stone fist.",
+                branchName: "Branch A — Colossal Physical Combat",
+                tier: 2,
+                prerequisiteAbilityId: "cursed_golem_active_01",
+                resourceCost: 25f,
+                cooldownDuration: 5.0f,
+                range: 3.0f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 36f,
+                baseRadius: 2.0f,
+                duration: 0.4f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Launch knockback force +35%", bonusUtility: 0.35f),
+                    new AbilityRankMilestone(10, "Uppercut damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Impact launches rocks in all directions, dealing 25 area damage", extraSummonsOrProjectiles: 4)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_04",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Mountain Slam",
+                description: "Pound the ground with titanic force, releasing a radial shockwave that staggers invaders.",
+                branchName: "Branch A — Colossal Physical Combat",
+                tier: 2,
+                prerequisiteAbilityId: "cursed_golem_active_02",
+                resourceCost: 30f,
+                cooldownDuration: 6.0f,
+                range: 4.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 45f,
+                baseRadius: 4.5f,
+                duration: 0.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Slam radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Slam shockwave damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Mountain Slam creates cracked earth, slowing invaders by 40%", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_05",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Granite Sweep",
+                description: "Perform a wide sweeping stone-arm attack that cleaves invaders across a broad frontal arc.",
+                branchName: "Branch A — Colossal Physical Combat",
+                tier: 2,
+                prerequisiteAbilityId: "cursed_golem_active_03",
+                resourceCost: 25f,
+                cooldownDuration: 5.0f,
+                range: 4.0f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 40f,
+                baseRadius: 3.8f,
+                duration: 0.45f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Sweep arc width and range +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Sweep damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Knockback distance doubled", bonusUtility: 1.0f),
+                    new AbilityRankMilestone(20, "Mastery: Granite Sweep strikes twice in rapid succession", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_06",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Crushing Charge",
+                description: "Rush forward unstoppably through nearby enemies, trampling all in your path.",
+                branchName: "Branch A — Colossal Physical Combat",
+                tier: 3,
+                prerequisiteAbilityId: "cursed_golem_active_04",
+                resourceCost: 30f,
+                cooldownDuration: 6.5f,
+                range: 7.0f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 42f,
+                baseRadius: 2.5f,
+                duration: 0.4f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Charge rush distance +30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Charge impact damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 40 barrier while rushing and stuns impacted foes for 1.5 seconds", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_07",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Bedrock Hammer",
+                description: "Transform one arm into a giant stone hammer and smash down with devastating impact.",
+                branchName: "Branch A — Colossal Physical Combat",
+                tier: 3,
+                prerequisiteAbilityId: "cursed_golem_active_05",
+                resourceCost: 35f,
+                cooldownDuration: 7.0f,
+                range: 4.0f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 52f,
+                baseRadius: 3.2f,
+                duration: 0.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Hammer smash damage +25%", damageMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Hammer smash radius +30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Runic Charge cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Bedrock Hammer shatters rock shards outward dealing 25 damage", extraSummonsOrProjectiles: 3)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_08",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Colossus Grip",
+                description: "Grab distant enemies with ancient gravitational stone power, pulling them inward before slamming them.",
+                branchName: "Branch A — Colossal Physical Combat",
+                tier: 3,
+                prerequisiteAbilityId: "cursed_golem_active_06",
+                resourceCost: 35f,
+                cooldownDuration: 7.5f,
+                range: 6.0f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.Gravity | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 48f,
+                baseRadius: 2.8f,
+                duration: 0.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Grip reach +30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Smash impact damage +35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Pulls all nearby enemies into the throw impact point", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_09",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Double Fist Impact",
+                description: "Strike the ground with both colossal fists simultaneously, creating an overwhelming earth tremor.",
+                branchName: "Branch A — Colossal Physical Combat",
+                tier: 4,
+                prerequisiteAbilityId: "cursed_golem_active_07",
+                resourceCost: 40f,
+                cooldownDuration: 8.0f,
+                range: 5.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 58f,
+                baseRadius: 5.0f,
+                duration: 0.6f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Double impact shockwave radius +30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Impact damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Double Fist Impact triggers a delayed secondary tremor", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_10",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Worldbreaker Punch",
+                description: "Release a catastrophic shockwave from an empowered stone punch that pierces through armies.",
+                branchName: "Branch A — Colossal Physical Combat",
+                tier: 4,
+                prerequisiteAbilityId: "cursed_golem_active_08",
+                resourceCost: 45f,
+                cooldownDuration: 9.0f,
+                range: 7.0f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 70f,
+                baseRadius: 4.5f,
+                duration: 0.65f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Shockwave distance +30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Punch damage +35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Runic Charge cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Massive shockwave pierces all enemies and creates a destructive shockwave line", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            // Signature & Branch C Ability: Rune of Protection
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_22",
+                characterId: CharacterCatalog.CursedGolemId,
                 name: "Rune of Protection",
                 description: "Channel a runic barrier that absorbs incoming damage and emits a tremor shockwave upon impact.",
-                branchName: "Branch A — Runic Defense",
+                branchName: "Branch C — Ancient Runic Magic",
                 tier: 1,
                 prerequisiteAbilityId: null,
                 resourceCost: 25f,
@@ -1833,56 +2085,12 @@ namespace FinalBoss.Core
                 }
             ));
 
-            // Alias for active_22
-            Register(new AbilityDefinition(
-                id: "cursed_golem_active_22",
-                characterId: CharacterCatalog.CursedGolemId,
-                name: "Rune of Protection",
-                description: "Channel a runic barrier that absorbs incoming damage and emits a tremor shockwave upon impact.",
-                branchName: "Branch A — Runic Defense",
-                tier: 1,
-                prerequisiteAbilityId: null,
-                resourceCost: 25f,
-                cooldownDuration: 6f,
-                range: 3.5f,
-                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
-                targeting: AbilityTargetingRule.Self,
-                baseDamage: 15f,
-                baseRadius: 3.5f,
-                duration: 8f
-            ));
-
-            Register(new AbilityDefinition(
-                id: "cursed_golem_active_02",
-                characterId: CharacterCatalog.CursedGolemId,
-                name: "Boulder Toss",
-                description: "Hurl a colossal boulder that crushes invaders in a line and knocks them backwards.",
-                branchName: "Branch B — Earth & Stone",
-                tier: 1,
-                prerequisiteAbilityId: null,
-                resourceCost: 20f,
-                cooldownDuration: 4f,
-                range: 9f,
-                effects: AbilityEffectType.Projectile | AbilityEffectType.CrowdControl,
-                targeting: AbilityTargetingRule.AimDirection,
-                baseDamage: 35f,
-                baseRadius: 1.5f,
-                duration: 1.2f,
-                milestones: new[]
-                {
-                    new AbilityRankMilestone(5, "Boulder damage +25%", damageMultiplier: 1.25f),
-                    new AbilityRankMilestone(10, "Runic Charge cost -25%", resourceCostMultiplier: 0.75f),
-                    new AbilityRankMilestone(15, "Boulder shatters into 2 fragments on hit", extraSummonsOrProjectiles: 2),
-                    new AbilityRankMilestone(20, "Mastery: Shatter fragments stun hit enemies for 1.5 seconds", bonusUtility: 1f)
-                }
-            ));
-
             Register(new AbilityDefinition(
                 id: "cursed_golem_active_11",
                 characterId: CharacterCatalog.CursedGolemId,
                 name: "Seismic Slam",
                 description: "Slam the ground with colossal force, stunning invaders and dragging them together.",
-                branchName: "Branch C — Tectonic Force",
+                branchName: "Branch B — Earth and Stone Magic",
                 tier: 2,
                 prerequisiteAbilityId: "cursed_golem_active_01",
                 resourceCost: 35f,
@@ -1902,6 +2110,7 @@ namespace FinalBoss.Core
                 }
             ));
 
+            // Milestone Ultimates (Levels 50 through 250)
             Register(new AbilityDefinition(
                 id: "cursed_golem_ultimate_50",
                 characterId: CharacterCatalog.CursedGolemId,
@@ -1910,9 +2119,9 @@ namespace FinalBoss.Core
                 branchName: "Milestone Ultimates",
                 tier: 5,
                 prerequisiteAbilityId: "cursed_golem_active_01",
-                resourceCost: 70f,
+                resourceCost: 50f,
                 cooldownDuration: 25f,
-                range: 8f,
+                range: 7f,
                 effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE | AbilityEffectType.Transform,
                 targeting: AbilityTargetingRule.Self,
                 baseDamage: 70f,
@@ -1926,6 +2135,114 @@ namespace FinalBoss.Core
                     new AbilityRankMilestone(10, "Earthquake damage +40%", damageMultiplier: 1.40f),
                     new AbilityRankMilestone(15, "Runic Charge cost -25%", resourceCostMultiplier: 0.75f),
                     new AbilityRankMilestone(20, "Mastery: Colossus Awakening doubles armor and reflects 50% damage back", bonusUtility: 1f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_ultimate_100",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Faultline Dominion",
+                description: "Split the battlefield with powerful earthquakes, stone eruptions, and falling boulders.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "cursed_golem_ultimate_50",
+                resourceCost: 60f,
+                cooldownDuration: 30f,
+                range: 8f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 85f,
+                baseRadius: 8f,
+                duration: 12f,
+                isUltimate: true,
+                requiredLevel: 100,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Cooldown -20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(10, "Faultline earthquake damage +40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Runic Charge cost -25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Faultline leaves burning tectonic rifts stunning invaders for 2 seconds", bonusUtility: 1f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_ultimate_150",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Heart of the Mountain",
+                description: "Enter a legendary defensive state that absorbs damage and releases stored energy through counterattacks.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "cursed_golem_ultimate_100",
+                resourceCost: 60f,
+                cooldownDuration: 32f,
+                range: 6.5f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 65f,
+                baseRadius: 6.5f,
+                duration: 12f,
+                isUltimate: true,
+                requiredLevel: 150,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Cooldown -20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(10, "Counterattack blast damage +40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Barrier absorption increased by 50 HP", bonusUtility: 0.5f),
+                    new AbilityRankMilestone(20, "Mastery: Restores 80 HP and permanently pulses tremors for the duration", bonusUtility: 1f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_ultimate_200",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Gravitic Cataclysm",
+                description: "Create a massive gravity field that drags enemies together before detonating in a devastating explosion.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "cursed_golem_ultimate_150",
+                resourceCost: 70f,
+                cooldownDuration: 35f,
+                range: 9f,
+                effects: AbilityEffectType.Gravity | AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 110f,
+                baseRadius: 9f,
+                duration: 8f,
+                isUltimate: true,
+                requiredLevel: 200,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Cooldown -20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(10, "Gravitic explosion damage +40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Runic Charge cost -25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Gravitic pull crushes targets, dealing continuous gravitational damage", bonusUtility: 1f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_ultimate_250",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Worldstone Avatar",
+                description: "Transform into an enormous awakened worldstone titan combining colossal physical attacks, gravity powers, and runic magic.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "cursed_golem_ultimate_200",
+                resourceCost: 80f,
+                cooldownDuration: 40f,
+                range: 10f,
+                effects: AbilityEffectType.Transform | AbilityEffectType.Shield | AbilityEffectType.RadialAoE | AbilityEffectType.Gravity,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 135f,
+                baseRadius: 10f,
+                duration: 15f,
+                isUltimate: true,
+                requiredLevel: 250,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Cooldown -20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(10, "Worldstone titan damage +40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Runic Charge cost -25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 300 barrier and repeatedly summons meteoric rockfalls", bonusUtility: 1f)
                 }
             ));
         }

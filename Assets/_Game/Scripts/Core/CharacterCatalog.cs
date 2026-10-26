@@ -162,7 +162,7 @@ namespace FinalBoss.Core
                 baseArmor: 15f,
                 startingWeapon: "Colossus Stone Fists",
                 basicAttackName: "Colossus Fist",
-                signatureAbilityId: "cursed_golem_active_01",
+                signatureAbilityId: "cursed_golem_active_22",
                 signatureAbilityName: "Rune of Protection",
                 signatureResourceCost: 25f,
                 signatureCooldown: 5.0f,

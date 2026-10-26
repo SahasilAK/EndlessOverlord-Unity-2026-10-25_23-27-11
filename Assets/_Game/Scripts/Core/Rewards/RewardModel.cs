@@ -172,6 +172,19 @@ namespace FinalBoss.Core
         public const string EtherealVeilId = "lich_lord_wave_48";
         public const string EternalDreadId = "lich_lord_wave_49";
         public const string ApexLichdomId = "lich_lord_wave_50";
+
+        // Cursed Golem Wave Skills (Batch 1: 01-10)
+        public const string GolemCrushingWeightId = "cursed_golem_wave_01";
+        public const string GolemTitanReachId = "cursed_golem_wave_02";
+        public const string GolemSeismicFollowUpId = "cursed_golem_wave_03";
+        public const string GolemBoulderKnucklesId = "cursed_golem_wave_04";
+        public const string GolemShatteringBlowsId = "cursed_golem_wave_05";
+        public const string GolemMountainMomentumId = "cursed_golem_wave_06";
+        public const string GolemColossalRhythmId = "cursed_golem_wave_07";
+        public const string GolemReinforcedStrikesId = "cursed_golem_wave_08";
+        public const string GolemTremorFistsId = "cursed_golem_wave_09";
+        public const string GolemWorldbreakerStrengthId = "cursed_golem_wave_10";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -780,6 +793,127 @@ namespace FinalBoss.Core
                     RewardModifierType.ProjectileDamagePercent,
                     0.35f,
                     maxRank: 3)
+            },
+            // Cursed Golem Wave Skills 01-10
+            {
+                GolemCrushingWeightId,
+                new RewardDefinition(
+                    GolemCrushingWeightId,
+                    "Crushing Weight",
+                    "Colossal fists strike with staggering mass (+15% Damage)",
+                    RewardRarity.Common,
+                    "cursed_golem",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                GolemTitanReachId,
+                new RewardDefinition(
+                    GolemTitanReachId,
+                    "Titan Reach",
+                    "Elongated stone arms extend attack reach (+1.5m Range)",
+                    RewardRarity.Common,
+                    "cursed_golem",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                GolemSeismicFollowUpId,
+                new RewardDefinition(
+                    GolemSeismicFollowUpId,
+                    "Seismic Follow-Up",
+                    "Heavy strikes trigger a secondary shockwave (+1 Projectile)",
+                    RewardRarity.Uncommon,
+                    "cursed_golem",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                GolemBoulderKnucklesId,
+                new RewardDefinition(
+                    GolemBoulderKnucklesId,
+                    "Boulder Knuckles",
+                    "Crushing impacts launch splintering stone fragments (+1 Projectile)",
+                    RewardRarity.Uncommon,
+                    "cursed_golem",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                GolemShatteringBlowsId,
+                new RewardDefinition(
+                    GolemShatteringBlowsId,
+                    "Shattering Blows",
+                    "Armor-breaking blows expose enemy vulnerabilities (+20% Damage)",
+                    RewardRarity.Rare,
+                    "cursed_golem",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                GolemMountainMomentumId,
+                new RewardDefinition(
+                    GolemMountainMomentumId,
+                    "Mountain Momentum",
+                    "Unstoppable colossus mass builds forward momentum (+12% Move Speed)",
+                    RewardRarity.Common,
+                    "cursed_golem",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.12f,
+                    maxRank: 5)
+            },
+            {
+                GolemColossalRhythmId,
+                new RewardDefinition(
+                    GolemColossalRhythmId,
+                    "Colossal Rhythm",
+                    "Rhythmic stone punches accelerate consecutive swings (+15% Attack Speed)",
+                    RewardRarity.Uncommon,
+                    "cursed_golem",
+                    RewardModifierType.AttackSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                GolemReinforcedStrikesId,
+                new RewardDefinition(
+                    GolemReinforcedStrikesId,
+                    "Reinforced Strikes",
+                    "Granite plating reinforces durability during combat (+6 Armor)",
+                    RewardRarity.Uncommon,
+                    "cursed_golem",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                GolemTremorFistsId,
+                new RewardDefinition(
+                    GolemTremorFistsId,
+                    "Tremor Fists",
+                    "Ground-shaking fists radiate seismic damage (+20% Damage)",
+                    RewardRarity.Rare,
+                    "cursed_golem",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                GolemWorldbreakerStrengthId,
+                new RewardDefinition(
+                    GolemWorldbreakerStrengthId,
+                    "Worldbreaker Strength",
+                    "Supreme ancient force shatters elite champions and bosses (+30% Damage)",
+                    RewardRarity.Epic,
+                    "cursed_golem",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.30f,
+                    maxRank: 5)
             },
             {
                 MonarchId,

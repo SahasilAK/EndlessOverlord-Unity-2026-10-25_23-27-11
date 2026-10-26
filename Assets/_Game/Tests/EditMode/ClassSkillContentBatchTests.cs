@@ -515,5 +515,117 @@ namespace FinalBoss.Tests
             // 50 branch actives + 5 milestone ultimates = 55 total
             Assert.AreEqual(55, allLichAbilities.Count, "Lich Lord must have 50 active branch abilities and 5 milestone ultimates registered.");
         }
+
+        // =========================================================================
+        // CURSED GOLEM (Batch 6 / Cursed Golem Batch 1)
+        // =========================================================================
+
+        [Test]
+        public void CursedGolem_BranchA_AllTenAbilitiesRegisteredAndValid()
+        {
+            var branchAIds = new[]
+            {
+                "cursed_golem_active_01",
+                "cursed_golem_active_02",
+                "cursed_golem_active_03",
+                "cursed_golem_active_04",
+                "cursed_golem_active_05",
+                "cursed_golem_active_06",
+                "cursed_golem_active_07",
+                "cursed_golem_active_08",
+                "cursed_golem_active_09",
+                "cursed_golem_active_10"
+            };
+
+            for (int i = 0; i < branchAIds.Length; i++)
+            {
+                string id = branchAIds[i];
+                var def = AbilityRegistry.Get(id);
+                Assert.IsNotNull(def, $"Ability {id} must be registered in AbilityRegistry.");
+                Assert.AreEqual(CharacterCatalog.CursedGolemId, def.CharacterId);
+                Assert.IsNotEmpty(def.Name);
+                Assert.IsNotEmpty(def.Description);
+                Assert.AreEqual("Branch A — Colossal Physical Combat", def.BranchName);
+                Assert.GreaterOrEqual(def.Tier, 1);
+                Assert.LessOrEqual(def.Tier, 5);
+                Assert.Greater(def.ResourceCost, 0f);
+                Assert.Greater(def.CooldownDuration, 0f);
+                Assert.IsTrue(def.Effects.HasFlag(AbilityEffectType.MeleeArc) || def.Effects.HasFlag(AbilityEffectType.RadialAoE));
+                Assert.IsNotNull(def.Milestones);
+                Assert.AreEqual(4, def.Milestones.Count, $"Ability {id} must define milestones at ranks 5, 10, 15, and 20.");
+
+                Assert.AreEqual(5, def.Milestones[0].Rank);
+                Assert.AreEqual(10, def.Milestones[1].Rank);
+                Assert.AreEqual(15, def.Milestones[2].Rank);
+                Assert.AreEqual(20, def.Milestones[3].Rank);
+            }
+        }
+
+        [Test]
+        public void CursedGolem_AllFiveUltimatesRegistered_Levels50Through250()
+        {
+            var ultimateIds = new[]
+            {
+                ("cursed_golem_ultimate_50", 50),
+                ("cursed_golem_ultimate_100", 100),
+                ("cursed_golem_ultimate_150", 150),
+                ("cursed_golem_ultimate_200", 200),
+                ("cursed_golem_ultimate_250", 250)
+            };
+
+            foreach (var (id, reqLevel) in ultimateIds)
+            {
+                var def = AbilityRegistry.Get(id);
+                Assert.IsNotNull(def, $"Ultimate {id} must be registered.");
+                Assert.AreEqual(CharacterCatalog.CursedGolemId, def.CharacterId);
+                Assert.IsTrue(def.IsUltimate);
+                Assert.AreEqual(reqLevel, def.RequiredLevel);
+                Assert.GreaterOrEqual(def.ResourceCost, 50f);
+                Assert.GreaterOrEqual(def.CooldownDuration, 20f);
+                Assert.IsNotEmpty(def.Name);
+                Assert.IsNotNull(def.Milestones);
+                Assert.AreEqual(4, def.Milestones.Count);
+            }
+        }
+
+        [Test]
+        public void CursedGolem_BranchA_WaveSkills01Through10_RegisteredAndDraftExclusivity()
+        {
+            var expectedWaveSkills = new[]
+            {
+                "cursed_golem_wave_01",
+                "cursed_golem_wave_02",
+                "cursed_golem_wave_03",
+                "cursed_golem_wave_04",
+                "cursed_golem_wave_05",
+                "cursed_golem_wave_06",
+                "cursed_golem_wave_07",
+                "cursed_golem_wave_08",
+                "cursed_golem_wave_09",
+                "cursed_golem_wave_10"
+            };
+
+            foreach (var id in expectedWaveSkills)
+            {
+                var def = RewardRegistry.GetById(id);
+                Assert.IsNotNull(def, $"Wave skill {id} must be registered in RewardRegistry.");
+                Assert.AreEqual(CharacterCatalog.CursedGolemId, def.CharacterId, $"Skill {id} must be exclusive to Cursed Golem.");
+                Assert.IsNotEmpty(def.Name);
+                Assert.IsNotEmpty(def.Description);
+                Assert.Greater(def.ValuePerRank, 0f);
+            }
+
+            // Test draft exclusion: Lich Lord drafting should NEVER receive Cursed Golem exclusive wave skills 01-10
+            var inv = new RewardInventory();
+            for (int seed = 1; seed <= 25; seed++)
+            {
+                var lichOffer = RewardDraftSystem.GenerateOffer(waveNumber: seed, seed: seed * 98765L, inventory: inv, characterId: CharacterCatalog.LichLordId);
+                for (int c = 0; c < lichOffer.Choices.Count; c++)
+                {
+                    var choice = lichOffer.Choices[c];
+                    Assert.AreNotEqual(CharacterCatalog.CursedGolemId, choice.CharacterId, $"Lich Lord must never be offered Cursed Golem exclusive skill {choice.Id}");
+                }
+            }
+        }
     }
 }
