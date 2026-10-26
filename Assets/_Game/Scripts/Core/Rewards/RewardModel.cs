@@ -281,6 +281,18 @@ namespace FinalBoss.Core
         public const string MonarchRelentlessCarnageId = "demon_monarch_wave_39";
         public const string MonarchApocalypticBrawnId = "demon_monarch_wave_40";
 
+        // Demon Monarch Wave Skills (Batch 5: 41-50)
+        public const string MonarchAscendedFuryId = "demon_monarch_wave_41";
+        public const string MonarchAbyssalSovereigntyId = "demon_monarch_wave_42";
+        public const string MonarchInfernalDominionId = "demon_monarch_wave_43";
+        public const string MonarchHellfireCrownId = "demon_monarch_wave_44";
+        public const string MonarchThroneBoundMightId = "demon_monarch_wave_45";
+        public const string MonarchCataclysmicPresenceId = "demon_monarch_wave_46";
+        public const string MonarchUnderworldOverlordId = "demon_monarch_wave_47";
+        public const string MonarchApocalypticAscentId = "demon_monarch_wave_48";
+        public const string MonarchEternalFlameHeartId = "demon_monarch_wave_49";
+        public const string MonarchDemonGodEmperorId = "demon_monarch_wave_50";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -1977,6 +1989,127 @@ namespace FinalBoss.Core
                     "demon_monarch",
                     RewardModifierType.MaxHealth,
                     60f,
+                    maxRank: 5)
+            },
+            // Demon Monarch Wave Skills 41-50
+            {
+                MonarchAscendedFuryId,
+                new RewardDefinition(
+                    MonarchAscendedFuryId,
+                    "Ascended Fury",
+                    "Sovereign demonic rage radiates across all attacks (+25% Damage)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                MonarchAbyssalSovereigntyId,
+                new RewardDefinition(
+                    MonarchAbyssalSovereigntyId,
+                    "Abyssal Sovereignty",
+                    "Dominion over the abyss reinforces infernal armor (+10 Armor)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.Armor,
+                    10f,
+                    maxRank: 5)
+            },
+            {
+                MonarchInfernalDominionId,
+                new RewardDefinition(
+                    MonarchInfernalDominionId,
+                    "Infernal Dominion",
+                    "Ascension expands the perimeter of burning aura attacks (+2.0m Range)",
+                    RewardRarity.Uncommon,
+                    "demon_monarch",
+                    RewardModifierType.AttackRange,
+                    2.0f,
+                    maxRank: 5)
+            },
+            {
+                MonarchHellfireCrownId,
+                new RewardDefinition(
+                    MonarchHellfireCrownId,
+                    "Hellfire Crown",
+                    "Crowned in eternal flames, attacks erupt with auxiliary fireballs (+1 Projectile)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                MonarchThroneBoundMightId,
+                new RewardDefinition(
+                    MonarchThroneBoundMightId,
+                    "Throne-Bound Might",
+                    "Demonic royalty commands ferocious swiftness in combat (+20% Attack Speed)",
+                    RewardRarity.Common,
+                    "demon_monarch",
+                    RewardModifierType.AttackSpeedPercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                MonarchCataclysmicPresenceId,
+                new RewardDefinition(
+                    MonarchCataclysmicPresenceId,
+                    "Cataclysmic Presence",
+                    "Terrifying demonic aura siphons vigor from all dying invaders (+8% Life Steal)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.LifeStealPercent,
+                    0.08f,
+                    maxRank: 5)
+            },
+            {
+                MonarchUnderworldOverlordId,
+                new RewardDefinition(
+                    MonarchUnderworldOverlordId,
+                    "Underworld Overlord",
+                    "The monarch's presence expands his vital life force tremendously (+50 Max HP)",
+                    RewardRarity.Common,
+                    "demon_monarch",
+                    RewardModifierType.MaxHealth,
+                    50f,
+                    maxRank: 5)
+            },
+            {
+                MonarchApocalypticAscentId,
+                new RewardDefinition(
+                    MonarchApocalypticAscentId,
+                    "Apocalyptic Ascent",
+                    "Surging demonic wings accelerate battlefield movement (+20% Move Speed)",
+                    RewardRarity.Uncommon,
+                    "demon_monarch",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                MonarchEternalFlameHeartId,
+                new RewardDefinition(
+                    MonarchEternalFlameHeartId,
+                    "Eternal Flame Heart",
+                    "Hellfire heart rapidly recharges evasive dashes (+25% Dash Cooldown Recovery)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.DashCooldownReductionPercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                MonarchDemonGodEmperorId,
+                new RewardDefinition(
+                    MonarchDemonGodEmperorId,
+                    "Demon God Emperor",
+                    "Ascended emperor of the underworld: ultimate annihilation of all invaders (+35% Damage, +12 Armor, Epic)",
+                    RewardRarity.Epic,
+                    "demon_monarch",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.35f,
                     maxRank: 5)
             },
             {

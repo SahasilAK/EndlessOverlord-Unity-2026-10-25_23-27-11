@@ -1657,5 +1657,89 @@ namespace FinalBoss.Tests
             Assert.GreaterOrEqual(_player.BarrierAmount, 50f, "Wrathful Guillotine should grant execution barrier.");
             Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Demon Monarch Branch D physical attacks.");
         }
+
+        [UnityTest]
+        public IEnumerator DemonMonarch_BranchE_Part1_InfernalAscension_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.DemonMonarchId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.DemonMonarchId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.DemonMonarchId, "Branch E — Infernal Ascension", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.DemonMonarchId,
+                new List<string>
+                {
+                    "demon_monarch_active_41", // Crown of Flames
+                    "demon_monarch_active_42", // Wing Buffet
+                    "demon_monarch_active_43", // Demonic Ascendance
+                    "demon_monarch_active_44", // Molten Halo
+                    "demon_monarch_active_45"  // Sovereign Glare
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Demon Monarch Branch E slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 30f, "Crown of Flames / Demonic Ascendance should grant barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Demon Monarch Branch E ascension abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator DemonMonarch_BranchE_Part2_InfernalAscension_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.DemonMonarchId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.DemonMonarchId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.DemonMonarchId, "Branch E — Infernal Ascension", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.DemonMonarchId,
+                new List<string>
+                {
+                    "demon_monarch_active_46", // Overlord's Wrath
+                    "demon_monarch_active_47", // Hellfire Nova
+                    "demon_monarch_active_48", // Pillar of Damnation
+                    "demon_monarch_active_49", // Crown of the Abyss
+                    "demon_monarch_active_50"  // Infernal Ascension
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Demon Monarch Branch E slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 60f, "Crown of the Abyss / Infernal Ascension should grant major barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Demon Monarch Branch E ascension abilities.");
+        }
     }
 }

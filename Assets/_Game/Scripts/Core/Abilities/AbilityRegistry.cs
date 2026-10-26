@@ -2460,6 +2460,257 @@ namespace FinalBoss.Core
                 }
             ));
 
+            // Branch E — Infernal Ascension (Actives 41-50)
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_41",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Crown of Flames",
+                description: "Ignite a halo of crown-shaped demonic flames around your head, burning encroaching invaders and empowering nearby attacks.",
+                branchName: "Branch E — Infernal Ascension",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 20f,
+                cooldownDuration: 4.0f,
+                range: 4.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 36f,
+                baseRadius: 3.8f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Crown aura radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Crown burn damage increased by 25%", damageMultiplier: 1.25f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Crown of Flames grants +20% attack speed and a 30 point fire shield", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_42",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Wing Buffet",
+                description: "Unfurl massive wings of molten hellfire, buffeting all invaders with blistering heat and knocking them backward.",
+                branchName: "Branch E — Infernal Ascension",
+                tier: 1,
+                prerequisiteAbilityId: "demon_monarch_active_41",
+                resourceCost: 25f,
+                cooldownDuration: 3.5f,
+                range: 4.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 42f,
+                baseRadius: 4.2f,
+                duration: 0.3f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Wing Buffet radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Wing buffet damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Wing buffet launches 3 piercing fire feathers outward", extraSummonsOrProjectiles: 3)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_43",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Demonic Ascendance",
+                description: "Levitate above the stones and gather brimstone energy, blasting the ground with an expanding fiery ring.",
+                branchName: "Branch E — Infernal Ascension",
+                tier: 2,
+                prerequisiteAbilityId: "demon_monarch_active_41",
+                resourceCost: 30f,
+                cooldownDuration: 5.0f,
+                range: 5.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 48f,
+                baseRadius: 4.5f,
+                duration: 0.4f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Blast ring radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Ascendance blast damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Ascendance grants a 45 point brimstone shield and +15% move speed", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_44",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Molten Halo",
+                description: "Hurl a spinning halo of incandescent magma that slices through multiple ranks of invaders before returning.",
+                branchName: "Branch E — Infernal Ascension",
+                tier: 2,
+                prerequisiteAbilityId: "demon_monarch_active_42",
+                resourceCost: 30f,
+                cooldownDuration: 5.5f,
+                range: 7.0f,
+                effects: AbilityEffectType.Projectile | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 54f,
+                baseRadius: 3.5f,
+                duration: 0.8f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Halo reach and speed increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Magma halo damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Halo detonates upon reaching max range, spewing molten shrapnel", extraSummonsOrProjectiles: 2)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_45",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Sovereign Glare",
+                description: "Fix a piercing demonic glare upon targeted invaders, crushing their will and burning them with abyssal eyebeams.",
+                branchName: "Branch E — Infernal Ascension",
+                tier: 2,
+                prerequisiteAbilityId: "demon_monarch_active_43",
+                resourceCost: 35f,
+                cooldownDuration: 6.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 56f,
+                baseRadius: 3.5f,
+                duration: 2.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Glare reach and beam width increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Glare damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Sovereign Glare inflicts a 60% slow and reduces target armor by 25%", bonusUtility: 0.60f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_46",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Overlord's Wrath",
+                description: "Channel pure sovereign fury into a wide forward devastation cone, obliterating encroaching waves.",
+                branchName: "Branch E — Infernal Ascension",
+                tier: 3,
+                prerequisiteAbilityId: "demon_monarch_active_44",
+                resourceCost: 40f,
+                cooldownDuration: 7.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 68f,
+                baseRadius: 4.5f,
+                duration: 0.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Cone width and distance increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Overlord's Wrath damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Cone leaves a searing trail that burns surviving foes for 3 seconds", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_47",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Hellfire Nova",
+                description: "Unleash a massive expanding supernova of pure hellfire centered on your avatar, consuming everything in reach.",
+                branchName: "Branch E — Infernal Ascension",
+                tier: 3,
+                prerequisiteAbilityId: "demon_monarch_active_45",
+                resourceCost: 45f,
+                cooldownDuration: 7.5f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 72f,
+                baseRadius: 5.5f,
+                duration: 0.6f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Nova blast radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Nova damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Hellfire Nova pushes enemies violently to the perimeter and stuns them for 1.0 second", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_48",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Pillar of Damnation",
+                description: "Call down a gargantuan pillar of abyssal damnation at targeted coordinates, obliterating invaders upon impact.",
+                branchName: "Branch E — Infernal Ascension",
+                tier: 3,
+                prerequisiteAbilityId: "demon_monarch_active_46",
+                resourceCost: 45f,
+                cooldownDuration: 8.0f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 76f,
+                baseRadius: 4.5f,
+                duration: 3.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Pillar impact radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Pillar damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Pillar leaves an abyssal fissure spewing continuous fire damage", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_49",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Crown of the Abyss",
+                description: "Assume the mantle of true Underworld sovereignty, pulsing devastating abyssal shockwaves while gaining massive barrier.",
+                branchName: "Branch E — Infernal Ascension",
+                tier: 4,
+                prerequisiteAbilityId: "demon_monarch_active_47",
+                resourceCost: 55f,
+                cooldownDuration: 9.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 84f,
+                baseRadius: 5.5f,
+                duration: 4.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Pulsing shockwave radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Shockwave damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Crown of the Abyss grants a 60 point abyssal barrier and 10% life steal", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_50",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Infernal Ascension",
+                description: "Undergo complete apotheosis into the Demon God Emperor, summoning elite bodyguards and unleashing an all-consuming apocalypse.",
+                branchName: "Branch E — Infernal Ascension",
+                tier: 4,
+                prerequisiteAbilityId: "demon_monarch_active_48",
+                resourceCost: 65f,
+                cooldownDuration: 12.0f,
+                range: 8.0f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE | AbilityEffectType.Hazard | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 100f,
+                baseRadius: 7.0f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Ascension aura radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Ascension burst damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Summons a Demonic Dragon companion alongside the monarch", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
             // Milestone Ultimates (Levels 50 through 250)
             Register(new AbilityDefinition(
                 id: "demon_monarch_ultimate_50",

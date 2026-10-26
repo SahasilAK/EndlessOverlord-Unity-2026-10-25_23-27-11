@@ -1752,6 +1752,103 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.InvaderStrike, guillotinePos.x, guillotinePos.y);
                     break;
 
+                // Branch E — Infernal Ascension (Actives 41-50)
+                case "demon_monarch_active_41": // Crown of Flames
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 0.8f, knockbackForce: 3.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(30f + (rank >= 20 ? 20f : 0f), duration: def.Duration > 0 ? def.Duration : 4.0f);
+                    SpawnVisualBurst(playerPos, radius * 2.2f, new Color(1f, 0.45f, 0.1f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_active_42": // Wing Buffet
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 7.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.5f, new Color(1f, 0.35f, 0.1f, 0.9f), 0.4f);
+                    CueBus.Raise(CueIds.PlayerDash, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_active_43": // Demonic Ascendance
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.1f, knockbackForce: 6.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(45f, duration: 4.0f);
+                    SpawnVisualBurst(playerPos, radius * 2.6f, new Color(1f, 0.4f, 0.05f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_active_44": // Molten Halo
+                    Vector2 haloPos = playerPos + aimDir * 3.5f;
+                    result.DamageDealt += DamageArea(haloPos, radius, damage, knockbackForce: 4.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(haloPos, radius * 2.2f, new Color(1f, 0.5f, 0.1f, 0.95f), 0.4f);
+                    CueBus.Raise(CueIds.BoltFire, haloPos.x, haloPos.y);
+                    break;
+
+                case "demon_monarch_active_45": // Sovereign Glare
+                    Vector2 glarePos = playerPos + aimDir * 3.0f;
+                    result.DamageDealt += DamageArea(glarePos, radius, damage, knockbackForce: 3.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.6f, def.Duration > 0 ? def.Duration : 2.0f);
+                        }
+                    }
+                    SpawnVisualBurst(glarePos, radius * 2.4f, new Color(0.95f, 0.1f, 0.15f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, glarePos.x, glarePos.y);
+                    break;
+
+                case "demon_monarch_active_46": // Overlord's Wrath
+                    Vector2 wrathPos = playerPos + aimDir * 3.0f;
+                    result.DamageDealt += DamageArea(wrathPos, radius, damage * 1.25f, knockbackForce: 6.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(wrathPos, radius * 2.6f, new Color(1f, 0.25f, 0.05f, 0.95f), 0.6f);
+                    CueBus.Raise(CueIds.InvaderStrike, wrathPos.x, wrathPos.y);
+                    break;
+
+                case "demon_monarch_active_47": // Hellfire Nova
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.3f, knockbackForce: 8.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.7f, 1.5f);
+                        }
+                    }
+                    SpawnVisualBurst(playerPos, radius * 2.8f, new Color(1f, 0.35f, 0.1f, 0.95f), 0.7f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_active_48": // Pillar of Damnation
+                    Vector2 damnpillarPos = playerPos + aimDir * 3.5f;
+                    result.DamageDealt += DamageArea(damnpillarPos, radius, damage * 1.35f, knockbackForce: 7.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(damnpillarPos, radius, duration: def.Duration > 0 ? def.Duration : 3.5f, damagePerTick: damage * 0.35f, tickInterval: 0.5f, color: new Color(0.9f, 0.15f, 0.05f, 0.65f), label: "[PILLAR_OF_DAMNATION]");
+                    SpawnVisualBurst(damnpillarPos, radius * 2.8f, new Color(1f, 0.2f, 0.1f, 0.95f), 0.7f);
+                    CueBus.Raise(CueIds.InvaderStrike, damnpillarPos.x, damnpillarPos.y);
+                    break;
+
+                case "demon_monarch_active_49": // Crown of the Abyss
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.4f, knockbackForce: 8.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(60f, duration: def.Duration > 0 ? def.Duration : 4.5f);
+                    SpawnVisualBurst(playerPos, radius * 3.0f, new Color(0.85f, 0.1f, 0.2f, 0.95f), 0.8f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_active_50": // Infernal Ascension
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.6f, knockbackForce: 9.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(80f, duration: 6.0f);
+                    HazardZoneActor.Spawn(playerPos, radius, duration: 5.0f, damagePerTick: damage * 0.4f, tickInterval: 0.5f, color: new Color(1f, 0.25f, 0.05f, 0.7f), label: "[INFERNAL_ASCENSION_AURA]");
+                    Vector2 dragonOffset = playerPos + aimDir * 2.5f;
+                    UndeadMinionActor.Spawn(UndeadMinionType.Dragon, dragonOffset, overrideDamage: damage * 1.2f, overrideMaxHp: 280f, lifetime: def.Duration > 0 ? def.Duration : 6.0f);
+                    SpawnVisualBurst(playerPos, radius * 3.5f, new Color(1f, 0.2f, 0.05f, 0.98f), 1.0f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
                 // Milestone Ultimates
                 case "demon_monarch_ultimate_50": // Hellblade Judgment
                     Vector2 bladeImpact = playerPos + aimDir * 3f;
