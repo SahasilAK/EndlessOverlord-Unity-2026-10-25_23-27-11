@@ -1733,29 +1733,254 @@ namespace FinalBoss.Core
                 }
             ));
 
-            // Legacy branch B ability preserved
+            // Branch B — Hellfire Magic (Actives 11-20)
             Register(new AbilityDefinition(
                 id: "demon_monarch_active_11",
                 characterId: CharacterCatalog.DemonMonarchId,
-                name: "Blazing Eruption",
-                description: "Ignite the ground beneath foes, creating a fiery hazard that burns all targets inside it.",
+                name: "Hellfire Wave",
+                description: "Summon a rolling tsunami of demonic hellfire that sweeps forward across the battlefield.",
                 branchName: "Branch B — Hellfire Magic",
-                tier: 2,
-                prerequisiteAbilityId: "demon_monarch_active_02",
-                resourceCost: 30f,
-                cooldownDuration: 6f,
-                range: 5f,
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 20f,
+                cooldownDuration: 4.0f,
+                range: 6.5f,
                 effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard,
-                targeting: AbilityTargetingRule.AreaCursorOrAim,
-                baseDamage: 25f,
-                baseRadius: 4.5f,
-                duration: 4f,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 34f,
+                baseRadius: 4.0f,
+                duration: 2.0f,
                 milestones: new[]
                 {
-                    new AbilityRankMilestone(5, "Hazard radius +20%", radiusMultiplier: 1.20f),
-                    new AbilityRankMilestone(10, "Hazard damage +30%", damageMultiplier: 1.30f),
-                    new AbilityRankMilestone(15, "Hazard duration +2 seconds", bonusUtility: 2f),
-                    new AbilityRankMilestone(20, "Mastery: Eruption drags enemies toward the vortex center", bonusUtility: 1f)
+                    new AbilityRankMilestone(5, "Hellfire Wave width and reach +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Wave fire damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 20%", resourceCostMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Wave leaves an incinerating carpet of embers", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_12",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Magma Fissure",
+                description: "Shatter the dungeon stones with volcanic force, opening molten fissures that spew liquid fire.",
+                branchName: "Branch B — Hellfire Magic",
+                tier: 1,
+                prerequisiteAbilityId: "demon_monarch_active_11",
+                resourceCost: 25f,
+                cooldownDuration: 5.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 38f,
+                baseRadius: 3.5f,
+                duration: 3.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Fissure hazard duration extended by 1.5 seconds", bonusUtility: 1.5f),
+                    new AbilityRankMilestone(10, "Fissure eruption damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Fissures erupt with secondary lava geysers", extraSummonsOrProjectiles: 2)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_13",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Cinder Rain",
+                description: "Call down a blistering rain of burning cinders and brimstone shards over a designated area.",
+                branchName: "Branch B — Hellfire Magic",
+                tier: 2,
+                prerequisiteAbilityId: "demon_monarch_active_11",
+                resourceCost: 30f,
+                cooldownDuration: 5.5f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 44f,
+                baseRadius: 4.5f,
+                duration: 3.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Cinder Rain radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Bombardment damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Blistering cinders inflict a 40% movement slow", bonusUtility: 0.40f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_14",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Inferno Spiral",
+                description: "Ignite a vortex of spiraling firestorms revolving around your avatar, scorching all encroaching invaders.",
+                branchName: "Branch B — Hellfire Magic",
+                tier: 2,
+                prerequisiteAbilityId: "demon_monarch_active_12",
+                resourceCost: 30f,
+                cooldownDuration: 6.0f,
+                range: 4.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 46f,
+                baseRadius: 4.0f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Grants a 50 absorption barrier while spinning", bonusUtility: 50f),
+                    new AbilityRankMilestone(10, "Spiral fire damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Launches spinning flame discs towards distant enemies", extraSummonsOrProjectiles: 3)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_15",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Pyre Ring",
+                description: "Detonate an expanding circular blast of demonic fire that knocks away enemies and detonates explosive cinders.",
+                branchName: "Branch B — Hellfire Magic",
+                tier: 2,
+                prerequisiteAbilityId: "demon_monarch_active_13",
+                resourceCost: 35f,
+                cooldownDuration: 6.5f,
+                range: 5.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 50f,
+                baseRadius: 5.0f,
+                duration: 0.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Ring expansion radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Detonation damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 20%", resourceCostMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Double shockwave ring detonating for secondary fire damage", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_16",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Flame Vortex",
+                description: "Conjure a raging fiery cyclone that drags enemies inward while shredding them with molten heat.",
+                branchName: "Branch B — Hellfire Magic",
+                tier: 3,
+                prerequisiteAbilityId: "demon_monarch_active_14",
+                resourceCost: 40f,
+                cooldownDuration: 7.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 54f,
+                baseRadius: 4.5f,
+                duration: 3.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Vortex pull force and radius +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Cyclone fire damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Vortex collapses into a catastrophic fire nova", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_17",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Molten Chains",
+                description: "Lash out with superheated chains of molten iron, restraining invaders and scorching their flesh.",
+                branchName: "Branch B — Hellfire Magic",
+                tier: 3,
+                prerequisiteAbilityId: "demon_monarch_active_15",
+                resourceCost: 35f,
+                cooldownDuration: 6.5f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 52f,
+                baseRadius: 3.5f,
+                duration: 2.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Restraint slow effect increased to 70%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Molten chain damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Chains connect between targets, transferring damage", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_18",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Ember Lance",
+                description: "Hurl a hyper-dense lance of condensed hellfire that pierces through all enemies in its path.",
+                branchName: "Branch B — Hellfire Magic",
+                tier: 3,
+                prerequisiteAbilityId: "demon_monarch_active_16",
+                resourceCost: 35f,
+                cooldownDuration: 5.5f,
+                range: 8.0f,
+                effects: AbilityEffectType.Projectile | AbilityEffectType.MeleeArc,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 60f,
+                baseRadius: 2.0f,
+                duration: 0.8f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Ember Lance travel speed and range +30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Piercing lance damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Lance shatters on exit, creating a cone of fiery shrapnel", extraSummonsOrProjectiles: 3)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_19",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Searing Brand",
+                description: "Mark targeted invaders with an abyssal brand that erupts into violent firestorms upon sustained damage.",
+                branchName: "Branch B — Hellfire Magic",
+                tier: 4,
+                prerequisiteAbilityId: "demon_monarch_active_17",
+                resourceCost: 40f,
+                cooldownDuration: 7.5f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 65f,
+                baseRadius: 4.0f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Brand explosion radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Brand detonation damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Branded enemies spread the mark to nearby invaders upon death", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_20",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Cataclysm Fire",
+                description: "Channel the full destructive potential of the Underworld, igniting an enormous delayed infernal explosion.",
+                branchName: "Branch B — Hellfire Magic",
+                tier: 4,
+                prerequisiteAbilityId: "demon_monarch_active_18",
+                resourceCost: 50f,
+                cooldownDuration: 9.5f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 85f,
+                baseRadius: 6.0f,
+                duration: 4.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Cataclysm detonation radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Cataclysm Fire damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Cataclysm leaves an impassable infernal crater dealing continuous fire damage", bonusUtility: 1.0f)
                 }
             ));
 

@@ -1404,12 +1404,125 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.BossCleave, execPos.x, execPos.y);
                     break;
 
-                case "demon_monarch_active_11": // Blazing Eruption
-                    Vector2 eruptionPos = playerPos + aimDir * Math.Min(3.5f, def.Range);
-                    result.DamageDealt += DamageArea(eruptionPos, radius, damage, knockbackForce: 2f);
+                // Branch B — Hellfire Magic (Actives 11-20)
+                case "demon_monarch_active_11": // Hellfire Wave
+                    Vector2 wavePos = playerPos + aimDir * 3.0f;
+                    result.DamageDealt += DamageArea(wavePos, radius, damage, knockbackForce: 4f);
                     result.TargetsHit += _hitBuffer.Count;
-                    SpawnVisualBurst(eruptionPos, radius * 2f, new Color(1f, 0.2f, 0.1f, 0.9f), def.Duration);
-                    CueBus.Raise(CueIds.InvaderStrike, eruptionPos.x, eruptionPos.y);
+                    HazardZoneActor.Spawn(wavePos, radius, duration: 2.0f, damagePerTick: damage * 0.25f, tickInterval: 0.35f, slowPercent: 0.3f, slowDuration: 1.0f, color: new Color(1f, 0.35f, 0.1f, 0.6f), label: "[HELLFIRE_WAVE]");
+                    SpawnVisualBurst(wavePos, radius * 2.2f, new Color(1f, 0.4f, 0.1f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, wavePos.x, wavePos.y);
+                    break;
+
+                case "demon_monarch_active_12": // Magma Fissure
+                    Vector2 fissurePos = playerPos + aimDir * 3.0f;
+                    result.DamageDealt += DamageArea(fissurePos, radius, damage, knockbackForce: 4.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(fissurePos, radius, duration: 3.0f, damagePerTick: damage * 0.3f, tickInterval: 0.4f, slowPercent: 0.35f, slowDuration: 1.0f, color: new Color(1f, 0.25f, 0.05f, 0.65f), label: "[MAGMA_FISSURE]");
+                    SpawnVisualBurst(fissurePos, radius * 2.2f, new Color(1f, 0.3f, 0.05f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, fissurePos.x, fissurePos.y);
+                    break;
+
+                case "demon_monarch_active_13": // Cinder Rain
+                    Vector2 cinderPos = playerPos + aimDir * 3.5f;
+                    result.DamageDealt += DamageArea(cinderPos, radius, damage, knockbackForce: 3f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(cinderPos, radius, duration: 3.5f, damagePerTick: damage * 0.25f, tickInterval: 0.4f, slowPercent: 0.40f, slowDuration: 1.5f, color: new Color(1f, 0.45f, 0.15f, 0.6f), label: "[CINDER_RAIN]");
+                    SpawnVisualBurst(cinderPos, radius * 2.4f, new Color(1f, 0.45f, 0.15f, 0.9f), 0.55f);
+                    CueBus.Raise(CueIds.InvaderStrike, cinderPos.x, cinderPos.y);
+                    break;
+
+                case "demon_monarch_active_14": // Inferno Spiral
+                    float spiralBarrier = rank >= 5 ? 50f : 0f;
+                    if (spiralBarrier > 0f)
+                    {
+                        _player.SetBarrier(spiralBarrier, duration: def.Duration);
+                        result.BarrierGranted += spiralBarrier;
+                    }
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 3.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(1f, 0.4f, 0.1f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.BossCleave, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_active_15": // Pyre Ring
+                    float pyreKb = rank >= 5 ? 7f : 5f;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: pyreKb);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.2f, new Color(1f, 0.35f, 0.05f, 0.95f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_active_16": // Flame Vortex
+                    Vector2 vortexPos = playerPos + aimDir * 3.0f;
+                    result.DamageDealt += DamageArea(vortexPos, radius, damage, knockbackForce: -4.5f, pullTowardCenter: true);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(vortexPos, radius, duration: 3.5f, damagePerTick: damage * 0.3f, tickInterval: 0.35f, slowPercent: 0.5f, slowDuration: 1.5f, color: new Color(1f, 0.3f, 0.1f, 0.65f), label: "[FLAME_VORTEX]");
+                    SpawnVisualBurst(vortexPos, radius * 2.2f, new Color(1f, 0.3f, 0.1f, 0.95f), 0.55f);
+                    CueBus.Raise(CueIds.InvaderStrike, vortexPos.x, vortexPos.y);
+                    break;
+
+                case "demon_monarch_active_17": // Molten Chains
+                    Vector2 chainsPos = playerPos + aimDir * 3.0f;
+                    result.DamageDealt += DamageArea(chainsPos, radius, damage, knockbackForce: 2f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    float chainsSlow = rank >= 5 ? 0.70f : 0.45f;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(chainsSlow, 2.5f);
+                        }
+                    }
+                    SpawnVisualBurst(chainsPos, radius * 2f, new Color(0.95f, 0.35f, 0.1f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, chainsPos.x, chainsPos.y);
+                    break;
+
+                case "demon_monarch_active_18": // Ember Lance
+                    if (ProjectileManager.Instance != null)
+                    {
+                        ProjectileManager.Instance.FireCustom(
+                            Faction.Player,
+                            playerPos,
+                            aimDir,
+                            speed: 12f,
+                            radius: 0.35f,
+                            damage: damage,
+                            lifetime: 1.0f,
+                            color: new Color(1f, 0.45f, 0.1f),
+                            cueId: CueIds.InvaderStrike,
+                            pierce: 6
+                        );
+                    }
+                    Vector2 lancePos = playerPos + aimDir * 3f;
+                    result.DamageDealt += DamageArea(lancePos, radius * 0.6f, damage * 0.5f, knockbackForce: 4f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(lancePos, radius * 1.6f, new Color(1f, 0.5f, 0.15f, 0.9f), 0.35f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_active_19": // Searing Brand
+                    Vector2 brandPos = playerPos + aimDir * 3.0f;
+                    result.DamageDealt += DamageArea(brandPos, radius, damage, knockbackForce: 3f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.35f, 3.0f);
+                        }
+                    }
+                    SpawnVisualBurst(brandPos, radius * 2f, new Color(1f, 0.2f, 0.05f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, brandPos.x, brandPos.y);
+                    break;
+
+                case "demon_monarch_active_20": // Cataclysm Fire
+                    Vector2 cataPos = playerPos + aimDir * 3.5f;
+                    result.DamageDealt += DamageArea(cataPos, radius, damage, knockbackForce: 7.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(cataPos, radius, duration: 4.5f, damagePerTick: damage * 0.35f, tickInterval: 0.4f, slowPercent: 0.5f, slowDuration: 2.0f, color: new Color(1f, 0.2f, 0.05f, 0.7f), label: "[CATACLYSM_CRATER]");
+                    SpawnVisualBurst(cataPos, radius * 2.8f, new Color(1f, 0.25f, 0.05f, 0.95f), 0.8f);
+                    CueBus.Raise(CueIds.InvaderStrike, cataPos.x, cataPos.y);
                     break;
 
                 case "demon_monarch_active_22": // Hellstep

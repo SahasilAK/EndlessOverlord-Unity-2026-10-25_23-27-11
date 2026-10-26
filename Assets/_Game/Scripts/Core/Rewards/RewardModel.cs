@@ -245,6 +245,18 @@ namespace FinalBoss.Core
         public const string MonarchExecutionersFuryId = "demon_monarch_wave_09";
         public const string MonarchThousandCutInfernoId = "demon_monarch_wave_10";
 
+        // Demon Monarch Wave Skills (Batch 2: 11-20)
+        public const string MonarchLiquidFireId = "demon_monarch_wave_11";
+        public const string MonarchPyreMultiplicationId = "demon_monarch_wave_12";
+        public const string MonarchInfernalHeatId = "demon_monarch_wave_13";
+        public const string MonarchEternalEmbersId = "demon_monarch_wave_14";
+        public const string MonarchCinderNovaId = "demon_monarch_wave_15";
+        public const string MonarchVolcanicPressureId = "demon_monarch_wave_16";
+        public const string MonarchBurningPursuitId = "demon_monarch_wave_17";
+        public const string MonarchEmberCascadeId = "demon_monarch_wave_18";
+        public const string MonarchAshstormGrowthId = "demon_monarch_wave_19";
+        public const string MonarchHellfirePenetrationId = "demon_monarch_wave_20";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -1574,6 +1586,127 @@ namespace FinalBoss.Core
                     MonarchThousandCutInfernoId,
                     "Thousand-Cut Inferno",
                     "A torrential storm of burning sword slashes consumes the battlefield (+30% Damage, +10% Attack Speed)",
+                    RewardRarity.Epic,
+                    "demon_monarch",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.30f,
+                    maxRank: 5)
+            },
+            // Demon Monarch Wave Skills 11-20
+            {
+                MonarchLiquidFireId,
+                new RewardDefinition(
+                    MonarchLiquidFireId,
+                    "Liquid Fire",
+                    "Incinerating sword impacts leave sticky molten liquid expanding strike radius (+1.5m Range)",
+                    RewardRarity.Common,
+                    "demon_monarch",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                MonarchPyreMultiplicationId,
+                new RewardDefinition(
+                    MonarchPyreMultiplicationId,
+                    "Pyre Multiplication",
+                    "Hellfire detonations scatter splitting explosive embers (+1 Projectile)",
+                    RewardRarity.Uncommon,
+                    "demon_monarch",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                MonarchInfernalHeatId,
+                new RewardDefinition(
+                    MonarchInfernalHeatId,
+                    "Infernal Heat",
+                    "Intensify demonic flames to incinerate armor and flesh (+20% Damage)",
+                    RewardRarity.Common,
+                    "demon_monarch",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                MonarchEternalEmbersId,
+                new RewardDefinition(
+                    MonarchEternalEmbersId,
+                    "Eternal Embers",
+                    "Demonic embers burn indefinitely, granting sustained blood drain (+6% Life Steal)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.LifeStealPercent,
+                    0.06f,
+                    maxRank: 5)
+            },
+            {
+                MonarchCinderNovaId,
+                new RewardDefinition(
+                    MonarchCinderNovaId,
+                    "Cinder Nova",
+                    "Violent flame combustions burst outwards upon every critical strike (+25% Damage)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                MonarchVolcanicPressureId,
+                new RewardDefinition(
+                    MonarchVolcanicPressureId,
+                    "Volcanic Pressure",
+                    "Compress molten geothermal energy, raising armor resilience (+6 Armor)",
+                    RewardRarity.Common,
+                    "demon_monarch",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                MonarchBurningPursuitId,
+                new RewardDefinition(
+                    MonarchBurningPursuitId,
+                    "Burning Pursuit",
+                    "Demonic flames drive relentless advance (+15% Move Speed)",
+                    RewardRarity.Uncommon,
+                    "demon_monarch",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                MonarchEmberCascadeId,
+                new RewardDefinition(
+                    MonarchEmberCascadeId,
+                    "Ember Cascade",
+                    "Cascades of fiery shards barrage enemy formations (+1 Projectile)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                MonarchAshstormGrowthId,
+                new RewardDefinition(
+                    MonarchAshstormGrowthId,
+                    "Ashstorm Growth",
+                    "Spreading ash and fire invigorates the demonic constitution (+40 Max HP)",
+                    RewardRarity.Uncommon,
+                    "demon_monarch",
+                    RewardModifierType.MaxHealth,
+                    40f,
+                    maxRank: 5)
+            },
+            {
+                MonarchHellfirePenetrationId,
+                new RewardDefinition(
+                    MonarchHellfirePenetrationId,
+                    "Hellfire Penetration",
+                    "Pure unholy fire completely ignores all natural resistance (+30% Damage, Epic)",
                     RewardRarity.Epic,
                     "demon_monarch",
                     RewardModifierType.ProjectileDamagePercent,

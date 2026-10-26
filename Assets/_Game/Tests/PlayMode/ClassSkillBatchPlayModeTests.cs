@@ -1407,5 +1407,87 @@ namespace FinalBoss.Tests
             Assert.GreaterOrEqual(_player.BarrierAmount, 250f, "Throne of Eternal Flame should grant 250 barrier.");
             Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Demon Monarch ultimates.");
         }
+
+        [UnityTest]
+        public IEnumerator DemonMonarch_BranchB_Part1_HellfireMagic_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.DemonMonarchId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.DemonMonarchId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.DemonMonarchId, "Branch B — Hellfire Magic", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.DemonMonarchId,
+                new List<string>
+                {
+                    "demon_monarch_active_11", // Hellfire Wave
+                    "demon_monarch_active_12", // Magma Fissure
+                    "demon_monarch_active_13", // Cinder Rain
+                    "demon_monarch_active_14", // Inferno Spiral
+                    "demon_monarch_active_15"  // Pyre Ring
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Demon Monarch Branch B slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Demon Monarch Branch B hellfire abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator DemonMonarch_BranchB_Part2_HellfireMagic_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.DemonMonarchId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.DemonMonarchId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.DemonMonarchId, "Branch B — Hellfire Magic", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.DemonMonarchId,
+                new List<string>
+                {
+                    "demon_monarch_active_16", // Flame Vortex
+                    "demon_monarch_active_17", // Molten Chains
+                    "demon_monarch_active_18", // Ember Lance
+                    "demon_monarch_active_19", // Searing Brand
+                    "demon_monarch_active_20"  // Cataclysm Fire
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Demon Monarch Branch B slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Demon Monarch Branch B hellfire abilities.");
+        }
     }
 }
