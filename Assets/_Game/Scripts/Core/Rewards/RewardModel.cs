@@ -132,8 +132,18 @@ namespace FinalBoss.Core
         public const string MoveSpeedId = "lich_lord_wave_08";
         public const string SoulboundLegionId = "lich_lord_wave_09";
         public const string OssuarySwarmId = "lich_lord_wave_10";
-        public const string RangeId = "lich_lord_wave_11";
-        public const string LifeStealId = "lich_lord_wave_15";
+        public const string FrostbiteBloomId = "lich_lord_wave_11";
+        public const string GravefireSpreadId = "lich_lord_wave_12";
+        public const string ThunderRemainsId = "lich_lord_wave_13";
+        public const string HowlingCurrentId = "lich_lord_wave_14";
+        public const string ArcaneHailId = "lich_lord_wave_15";
+        public const string EmberNecrosisId = "lich_lord_wave_16";
+        public const string TempestBonesId = "lich_lord_wave_17";
+        public const string WinterChainsId = "lich_lord_wave_18";
+        public const string StormNecromancyId = "lich_lord_wave_19";
+        public const string ElementalGravesId = "lich_lord_wave_20";
+        public const string RangeId = TempestBonesId;
+        public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = "lich_lord_wave_21";
         public const string MaxHealthId = "lich_lord_wave_22";
         public const string DamageId = "lich_lord_wave_30";
@@ -262,6 +272,126 @@ namespace FinalBoss.Core
                     maxRank: 5)
             },
             {
+                FrostbiteBloomId,
+                new RewardDefinition(
+                    FrostbiteBloomId,
+                    "Frostbite Bloom",
+                    "Frozen enemies release bursts of frost energy (+15% Damage)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                GravefireSpreadId,
+                new RewardDefinition(
+                    GravefireSpreadId,
+                    "Gravefire Spread",
+                    "Witchfire sparks jump across targets (+1 Projectile)",
+                    RewardRarity.Epic,
+                    "lich_lord",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 2)
+            },
+            {
+                ThunderRemainsId,
+                new RewardDefinition(
+                    ThunderRemainsId,
+                    "Thunder Remains",
+                    "Fallen corpses discharge electrical surges (+20% Damage)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                HowlingCurrentId,
+                new RewardDefinition(
+                    HowlingCurrentId,
+                    "Howling Current",
+                    "Gale currents accelerate attack frequency (+20% Attack Speed)",
+                    RewardRarity.Uncommon,
+                    "lich_lord",
+                    RewardModifierType.AttackSpeedPercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                ArcaneHailId,
+                new RewardDefinition(
+                    ArcaneHailId,
+                    "Arcane Hail",
+                    "Critical strikes launch crystalline ice shards (+1 Projectile)",
+                    RewardRarity.Epic,
+                    "lich_lord",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 2)
+            },
+            {
+                EmberNecrosisId,
+                new RewardDefinition(
+                    EmberNecrosisId,
+                    "Ember Necrosis",
+                    "Necrotic heat weakens invader flesh (+15% Damage)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                TempestBonesId,
+                new RewardDefinition(
+                    TempestBonesId,
+                    "Tempest Bones",
+                    "Bone shards carry on freezing winds (+2.0m Range)",
+                    RewardRarity.Uncommon,
+                    "lich_lord",
+                    RewardModifierType.AttackRange,
+                    2.0f,
+                    maxRank: 5)
+            },
+            {
+                WinterChainsId,
+                new RewardDefinition(
+                    WinterChainsId,
+                    "Winter Chains",
+                    "Glacial tethers reduce cooldown intervals (+15% Dash Cooldown Recovery)",
+                    RewardRarity.Uncommon,
+                    "lich_lord",
+                    RewardModifierType.DashCooldownReductionPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                StormNecromancyId,
+                new RewardDefinition(
+                    StormNecromancyId,
+                    "Storm Necromancy",
+                    "Supercharged dark magic bolsters physical form (+30 Max HP)",
+                    RewardRarity.Uncommon,
+                    "lich_lord",
+                    RewardModifierType.MaxHealth,
+                    30f,
+                    maxRank: 5)
+            },
+            {
+                ElementalGravesId,
+                new RewardDefinition(
+                    ElementalGravesId,
+                    "Elemental Graves",
+                    "Defeated invaders yield elemental essence (+8% Life Steal)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.LifeStealPercent,
+                    0.08f,
+                    maxRank: 5)
+            },
+            {
                 AttackSpeedId,
                 new RewardDefinition(
                     AttackSpeedId,
@@ -271,18 +401,6 @@ namespace FinalBoss.Core
                     "all",
                     RewardModifierType.AttackSpeedPercent,
                     0.20f,
-                    maxRank: 5)
-            },
-            {
-                RangeId,
-                new RewardDefinition(
-                    RangeId,
-                    "Crypt Reach",
-                    "Extend attack range (+2.0m Range)",
-                    RewardRarity.Uncommon,
-                    "all",
-                    RewardModifierType.AttackRange,
-                    2.0f,
                     maxRank: 5)
             },
             {
@@ -307,18 +425,6 @@ namespace FinalBoss.Core
                     "all",
                     RewardModifierType.ProjectileDamagePercent,
                     0.25f,
-                    maxRank: 5)
-            },
-            {
-                LifeStealId,
-                new RewardDefinition(
-                    LifeStealId,
-                    "Siphon Vitality",
-                    "Leech life on combat hit (+8% Life Steal)",
-                    RewardRarity.Rare,
-                    "all",
-                    RewardModifierType.LifeStealPercent,
-                    0.08f,
                     maxRank: 5)
             },
             {

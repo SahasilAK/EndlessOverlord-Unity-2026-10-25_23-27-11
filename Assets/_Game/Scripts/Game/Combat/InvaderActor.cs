@@ -41,7 +41,14 @@ namespace FinalBoss.Game
         public bool IsElite { get; private set; }
         public bool IsBoss => Archetype == InvaderArchetype.RoyalChampion;
 
-        public float MoveSpeed { get; private set; }
+        private float _baseMoveSpeed;
+        private float _slowMultiplier = 1f;
+        private float _slowTimer;
+
+        public float MoveSpeed => _baseMoveSpeed * _slowMultiplier;
+        public float BaseMoveSpeed => _baseMoveSpeed;
+        public float SlowMultiplier => _slowMultiplier;
+        public bool IsSlowed => _slowTimer > 0f;
         public float Armor { get; private set; }
         public float SoulReward { get; private set; }
         public long ScoreReward { get; private set; }
@@ -54,6 +61,20 @@ namespace FinalBoss.Game
         public float Radius { get; private set; } = CombatTuning.InvaderRadius;
         public bool Alive => Health != null && !Health.IsDead;
         public MeleeAttackSim Melee => _melee;
+
+        public void ApplySlow(float slowPercent, float duration)
+        {
+            if (!Alive) return;
+            float targetMult = Mathf.Clamp(1f - slowPercent, 0.15f, 1f);
+            if (_slowTimer <= 0f || targetMult < _slowMultiplier)
+            {
+                _slowMultiplier = targetMult;
+            }
+            if (duration > _slowTimer)
+            {
+                _slowTimer = duration;
+            }
+        }
 
         public void ApplyKnockback(Vector2 impulse)
         {
@@ -132,7 +153,7 @@ namespace FinalBoss.Game
                 _baseColor = Color.Lerp(_baseColor, new Color(1f, 0.85f, 0.1f), 0.5f); // Golden sheen
             }
 
-            MoveSpeed = speed;
+            _baseMoveSpeed = speed;
             Armor = armor;
             SoulReward = IsBoss ? CombatTuning.BossSoulReward : (isElite ? CombatTuning.SoulPerKill * 2.5f : CombatTuning.SoulPerKill);
             ScoreReward = IsBoss ? CombatTuning.BossScoreReward : (isElite ? (long)(CombatTuning.ScorePerKill * CombatTuning.EliteScoreMultiplier) : CombatTuning.ScorePerKill);
@@ -224,7 +245,7 @@ namespace FinalBoss.Game
         private void TriggerBossEnrage()
         {
             _isEnraged = true;
-            MoveSpeed = CombatTuning.BossEnragedSpeed;
+            _baseMoveSpeed = CombatTuning.BossEnragedSpeed;
             _baseColor = new Color(0.85f, 0.1f, 0.25f); // Enraged Crimson
             if (_body != null) _body.color = _baseColor;
 
@@ -244,6 +265,16 @@ namespace FinalBoss.Game
             }
 
             float dt = Time.fixedDeltaTime;
+
+            if (_slowTimer > 0f)
+            {
+                _slowTimer -= dt;
+                if (_slowTimer <= 0f)
+                {
+                    _slowMultiplier = 1f;
+                }
+            }
+
             var player = ActorRegistry.Player;
             bool targetValid = player != null && player.Alive;
             Vector2 toPlayer = targetValid ? player.Position - Position : Vector2.zero;

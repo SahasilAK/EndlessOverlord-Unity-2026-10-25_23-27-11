@@ -454,6 +454,190 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
                     break;
 
+                case "lich_lord_active_12": // Permafrost Sigil
+                    Vector2 sigilPos = playerPos + aimDir * Math.Min(3.5f, def.Range > 0 ? def.Range : 3.5f);
+                    float sigilDur = def.Duration > 0f ? def.Duration : 5f;
+                    HazardZoneActor.Spawn(sigilPos, radius, sigilDur, damagePerTick: damage * 0.35f, tickInterval: 0.5f, slowPercent: 0.5f, slowDuration: 1.5f, color: new Color(0.25f, 0.75f, 1f, 0.45f), label: "[SIGIL]");
+                    result.DamageDealt += DamageArea(sigilPos, radius, damage * 0.4f, slowPercent: 0.5f, slowDuration: 2f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(sigilPos, radius * 2f, new Color(0.3f, 0.8f, 1f, 0.7f), 0.3f);
+                    CueBus.Raise(CueIds.BoltFire, sigilPos.x, sigilPos.y);
+                    break;
+
+                case "lich_lord_active_13": // Chill Lance
+                    int lancePierce = 2 + (rank >= 10 ? 2 : 0);
+                    if (ProjectileManager.Instance != null)
+                    {
+                        ProjectileManager.Instance.FireCustom(
+                            Faction.Player,
+                            playerPos,
+                            aimDir,
+                            speed: 18f,
+                            radius: 0.28f,
+                            damage: damage,
+                            lifetime: 1.5f,
+                            color: new Color(0.35f, 0.85f, 1f, 0.95f),
+                            cueId: CueIds.BoltFire,
+                            pierce: lancePierce
+                        );
+                    }
+                    result.DamageDealt += DamageArea(playerPos + aimDir * 2f, 1.2f, damage * 0.5f, slowPercent: 0.6f, slowDuration: 2f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos + aimDir * 0.8f, 1.0f, new Color(0.5f, 0.9f, 1f, 0.8f), 0.2f);
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    break;
+
+                case "lich_lord_active_14": // Wailing Blizzard
+                    Vector2 blizzardVel = aimDir * 2.2f;
+                    float blizzardDur = def.Duration > 0f ? def.Duration : 4f;
+                    HazardZoneActor.Spawn(playerPos, radius, blizzardDur, damagePerTick: damage * 0.3f, tickInterval: 0.4f, slowPercent: 0.6f, slowDuration: 1.5f, velocity: blizzardVel, color: new Color(0.4f, 0.7f, 1f, 0.4f), label: "[BLIZZARD]");
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 0.35f, slowPercent: 0.6f, slowDuration: 2.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.5f, 0.8f, 1f, 0.7f), 0.4f);
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    break;
+
+                case "lich_lord_active_15": // Glacial Tomb
+                    IDamageable tombTarget = null;
+                    float closestTombDist = float.MaxValue;
+                    var allActors = ActorRegistry.AllActors;
+                    for (int i = 0; i < allActors.Count; i++)
+                    {
+                        var a = allActors[i];
+                        if (a != null && a.Team == Faction.Invader && a.Alive)
+                        {
+                            float d = Vector2.Distance(playerPos, a.Position);
+                            if (d <= (def.Range > 0 ? def.Range : 7f) && d < closestTombDist)
+                            {
+                                closestTombDist = d;
+                                tombTarget = a;
+                            }
+                        }
+                    }
+                    if (tombTarget != null)
+                    {
+                        float dealt = tombTarget.ReceiveDamage(damage);
+                        result.DamageDealt += dealt;
+                        result.TargetsHit++;
+                        if (tombTarget is InvaderActor inv)
+                        {
+                            inv.ApplySlow(0.85f, 3.5f);
+                        }
+                        SpawnVisualBurst(tombTarget.Position, 2.0f, new Color(0.2f, 0.9f, 1f, 0.95f), 0.5f);
+                        CueBus.Raise(CueIds.InvaderStrike, tombTarget.Position.x, tombTarget.Position.y);
+                    }
+                    else
+                    {
+                        Vector2 fallbackPos = playerPos + aimDir * 3f;
+                        result.DamageDealt += DamageArea(fallbackPos, radius, damage, slowPercent: 0.85f, slowDuration: 3f);
+                        result.TargetsHit += _hitBuffer.Count;
+                        SpawnVisualBurst(fallbackPos, radius * 2f, new Color(0.2f, 0.9f, 1f, 0.9f), 0.4f);
+                        CueBus.Raise(CueIds.BoltFire, fallbackPos.x, fallbackPos.y);
+                    }
+                    break;
+
+                case "lich_lord_active_16": // Shiver Pulse
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 6.5f, slowPercent: 0.65f, slowDuration: 3.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.6f, 0.95f, 1f, 0.85f), 0.35f);
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    break;
+
+                case "lich_lord_active_17": // Rime Chain
+                    var chainHits = new List<IDamageable>();
+                    var candidateActors = ActorRegistry.AllActors;
+                    Vector2 searchFrom = playerPos;
+                    float chainRange = def.Range > 0 ? def.Range : 7.5f;
+                    int maxJumps = 4;
+                    for (int jump = 0; jump < maxJumps; jump++)
+                    {
+                        IDamageable nextTarget = null;
+                        float bestDist = float.MaxValue;
+                        for (int i = 0; i < candidateActors.Count; i++)
+                        {
+                            var a = candidateActors[i];
+                            if (a != null && a.Team == Faction.Invader && a.Alive && !chainHits.Contains(a))
+                            {
+                                float d = Vector2.Distance(searchFrom, a.Position);
+                                if (d <= chainRange && d < bestDist)
+                                {
+                                    bestDist = d;
+                                    nextTarget = a;
+                                }
+                            }
+                        }
+                        if (nextTarget == null) break;
+                        chainHits.Add(nextTarget);
+                        searchFrom = nextTarget.Position;
+                        chainRange = 5.0f;
+                    }
+
+                    if (chainHits.Count > 0)
+                    {
+                        for (int i = 0; i < chainHits.Count; i++)
+                        {
+                            var target = chainHits[i];
+                            float dealt = target.ReceiveDamage(damage * (1f - i * 0.15f));
+                            result.DamageDealt += dealt;
+                            result.TargetsHit++;
+                            if (target is InvaderActor inv)
+                            {
+                                inv.ApplySlow(0.6f, 2.5f);
+                            }
+                            SpawnVisualBurst(target.Position, 1.2f, new Color(0.4f, 0.85f, 1f, 0.9f), 0.25f);
+                        }
+                        CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    }
+                    else
+                    {
+                        Vector2 chainFallback = playerPos + aimDir * 2.5f;
+                        result.DamageDealt += DamageArea(chainFallback, radius, damage, slowPercent: 0.5f, slowDuration: 2f);
+                        result.TargetsHit += _hitBuffer.Count;
+                        SpawnVisualBurst(chainFallback, radius * 2f, new Color(0.4f, 0.85f, 1f, 0.8f), 0.25f);
+                        CueBus.Raise(CueIds.BoltFire, chainFallback.x, chainFallback.y);
+                    }
+                    break;
+
+                case "lich_lord_active_18": // Frozen Lantern
+                    int lanternCount = 1 + (rank >= 10 ? 1 : 0);
+                    float lanternDur = def.Duration > 0f ? def.Duration : 15f;
+                    for (int l = 0; l < lanternCount; l++)
+                    {
+                        float angle = l * (360f / lanternCount);
+                        FrozenLanternActor.Spawn(_player, initialAngle: angle, damage: damage * 0.45f, lifetime: lanternDur);
+                        result.SummonsCreated++;
+                    }
+                    SpawnVisualBurst(playerPos, 1.5f, new Color(0.4f, 0.85f, 1f, 0.8f), 0.3f);
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    break;
+
+                case "lich_lord_active_19": // Hail Crown
+                    float hailDur = def.Duration > 0f ? def.Duration : 4.5f;
+                    HazardZoneActor.Spawn(playerPos, radius, hailDur, damagePerTick: damage * 0.25f, tickInterval: 0.25f, slowPercent: 0.55f, slowDuration: 1.5f, color: new Color(0.35f, 0.65f, 1f, 0.5f), label: "[HAIL_CROWN]");
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 0.35f, slowPercent: 0.55f, slowDuration: 2.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.6f, 0.9f, 1f, 0.85f), 0.4f);
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    break;
+
+                case "lich_lord_active_20": // Winter of the Dead
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 4f, slowPercent: 0.8f, slowDuration: 8f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    var minions = ActorRegistry.AllActors;
+                    for (int i = 0; i < minions.Count; i++)
+                    {
+                        var minion = minions[i];
+                        if (minion != null && minion.Team == Faction.Player && (object)minion != _player && minion.Alive)
+                        {
+                            if (minion is UndeadMinionActor undead) undead.Health?.Heal(25f);
+                            else if (minion is BoneSentinelActor sentinel) sentinel.Health?.Heal(25f);
+                            else if (minion is CryptArcherActor archer) archer.Health?.Heal(25f);
+                        }
+                    }
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.2f, 0.7f, 1f, 0.9f), 0.7f);
+                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    break;
+
                 case "lich_lord_ultimate_50": // Army of the Damned
                     for (int i = 0; i < summonCount + 1; i++)
                     {
@@ -811,6 +995,11 @@ namespace FinalBoss.Game
 
                 if (target is InvaderActor invader)
                 {
+                    if (slowPercent > 0f && slowDuration > 0f)
+                    {
+                        invader.ApplySlow(slowPercent, slowDuration);
+                    }
+
                     if (pullTowardCenter)
                     {
                         Vector2 pullDir = (center - invader.Position).normalized;

@@ -258,5 +258,141 @@ namespace FinalBoss.Tests
             var sentinels = Object.FindObjectsByType<BoneSentinelActor>();
             Assert.GreaterOrEqual(sentinels.Length, 4);
         }
+
+        [UnityTest]
+        public IEnumerator LichLord_BranchB_HazardZonesAndLantern_CastAndSlowInvader()
+        {
+            yield return StartArena(CharacterCatalog.LichLordId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.LichLordId, 80, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.LichLordId, "Branch B — Frost and Death Magic", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.LichLordId,
+                new List<string>
+                {
+                    "lich_lord_active_12", // Permafrost Sigil
+                    "lich_lord_active_13", // Chill Lance
+                    "lich_lord_active_14", // Wailing Blizzard
+                    "lich_lord_active_16", // Shiver Pulse
+                    "lich_lord_active_18"  // Frozen Lantern
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            // Spawn an invader in front of player
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 1.5f, InvaderArchetype.Swordsman);
+            float startHp = invader.Health.Current;
+
+            // 1. Cast Slot 0 (Permafrost Sigil)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(0), "Slot 0 (Permafrost Sigil) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            var hazards = Object.FindObjectsByType<HazardZoneActor>();
+            Assert.GreaterOrEqual(hazards.Length, 1, "Permafrost Sigil should create a HazardZoneActor.");
+
+            // 2. Cast Slot 1 (Chill Lance)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(1), "Slot 1 (Chill Lance) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 3. Cast Slot 2 (Wailing Blizzard)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(2), "Slot 2 (Wailing Blizzard) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 4. Cast Slot 3 (Shiver Pulse)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(3), "Slot 3 (Shiver Pulse) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 5. Cast Slot 4 (Frozen Lantern)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(4), "Slot 4 (Frozen Lantern) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            var lanterns = Object.FindObjectsByType<FrozenLanternActor>();
+            Assert.GreaterOrEqual(lanterns.Length, 1, "Frozen Lantern should spawn an orbiting lantern.");
+
+            yield return new WaitForSeconds(0.5f);
+
+            // Verify invader took damage and was slowed
+            Assert.Less(invader.Health.Current, startHp, "Invader should have received damage from frost spells.");
+            Assert.IsTrue(invader.IsSlowed, "Invader should have active slow debuff applied by frost spells.");
+            Assert.Less(invader.MoveSpeed, invader.BaseMoveSpeed, "Invader's MoveSpeed should be reduced by slow multiplier.");
+        }
+
+        [UnityTest]
+        public IEnumerator LichLord_BranchB_GlacialTomb_And_WinterOfTheDead_Cast()
+        {
+            yield return StartArena(CharacterCatalog.LichLordId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.LichLordId, 100, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.LichLordId, "Branch B — Frost and Death Magic", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.LichLordId,
+                new List<string>
+                {
+                    "lich_lord_active_15", // Glacial Tomb
+                    "lich_lord_active_17", // Rime Chain
+                    "lich_lord_active_19", // Hail Crown
+                    "lich_lord_active_20", // Winter of the Dead
+                    string.Empty
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            // Spawn minion to test Winter of the Dead buff / healing
+            var minion = UndeadMinionActor.Spawn(UndeadMinionType.Guardian, _player.Position + Vector2.left * 1.5f);
+            minion.ReceiveDamage(30f);
+            float minionHpBefore = minion.Health.Current;
+
+            // Spawn two invaders
+            var invader1 = InvaderActor.Spawn(_player.Position + Vector2.right * 2.0f, InvaderArchetype.Swordsman);
+            var invader2 = InvaderActor.Spawn(_player.Position + Vector2.right * 3.5f, InvaderArchetype.Swordsman);
+            float hp1Before = invader1.Health.Current;
+            float hp2Before = invader2.Health.Current;
+
+            // 1. Glacial Tomb on nearest invader
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(0), "Glacial Tomb should activate.");
+            yield return new WaitForSeconds(0.1f);
+            Assert.Less(invader1.Health.Current, hp1Before, "Glacial Tomb should deal heavy damage to nearest invader.");
+
+            // 2. Rime Chain
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(1), "Rime Chain should activate.");
+            yield return new WaitForSeconds(0.1f);
+            Assert.Less(invader2.Health.Current, hp2Before, "Rime Chain should jump and damage secondary invader.");
+
+            // 3. Hail Crown
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(2), "Hail Crown should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 4. Winter of the Dead
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(3), "Winter of the Dead should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // Verify minion was healed by Winter of the Dead
+            Assert.Greater(minion.Health.Current, minionHpBefore, "Winter of the Dead should restore health to player summons.");
+        }
     }
 }

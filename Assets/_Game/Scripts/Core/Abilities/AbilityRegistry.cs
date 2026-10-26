@@ -321,9 +321,9 @@ namespace FinalBoss.Core
             Register(new AbilityDefinition(
                 id: "lich_lord_active_11",
                 characterId: CharacterCatalog.LichLordId,
-                name: "Frost Nova",
+                name: "Grave Frost",
                 description: "Release an expanding ring of glacial frost, dealing damage and slowing all nearby invaders.",
-                branchName: "Branch B — Frost & Curses",
+                branchName: "Branch B — Frost and Death Magic",
                 tier: 1,
                 prerequisiteAbilityId: null,
                 resourceCost: 15f,
@@ -339,7 +339,232 @@ namespace FinalBoss.Core
                     new AbilityRankMilestone(5, "Blast radius +20%", radiusMultiplier: 1.20f),
                     new AbilityRankMilestone(10, "Frost damage +30%", damageMultiplier: 1.30f),
                     new AbilityRankMilestone(15, "Chill duration increased by 50%", bonusUtility: 0.50f),
-                    new AbilityRankMilestone(20, "Mastery: Frost Nova triggers a secondary shatter explosion after 1s", damageMultiplier: 1.50f)
+                    new AbilityRankMilestone(20, "Mastery: Grave Frost triggers a secondary shatter explosion after 1s", damageMultiplier: 1.50f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_12",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Permafrost Sigil",
+                description: "Etch a persistent freezing rune on the ground that deals continuous damage and chills passing invaders.",
+                branchName: "Branch B — Frost and Death Magic",
+                tier: 2,
+                prerequisiteAbilityId: "lich_lord_active_11",
+                resourceCost: 25f,
+                cooldownDuration: 8f,
+                range: 7f,
+                effects: AbilityEffectType.Hazard | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 12f,
+                baseRadius: 3f,
+                duration: 6f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Sigil duration +30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Sigil frost damage +35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Sigil radius +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(20, "Mastery: Enemies inside sigil take +30% damage from all attacks", damageMultiplier: 1.30f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_13",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Chill Lance",
+                description: "Hurl a high-velocity piercing ice spear that impales and chills multiple invaders in a line.",
+                branchName: "Branch B — Frost and Death Magic",
+                tier: 2,
+                prerequisiteAbilityId: "lich_lord_active_11",
+                resourceCost: 20f,
+                cooldownDuration: 4f,
+                range: 14f,
+                effects: AbilityEffectType.Projectile | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 32f,
+                baseRadius: 0.25f,
+                duration: 1.2f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Spear projectile speed +30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Spear damage +30% (41.6 dmg)", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Pierces 2 additional invaders", extraSummonsOrProjectiles: 2),
+                    new AbilityRankMilestone(20, "Mastery: Cooldown reduced by 25%", cooldownMultiplier: 0.75f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_14",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Wailing Blizzard",
+                description: "Conjure a moving howling blizzard storm that sweeps forward, freezing and shredding invaders.",
+                branchName: "Branch B — Frost and Death Magic",
+                tier: 3,
+                prerequisiteAbilityId: "lich_lord_active_12",
+                resourceCost: 35f,
+                cooldownDuration: 9f,
+                range: 8f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 18f,
+                baseRadius: 3.5f,
+                duration: 5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Blizzard travel distance +30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Blizzard tick damage +35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Blizzard radius +30%", radiusMultiplier: 1.30f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_15",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Glacial Tomb",
+                description: "Entomb the nearest targeted invader in solid ice, stunning them and dealing area damage.",
+                branchName: "Branch B — Frost and Death Magic",
+                tier: 3,
+                prerequisiteAbilityId: "lich_lord_active_13",
+                resourceCost: 30f,
+                cooldownDuration: 8f,
+                range: 8f,
+                effects: AbilityEffectType.CrowdControl | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 28f,
+                baseRadius: 2f,
+                duration: 2.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Freeze duration +30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Impact damage +35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cast range +35%", radiusMultiplier: 1.35f),
+                    new AbilityRankMilestone(20, "Mastery: Ice shatter damage doubled", damageMultiplier: 1.50f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_16",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Shiver Pulse",
+                description: "Unleash a sudden shockwave of absolute zero, violently knocking back and chilling surrounding invaders.",
+                branchName: "Branch B — Frost and Death Magic",
+                tier: 4,
+                prerequisiteAbilityId: "lich_lord_active_14",
+                resourceCost: 25f,
+                cooldownDuration: 6f,
+                range: 6f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 26f,
+                baseRadius: 6f,
+                duration: 3f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Knockback force doubled", bonusUtility: 1.0f),
+                    new AbilityRankMilestone(10, "Pulse damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Pulse radius +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(20, "Mastery: Grants frost barrier absorbing 30 damage", bonusUtility: 30f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_17",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Rime Chain",
+                description: "Cast arcing bands of frost that tether and jump between up to 4 nearby invaders, dealing damage and slowing.",
+                branchName: "Branch B — Frost and Death Magic",
+                tier: 4,
+                prerequisiteAbilityId: "lich_lord_active_15",
+                resourceCost: 35f,
+                cooldownDuration: 7f,
+                range: 10f,
+                effects: AbilityEffectType.Projectile | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 24f,
+                baseRadius: 4f,
+                duration: 2f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Jump range between targets +35%", radiusMultiplier: 1.35f),
+                    new AbilityRankMilestone(10, "Chain damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Chains to 2 additional targets", extraSummonsOrProjectiles: 2),
+                    new AbilityRankMilestone(20, "Mastery: Cooldown reduced by 25%", cooldownMultiplier: 0.75f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_18",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Frozen Lantern",
+                description: "Summon an orbiting frost lantern that shields the Lich Lord and fires frost bolts at nearby invaders.",
+                branchName: "Branch B — Frost and Death Magic",
+                tier: 4,
+                prerequisiteAbilityId: "lich_lord_active_14",
+                resourceCost: 30f,
+                cooldownDuration: 12f,
+                range: 9f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.Shield | AbilityEffectType.Projectile,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 14f,
+                baseRadius: 1.6f,
+                duration: 15f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Lantern firing rate +30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Lantern bolt damage +35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Duration extended by 5 seconds", bonusUtility: 5f),
+                    new AbilityRankMilestone(20, "Mastery: Summon 2 orbiting lanterns simultaneously", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_19",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Hail Crown",
+                description: "Call down a barrage of jagged hail and ice spikes in a wide area around the Lich Lord.",
+                branchName: "Branch B — Frost and Death Magic",
+                tier: 5,
+                prerequisiteAbilityId: "lich_lord_active_16",
+                resourceCost: 50f,
+                cooldownDuration: 14f,
+                range: 6f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 40f,
+                baseRadius: 6f,
+                duration: 4f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Storm radius +30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Hail impact damage +35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Hail strikes leave freezing ground patches", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_20",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Winter of the Dead",
+                description: "Engulf the entire battlefield in an ancient sub-zero freeze, slowing invaders and empowering all player summons.",
+                branchName: "Branch B — Frost and Death Magic",
+                tier: 5,
+                prerequisiteAbilityId: "lich_lord_active_18",
+                resourceCost: 65f,
+                cooldownDuration: 20f,
+                range: 12f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl | AbilityEffectType.Summon,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 50f,
+                baseRadius: 12f,
+                duration: 10f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Battlefield chill slow increased to 75%", bonusUtility: 0.25f),
+                    new AbilityRankMilestone(10, "Frost blast damage +40% (70 dmg)", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Duration extended to 15 seconds", bonusUtility: 5f),
+                    new AbilityRankMilestone(20, "Mastery: Cooldown reduced by 25%", cooldownMultiplier: 0.75f)
                 }
             ));
 
