@@ -79,6 +79,11 @@ namespace FinalBoss.Core
         public const string BossCleave = "cue.boss.cleave";
         public const string BossEnrage = "cue.boss.enrage";
         public const string BossShockwave = "cue.boss.shockwave";
+        public const string ShieldBlock = "cue.shield.block";
+        public const string Dash = "cue.dash";
+        public const string Explosion = "cue.explosion";
+        public const string FrostNova = "cue.frost.nova";
+        public const string LightningStrike = "cue.lightning.strike";
     }
 
     /// <summary>

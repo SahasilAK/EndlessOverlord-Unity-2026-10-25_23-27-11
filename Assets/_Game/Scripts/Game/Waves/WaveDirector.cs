@@ -155,7 +155,7 @@ namespace FinalBoss.Game
             Vector2 playerPos = player != null ? player.Position : Vector2.zero;
             Vector2 spawnPos = PickSpawnPoint(playerPos);
 
-            var invader = InvaderActor.Spawn(spawnPos, def.Archetype, def.IsElite);
+            var invader = InvaderActor.Spawn(spawnPos, def.Archetype, def.IsElite, def.BossId, def.Modifiers);
             invader.Killed += OnInvaderKilled;
 
             _activeInvaders.Add(invader);

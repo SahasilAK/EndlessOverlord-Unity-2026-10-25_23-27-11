@@ -35,12 +35,26 @@ namespace FinalBoss.Game
         private float _bossDashTimer;
         private float _bossDashActive;
         private Vector2 _bossDashDir;
+        private float _timeSinceDamageTaken;
+        private bool _spawned70Reinforcements;
+        private bool _spawned35Reinforcements;
+        private float _bossAbilityCooldown = 2.0f;
+        private float _bossAbilityWindup;
+        private bool _isBossAbilityWinding;
+        private BossAbilityType _windingAbility;
+        private bool _useSecondaryAbilityNext;
 
         public Health Health { get; private set; }
         public InvaderArchetype Archetype { get; private set; } = InvaderArchetype.Swordsman;
         public InvaderDefinition Definition { get; private set; }
         public bool IsElite { get; private set; }
-        public bool IsBoss => Archetype == InvaderArchetype.RoyalChampion;
+        public string BossId { get; private set; }
+        public LegendaryBossDefinition BossDefinition { get; private set; }
+        public BossModifier Modifiers { get; private set; }
+        public bool IsBoss => !string.IsNullOrEmpty(BossId) || Archetype == InvaderArchetype.RoyalChampion;
+        public float BarrierCurrent { get; private set; }
+        public float BarrierMax { get; private set; }
+        public bool HasBarrier => BarrierCurrent > 0f;
 
         private float _baseMoveSpeed;
         private float _slowMultiplier = 1f;
@@ -85,20 +99,29 @@ namespace FinalBoss.Game
             }
         }
 
-        public static InvaderActor Spawn(Vector2 position, InvaderArchetype archetype = InvaderArchetype.Swordsman, bool isElite = false)
+        public static InvaderActor Spawn(
+            Vector2 position,
+            InvaderArchetype archetype = InvaderArchetype.Swordsman,
+            bool isElite = false,
+            string bossId = null,
+            BossModifier modifiers = BossModifier.None)
         {
-            string name = isElite ? $"Elite_{archetype}" : archetype.ToString();
+            string name = !string.IsNullOrEmpty(bossId)
+                ? $"Boss_{bossId}"
+                : (isElite ? $"Elite_{archetype}" : archetype.ToString());
             var go = new GameObject(name);
             go.transform.position = position;
             var actor = go.AddComponent<InvaderActor>();
-            actor.Initialize(archetype, isElite);
+            actor.Initialize(archetype, isElite, bossId, modifiers);
             return actor;
         }
 
-        private void Initialize(InvaderArchetype archetype, bool isElite)
+        private void Initialize(InvaderArchetype archetype, bool isElite, string bossId = null, BossModifier modifiers = BossModifier.None)
         {
             Archetype = archetype;
             IsElite = isElite;
+            BossId = bossId;
+            Modifiers = modifiers;
             _id = ActorRegistry.NextActorId();
             Definition = InvaderCatalog.Get(archetype);
 
@@ -108,10 +131,29 @@ namespace FinalBoss.Game
             Radius = Definition.Radius;
             _baseColor = new Color(Definition.ColorR, Definition.ColorG, Definition.ColorB);
 
-            if (archetype == InvaderArchetype.RoyalChampion)
+            if (!string.IsNullOrEmpty(bossId))
+            {
+                BossDefinition = LegendaryBossCatalog.Get(bossId);
+                if (BossDefinition != null)
+                {
+                    hp = BossDefinition.BaseHealth;
+                    armor = BossDefinition.BaseArmor;
+                    speed = BossDefinition.BaseMoveSpeed;
+                    Radius = BossDefinition.Radius;
+                    _baseColor = new Color(BossDefinition.ColorR, BossDefinition.ColorG, BossDefinition.ColorB);
+                }
+            }
+            else if (archetype == InvaderArchetype.RoyalChampion)
+            {
+                BossDefinition = LegendaryBossCatalog.Get("boss_alden");
+                Modifiers |= BossModifier.Enrage;
+            }
+
+            if (IsBoss)
             {
                 _melee = new MeleeAttackSim(CombatTuning.BossCleaveRange, CombatTuning.BossCleaveWindup, CombatTuning.BossCleaveRecover);
                 _bossDashTimer = CombatTuning.BossDashCooldown;
+                _bossAbilityCooldown = 2.0f;
             }
             else if (Definition.Role == InvaderCombatRole.Melee || Definition.Role == InvaderCombatRole.Tank || Definition.Role == InvaderCombatRole.Assassin)
             {
@@ -120,6 +162,12 @@ namespace FinalBoss.Game
             else
             {
                 _actionCooldown = 1.0f;
+            }
+
+            if ((Modifiers & BossModifier.Barrier) != 0)
+            {
+                BarrierMax = hp * 0.25f;
+                BarrierCurrent = BarrierMax;
             }
 
             if (isElite)
@@ -257,7 +305,7 @@ namespace FinalBoss.Game
             Vector2 toPlayer = targetValid ? player.Position - Position : Vector2.zero;
             float distToPlayer = toPlayer.magnitude;
 
-            if (Archetype == InvaderArchetype.RoyalChampion)
+            if (IsBoss)
             {
                 UpdateBoss(dt, player, targetValid, toPlayer, distToPlayer);
             }
@@ -458,6 +506,13 @@ namespace FinalBoss.Game
 
         private void UpdateBoss(float dt, PlayerActor player, bool targetValid, Vector2 toPlayer, float distToPlayer)
         {
+            // Passive Regeneration modifier (2.5% max HP / sec if undamaged for 2.5s)
+            _timeSinceDamageTaken += dt;
+            if ((Modifiers & BossModifier.Regeneration) != 0 && _timeSinceDamageTaken >= 2.5f && Health.Current < Health.Max)
+            {
+                Health.Heal(Health.Max * 0.025f * dt);
+            }
+
             // Dash charge timer
             if (_bossDashActive > 0f)
             {
@@ -467,6 +522,38 @@ namespace FinalBoss.Game
                 {
                     player.ReceiveDamage(15f);
                 }
+                return;
+            }
+
+            // Boss signature ability cooldown & windup
+            if (_bossAbilityCooldown > 0f)
+                _bossAbilityCooldown -= dt;
+
+            if (_isBossAbilityWinding)
+            {
+                _bossAbilityWindup -= dt;
+                _rb.linearVelocity = Vector2.zero;
+                if (_bossAbilityWindup <= 0f)
+                {
+                    _isBossAbilityWinding = false;
+                    _bossAbilityCooldown = BossDefinition != null ? BossDefinition.AttackCooldown : 3.0f;
+                    ExecuteBossAbility(_windingAbility, player, toPlayer, distToPlayer);
+                }
+                return;
+            }
+
+            if (_bossAbilityCooldown <= 0f && targetValid && distToPlayer <= 9.0f)
+            {
+                BossAbilityType ability = BossDefinition != null ? BossDefinition.PrimaryAbility : BossAbilityType.WhirlwindCharge;
+                if (_isEnraged && BossDefinition != null)
+                {
+                    ability = _useSecondaryAbilityNext ? BossDefinition.SecondaryAbility : BossDefinition.PrimaryAbility;
+                    _useSecondaryAbilityNext = !_useSecondaryAbilityNext;
+                }
+                _windingAbility = ability;
+                _isBossAbilityWinding = true;
+                _bossAbilityWindup = BossDefinition != null ? Math.Max(0.35f, BossDefinition.AttackWindup) : 0.5f;
+                CueBus.Raise(CueIds.InvaderWindup, Position.x, Position.y);
                 return;
             }
 
@@ -516,6 +603,114 @@ namespace FinalBoss.Game
             _rb.linearVelocity = approach ? toPlayer / distToPlayer * MoveSpeed : Vector2.zero;
         }
 
+        private void ExecuteBossAbility(BossAbilityType ability, PlayerActor player, Vector2 toPlayer, float distToPlayer)
+        {
+            float baseDmg = BossDefinition != null ? BossDefinition.AttackDamage : 25f;
+            float dmg = baseDmg * (_isEnraged ? 1.35f : 1f);
+            if ((Modifiers & BossModifier.ElementalOvercharge) != 0)
+                dmg *= 1.3f;
+
+            switch (ability)
+            {
+                case BossAbilityType.ColossalCleave:
+                    CueBus.Raise(CueIds.BossCleave, Position.x, Position.y);
+                    if (player != null && distToPlayer <= 3.2f)
+                        player.ReceiveDamage(dmg * 1.25f);
+                    break;
+
+                case BossAbilityType.ShockwaveSlam:
+                    CueBus.Raise(CueIds.BossShockwave, Position.x, Position.y);
+                    if (player != null && distToPlayer <= 4.0f)
+                        player.ReceiveDamage(dmg);
+                    break;
+
+                case BossAbilityType.MultishotBarrage:
+                    if (ProjectileManager.Instance != null && player != null)
+                    {
+                        Vector2 baseDir = toPlayer.sqrMagnitude > 1e-4f ? toPlayer.normalized : Vector2.right;
+                        float baseAngle = Mathf.Atan2(baseDir.y, baseDir.x) * Mathf.Rad2Deg;
+                        float[] angles = { -30f, -15f, 0f, 15f, 30f };
+                        for (int i = 0; i < angles.Length; i++)
+                        {
+                            float rad = (baseAngle + angles[i]) * Mathf.Deg2Rad;
+                            Vector2 dir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+                            ProjectileManager.Instance.FireCustom(
+                                Faction.Invader, Position, dir, 8f, 0.25f, dmg * 0.6f, 2.0f,
+                                new Color(0.95f, 0.35f, 0.15f), CueIds.ArrowFire);
+                        }
+                    }
+                    break;
+
+                case BossAbilityType.PhantomBlinkStrike:
+                    if (player != null)
+                    {
+                        Vector2 blinkPos = player.Position + (Position - player.Position).normalized * 1.5f;
+                        transform.position = blinkPos;
+                        if (_rb != null) _rb.position = blinkPos;
+                        CueBus.Raise(CueIds.Dash, blinkPos.x, blinkPos.y);
+                        player.ReceiveDamage(dmg);
+                    }
+                    break;
+
+                case BossAbilityType.MoltenEruption:
+                    if (player != null)
+                    {
+                        CueBus.Raise(CueIds.Explosion, player.Position.x, player.Position.y);
+                        if (distToPlayer <= 3.5f)
+                            player.ReceiveDamage(dmg * 1.1f);
+                    }
+                    break;
+
+                case BossAbilityType.GlacialPrison:
+                    if (player != null)
+                    {
+                        CueBus.Raise(CueIds.FrostNova, player.Position.x, player.Position.y);
+                        player.ReceiveDamage(dmg * 0.8f);
+                        player.ApplySlow(0.35f, 3.0f);
+                    }
+                    break;
+
+                case BossAbilityType.ThunderStrike:
+                    if (player != null)
+                    {
+                        CueBus.Raise(CueIds.LightningStrike, player.Position.x, player.Position.y);
+                        player.ReceiveDamage(dmg * 1.2f);
+                    }
+                    break;
+
+                case BossAbilityType.SanctuaryWard:
+                    CueBus.Raise(CueIds.ShieldBlock, Position.x, Position.y);
+                    if (BarrierMax > 0f)
+                        BarrierCurrent = Math.Min(BarrierMax, BarrierCurrent + BarrierMax * 0.5f);
+                    else
+                        Health.Heal(30f);
+                    break;
+
+                case BossAbilityType.WhirlwindCharge:
+                    _bossDashActive = 0.45f;
+                    _bossDashDir = toPlayer.sqrMagnitude > 1e-4f ? toPlayer.normalized : Vector2.right;
+                    CueBus.Raise(CueIds.BossShockwave, Position.x, Position.y);
+                    break;
+
+                case BossAbilityType.SummonVanguard:
+                    CueBus.Raise(CueIds.BossEnrage, Position.x, Position.y);
+                    Spawn(Position + new Vector2(-1.8f, 0.5f), InvaderArchetype.Knight, false);
+                    Spawn(Position + new Vector2(1.8f, 0.5f), InvaderArchetype.Swordsman, false);
+                    break;
+            }
+
+            if ((Modifiers & BossModifier.ElementalOvercharge) != 0 && ProjectileManager.Instance != null)
+            {
+                Vector2[] dirs = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
+                for (int i = 0; i < dirs.Length; i++)
+                {
+                    ProjectileManager.Instance.FireCustom(
+                        Faction.Invader, Position, dirs[i], 7f, 0.2f, dmg * 0.4f, 1.5f,
+                        new Color(1f, 0.5f, 0f), CueIds.BoltFire);
+                }
+            }
+        }
+
         private void Update()
         {
             // Telegraph visuals
@@ -525,7 +720,23 @@ namespace FinalBoss.Game
                 float progress = 0f;
                 float range = 1.3f;
 
-                if (Archetype == InvaderArchetype.Swordsman || Archetype == InvaderArchetype.RoyalChampion)
+                if (IsBoss)
+                {
+                    if (_isBossAbilityWinding)
+                    {
+                        isWinding = Alive;
+                        float total = BossDefinition != null ? Math.Max(0.35f, BossDefinition.AttackWindup) : 0.5f;
+                        progress = 1f - (_bossAbilityWindup / total);
+                        range = 2.8f;
+                    }
+                    else if (_melee != null && _melee.Phase == MeleePhase.Windup)
+                    {
+                        isWinding = Alive;
+                        progress = _melee.WindupProgress;
+                        range = _melee.Range;
+                    }
+                }
+                else if (Archetype == InvaderArchetype.Swordsman)
                 {
                     isWinding = Alive && _melee != null && _melee.Phase == MeleePhase.Windup;
                     progress = _melee != null ? _melee.WindupProgress : 0f;
@@ -561,9 +772,41 @@ namespace FinalBoss.Game
             if (!Alive)
                 return 0f;
 
-            float dealt = Health.TakeDamage(DamageCalculator.Compute(rawDamage, Armor));
+            _timeSinceDamageTaken = 0f;
+            float computed = DamageCalculator.Compute(rawDamage, Armor);
+
+            if (BarrierCurrent > 0f)
+            {
+                float absorbed = Math.Min(BarrierCurrent, computed);
+                BarrierCurrent -= absorbed;
+                computed -= absorbed;
+                CueBus.Raise(CueIds.ShieldBlock, Position.x, Position.y);
+                if (computed <= 0f)
+                {
+                    _flash = 0.08f;
+                    return absorbed;
+                }
+            }
+
+            float dealt = Health.TakeDamage(computed);
             if (dealt <= 0f)
                 return 0f;
+
+            if ((Modifiers & BossModifier.Reinforcements) != 0 && Alive)
+            {
+                if (!_spawned70Reinforcements && Health.Current <= Health.Max * 0.70f)
+                {
+                    _spawned70Reinforcements = true;
+                    Spawn(Position + new Vector2(-1.5f, 0.5f), InvaderArchetype.Swordsman, false);
+                    Spawn(Position + new Vector2(1.5f, 0.5f), InvaderArchetype.Archer, false);
+                }
+                else if (!_spawned35Reinforcements && Health.Current <= Health.Max * 0.35f)
+                {
+                    _spawned35Reinforcements = true;
+                    Spawn(Position + new Vector2(-1.5f, -0.5f), InvaderArchetype.Knight, false);
+                    Spawn(Position + new Vector2(1.5f, -0.5f), InvaderArchetype.Priest, false);
+                }
+            }
 
             _flash = 0.08f;
             CueBus.Raise(CueIds.InvaderHit, Position.x, Position.y, dealt);

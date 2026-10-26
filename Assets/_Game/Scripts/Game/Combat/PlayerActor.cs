@@ -171,8 +171,24 @@ namespace FinalBoss.Game
         private float _barrierAmount;
         private float _barrierDuration;
         private GameObject _barrierVisual;
+        private float _slowMultiplier = 1f;
+        private float _slowTimer;
 
         public float BarrierAmount => _barrierAmount;
+
+        public void ApplySlow(float slowPercent, float duration)
+        {
+            if (!Alive) return;
+            float targetMult = Mathf.Clamp(1f - slowPercent, 0.2f, 1f);
+            if (_slowTimer <= 0f || targetMult < _slowMultiplier)
+            {
+                _slowMultiplier = targetMult;
+            }
+            if (duration > _slowTimer)
+            {
+                _slowTimer = duration;
+            }
+        }
 
         public void SetBarrier(float amount, float duration)
         {
@@ -208,6 +224,12 @@ namespace FinalBoss.Game
                 return;
             }
             float dt = Time.fixedDeltaTime;
+            if (_slowTimer > 0f)
+            {
+                _slowTimer -= dt;
+                if (_slowTimer <= 0f)
+                    _slowMultiplier = 1f;
+            }
             float vx, vy;
             if (_dash.Tick(dt, out vx, out vy))
             {
@@ -220,7 +242,7 @@ namespace FinalBoss.Game
                 float metaSpeed = _run != null ? _run.MetaStats.BonusMoveSpeedPercent : 0f;
                 float speedMultiplier = 1f + (_run != null && _run.Rewards != null ? _run.Rewards.BonusMoveSpeedPercent : 0f) + equipStats.MoveSpeedPercent + metaSpeed;
                 float baseSpeed = _run != null && _run.Character != null ? _run.Character.BaseMoveSpeed : CombatTuning.PlayerMoveSpeed;
-                MovementMath.Velocity(move.x, move.y, baseSpeed * speedMultiplier, out vx, out vy);
+                MovementMath.Velocity(move.x, move.y, baseSpeed * speedMultiplier * _slowMultiplier, out vx, out vy);
                 _rb.linearVelocity = new Vector2(vx, vy);
                 if (move.sqrMagnitude > 0.01f && !HasTargetAim)
                     AimDirection = move.normalized;

@@ -45,12 +45,16 @@ namespace FinalBoss.Core
         public InvaderArchetype Archetype;
         public bool IsElite;
         public float DelayBeforeSpawn;
+        public string BossId;
+        public BossModifier Modifiers;
 
-        public InvaderSpawnDef(InvaderArchetype archetype, bool isElite, float delayBeforeSpawn)
+        public InvaderSpawnDef(InvaderArchetype archetype, bool isElite, float delayBeforeSpawn, string bossId = null, BossModifier modifiers = BossModifier.None)
         {
             Archetype = archetype;
             IsElite = isElite;
             DelayBeforeSpawn = delayBeforeSpawn;
+            BossId = bossId;
+            Modifiers = modifiers;
         }
     }
 
@@ -170,8 +174,25 @@ namespace FinalBoss.Core
 
             if (isBossWave)
             {
+                // In milestone waves 10 & 20, Lord Alden the Royal Champion is primary boss
+                var bossDef = (waveNumber <= 20)
+                    ? LegendaryBossCatalog.Get("boss_alden")
+                    : LegendaryBossCatalog.PickForWave(waveNumber, _baseSeed);
+                var mods = LegendaryBossCatalog.RollModifiersForWave(waveNumber, _baseSeed);
+
                 // Boss spawns first
-                spawns.Add(new InvaderSpawnDef(InvaderArchetype.RoyalChampion, false, 0.2f));
+                spawns.Add(new InvaderSpawnDef(bossDef.Archetype, false, 0.2f, bossDef.Id, mods));
+
+                // Wave 20+ has a secondary boss encounter
+                if (waveNumber >= 20)
+                {
+                    int secondIdx = Math.Abs(unchecked((int)(_baseSeed ^ (waveNumber * 13)))) % LegendaryBossCatalog.All.Count;
+                    var secondBoss = LegendaryBossCatalog.GetByIndex(secondIdx);
+                    if (secondBoss != null && secondBoss.Id != bossDef.Id)
+                    {
+                        spawns.Add(new InvaderSpawnDef(secondBoss.Archetype, false, 1.2f, secondBoss.Id, mods));
+                    }
+                }
 
                 // Escort minions scaling with wave (wave 10: 4, wave 20: 8...)
                 int minionCount = 3 + (waveNumber / 10) * 2;
