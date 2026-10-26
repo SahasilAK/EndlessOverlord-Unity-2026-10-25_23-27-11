@@ -78,26 +78,28 @@ namespace FinalBoss.Game
 
         private void BuildPlaceholderWorld(RunContext run)
         {
+            if (run.Layout == null)
+            {
+                run.Layout = ArenaGenerator.Generate(run.Seed);
+            }
+
             var cam = Camera.main;
             if (cam != null)
             {
                 cam.orthographic = true;
                 cam.orthographicSize = ArenaConfig.CameraSize;
-                cam.transform.position = new Vector3(0f, 0f, -10f);
+                cam.transform.position = new Vector3(run.Layout.PlayerSpawn.X, run.Layout.PlayerSpawn.Y, -10f);
                 cam.backgroundColor = new Color(0.04f, 0.04f, 0.06f);
             }
 
-            float w = ArenaConfig.HalfWidth, h = ArenaConfig.HalfHeight;
-            CreateBox("ArenaFloor", new Vector3(0f, 0f, 1f), new Vector2(w * 2f, h * 2f), new Color(0.16f, 0.16f, 0.2f), -10);
-            CreateWall("Wall_N", new Vector2(0f, h + 0.5f), new Vector2(w * 2f + 2f, 1f));
-            CreateWall("Wall_S", new Vector2(0f, -h - 0.5f), new Vector2(w * 2f + 2f, 1f));
-            CreateWall("Wall_E", new Vector2(w + 0.5f, 0f), new Vector2(1f, h * 2f + 2f));
-            CreateWall("Wall_W", new Vector2(-w - 0.5f, 0f), new Vector2(1f, h * 2f + 2f));
+            // Procedural arena geometry (walls, obstacles, portals, landmarks)
+            DungeonPresenter.BuildArena(transform, run.Layout);
 
             var projectilesGo = new GameObject("Projectiles");
             var projectiles = projectilesGo.AddComponent<ProjectileManager>();
 
             var playerGo = new GameObject("Player_" + run.Character.Id);
+            playerGo.transform.position = run.Layout.PlayerSpawn.ToUnity3();
             _player = playerGo.AddComponent<PlayerActor>();
             _player.Initialize(run, _input);
             _player.Health.Died += OnPlayerDied;

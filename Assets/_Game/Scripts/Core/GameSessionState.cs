@@ -47,7 +47,7 @@ namespace FinalBoss.Core
         /// Creates a new run with a fresh seed and moves to RunSetup. Fails if no playable character is
         /// selected, if a run already exists, or if the state does not allow starting.
         /// </summary>
-        public bool TryStartRun()
+        public bool TryStartRun(long? customSeed = null)
         {
             if (Run != null || SelectedCharacterId == null)
                 return false;
@@ -60,7 +60,8 @@ namespace FinalBoss.Core
                 return false;
             _runCounter++;
             var metaStats = Profile != null ? Profile.GetPersistentStartingStats() : default(PersistentStats);
-            Run = new RunContext(_seeds.NextSeed(), _runCounter, info, metaStats);
+            long seed = customSeed.HasValue ? customSeed.Value : _seeds.NextSeed();
+            Run = new RunContext(seed, _runCounter, info, metaStats);
             return true;
         }
 

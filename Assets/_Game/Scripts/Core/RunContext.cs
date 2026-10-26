@@ -18,6 +18,7 @@ namespace FinalBoss.Core
         public PlayerInventory Inventory { get; }
         public MerchantSystem Merchant { get; }
         public PersistentStats MetaStats { get; }
+        public ArenaLayout Layout { get; set; }
 
         public float ElapsedTime { get; set; }
         public int TotalKills { get; set; }
@@ -42,6 +43,7 @@ namespace FinalBoss.Core
             Rewards = new RewardInventory();
             Inventory = new PlayerInventory();
             Merchant = new MerchantSystem();
+            Layout = ArenaGenerator.Generate(seed);
             HighestWave = 1;
         }
 

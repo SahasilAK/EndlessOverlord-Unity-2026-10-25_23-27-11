@@ -77,8 +77,12 @@ namespace FinalBoss.Game
         {
             if (_model == null || _run == null)
                 return;
+            string biomeLabel = _run.Layout != null
+                ? $"   [{_run.Layout.Biome.Name} - {_run.Layout.TopologyType}]"
+                : "";
+
             _statusText.text =
-                _run.Character.DisplayName + "   (run #" + _run.RunNumber + ")\n" +
+                _run.Character.DisplayName + "   (run #" + _run.RunNumber + ")" + biomeLabel + "\n" +
                 "HP " + Mathf.CeilToInt(_model.Health) + " / " + Mathf.CeilToInt(_model.MaxHealth) + "\n" +
                 _model.ResourceName + " " + Mathf.CeilToInt(_model.Resource) + " / " + Mathf.CeilToInt(_model.MaxResource) + "\n" +
                 "Wave " + _model.Wave + "   Gold " + _model.Gold + "   Score " + _model.Score + "\n" +

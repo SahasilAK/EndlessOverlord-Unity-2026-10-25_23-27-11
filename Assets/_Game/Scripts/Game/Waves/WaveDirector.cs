@@ -164,6 +164,45 @@ namespace FinalBoss.Game
 
         private Vector2 PickSpawnPoint(Vector2 playerPos)
         {
+            if (_run?.Layout?.Portals != null && _run.Layout.Portals.Count > 0)
+            {
+                var portals = _run.Layout.Portals;
+                var validPortals = new List<ArenaPortal>();
+                for (int i = 0; i < portals.Count; i++)
+                {
+                    Vector2 pos = portals[i].Position.ToUnity();
+                    if ((pos - playerPos).sqrMagnitude >= MinSpawnDistance * MinSpawnDistance)
+                    {
+                        validPortals.Add(portals[i]);
+                    }
+                }
+
+                if (validPortals.Count > 0)
+                {
+                    int pick = _rng.NextInt(0, validPortals.Count);
+                    Vector2 basePos = validPortals[pick].Position.ToUnity();
+                    float jitterX = (float)(_rng.NextDouble() * 1.0 - 0.5);
+                    float jitterY = (float)(_rng.NextDouble() * 1.0 - 0.5);
+                    return basePos + new Vector2(jitterX, jitterY);
+                }
+                else
+                {
+                    // Fallback to the farthest portal
+                    ArenaPortal best = portals[0];
+                    float bestDist = 0f;
+                    for (int i = 0; i < portals.Count; i++)
+                    {
+                        float d = (portals[i].Position.ToUnity() - playerPos).sqrMagnitude;
+                        if (d > bestDist)
+                        {
+                            bestDist = d;
+                            best = portals[i];
+                        }
+                    }
+                    return best.Position.ToUnity();
+                }
+            }
+
             float halfW = ArenaConfig.HalfWidth - SpawnEdgeMargin;
             float halfH = ArenaConfig.HalfHeight - SpawnEdgeMargin;
 
