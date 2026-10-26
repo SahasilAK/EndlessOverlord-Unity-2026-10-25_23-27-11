@@ -26,13 +26,22 @@ namespace FinalBoss.Game
         private readonly List<TargetCandidate> _buffer = new List<TargetCandidate>();
         private ObjectPool<BoltProjectile> _pool;
 
+        public static ProjectileManager Instance { get; private set; }
+
         public int ActiveCount { get { return _active.Count; } }
         public int PoolTotal { get { return _pool.CountAll; } }
         public int PoolInactive { get { return _pool.CountInactive; } }
 
         private void Awake()
         {
+            Instance = this;
             _pool = new ObjectPool<BoltProjectile>(CreateBolt, b => b.gameObject.SetActive(true), ResetBolt);
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+                Instance = null;
         }
 
         private BoltProjectile CreateBolt()
@@ -50,17 +59,30 @@ namespace FinalBoss.Game
         private static void ResetBolt(BoltProjectile b)
         {
             b.State.Reset();
+            var sr = b.GetComponent<SpriteRenderer>();
+            if (sr != null) sr.color = new Color(0.6f, 1f, 0.55f);
             b.gameObject.SetActive(false);
         }
 
         public BoltProjectile Fire(Faction owner, Vector2 origin, Vector2 direction)
         {
+            return FireCustom(owner, origin, direction, CombatTuning.BoltSpeed, CombatTuning.BoltRadius,
+                CombatTuning.BoltDamage, CombatTuning.BoltLifetime, new Color(0.6f, 1f, 0.55f), CueIds.BoltFire);
+        }
+
+        public BoltProjectile FireCustom(Faction owner, Vector2 origin, Vector2 direction,
+            float speed, float radius, float damage, float lifetime, Color color, string cueId = null)
+        {
             var bolt = _pool.Get();
+            var sr = bolt.GetComponent<SpriteRenderer>();
+            if (sr != null) sr.color = color;
+            bolt.transform.localScale = new Vector3(radius * 2f, radius * 2f, 1f);
             bolt.State.Launch(owner, origin.x, origin.y, direction.x, direction.y,
-                CombatTuning.BoltSpeed, CombatTuning.BoltRadius, CombatTuning.BoltDamage, CombatTuning.BoltLifetime);
+                speed, radius, damage, lifetime);
             bolt.SyncTransform();
             _active.Add(bolt);
-            CueBus.Raise(CueIds.BoltFire, origin.x, origin.y);
+            if (!string.IsNullOrEmpty(cueId))
+                CueBus.Raise(cueId, origin.x, origin.y);
             return bolt;
         }
 

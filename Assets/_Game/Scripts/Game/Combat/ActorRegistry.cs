@@ -40,6 +40,7 @@ namespace FinalBoss.Game
         public static int NextActorId() { return _nextId++; }
 
         public static int Count { get { return All.Count; } }
+        public static IReadOnlyList<IDamageable> AllActors { get { return All; } }
 
         public static void Register(IDamageable actor)
         {

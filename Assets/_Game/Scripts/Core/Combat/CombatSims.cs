@@ -21,19 +21,65 @@ namespace FinalBoss.Core
         public const float BoltRadius = 0.2f;
         public const float BoltLifetime = 1.4f;
 
-        // Basic invader (melee)
-        public const float InvaderHealth = 40f;
+        // Basic invader (melee Swordsman)
+        public const float InvaderHealth = 35f;
         public const float InvaderArmor = 5f;
-        public const float InvaderMoveSpeed = 3f;
+        public const float InvaderMoveSpeed = 3.2f;
         public const float InvaderRadius = 0.5f;
         public const float InvaderMeleeDamage = 10f;
         public const float InvaderMeleeRange = 1.3f;
         public const float InvaderWindup = 0.5f;
         public const float InvaderRecover = 0.9f;
 
-        // Sandbox rewards on kill
+        // Ranged Invader (Archer)
+        public const float ArcherHealth = 25f;
+        public const float ArcherArmor = 0f;
+        public const float ArcherMoveSpeed = 2.8f;
+        public const float ArcherRadius = 0.45f;
+        public const float ArcherMinRange = 4.2f;
+        public const float ArcherMaxRange = 7.5f;
+        public const float ArcherWindup = 0.65f;
+        public const float ArcherCooldown = 2.2f;
+        public const float ArcherArrowSpeed = 9.5f;
+        public const float ArcherArrowDamage = 8f;
+        public const float ArcherArrowRadius = 0.18f;
+        public const float ArcherArrowLifetime = 1.6f;
+
+        // Support Invader (Cleric)
+        public const float ClericHealth = 40f;
+        public const float ClericArmor = 8f;
+        public const float ClericMoveSpeed = 2.5f;
+        public const float ClericRadius = 0.5f;
+        public const float ClericHealRange = 6f;
+        public const float ClericHealAmount = 18f;
+        public const float ClericHealWindup = 0.8f;
+        public const float ClericHealCooldown = 3.5f;
+
+        // Boss (Royal Champion)
+        public const float BossHealth = 220f;
+        public const float BossArmor = 15f;
+        public const float BossMoveSpeed = 2.4f;
+        public const float BossEnragedSpeed = 3.4f;
+        public const float BossRadius = 0.9f;
+        public const float BossCleaveDamage = 22f;
+        public const float BossCleaveRange = 2.4f;
+        public const float BossCleaveWindup = 0.85f;
+        public const float BossCleaveRecover = 1.1f;
+        public const float BossDashSpeed = 11f;
+        public const float BossDashCooldown = 6f;
+        public const float BossShockwaveDamage = 12f;
+
+        // Elite Multipliers
+        public const float EliteHealthMultiplier = 1.8f;
+        public const float EliteDamageMultiplier = 1.25f;
+        public const float EliteSpeedMultiplier = 1.15f;
+        public const float EliteScoreMultiplier = 2.5f;
+
+        // Rewards on kill
         public const float SoulPerKill = 10f;
         public const long ScorePerKill = 100;
+        public const float BossSoulReward = 60f;
+        public const long BossScoreReward = 1200;
     }
 
     public static class MovementMath

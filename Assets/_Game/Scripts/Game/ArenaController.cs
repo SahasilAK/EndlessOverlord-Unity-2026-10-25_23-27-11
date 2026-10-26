@@ -14,12 +14,14 @@ namespace FinalBoss.Game
         private PlayerInputAdapter _input;
         private HudView _hud;
         private PlayerActor _player;
+        private WaveDirector _waveDirector;
         private GameObject _pausePanel;
         private GameObject _deathPanel;
         private bool _returning;
 
         public PlayerInputAdapter Input { get { return _input; } }
         public PlayerActor Player { get { return _player; } }
+        public WaveDirector WaveDirector { get { return _waveDirector; } }
 
         private void Start()
         {
@@ -88,8 +90,9 @@ namespace FinalBoss.Game
             attacker.Initialize(_player, projectiles);
 
             new GameObject("CuePresenter").AddComponent<CuePresenter>();
-            var spawner = new GameObject("SandboxSpawner").AddComponent<SandboxSpawner>();
-            spawner.Initialize(run);
+            var directorGo = new GameObject("WaveDirector");
+            _waveDirector = directorGo.AddComponent<WaveDirector>();
+            _waveDirector.Initialize(run);
 
             if (cam != null)
             {

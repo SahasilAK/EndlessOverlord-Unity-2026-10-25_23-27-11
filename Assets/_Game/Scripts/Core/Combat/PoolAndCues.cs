@@ -67,6 +67,7 @@ namespace FinalBoss.Core
     {
         public const string BoltFire = "cue.bolt.fire";
         public const string BoltHit = "cue.bolt.hit";
+        public const string ArrowFire = "cue.arrow.fire";
         public const string PlayerDash = "cue.player.dash";
         public const string PlayerHit = "cue.player.hit";
         public const string PlayerDeath = "cue.player.death";
@@ -74,6 +75,10 @@ namespace FinalBoss.Core
         public const string InvaderStrike = "cue.invader.strike";
         public const string InvaderHit = "cue.invader.hit";
         public const string InvaderDeath = "cue.invader.death";
+        public const string ClericHeal = "cue.cleric.heal";
+        public const string BossCleave = "cue.boss.cleave";
+        public const string BossEnrage = "cue.boss.enrage";
+        public const string BossShockwave = "cue.boss.shockwave";
     }
 
     /// <summary>

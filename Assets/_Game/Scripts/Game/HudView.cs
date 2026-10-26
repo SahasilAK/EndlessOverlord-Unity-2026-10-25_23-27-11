@@ -70,8 +70,8 @@ namespace FinalBoss.Game
             _boundInput = null;
         }
 
-        private void OnDash() { _lastAction = "Dash (P2 will implement)"; }
-        private void OnSkill(int slot) { _lastAction = "Skill " + (slot + 1) + " (P9 will implement)"; }
+        private void OnDash() { _lastAction = "Dash"; }
+        private void OnSkill(int slot) { _lastAction = "Skill " + (slot + 1); }
 
         private void Refresh()
         {

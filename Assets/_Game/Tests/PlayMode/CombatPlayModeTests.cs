@@ -22,6 +22,7 @@ namespace FinalBoss.Tests
         public void SetUp()
         {
             _keyboard = InputSystem.AddDevice<Keyboard>();
+            _keyboard.MakeCurrent();
         }
 
         [TearDown]
@@ -61,15 +62,19 @@ namespace FinalBoss.Tests
 
         private void Hold(params Key[] keys)
         {
+            if (_keyboard != null)
+                _keyboard.MakeCurrent();
             InputSystem.QueueStateEvent(_keyboard, new KeyboardState(keys));
             InputSystem.Update();
         }
 
-        private static void IsolatePlayer()
+        private void IsolatePlayer()
         {
-            // Remove the sandbox spawner's influence for movement/dodge tests.
-            var spawner = Object.FindAnyObjectByType<SandboxSpawner>();
-            if (spawner != null) spawner.enabled = false;
+            if (_arena != null && _arena.WaveDirector != null)
+            {
+                _arena.WaveDirector.ClearAllEnemies();
+                _arena.WaveDirector.enabled = false;
+            }
         }
 
         [UnityTest]
@@ -80,16 +85,22 @@ namespace FinalBoss.Tests
             yield return new WaitForSeconds(0.2f);
 
             Vector2 start = _rb.position;
-            Hold(Key.D);
-            yield return new WaitForSeconds(0.5f);
+            for (float t = 0; t < 0.5f; t += Time.fixedDeltaTime)
+            {
+                Hold(Key.D);
+                yield return new WaitForFixedUpdate();
+            }
             float straightSpeed = _rb.linearVelocity.magnitude;
             Vector2 moved = _rb.position - start;
             Debug.Log("[P2 timing] straight speed=" + straightSpeed.ToString("0.00") + " moved=" + moved);
             Assert.Greater(moved.x, 1.5f, "player did not move right");
             Assert.AreEqual(CombatTuning.PlayerMoveSpeed, straightSpeed, 0.3f);
 
-            Hold(Key.D, Key.W);
-            yield return new WaitForSeconds(0.2f);
+            for (float t = 0; t < 0.2f; t += Time.fixedDeltaTime)
+            {
+                Hold(Key.D, Key.W);
+                yield return new WaitForFixedUpdate();
+            }
             float diagonalSpeed = _rb.linearVelocity.magnitude;
             Debug.Log("[P2 timing] diagonal speed=" + diagonalSpeed.ToString("0.00"));
             Assert.AreEqual(CombatTuning.PlayerMoveSpeed, diagonalSpeed, 0.3f, "diagonal movement must not be faster");
@@ -137,16 +148,15 @@ namespace FinalBoss.Tests
         public IEnumerator AutoAttackKillsInvaderWithoutAnyAttackInput()
         {
             yield return StartArena(13);
-            var spawner = Object.FindAnyObjectByType<SandboxSpawner>();
+            var director = _arena.WaveDirector;
             var attacker = _player.GetComponent<AutoAttacker>();
             float t0 = Time.time;
             float deadline = Time.realtimeSinceStartup + 20f;
-            while (spawner.KillCount < 1 && Time.realtimeSinceStartup < deadline)
+            while (GameSession.Run.Hud.Score == 0 && Time.realtimeSinceStartup < deadline)
                 yield return null;
-            Debug.Log("[P2 timing] first kill after " + (Time.time - t0).ToString("0.00") + "s, shots=" + attacker.ShotsFired + ", spawns=" + spawner.SpawnCount + ", playerHP=" + _player.Health.Current);
-            Assert.GreaterOrEqual(spawner.KillCount, 1, "auto attack never killed the invader");
+            Debug.Log("[P2 timing] first kill after " + (Time.time - t0).ToString("0.00") + "s, shots=" + attacker.ShotsFired + ", playerHP=" + _player.Health.Current);
+            Assert.Greater(GameSession.Run.Hud.Score, 0, "auto attack never killed an invader");
             Assert.Greater(attacker.ShotsFired, 0);
-            Assert.AreEqual(CombatTuning.ScorePerKill * spawner.KillCount, GameSession.Run.Hud.Score);
             Assert.Greater(GameSession.Run.Hud.Resource, 0f, "kill should grant resource");
             Assert.AreEqual(RunState.PlayingWave, GameSession.Machine.Current);
         }
