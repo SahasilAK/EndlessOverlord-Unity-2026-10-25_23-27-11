@@ -1525,6 +1525,16 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.InvaderStrike, cataPos.x, cataPos.y);
                     break;
 
+                // Branch C — Demonic Powers (Actives 21-30)
+                case "demon_monarch_active_21": // Throne of Embers
+                    HazardZoneActor.Spawn(playerPos, radius, duration: def.Duration > 0 ? def.Duration : 3.5f, damagePerTick: damage * 0.3f, tickInterval: 0.5f, color: new Color(1f, 0.3f, 0.1f, 0.6f), label: "[THRONE_OF_EMBERS]");
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 0.7f, knockbackForce: 2f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(25f + (rank >= 20 ? 25f : 0f), duration: 4.0f);
+                    SpawnVisualBurst(playerPos, radius * 2.2f, new Color(1f, 0.4f, 0.1f, 0.9f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
                 case "demon_monarch_active_22": // Hellstep
                     Vector2 startPos = playerPos;
                     Vector2 destPos = ValidateLandingDestination(startPos, startPos + aimDir * def.Range);
@@ -1535,6 +1545,99 @@ namespace FinalBoss.Game
                     SpawnVisualBurst(startPos, radius * 2f, new Color(1f, 0.35f, 0.1f, 0.85f), 0.3f);
                     SpawnVisualBurst(destPos, radius * 2f, new Color(1f, 0.35f, 0.1f, 0.85f), 0.3f);
                     CueBus.Raise(CueIds.PlayerDash, destPos.x, destPos.y);
+                    break;
+
+                case "demon_monarch_active_23": // Ash Doppelganger
+                    Vector2 doppelPos = playerPos + aimDir * 2.0f;
+                    result.DamageDealt += DamageArea(doppelPos, radius, damage * 0.6f, knockbackForce: 3f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    UndeadMinionActor.Spawn(UndeadMinionType.Captain, doppelPos, overrideDamage: damage * 0.8f, overrideMaxHp: 120f, lifetime: def.Duration > 0 ? def.Duration : 6.0f);
+                    SpawnVisualBurst(doppelPos, radius * 2.2f, new Color(0.8f, 0.2f, 0.1f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, doppelPos.x, doppelPos.y);
+                    break;
+
+                case "demon_monarch_active_24": // Bloodforged Blade
+                    _player.Health?.TakeDamage(10f); // Demonic blood sacrifice
+                    Vector2 bloodSlashPos = playerPos + aimDir * 2.5f;
+                    result.DamageDealt += DamageArea(bloodSlashPos, radius, damage * 1.3f, knockbackForce: 4.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (result.DamageDealt > 0f)
+                    {
+                        float lifestealAmount = result.DamageDealt * (0.25f + (rank >= 10 ? 0.15f : 0f));
+                        _player.Health?.Heal(lifestealAmount);
+                        result.HealingDone += lifestealAmount;
+                    }
+                    _player.SetBarrier(30f, duration: 4.0f);
+                    SpawnVisualBurst(bloodSlashPos, radius * 2.2f, new Color(0.9f, 0.05f, 0.15f, 0.95f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, bloodSlashPos.x, bloodSlashPos.y);
+                    break;
+
+                case "demon_monarch_active_25": // Furnace Heart
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 5.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(45f, duration: 3.5f);
+                    SpawnVisualBurst(playerPos, radius * 2.5f, new Color(1f, 0.45f, 0.05f, 0.95f), 0.6f);
+                    CueBus.Raise(CueIds.PlayerDash, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_active_26": // Terror Roar
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 8.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.60f, def.Duration > 0 ? def.Duration : 2.5f);
+                        }
+                    }
+                    SpawnVisualBurst(playerPos, radius * 2.6f, new Color(0.9f, 0.15f, 0.1f, 0.9f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_active_27": // Infernal Grasp
+                    Vector2 graspCenter = playerPos + aimDir * 3.5f;
+                    result.DamageDealt += DamageArea(graspCenter, radius, damage, knockbackForce: -6.0f); // Inward pull
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.5f, 1.5f);
+                        }
+                    }
+                    SpawnVisualBurst(graspCenter, radius * 2.4f, new Color(0.85f, 0.1f, 0.2f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, graspCenter.x, graspCenter.y);
+                    break;
+
+                case "demon_monarch_active_28": // Blasphemous Banner
+                    Vector2 bannerPos = playerPos + aimDir * 2.5f;
+                    HazardZoneActor.Spawn(bannerPos, radius, duration: def.Duration > 0 ? def.Duration : 5.0f, damagePerTick: damage * 0.35f, tickInterval: 0.5f, color: new Color(0.9f, 0.1f, 0.1f, 0.65f), label: "[BLASPHEMOUS_BANNER]");
+                    result.DamageDealt += DamageArea(bannerPos, radius, damage * 0.6f, knockbackForce: 3f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(35f, duration: 4.0f);
+                    SpawnVisualBurst(bannerPos, radius * 2.4f, new Color(1f, 0.2f, 0.1f, 0.95f), 0.6f);
+                    CueBus.Raise(CueIds.InvaderStrike, bannerPos.x, bannerPos.y);
+                    break;
+
+                case "demon_monarch_active_29": // Wrath Magnet
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: -8.0f); // Strong inward pull
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.8f, new Color(1f, 0.3f, 0.05f, 0.95f), 0.6f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "demon_monarch_active_30": // Demonic Standard
+                    Vector2 guardPos = playerPos + aimDir * 2.0f;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 7.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(playerPos, radius, duration: 4.0f, damagePerTick: damage * 0.3f, tickInterval: 0.5f, color: new Color(1f, 0.15f, 0.05f, 0.65f), label: "[DEMONIC_STANDARD_AURA]");
+                    UndeadMinionActor.Spawn(UndeadMinionType.Captain, guardPos, overrideDamage: damage * 0.9f, overrideMaxHp: 160f, lifetime: def.Duration > 0 ? def.Duration : 6.0f);
+                    if (rank >= 20)
+                    {
+                        UndeadMinionActor.Spawn(UndeadMinionType.Guardian, playerPos - aimDir * 1.5f, overrideDamage: damage * 0.7f, overrideMaxHp: 200f, lifetime: def.Duration > 0 ? def.Duration : 6.0f);
+                    }
+                    SpawnVisualBurst(playerPos, radius * 3.0f, new Color(1f, 0.2f, 0.05f, 0.95f), 0.8f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
                     break;
 
                 // Milestone Ultimates

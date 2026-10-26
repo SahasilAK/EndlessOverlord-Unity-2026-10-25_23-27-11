@@ -1456,32 +1456,6 @@ namespace FinalBoss.Core
             // -------------------------------------------------------------
             // DEMON MONARCH
             // -------------------------------------------------------------
-            // Legacy signature ability definition
-            Register(new AbilityDefinition(
-                id: "demon_monarch_active_22",
-                characterId: CharacterCatalog.DemonMonarchId,
-                name: "Hellstep",
-                description: "Teleport swiftly across the battlefield, unleashing infernal explosions at departure and arrival.",
-                branchName: "Branch C — Demonic Powers",
-                tier: 1,
-                prerequisiteAbilityId: null,
-                resourceCost: 25f,
-                cooldownDuration: 4f,
-                range: 5f,
-                effects: AbilityEffectType.Dash | AbilityEffectType.RadialAoE,
-                targeting: AbilityTargetingRule.AimDirection,
-                baseDamage: 30f,
-                baseRadius: 3f,
-                duration: 0.3f,
-                milestones: new[]
-                {
-                    new AbilityRankMilestone(5, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
-                    new AbilityRankMilestone(10, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
-                    new AbilityRankMilestone(15, "Explosion radius +25%", radiusMultiplier: 1.25f),
-                    new AbilityRankMilestone(20, "Mastery: Hellstep deals 50% more damage and leaves an incinerating trail", damageMultiplier: 1.50f)
-                }
-            ));
-
             // Branch A — Infernal Swordsmanship (Actives 01-10)
             Register(new AbilityDefinition(
                 id: "demon_monarch_active_01",
@@ -1981,6 +1955,257 @@ namespace FinalBoss.Core
                     new AbilityRankMilestone(10, "Cataclysm Fire damage increased by 40%", damageMultiplier: 1.40f),
                     new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
                     new AbilityRankMilestone(20, "Mastery: Cataclysm leaves an impassable infernal crater dealing continuous fire damage", bonusUtility: 1.0f)
+                }
+            ));
+
+            // Branch C — Demonic Powers (Actives 21-30)
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_21",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Throne of Embers",
+                description: "Ignite an empowering demonic floor zone beneath your feet, enhancing fury regeneration and immolating surrounding enemies.",
+                branchName: "Branch C — Demonic Powers",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 20f,
+                cooldownDuration: 4.5f,
+                range: 4.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 32f,
+                baseRadius: 3.5f,
+                duration: 3.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Throne duration increased by 1.5 seconds", bonusUtility: 1.5f),
+                    new AbilityRankMilestone(10, "Ember radiance damage increased by 25%", damageMultiplier: 1.25f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Standing on the Throne grants +25% attack speed and +10 armor", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_22",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Hellstep",
+                description: "Teleport swiftly across the battlefield, unleashing infernal explosions at departure and arrival.",
+                branchName: "Branch C — Demonic Powers",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 25f,
+                cooldownDuration: 4.0f,
+                range: 5.0f,
+                effects: AbilityEffectType.Dash | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 30f,
+                baseRadius: 3.0f,
+                duration: 0.3f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(10, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(15, "Explosion radius +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(20, "Mastery: Hellstep deals 50% more damage and leaves an incinerating trail", damageMultiplier: 1.50f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_23",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Ash Doppelganger",
+                description: "Forge a fiery shadow doppelganger out of volcanic ash to hunt down invaders and cleave them with molten steel.",
+                branchName: "Branch C — Demonic Powers",
+                tier: 2,
+                prerequisiteAbilityId: "demon_monarch_active_21",
+                resourceCost: 30f,
+                cooldownDuration: 6.0f,
+                range: 5.0f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 38f,
+                baseRadius: 3.0f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Doppelganger lifetime increased by 2.5 seconds", bonusUtility: 2.5f),
+                    new AbilityRankMilestone(10, "Doppelganger slash damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Doppelganger violently detonates upon expiring, dealing heavy radial damage", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_24",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Bloodforged Blade",
+                description: "Sacrifice a portion of health to imbue your weapon with demonic thirst, dealing heavy cleave damage and granting life steal.",
+                branchName: "Branch C — Demonic Powers",
+                tier: 2,
+                prerequisiteAbilityId: "demon_monarch_active_22",
+                resourceCost: 20f,
+                cooldownDuration: 5.0f,
+                range: 4.0f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.Shield | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 48f,
+                baseRadius: 3.5f,
+                duration: 0.3f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Cleave damage increased by 25%", damageMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Life steal siphoned from targets increased by 50%", bonusUtility: 0.50f),
+                    new AbilityRankMilestone(15, "Health cost reduced by 50%", resourceCostMultiplier: 0.50f),
+                    new AbilityRankMilestone(20, "Mastery: Grants a protective blood barrier absorbing incoming damage", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_25",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Furnace Heart",
+                description: "Overcharge the demonic furnace within your chest, pulsing intense heat waves and reinforcing your demonic barrier.",
+                branchName: "Branch C — Demonic Powers",
+                tier: 2,
+                prerequisiteAbilityId: "demon_monarch_active_23",
+                resourceCost: 35f,
+                cooldownDuration: 6.5f,
+                range: 4.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 42f,
+                baseRadius: 4.5f,
+                duration: 3.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Furnace pulse radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Pulse damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 20%", resourceCostMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Furnace Heart grants a fiery temporary shield and +20% move speed", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_26",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Terror Roar",
+                description: "Release a terrifying abyssal roar that repels encroaching invaders, inflicting heavy slow and demoralizing their ranks.",
+                branchName: "Branch C — Demonic Powers",
+                tier: 3,
+                prerequisiteAbilityId: "demon_monarch_active_24",
+                resourceCost: 30f,
+                cooldownDuration: 6.0f,
+                range: 5.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 40f,
+                baseRadius: 5.0f,
+                duration: 2.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Roar radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Roar knockback force and slow increased by 40%", bonusUtility: 0.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Terror Roar disorients enemies, causing them to take 25% amplified damage", damageMultiplier: 1.25f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_27",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Infernal Grasp",
+                description: "Conjure a massive demonic claw that erupts from the stone floor, pulling enemies inward and crushing them in a fiery grip.",
+                branchName: "Branch C — Demonic Powers",
+                tier: 3,
+                prerequisiteAbilityId: "demon_monarch_active_25",
+                resourceCost: 35f,
+                cooldownDuration: 7.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 54f,
+                baseRadius: 4.0f,
+                duration: 1.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Grasp reach and radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Crushing damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Crushed foes are dragged directly to the monarch's melee reach", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_28",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Blasphemous Banner",
+                description: "Plant a terrifying demonic war banner into the ground, radiating continuous brimstone burn and inspiring relentless fury.",
+                branchName: "Branch C — Demonic Powers",
+                tier: 3,
+                prerequisiteAbilityId: "demon_monarch_active_26",
+                resourceCost: 40f,
+                cooldownDuration: 8.0f,
+                range: 5.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 50f,
+                baseRadius: 4.5f,
+                duration: 5.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Banner aura radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Continuous burn damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Banner radiates destructive shockwaves every 2 seconds", extraSummonsOrProjectiles: 2)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_29",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Wrath Magnet",
+                description: "Generate a gravitational vortex of pure demonic fury that pulls all nearby invaders inward towards your blade.",
+                branchName: "Branch C — Demonic Powers",
+                tier: 4,
+                prerequisiteAbilityId: "demon_monarch_active_27",
+                resourceCost: 45f,
+                cooldownDuration: 7.5f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 62f,
+                baseRadius: 6.0f,
+                duration: 1.2f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Vortex pull radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Inward vortex slam damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Pulling 3 or more invaders immediately resets 30% of all ability cooldowns", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "demon_monarch_active_30",
+                characterId: CharacterCatalog.DemonMonarchId,
+                name: "Demonic Standard",
+                description: "Summon the monarch's elite demonic guard and unleash a cataclysmic radial firestorm across the battlefield.",
+                branchName: "Branch C — Demonic Powers",
+                tier: 4,
+                prerequisiteAbilityId: "demon_monarch_active_28",
+                resourceCost: 55f,
+                cooldownDuration: 10.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 85f,
+                baseRadius: 5.5f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Demonic guard duration and health increased by 30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Standard firestorm detonation damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Fury cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Standard summons two armored demonic captains instead of one", extraSummonsOrProjectiles: 1)
                 }
             ));
 

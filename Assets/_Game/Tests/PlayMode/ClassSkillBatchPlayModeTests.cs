@@ -1489,5 +1489,89 @@ namespace FinalBoss.Tests
 
             Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Demon Monarch Branch B hellfire abilities.");
         }
+
+        [UnityTest]
+        public IEnumerator DemonMonarch_BranchC_Part1_DemonicPowers_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.DemonMonarchId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.DemonMonarchId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.DemonMonarchId, "Branch C — Demonic Powers", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.DemonMonarchId,
+                new List<string>
+                {
+                    "demon_monarch_active_21", // Throne of Embers
+                    "demon_monarch_active_22", // Hellstep
+                    "demon_monarch_active_23", // Ash Doppelganger
+                    "demon_monarch_active_24", // Bloodforged Blade
+                    "demon_monarch_active_25"  // Furnace Heart
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Demon Monarch Branch C slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 25f, "Demonic powers should grant defensive barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Demon Monarch Branch C demonic abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator DemonMonarch_BranchC_Part2_DemonicPowers_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.DemonMonarchId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.DemonMonarchId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.DemonMonarchId, "Branch C — Demonic Powers", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.DemonMonarchId,
+                new List<string>
+                {
+                    "demon_monarch_active_26", // Terror Roar
+                    "demon_monarch_active_27", // Infernal Grasp
+                    "demon_monarch_active_28", // Blasphemous Banner
+                    "demon_monarch_active_29", // Wrath Magnet
+                    "demon_monarch_active_30"  // Demonic Standard
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Demon Monarch Branch C slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 30f, "Blasphemous Banner should grant protective barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Demon Monarch Branch C demonic abilities.");
+        }
     }
 }

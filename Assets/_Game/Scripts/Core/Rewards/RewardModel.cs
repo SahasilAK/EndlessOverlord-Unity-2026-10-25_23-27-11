@@ -257,6 +257,18 @@ namespace FinalBoss.Core
         public const string MonarchAshstormGrowthId = "demon_monarch_wave_19";
         public const string MonarchHellfirePenetrationId = "demon_monarch_wave_20";
 
+        // Demon Monarch Wave Skills (Batch 3: 21-30)
+        public const string MonarchWrathReservoirId = "demon_monarch_wave_21";
+        public const string MonarchBerserkersHarvestId = "demon_monarch_wave_22";
+        public const string MonarchAggressiveRecoveryId = "demon_monarch_wave_23";
+        public const string MonarchRuthlessTempoId = "demon_monarch_wave_24";
+        public const string MonarchDemonicResolveId = "demon_monarch_wave_25";
+        public const string MonarchTyrantsMomentumId = "demon_monarch_wave_26";
+        public const string MonarchHellforgedCounterId = "demon_monarch_wave_27";
+        public const string MonarchRageAmplifierId = "demon_monarch_wave_28";
+        public const string MonarchUnbrokenAssaultId = "demon_monarch_wave_29";
+        public const string MonarchCrownedViolenceId = "demon_monarch_wave_30";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -1707,6 +1719,127 @@ namespace FinalBoss.Core
                     MonarchHellfirePenetrationId,
                     "Hellfire Penetration",
                     "Pure unholy fire completely ignores all natural resistance (+30% Damage, Epic)",
+                    RewardRarity.Epic,
+                    "demon_monarch",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.30f,
+                    maxRank: 5)
+            },
+            // Demon Monarch Wave Skills 21-30
+            {
+                MonarchWrathReservoirId,
+                new RewardDefinition(
+                    MonarchWrathReservoirId,
+                    "Wrath Reservoir",
+                    "Expand maximum demonic fortitude and vital capacity (+40 Max HP)",
+                    RewardRarity.Common,
+                    "demon_monarch",
+                    RewardModifierType.MaxHealth,
+                    40f,
+                    maxRank: 5)
+            },
+            {
+                MonarchBerserkersHarvestId,
+                new RewardDefinition(
+                    MonarchBerserkersHarvestId,
+                    "Berserker's Harvest",
+                    "Siphon vitality from defeated foes on aggressive strikes (+6% Life Steal)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.LifeStealPercent,
+                    0.06f,
+                    maxRank: 5)
+            },
+            {
+                MonarchAggressiveRecoveryId,
+                new RewardDefinition(
+                    MonarchAggressiveRecoveryId,
+                    "Aggressive Recovery",
+                    "Relentless offense accelerates evasive mobility (+20% Dash Cooldown Recovery)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.DashCooldownReductionPercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                MonarchRuthlessTempoId,
+                new RewardDefinition(
+                    MonarchRuthlessTempoId,
+                    "Ruthless Tempo",
+                    "Furious attack cadence accelerates sword strikes (+15% Attack Speed)",
+                    RewardRarity.Common,
+                    "demon_monarch",
+                    RewardModifierType.AttackSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                MonarchDemonicResolveId,
+                new RewardDefinition(
+                    MonarchDemonicResolveId,
+                    "Demonic Resolve",
+                    "Unyielding demonic resolve reinforces infernal armor (+6 Armor)",
+                    RewardRarity.Common,
+                    "demon_monarch",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                MonarchTyrantsMomentumId,
+                new RewardDefinition(
+                    MonarchTyrantsMomentumId,
+                    "Tyrant's Momentum",
+                    "Unstoppable stride propels the monarch into battle (+15% Move Speed)",
+                    RewardRarity.Uncommon,
+                    "demon_monarch",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                MonarchHellforgedCounterId,
+                new RewardDefinition(
+                    MonarchHellforgedCounterId,
+                    "Hellforged Counter",
+                    "Parries and counterattacks splinter into extra fiery waves (+1 Projectile)",
+                    RewardRarity.Uncommon,
+                    "demon_monarch",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                MonarchRageAmplifierId,
+                new RewardDefinition(
+                    MonarchRageAmplifierId,
+                    "Rage Amplifier",
+                    "Amplified fury surges through all infernal strikes (+20% Damage)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                MonarchUnbrokenAssaultId,
+                new RewardDefinition(
+                    MonarchUnbrokenAssaultId,
+                    "Unbroken Assault",
+                    "Extended combat pressure multiplies devastating blade impacts (+25% Damage)",
+                    RewardRarity.Rare,
+                    "demon_monarch",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                MonarchCrownedViolenceId,
+                new RewardDefinition(
+                    MonarchCrownedViolenceId,
+                    "Crowned Violence",
+                    "Sovereign cruelty empowers ultimate annihilation (+30% Damage, +10 Armor, Epic)",
                     RewardRarity.Epic,
                     "demon_monarch",
                     RewardModifierType.ProjectileDamagePercent,
