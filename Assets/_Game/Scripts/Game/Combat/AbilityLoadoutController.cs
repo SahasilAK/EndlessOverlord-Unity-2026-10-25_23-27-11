@@ -1897,8 +1897,8 @@ namespace FinalBoss.Game
                 // -------------------------------------------------------------
                 // VAMPIRE QUEEN
                 // -------------------------------------------------------------
+                // Branch A — Blood Sorcery (Actives 01-10)
                 case "vampire_queen_active_01": // Sanguine Burst
-                case "vampire_queen_active_02":
                     result.DamageDealt += DamageArea(playerPos, radius, damage);
                     result.TargetsHit += _hitBuffer.Count;
                     if (result.DamageDealt > 0f)
@@ -1909,10 +1909,126 @@ namespace FinalBoss.Game
                         CueBus.Raise(CueIds.ClericHeal, playerPos.x, playerPos.y, lifesteal);
                     }
                     SpawnVisualBurst(playerPos, radius * 2f, new Color(0.9f, 0.1f, 0.25f, 0.85f), 0.35f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "vampire_queen_active_02": // Crimson Lance
+                    Vector2 vqLancePos = playerPos + aimDir * 3.5f;
+                    result.DamageDealt += DamageArea(vqLancePos, radius, damage, knockbackForce: 4.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (result.DamageDealt > 0f)
+                    {
+                        float lanceHeal = result.DamageDealt * 0.25f;
+                        _player.Health.Heal(lanceHeal);
+                        result.HealingDone += lanceHeal;
+                    }
+                    SpawnVisualBurst(vqLancePos, radius * 2.2f, new Color(0.95f, 0.05f, 0.2f, 0.95f), 0.35f);
+                    CueBus.Raise(CueIds.BoltFire, vqLancePos.x, vqLancePos.y);
+                    break;
+
+                case "vampire_queen_active_03": // Blood Well
+                    Vector2 wellPos = playerPos + aimDir * 3.0f;
+                    HazardZoneActor.Spawn(wellPos, radius, duration: def.Duration > 0 ? def.Duration : 3.5f, damagePerTick: damage * 0.3f, tickInterval: 0.5f, color: new Color(0.85f, 0.05f, 0.15f, 0.65f), label: "[BLOOD_WELL]");
+                    result.DamageDealt += DamageArea(wellPos, radius, damage * 0.6f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (result.DamageDealt > 0f)
+                    {
+                        float wellHeal = result.DamageDealt * 0.3f;
+                        _player.Health.Heal(wellHeal);
+                        result.HealingDone += wellHeal;
+                    }
+                    SpawnVisualBurst(wellPos, radius * 2.2f, new Color(0.9f, 0.1f, 0.2f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, wellPos.x, wellPos.y);
+                    break;
+
+                case "vampire_queen_active_04": // Transfusion
+                    result.DamageDealt += DamageArea(playerPos, radius, damage);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (result.DamageDealt > 0f)
+                    {
+                        float transHeal = result.DamageDealt * 0.45f;
+                        _player.Health.Heal(transHeal);
+                        result.HealingDone += transHeal;
+                        CueBus.Raise(CueIds.ClericHeal, playerPos.x, playerPos.y, transHeal);
+                    }
+                    SpawnVisualBurst(playerPos, radius * 2.2f, new Color(1f, 0.1f, 0.3f, 0.9f), 0.4f);
+                    break;
+
+                case "vampire_queen_active_05": // Sanguine Ward
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 0.7f, knockbackForce: 3.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(35f + (rank >= 5 ? 15f : 0f), duration: def.Duration > 0 ? def.Duration : 4.0f);
+                    SpawnVisualBurst(playerPos, radius * 2.2f, new Color(0.9f, 0.15f, 0.25f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "vampire_queen_active_06": // Blood Boil
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 5.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.5f, 2.0f);
+                        }
+                    }
+                    if (result.DamageDealt > 0f)
+                    {
+                        float boilHeal = result.DamageDealt * 0.3f;
+                        _player.Health.Heal(boilHeal);
+                        result.HealingDone += boilHeal;
+                    }
+                    SpawnVisualBurst(playerPos, radius * 2.5f, new Color(1f, 0.05f, 0.15f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "vampire_queen_active_07": // Exsanguinate
+                    Vector2 exsanPos = playerPos + aimDir * 2.5f;
+                    result.DamageDealt += DamageArea(exsanPos, radius, damage * 1.3f, knockbackForce: 4.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (result.DamageDealt > 0f)
+                    {
+                        float exsanHeal = result.DamageDealt * 0.6f;
+                        _player.Health.Heal(exsanHeal);
+                        result.HealingDone += exsanHeal;
+                        CueBus.Raise(CueIds.ClericHeal, playerPos.x, playerPos.y, exsanHeal);
+                    }
+                    SpawnVisualBurst(exsanPos, radius * 2.4f, new Color(0.85f, 0.05f, 0.2f, 0.95f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, exsanPos.x, exsanPos.y);
+                    break;
+
+                case "vampire_queen_active_08": // Crimson Tempest
+                    Vector2 tempestPos = playerPos + aimDir * 3.0f;
+                    result.DamageDealt += DamageArea(tempestPos, radius, damage, knockbackForce: -4.0f); // Inward pull
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(tempestPos, radius * 2.6f, new Color(0.95f, 0.1f, 0.25f, 0.9f), 0.6f);
+                    CueBus.Raise(CueIds.InvaderStrike, tempestPos.x, tempestPos.y);
+                    break;
+
+                case "vampire_queen_active_09": // Haemomancy
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.3f, knockbackForce: 6.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(playerPos, radius, duration: 3.0f, damagePerTick: damage * 0.3f, tickInterval: 0.5f, color: new Color(0.9f, 0.05f, 0.15f, 0.6f), label: "[HAEMOMANCY_POOL]");
+                    SpawnVisualBurst(playerPos, radius * 2.8f, new Color(1f, 0.05f, 0.2f, 0.95f), 0.6f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "vampire_queen_active_10": // Heartstopper
+                    Vector2 heartPos = playerPos + aimDir * 3.0f;
+                    result.DamageDealt += DamageArea(heartPos, radius, damage * 1.5f, knockbackForce: 8.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (result.DamageDealt > 0f)
+                    {
+                        float heartHeal = result.DamageDealt * 0.5f;
+                        _player.Health.Heal(heartHeal);
+                        result.HealingDone += heartHeal;
+                        CueBus.Raise(CueIds.ClericHeal, playerPos.x, playerPos.y, heartHeal);
+                    }
+                    SpawnVisualBurst(heartPos, radius * 3.0f, new Color(1f, 0.02f, 0.1f, 0.98f), 0.7f);
+                    CueBus.Raise(CueIds.InvaderStrike, heartPos.x, heartPos.y);
                     break;
 
                 case "vampire_queen_active_needle": // Crimson Needle
-                case "vampire_queen_active_03":
                     int needleCount = 1 + (rank >= 5 ? 1 : 0) + (rank >= 20 ? 3 : 0);
                     for (int n = 0; n < needleCount; n++)
                     {
@@ -1948,6 +2064,7 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
                     break;
 
+                // Milestone Ultimates
                 case "vampire_queen_ultimate_50": // Crimson Masquerade
                     result.DamageDealt += DamageArea(playerPos, radius, damage);
                     result.TargetsHit += _hitBuffer.Count;
@@ -1959,6 +2076,64 @@ namespace FinalBoss.Game
                         CueBus.Raise(CueIds.ClericHeal, playerPos.x, playerPos.y, drain);
                     }
                     SpawnVisualBurst(playerPos, radius * 2f, new Color(1f, 0.05f, 0.2f, 0.9f), 0.6f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "vampire_queen_ultimate_100": // Blood Moon Ascension
+                    HazardZoneActor.Spawn(playerPos, radius, duration: def.Duration > 0 ? def.Duration : 6.0f, damagePerTick: damage * 0.35f, tickInterval: 0.5f, slowPercent: 0.4f, slowDuration: 1.5f, color: new Color(0.95f, 0.05f, 0.15f, 0.65f), label: "[BLOOD_MOON]");
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 0.8f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (result.DamageDealt > 0f)
+                    {
+                        float moonDrain = result.DamageDealt * 0.4f;
+                        _player.Health.Heal(moonDrain);
+                        result.HealingDone += moonDrain;
+                    }
+                    SpawnVisualBurst(playerPos, radius * 2.8f, new Color(1f, 0.1f, 0.2f, 0.95f), 0.8f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "vampire_queen_ultimate_150": // Sovereign Feast
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.3f, knockbackForce: 7.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (result.DamageDealt > 0f)
+                    {
+                        float feastHeal = result.DamageDealt * 0.75f;
+                        _player.Health.Heal(feastHeal);
+                        result.HealingDone += feastHeal;
+                        CueBus.Raise(CueIds.ClericHeal, playerPos.x, playerPos.y, feastHeal);
+                    }
+                    _player.SetBarrier(100f, duration: 4.0f);
+                    SpawnVisualBurst(playerPos, radius * 2.8f, new Color(1f, 0.02f, 0.15f, 0.95f), 0.8f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "vampire_queen_ultimate_200": // Grand Vampire Court
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.1f, knockbackForce: 6.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    Vector2 thrallOffset1 = playerPos + aimDir * 2.0f;
+                    Vector2 thrallOffset2 = playerPos - aimDir * 2.0f;
+                    UndeadMinionActor.Spawn(UndeadMinionType.Captain, thrallOffset1, overrideDamage: damage * 0.9f, overrideMaxHp: 160f, lifetime: def.Duration > 0 ? def.Duration : 8.0f);
+                    UndeadMinionActor.Spawn(UndeadMinionType.Guardian, thrallOffset2, overrideDamage: damage * 0.7f, overrideMaxHp: 200f, lifetime: def.Duration > 0 ? def.Duration : 8.0f);
+                    _player.SetBarrier(80f, duration: 5.0f);
+                    SpawnVisualBurst(playerPos, radius * 3.0f, new Color(0.9f, 0.05f, 0.25f, 0.95f), 0.8f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "vampire_queen_ultimate_250": // Apocalypse of Scarlet
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.6f, knockbackForce: 10.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (result.DamageDealt > 0f)
+                    {
+                        float apocHeal = result.DamageDealt * 0.85f;
+                        _player.Health.Heal(apocHeal);
+                        result.HealingDone += apocHeal;
+                        CueBus.Raise(CueIds.ClericHeal, playerPos.x, playerPos.y, apocHeal);
+                    }
+                    _player.SetBarrier(150f, duration: 6.0f);
+                    HazardZoneActor.Spawn(playerPos, radius, duration: 5.0f, damagePerTick: damage * 0.4f, tickInterval: 0.5f, color: new Color(1f, 0.05f, 0.15f, 0.7f), label: "[SCARLET_APOCALYPSE]");
+                    SpawnVisualBurst(playerPos, radius * 3.5f, new Color(1f, 0.02f, 0.1f, 0.98f), 1.0f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
                     break;
 
                 // -------------------------------------------------------------

@@ -2850,32 +2850,7 @@ namespace FinalBoss.Core
             // -------------------------------------------------------------
             // VAMPIRE QUEEN
             // -------------------------------------------------------------
-            Register(new AbilityDefinition(
-                id: "vampire_queen_active_02",
-                characterId: CharacterCatalog.VampireQueenId,
-                name: "Sanguine Burst",
-                description: "Detonate a crimson blood nova that damages all nearby enemies and siphons health back to the Queen.",
-                branchName: "Branch A — Blood Sorcery",
-                tier: 1,
-                prerequisiteAbilityId: null,
-                resourceCost: 25f,
-                cooldownDuration: 5f,
-                range: 5f,
-                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Heal,
-                targeting: AbilityTargetingRule.Self,
-                baseDamage: 28f,
-                baseRadius: 5f,
-                duration: 0.35f,
-                milestones: new[]
-                {
-                    new AbilityRankMilestone(5, "Cooldown -15%", cooldownMultiplier: 0.85f),
-                    new AbilityRankMilestone(10, "Lifesteal siphon increased from 35% to 50%", bonusUtility: 0.15f),
-                    new AbilityRankMilestone(15, "Nova damage +30%", damageMultiplier: 1.30f),
-                    new AbilityRankMilestone(20, "Mastery: Burst radius +40% and heals for 70% of damage dealt", radiusMultiplier: 1.40f)
-                }
-            ));
-
-            // Alias for active_01
+            // Branch A — Blood Sorcery (Actives 01-10)
             Register(new AbilityDefinition(
                 id: "vampire_queen_active_01",
                 characterId: CharacterCatalog.VampireQueenId,
@@ -2885,13 +2860,245 @@ namespace FinalBoss.Core
                 tier: 1,
                 prerequisiteAbilityId: null,
                 resourceCost: 25f,
-                cooldownDuration: 5f,
-                range: 5f,
+                cooldownDuration: 4.0f,
+                range: 5.0f,
                 effects: AbilityEffectType.RadialAoE | AbilityEffectType.Heal,
                 targeting: AbilityTargetingRule.Self,
-                baseDamage: 28f,
-                baseRadius: 5f,
-                duration: 0.35f
+                baseDamage: 30f,
+                baseRadius: 4.5f,
+                duration: 0.35f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Cooldown -15%", cooldownMultiplier: 0.85f),
+                    new AbilityRankMilestone(10, "Lifesteal siphon increased to 50%", bonusUtility: 0.15f),
+                    new AbilityRankMilestone(15, "Nova damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(20, "Mastery: Burst radius +40% and heals for 70% of damage dealt", radiusMultiplier: 1.40f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_02",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Crimson Lance",
+                description: "Condense vital blood into a high-velocity piercing spear that impales invaders in a straight line.",
+                branchName: "Branch A — Blood Sorcery",
+                tier: 1,
+                prerequisiteAbilityId: "vampire_queen_active_01",
+                resourceCost: 20f,
+                cooldownDuration: 3.5f,
+                range: 7.5f,
+                effects: AbilityEffectType.Projectile | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 36f,
+                baseRadius: 1.5f,
+                duration: 0.6f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Lance travel speed and range +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Piercing damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Blood Essence cost -25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Lance returns to the Queen, damaging enemies a second time and healing for 30%", damageMultiplier: 1.30f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_03",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Blood Well",
+                description: "Manifest a boiling pool of cursed blood on the arena floor that damages invaders and siphons their life force.",
+                branchName: "Branch A — Blood Sorcery",
+                tier: 2,
+                prerequisiteAbilityId: "vampire_queen_active_01",
+                resourceCost: 30f,
+                cooldownDuration: 5.5f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 40f,
+                baseRadius: 3.8f,
+                duration: 3.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Blood Well radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Continuous siphon damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Foes standing in the Blood Well take 25% amplified damage from all sources", bonusUtility: 0.25f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_04",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Transfusion",
+                description: "Channel a vicious vampiric tether to the closest invader, draining their vitality directly into your health pool.",
+                branchName: "Branch A — Blood Sorcery",
+                tier: 2,
+                prerequisiteAbilityId: "vampire_queen_active_02",
+                resourceCost: 25f,
+                cooldownDuration: 5.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.Heal | AbilityEffectType.CrowdControl | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 44f,
+                baseRadius: 3.0f,
+                duration: 2.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Tether reach increased by 30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Drain rate and damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Transfusion links up to 2 additional nearby invaders", extraSummonsOrProjectiles: 2)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_05",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Sanguine Ward",
+                description: "Weave crystallized platelets into an impervious blood barrier that absorbs incoming attacks.",
+                branchName: "Branch A — Blood Sorcery",
+                tier: 2,
+                prerequisiteAbilityId: "vampire_queen_active_03",
+                resourceCost: 30f,
+                cooldownDuration: 6.0f,
+                range: 4.0f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 32f,
+                baseRadius: 3.5f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Ward barrier absorption increased by 30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Ward eruption counter-damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Blood Essence cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Ward detonates upon expiration, launching blood crystal spikes", extraSummonsOrProjectiles: 4)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_06",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Blood Boil",
+                description: "Overheat the blood inside surrounding invaders, causing violent internal hemorrhaging and staggering them.",
+                branchName: "Branch A — Blood Sorcery",
+                tier: 3,
+                prerequisiteAbilityId: "vampire_queen_active_04",
+                resourceCost: 35f,
+                cooldownDuration: 6.5f,
+                range: 5.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 52f,
+                baseRadius: 4.8f,
+                duration: 0.4f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Boil radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Hemorrhage damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Blood Boil inflicts 50% slow and grants 25% life steal", bonusUtility: 0.50f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_07",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Exsanguinate",
+                description: "Rip gallons of vital fluid from forward enemies, dealing massive damage and instantly restoring health.",
+                branchName: "Branch A — Blood Sorcery",
+                tier: 3,
+                prerequisiteAbilityId: "vampire_queen_active_05",
+                resourceCost: 40f,
+                cooldownDuration: 7.0f,
+                range: 5.0f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 58f,
+                baseRadius: 4.0f,
+                duration: 0.35f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Rip arc angle and reach increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Exsanguinate damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Blood Essence cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Heals for 100% of damage dealt and resets Sanguine Burst cooldown", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_08",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Crimson Tempest",
+                description: "Unleash a howling vortex of blood-red wind that slices all enemies caught in its spinning wake.",
+                branchName: "Branch A — Blood Sorcery",
+                tier: 3,
+                prerequisiteAbilityId: "vampire_queen_active_06",
+                resourceCost: 40f,
+                cooldownDuration: 7.5f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 62f,
+                baseRadius: 4.5f,
+                duration: 2.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Tempest radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Vortex cutting damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Tempest pulls enemies inward toward its eye", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_09",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Haemomancy",
+                description: "Manipulate the blood pools of fallen foes to trigger secondary chained detonations across the arena.",
+                branchName: "Branch A — Blood Sorcery",
+                tier: 4,
+                prerequisiteAbilityId: "vampire_queen_active_07",
+                resourceCost: 45f,
+                cooldownDuration: 8.5f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 72f,
+                baseRadius: 5.5f,
+                duration: 1.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Haemomancy detonation radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Blood explosion damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Blood Essence cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Detonations leave pooling blood hazards that deal continuous damage", extraSummonsOrProjectiles: 2)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_10",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Heartstopper",
+                description: "Crush the beating heart of an invader from within, releasing an apocalyptic crimson shockwave that executes weak targets.",
+                branchName: "Branch A — Blood Sorcery",
+                tier: 4,
+                prerequisiteAbilityId: "vampire_queen_active_08",
+                resourceCost: 55f,
+                cooldownDuration: 10.0f,
+                range: 7.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Heal | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 90f,
+                baseRadius: 6.0f,
+                duration: 0.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Shockwave radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Heartstopper impact damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Instantly executes non-boss targets below 30% HP and refunds full cost", bonusUtility: 1.0f)
+                }
             ));
 
             Register(new AbilityDefinition(
@@ -2944,6 +3151,7 @@ namespace FinalBoss.Core
                 }
             ));
 
+            // Milestone Ultimates (Levels 50 through 250)
             Register(new AbilityDefinition(
                 id: "vampire_queen_ultimate_50",
                 characterId: CharacterCatalog.VampireQueenId,
@@ -2968,6 +3176,114 @@ namespace FinalBoss.Core
                     new AbilityRankMilestone(10, "Siphon damage +35%", damageMultiplier: 1.35f),
                     new AbilityRankMilestone(15, "Blood Essence cost -25%", resourceCostMultiplier: 0.75f),
                     new AbilityRankMilestone(20, "Mastery: Siphons 100% damage as health and resets active cooldowns", bonusUtility: 1f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_ultimate_100",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Blood Moon Ascension",
+                description: "Summon a celestial Blood Moon overhead, bathing the dungeon in crimson light that constantly siphons life from all enemies.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "vampire_queen_active_01",
+                resourceCost: 75f,
+                cooldownDuration: 28f,
+                range: 12f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 70f,
+                baseRadius: 10f,
+                duration: 6f,
+                isUltimate: true,
+                requiredLevel: 100,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Moon duration +2.0 seconds", bonusUtility: 2.0f),
+                    new AbilityRankMilestone(10, "Moon tick damage +40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Blood Essence cost -25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Blood Moon blinds enemies, reducing their movement speed by 50%", bonusUtility: 0.50f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_ultimate_150",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Sovereign Feast",
+                description: "Transform into an unstoppable mist avatar of royal blood, consuming all enemies within reach and gaining total invulnerability.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "vampire_queen_active_01",
+                resourceCost: 80f,
+                cooldownDuration: 30f,
+                range: 10f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Heal | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 85f,
+                baseRadius: 8.5f,
+                duration: 3f,
+                isUltimate: true,
+                requiredLevel: 150,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Feast duration +1.0 second", bonusUtility: 1.0f),
+                    new AbilityRankMilestone(10, "Feast damage +40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown -20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Feast grants a 120 point permanent shield on expiration", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_ultimate_200",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Grand Vampire Court",
+                description: "Summon the ancient Vampire Aristocracy to take the field, commanding spectral royal thralls to slaughter encroaching invaders.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "vampire_queen_active_01",
+                resourceCost: 85f,
+                cooldownDuration: 32f,
+                range: 12f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 95f,
+                baseRadius: 9f,
+                duration: 8f,
+                isUltimate: true,
+                requiredLevel: 200,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Court thrall health +40%", bonusUtility: 0.40f),
+                    new AbilityRankMilestone(10, "Thrall attack damage +40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Blood Essence cost -25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Court summons an elite Vampire Noble alongside the thralls", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_ultimate_250",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Apocalypse of Scarlet",
+                description: "Rupture all blood vessels in the dungeon realm, causing every invader to violently combust in a scarlet cataclysm.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "vampire_queen_active_01",
+                resourceCost: 100f,
+                cooldownDuration: 35f,
+                range: 15f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Heal | AbilityEffectType.CrowdControl | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 120f,
+                baseRadius: 12f,
+                duration: 2f,
+                isUltimate: true,
+                requiredLevel: 250,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Scarlet cataclysm radius +30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Cataclysm damage +40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown -25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Completely restores the Queen's health and grants 150 blood barrier", bonusUtility: 1.0f)
                 }
             ));
 

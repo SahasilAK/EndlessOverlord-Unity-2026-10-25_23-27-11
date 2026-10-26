@@ -1741,5 +1741,130 @@ namespace FinalBoss.Tests
             Assert.GreaterOrEqual(_player.BarrierAmount, 60f, "Crown of the Abyss / Infernal Ascension should grant major barrier.");
             Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Demon Monarch Branch E ascension abilities.");
         }
+
+        [UnityTest]
+        public IEnumerator VampireQueen_BranchA_Part1_BloodSorcery_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.VampireQueenId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.VampireQueenId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.VampireQueenId, "Branch A — Blood Sorcery", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.VampireQueenId,
+                new List<string>
+                {
+                    "vampire_queen_active_01", // Sanguine Burst
+                    "vampire_queen_active_02", // Crimson Lance
+                    "vampire_queen_active_03", // Blood Well
+                    "vampire_queen_active_04", // Transfusion
+                    "vampire_queen_active_05"  // Sanguine Ward
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Vampire Queen Branch A slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 35f, "Sanguine Ward should grant protective barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Vampire Queen Branch A blood abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator VampireQueen_BranchA_Part2_BloodSorcery_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.VampireQueenId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.VampireQueenId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.VampireQueenId, "Branch A — Blood Sorcery", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.VampireQueenId,
+                new List<string>
+                {
+                    "vampire_queen_active_06", // Blood Boil
+                    "vampire_queen_active_07", // Exsanguinate
+                    "vampire_queen_active_08", // Crimson Tempest
+                    "vampire_queen_active_09", // Haemomancy
+                    "vampire_queen_active_10"  // Heartstopper
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Vampire Queen Branch A slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Vampire Queen Branch A blood abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator VampireQueen_AllFiveUltimates_ExecuteSuccessfully()
+        {
+            yield return StartArena(CharacterCatalog.VampireQueenId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.VampireQueenId, 250, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.VampireQueenId, "Milestone Ultimates", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.VampireQueenId,
+                new List<string>
+                {
+                    "vampire_queen_ultimate_50",  // Crimson Masquerade
+                    "vampire_queen_ultimate_100", // Blood Moon Ascension
+                    "vampire_queen_ultimate_150", // Sovereign Feast
+                    "vampire_queen_ultimate_200", // Grand Vampire Court
+                    "vampire_queen_ultimate_250"  // Apocalypse of Scarlet
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Vampire Queen Ultimate slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 100f, "Vampire Queen ultimates should grant massive barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Vampire Queen ultimates.");
+        }
     }
 }

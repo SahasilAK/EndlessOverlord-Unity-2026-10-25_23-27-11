@@ -293,6 +293,18 @@ namespace FinalBoss.Core
         public const string MonarchEternalFlameHeartId = "demon_monarch_wave_49";
         public const string MonarchDemonGodEmperorId = "demon_monarch_wave_50";
 
+        // Vampire Queen Wave Skills (Batch 1: 01-10)
+        public const string QueenCrimsonNectarId = "vampire_queen_wave_01";
+        public const string QueenSanguineThirstId = "vampire_queen_wave_02";
+        public const string QueenNeedlePrecisionId = "vampire_queen_wave_03";
+        public const string QueenRoyalGraceId = "vampire_queen_wave_04";
+        public const string QueenVeinRipperId = "vampire_queen_wave_05";
+        public const string QueenAristocraticFortitudeId = "vampire_queen_wave_06";
+        public const string QueenBloodTetherId = "vampire_queen_wave_07";
+        public const string QueenCrimsonSplendorId = "vampire_queen_wave_08";
+        public const string QueenSovereignSiphonId = "vampire_queen_wave_09";
+        public const string QueenEmpressOfBloodId = "vampire_queen_wave_10";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -2110,6 +2122,127 @@ namespace FinalBoss.Core
                     "demon_monarch",
                     RewardModifierType.ProjectileDamagePercent,
                     0.35f,
+                    maxRank: 5)
+            },
+            // Vampire Queen Wave Skills 01-10
+            {
+                QueenCrimsonNectarId,
+                new RewardDefinition(
+                    QueenCrimsonNectarId,
+                    "Crimson Nectar",
+                    "Blood-soaked vital essence expands maximum health (+35 Max HP)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.MaxHealth,
+                    35f,
+                    maxRank: 5)
+            },
+            {
+                QueenSanguineThirstId,
+                new RewardDefinition(
+                    QueenSanguineThirstId,
+                    "Sanguine Thirst",
+                    "Insatiable vampiric thirst siphons life from wounded invaders (+7% Life Steal)",
+                    RewardRarity.Rare,
+                    "vampire_queen",
+                    RewardModifierType.LifeStealPercent,
+                    0.07f,
+                    maxRank: 5)
+            },
+            {
+                QueenNeedlePrecisionId,
+                new RewardDefinition(
+                    QueenNeedlePrecisionId,
+                    "Needle Precision",
+                    "Piercing crystal needles fly in broader barrages (+1 Projectile)",
+                    RewardRarity.Uncommon,
+                    "vampire_queen",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                QueenRoyalGraceId,
+                new RewardDefinition(
+                    QueenRoyalGraceId,
+                    "Royal Grace",
+                    "Aristocratic poise and swift evasive strides (+15% Move Speed)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                QueenVeinRipperId,
+                new RewardDefinition(
+                    QueenVeinRipperId,
+                    "Vein Ripper",
+                    "Deep arterial punctures inflict vicious blood damage (+20% Damage)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                QueenAristocraticFortitudeId,
+                new RewardDefinition(
+                    QueenAristocraticFortitudeId,
+                    "Aristocratic Fortitude",
+                    "Noble vampire blood hardens against peasant strikes (+6 Armor)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                QueenBloodTetherId,
+                new RewardDefinition(
+                    QueenBloodTetherId,
+                    "Blood Tether",
+                    "Extend the range of sanguine needles and blood tendrils (+1.5m Range)",
+                    RewardRarity.Uncommon,
+                    "vampire_queen",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                QueenCrimsonSplendorId,
+                new RewardDefinition(
+                    QueenCrimsonSplendorId,
+                    "Crimson Splendor",
+                    "Graceful rapier flourishes accelerate attack speed (+15% Attack Speed)",
+                    RewardRarity.Uncommon,
+                    "vampire_queen",
+                    RewardModifierType.AttackSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                QueenSovereignSiphonId,
+                new RewardDefinition(
+                    QueenSovereignSiphonId,
+                    "Sovereign Siphon",
+                    "Vampiric mist accelerates mist-step mobility (+25% Dash Cooldown Recovery)",
+                    RewardRarity.Rare,
+                    "vampire_queen",
+                    RewardModifierType.DashCooldownReductionPercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                QueenEmpressOfBloodId,
+                new RewardDefinition(
+                    QueenEmpressOfBloodId,
+                    "Empress of Blood",
+                    "Supreme aristocratic authority: blood surges grant colossal power (+30% Damage, +8% Life Steal, Epic)",
+                    RewardRarity.Epic,
+                    "vampire_queen",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.30f,
                     maxRank: 5)
             },
             {
