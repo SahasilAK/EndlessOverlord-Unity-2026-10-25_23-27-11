@@ -2496,5 +2496,89 @@ namespace FinalBoss.Tests
             Assert.GreaterOrEqual(_player.BarrierAmount, 60f, "Council of Shadows should grant council barrier.");
             Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Shadow Reaper shadow clone abilities.");
         }
+
+        [UnityTest]
+        public IEnumerator ShadowReaper_BranchD_Part1_SoulHarvesting_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.ShadowReaperId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.ShadowReaperId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.ShadowReaperId, "Branch D — Soul Harvesting", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.ShadowReaperId,
+                new List<string>
+                {
+                    "shadow_reaper_active_31", // Soul Mark
+                    "shadow_reaper_active_32", // Essence Rend
+                    "shadow_reaper_active_33", // Death Whisper
+                    "shadow_reaper_active_34", // Last Breath
+                    "shadow_reaper_active_35"  // Reaper's Contract
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(10f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Shadow Reaper Branch D slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 35f, "Reaper's Contract should grant contract barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Shadow Reaper soul harvesting abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator ShadowReaper_BranchD_Part2_SoulHarvesting_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.ShadowReaperId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.ShadowReaperId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.ShadowReaperId, "Branch D — Soul Harvesting", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.ShadowReaperId,
+                new List<string>
+                {
+                    "shadow_reaper_active_36", // Spirit Chains
+                    "shadow_reaper_active_37", // Echoing Demise
+                    "shadow_reaper_active_38", // Soul Detonation
+                    "shadow_reaper_active_39", // Marked for Oblivion
+                    "shadow_reaper_active_40"  // Harvest Eclipse
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(10f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Shadow Reaper Branch D slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 60f, "Harvest Eclipse should grant eclipse barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Shadow Reaper harvest eclipse abilities.");
+        }
     }
 }

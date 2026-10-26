@@ -2979,6 +2979,121 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
                     break;
 
+                // -------------------------------------------------------------
+                // SHADOW REAPER — Branch D — Soul Harvesting (Actives 31-40)
+                // -------------------------------------------------------------
+                case "shadow_reaper_active_31": // Soul Mark
+                    Vector2 srMarkPos = playerPos + aimDir * Math.Min(3.5f, def.Range > 0 ? def.Range : 3.5f);
+                    var srMarkActors = ActorRegistry.AllActors;
+                    float srMarkDist = float.MaxValue;
+                    for (int i = 0; i < srMarkActors.Count; i++)
+                    {
+                        var a = srMarkActors[i];
+                        if (a != null && a.Team == Faction.Invader && a.Alive)
+                        {
+                            float d = Vector2.Distance(playerPos, a.Position);
+                            if (d <= (def.Range > 0 ? def.Range : 6.5f) && d < srMarkDist)
+                            {
+                                srMarkDist = d;
+                                srMarkPos = a.Position;
+                            }
+                        }
+                    }
+                    result.DamageDealt += DamageArea(srMarkPos, radius, damage, knockbackForce: 3.0f, slowPercent: 0.40f, slowDuration: 2.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srMarkPos, radius * 2.2f, new Color(0.85f, 0.2f, 0.8f, 0.85f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, srMarkPos.x, srMarkPos.y);
+                    break;
+
+                case "shadow_reaper_active_32": // Essence Rend
+                    Vector2 srRendPos = playerPos + aimDir * Math.Min(2.5f, def.Range > 0 ? def.Range : 2.5f);
+                    result.DamageDealt += DamageArea(srRendPos, radius, damage * 1.15f, knockbackForce: 4.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.Health?.Heal(20f);
+                    result.HealingDone += 20f;
+                    SpawnVisualBurst(srRendPos, radius * 2.4f, new Color(0.3f, 0.9f, 0.8f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, srRendPos.x, srRendPos.y);
+                    break;
+
+                case "shadow_reaper_active_33": // Death Whisper
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.2f, knockbackForce: 3.5f, slowPercent: 0.50f, slowDuration: 2.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.5f, new Color(0.65f, 0.15f, 0.85f, 0.9f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "shadow_reaper_active_34": // Last Breath
+                    Vector2 srBreathPos = playerPos + aimDir * Math.Min(3.0f, def.Range > 0 ? def.Range : 3.0f);
+                    result.DamageDealt += DamageArea(srBreathPos, radius, damage * 1.45f, knockbackForce: 5.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srBreathPos, radius * 2.5f, new Color(0.9f, 0.15f, 0.7f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, srBreathPos.x, srBreathPos.y);
+                    break;
+
+                case "shadow_reaper_active_35": // Reaper's Contract
+                    Vector2 srContractPos = playerPos + aimDir * Math.Min(4.0f, def.Range > 0 ? def.Range : 4.0f);
+                    var srContractActors = ActorRegistry.AllActors;
+                    float srContractDist = float.MaxValue;
+                    for (int i = 0; i < srContractActors.Count; i++)
+                    {
+                        var a = srContractActors[i];
+                        if (a != null && a.Team == Faction.Invader && a.Alive)
+                        {
+                            float d = Vector2.Distance(playerPos, a.Position);
+                            if (d <= (def.Range > 0 ? def.Range : 7.0f) && d < srContractDist)
+                            {
+                                srContractDist = d;
+                                srContractPos = a.Position;
+                            }
+                        }
+                    }
+                    _player.SetBarrier(35f, duration: 5.0f);
+                    result.DamageDealt += DamageArea(srContractPos, radius, damage * 1.25f, knockbackForce: 4.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srContractPos, radius * 2.4f, new Color(0.75f, 0.1f, 0.9f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, srContractPos.x, srContractPos.y);
+                    break;
+
+                case "shadow_reaper_active_36": // Spirit Chains
+                    Vector2 srChainsPos = playerPos + aimDir * Math.Min(3.5f, def.Range > 0 ? def.Range : 3.5f);
+                    result.DamageDealt += DamageArea(srChainsPos, radius, damage * 1.2f, knockbackForce: 3.0f, slowPercent: 0.60f, slowDuration: 3.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srChainsPos, radius * 2.3f, new Color(0.55f, 0.1f, 0.85f, 0.85f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, srChainsPos.x, srChainsPos.y);
+                    break;
+
+                case "shadow_reaper_active_37": // Echoing Demise
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.35f, knockbackForce: 5.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.6f, new Color(0.8f, 0.15f, 0.95f, 0.9f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "shadow_reaper_active_38": // Soul Detonation
+                    Vector2 srDetPos = playerPos + aimDir * Math.Min(3.5f, def.Range > 0 ? def.Range : 3.5f);
+                    result.DamageDealt += DamageArea(srDetPos, radius, damage * 1.45f, knockbackForce: 6.0f, slowPercent: 0.50f, slowDuration: 2.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srDetPos, radius * 2.8f, new Color(0.95f, 0.25f, 0.85f, 0.95f), 0.55f);
+                    CueBus.Raise(CueIds.InvaderStrike, srDetPos.x, srDetPos.y);
+                    break;
+
+                case "shadow_reaper_active_39": // Marked for Oblivion
+                    Vector2 srOblivionPos = playerPos + aimDir * Math.Min(3.5f, def.Range > 0 ? def.Range : 3.5f);
+                    result.DamageDealt += DamageArea(srOblivionPos, radius, damage * 1.5f, knockbackForce: 6.5f, slowPercent: 0.55f, slowDuration: 3.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srOblivionPos, radius * 2.9f, new Color(0.85f, 0.1f, 1f, 0.95f), 0.6f);
+                    CueBus.Raise(CueIds.InvaderStrike, srOblivionPos.x, srOblivionPos.y);
+                    break;
+
+                case "shadow_reaper_active_40": // Harvest Eclipse
+                    Vector2 srEclipseHarvestPos = playerPos + aimDir * Math.Min(4.0f, def.Range > 0 ? def.Range : 4.0f);
+                    _player.SetBarrier(60f, duration: 6.0f);
+                    result.DamageDealt += DamageArea(srEclipseHarvestPos, radius * 1.25f, damage * 1.7f, knockbackForce: 7.5f, slowPercent: 0.60f, slowDuration: 3.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srEclipseHarvestPos, radius * 3.4f, new Color(0.98f, 0.2f, 1f, 0.98f), 0.7f);
+                    CueBus.Raise(CueIds.InvaderStrike, srEclipseHarvestPos.x, srEclipseHarvestPos.y);
+                    break;
+
                 // Milestone Ultimates
                 case "shadow_reaper_ultimate_50": // Dance of Ten Thousand Cuts
                     result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 5.0f);

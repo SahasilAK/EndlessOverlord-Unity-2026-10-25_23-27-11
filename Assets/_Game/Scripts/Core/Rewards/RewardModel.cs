@@ -389,6 +389,18 @@ namespace FinalBoss.Core
         public const string ReaperShadowRepetitionId = "shadow_reaper_wave_29";
         public const string ReaperPhantomConvergenceId = "shadow_reaper_wave_30";
 
+        // Shadow Reaper Wave Skills (Batch 4: 31-40)
+        public const string ReaperMarkReservoirId = "shadow_reaper_wave_31";
+        public const string ReaperSoulDebtId = "shadow_reaper_wave_32";
+        public const string ReaperFinalBreathAmplifierId = "shadow_reaper_wave_33";
+        public const string ReaperExecutionChainId = "shadow_reaper_wave_34";
+        public const string ReaperUnclaimedSpiritsId = "shadow_reaper_wave_35";
+        public const string ReaperGrimDividendId = "shadow_reaper_wave_36";
+        public const string ReaperMarkedWeaknessId = "shadow_reaper_wave_37";
+        public const string ReaperLastShadowId = "shadow_reaper_wave_38";
+        public const string ReaperOblivionEchoId = "shadow_reaper_wave_39";
+        public const string ReaperSoulCollectorsGraceId = "shadow_reaper_wave_40";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -3165,6 +3177,126 @@ namespace FinalBoss.Core
                     ReaperPhantomConvergenceId,
                     "Phantom Convergence",
                     "All shadows converge into a devastating apocalyptic vortex (+35% Damage, +40 Max HP, Mythic)",
+                    RewardRarity.Mythic,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.35f,
+                    maxRank: 5)
+            },
+            {
+                ReaperMarkReservoirId,
+                new RewardDefinition(
+                    ReaperMarkReservoirId,
+                    "Mark Reservoir",
+                    "Expanding the soul well bolsters vitality (+35 Max HP)",
+                    RewardRarity.Uncommon,
+                    "shadow_reaper",
+                    RewardModifierType.MaxHealth,
+                    35f,
+                    maxRank: 5)
+            },
+            {
+                ReaperSoulDebtId,
+                new RewardDefinition(
+                    ReaperSoulDebtId,
+                    "Soul Debt",
+                    "Spectral debt extractions empower attacks against marked foes (+20% Damage)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                ReaperFinalBreathAmplifierId,
+                new RewardDefinition(
+                    ReaperFinalBreathAmplifierId,
+                    "Final Breath Amplifier",
+                    "Devastating execution power against weakened targets (+20% Damage)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                ReaperExecutionChainId,
+                new RewardDefinition(
+                    ReaperExecutionChainId,
+                    "Execution Chain",
+                    "Executions create chaining spectral soul splinters (+1 Extra Projectile)",
+                    RewardRarity.Rare,
+                    "shadow_reaper",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 5)
+            },
+            {
+                ReaperUnclaimedSpiritsId,
+                new RewardDefinition(
+                    ReaperUnclaimedSpiritsId,
+                    "Unclaimed Spirits",
+                    "Absorbing stray soul essence quickens scythe cadence (+15% Attack Speed)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.AttackSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                ReaperGrimDividendId,
+                new RewardDefinition(
+                    ReaperGrimDividendId,
+                    "Grim Dividend",
+                    "Soul harvesting reach expands beyond mortal boundaries (+1.5m Range)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                ReaperMarkedWeaknessId,
+                new RewardDefinition(
+                    ReaperMarkedWeaknessId,
+                    "Marked Weakness",
+                    "Marked enemies suffer fragile soul armor (+20% Damage)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                ReaperLastShadowId,
+                new RewardDefinition(
+                    ReaperLastShadowId,
+                    "Last Shadow",
+                    "Hardened umbral wards shield against retribution (+6 Armor)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                ReaperOblivionEchoId,
+                new RewardDefinition(
+                    ReaperOblivionEchoId,
+                    "Oblivion Echo",
+                    "Consuming Marks detonates cascading spatial rifts (+25% Damage, Epic)",
+                    RewardRarity.Epic,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                ReaperSoulCollectorsGraceId,
+                new RewardDefinition(
+                    ReaperSoulCollectorsGraceId,
+                    "Soul Collector's Grace",
+                    "Ultimate communion of souls grants unparalleled lethal ascendancy (+35% Damage, +40 Max HP, Mythic)",
                     RewardRarity.Mythic,
                     "shadow_reaper",
                     RewardModifierType.ProjectileDamagePercent,

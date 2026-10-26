@@ -5025,6 +5025,259 @@ namespace FinalBoss.Core
                 }
             ));
 
+            // =========================================================================
+            // Shadow Reaper — Branch D — Soul Harvesting (Actives 31-40)
+            // =========================================================================
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_31",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Soul Mark",
+                description: "Afflict target with a death mark that renders them deeply vulnerable to lethal execution strikes.",
+                branchName: "Branch D — Soul Harvesting",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 2f,
+                cooldownDuration: 4.5f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 45f,
+                baseRadius: 3.5f,
+                duration: 5.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Soul mark radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Mark damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Marked targets take 40% increased critical damage", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_32",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Essence Rend",
+                description: "Tear a luminous spectral fragment from an enemy, healing the Reaper and fueling lethal energy.",
+                branchName: "Branch D — Soul Harvesting",
+                tier: 1,
+                prerequisiteAbilityId: "shadow_reaper_active_31",
+                resourceCost: 2f,
+                cooldownDuration: 5.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 52f,
+                baseRadius: 3.8f,
+                duration: 0.3f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Rend reach increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Rend damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Restores 20 health on hitting 2 or more targets", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_33",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Death Whisper",
+                description: "Channel a terrifying harbinger murmur that deals devastating damage to enemies below half health.",
+                branchName: "Branch D — Soul Harvesting",
+                tier: 2,
+                prerequisiteAbilityId: "shadow_reaper_active_31",
+                resourceCost: 3f,
+                cooldownDuration: 5.5f,
+                range: 5.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 58f,
+                baseRadius: 4.5f,
+                duration: 2.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Whisper radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Whisper damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Inflicts 50% slow on affected foes", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_34",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Last Breath",
+                description: "Deliver a merciless execution thrust that crushes weakened foes with critical force.",
+                branchName: "Branch D — Soul Harvesting",
+                tier: 2,
+                prerequisiteAbilityId: "shadow_reaper_active_32",
+                resourceCost: 3f,
+                cooldownDuration: 6.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 66f,
+                baseRadius: 3.5f,
+                duration: 0.4f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Thrust area increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Execution damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Deals 50% bonus damage to targets below 40% health", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_35",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Reaper's Contract",
+                description: "Inscribe a solemn soul contract upon high-value targets, amplifying incoming damage and granting barrier on death.",
+                branchName: "Branch D — Soul Harvesting",
+                tier: 2,
+                prerequisiteAbilityId: "shadow_reaper_active_33",
+                resourceCost: 3f,
+                cooldownDuration: 6.5f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 62f,
+                baseRadius: 4.0f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Contract range increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Contract damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 35 barrier upon casting", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_36",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Spirit Chains",
+                description: "Bind an enemy to an umbral anchor, restricting movement and draining vital essence.",
+                branchName: "Branch D — Soul Harvesting",
+                tier: 3,
+                prerequisiteAbilityId: "shadow_reaper_active_34",
+                resourceCost: 3f,
+                cooldownDuration: 6.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 68f,
+                baseRadius: 3.8f,
+                duration: 3.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Chain radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Siphon damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Inflicts 60% slow while bound", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_37",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Echoing Demise",
+                description: "Shatter harvested souls to release a concussive spectral explosion that lacerates surrounding enemies.",
+                branchName: "Branch D — Soul Harvesting",
+                tier: 3,
+                prerequisiteAbilityId: "shadow_reaper_active_35",
+                resourceCost: 3f,
+                cooldownDuration: 6.5f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 72f,
+                baseRadius: 4.8f,
+                duration: 0.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Demise blast radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Concussive damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Refunds 1 Mark when hitting 3 or more foes", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_38",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Soul Detonation",
+                description: "Detonate harvested soul essence in a violent cataclysm, obliterating invaders in a massive shockwave.",
+                branchName: "Branch D — Soul Harvesting",
+                tier: 3,
+                prerequisiteAbilityId: "shadow_reaper_active_36",
+                resourceCost: 4f,
+                cooldownDuration: 7.5f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 80f,
+                baseRadius: 4.5f,
+                duration: 0.6f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Detonation radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Detonation damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Knocks back and slows enemies by 50%", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_39",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Marked for Oblivion",
+                description: "Mark multiple foes simultaneously for eternal oblivion, massively increasing their susceptibility to executions.",
+                branchName: "Branch D — Soul Harvesting",
+                tier: 4,
+                prerequisiteAbilityId: "shadow_reaper_active_37",
+                resourceCost: 4f,
+                cooldownDuration: 8.0f,
+                range: 7.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 86f,
+                baseRadius: 5.2f,
+                duration: 5.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Oblivion mark radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Oblivion damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Stuns affected enemies for 1.0s", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_40",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Harvest Eclipse",
+                description: "Unleash the full fury of harvested souls, triggering a cascading eclipse of chained scythe rifts.",
+                branchName: "Branch D — Soul Harvesting",
+                tier: 4,
+                prerequisiteAbilityId: "shadow_reaper_active_38",
+                resourceCost: 5f,
+                cooldownDuration: 9.0f,
+                range: 8.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Shield | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 96f,
+                baseRadius: 5.8f,
+                duration: 1.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Harvest eclipse radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Eclipse burst damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 60 barrier and 60% slow to all struck invaders", bonusUtility: 1.0f)
+                }
+            ));
+
             // Legacy shadowstep alias
             Register(new AbilityDefinition(
                 id: "shadow_reaper_active_shadowstep",
