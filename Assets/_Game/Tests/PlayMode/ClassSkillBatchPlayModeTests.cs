@@ -944,5 +944,91 @@ namespace FinalBoss.Tests
 
             Assert.Less(invader.Health.Current, startHp, "Invader should have received heavy damage from ultimates.");
         }
+
+        [UnityTest]
+        public IEnumerator CursedGolem_BranchB_Part1_EarthAndStoneAbilities_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.CursedGolemId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.CursedGolemId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.CursedGolemId, "Branch B — Earth and Stone Magic", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.CursedGolemId,
+                new List<string>
+                {
+                    "cursed_golem_active_11", // Stone Spike
+                    "cursed_golem_active_12", // Boulder Throw
+                    "cursed_golem_active_13", // Rockfall
+                    "cursed_golem_active_14", // Stone Wall
+                    "cursed_golem_active_15"  // Earth Pillar
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Cursed Golem Branch B slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 50f, "Stone Wall should grant barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Cursed Golem Branch B earth abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator CursedGolem_BranchB_Part2_EarthAndStoneAbilities_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.CursedGolemId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.CursedGolemId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.CursedGolemId, "Branch B — Earth and Stone Magic", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.CursedGolemId,
+                new List<string>
+                {
+                    "cursed_golem_active_16", // Rolling Boulder
+                    "cursed_golem_active_17", // Crystal Eruption
+                    "cursed_golem_active_18", // Tremor Field
+                    "cursed_golem_active_19", // Living Stone
+                    "cursed_golem_active_20"  // Mountain's Wrath
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Cursed Golem Branch B slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            var minions = Object.FindObjectsByType<UndeadMinionActor>();
+            Assert.GreaterOrEqual(minions.Length, 1, "Living Stone should summon a stone fragment construct.");
+
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Cursed Golem Branch B earth abilities.");
+        }
     }
 }

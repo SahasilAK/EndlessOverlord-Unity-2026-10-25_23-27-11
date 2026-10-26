@@ -2085,28 +2085,254 @@ namespace FinalBoss.Core
                 }
             ));
 
+            // Branch B — Earth and Stone Magic (Actives 11-20)
             Register(new AbilityDefinition(
                 id: "cursed_golem_active_11",
                 characterId: CharacterCatalog.CursedGolemId,
-                name: "Seismic Slam",
-                description: "Slam the ground with colossal force, stunning invaders and dragging them together.",
+                name: "Stone Spike",
+                description: "Summon sharp stone spikes bursting from beneath enemies, impaling and slowing them.",
+                branchName: "Branch B — Earth and Stone Magic",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 20f,
+                cooldownDuration: 4.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 34f,
+                baseRadius: 2.2f,
+                duration: 2.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Stone Spike cooldown reduced by 15%", cooldownMultiplier: 0.85f),
+                    new AbilityRankMilestone(10, "Spike impale damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Spike eruption radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(20, "Mastery: Generates additional spike formations beneath hit enemies", extraSummonsOrProjectiles: 2)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_12",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Boulder Throw",
+                description: "Launch a colossal rock projectile that crushes invaders in a line and knocks them back.",
+                branchName: "Branch B — Earth and Stone Magic",
+                tier: 1,
+                prerequisiteAbilityId: "cursed_golem_active_11",
+                resourceCost: 25f,
+                cooldownDuration: 4.5f,
+                range: 9.0f,
+                effects: AbilityEffectType.Projectile | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 40f,
+                baseRadius: 1.5f,
+                duration: 1.2f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Boulder throw damage increased by 25%", damageMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Runic Charge cost reduced by 20%", resourceCostMultiplier: 0.80f),
+                    new AbilityRankMilestone(15, "Pierces 1 additional enemy and increases knockback", extraSummonsOrProjectiles: 1),
+                    new AbilityRankMilestone(20, "Mastery: Boulder shatters on impact, releasing splitting rock fragments", extraSummonsOrProjectiles: 3)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_13",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Rockfall",
+                description: "Call down a relentless rain of heavy rocks over an area, crushing all invaders beneath.",
                 branchName: "Branch B — Earth and Stone Magic",
                 tier: 2,
-                prerequisiteAbilityId: "cursed_golem_active_01",
-                resourceCost: 35f,
-                cooldownDuration: 7f,
-                range: 5f,
-                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl | AbilityEffectType.Gravity,
+                prerequisiteAbilityId: "cursed_golem_active_11",
+                resourceCost: 30f,
+                cooldownDuration: 6.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 44f,
+                baseRadius: 3.5f,
+                duration: 2.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Rockfall bombardment area increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Rockfall impact damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Rockfall leaves a lingering hazard zone of tumbling stone debris", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_14",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Stone Wall",
+                description: "Raise an impenetrable stone bulwark granting an absorption barrier and emitting concussive shock.",
+                branchName: "Branch B — Earth and Stone Magic",
+                tier: 2,
+                prerequisiteAbilityId: "cursed_golem_active_12",
+                resourceCost: 25f,
+                cooldownDuration: 6.5f,
+                range: 3.5f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE,
                 targeting: AbilityTargetingRule.Self,
-                baseDamage: 40f,
-                baseRadius: 5f,
+                baseDamage: 20f,
+                baseRadius: 3.0f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Stone Wall barrier absorption increased by 30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(15, "Wall duration extended by 2 seconds", bonusUtility: 2.0f),
+                    new AbilityRankMilestone(20, "Mastery: Stone Wall gains retaliatory rune effects, damaging attacking invaders", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_15",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Earth Pillar",
+                description: "Erupt a massive stone monolith violently from the earth, launching enemies into the air.",
+                branchName: "Branch B — Earth and Stone Magic",
+                tier: 2,
+                prerequisiteAbilityId: "cursed_golem_active_13",
+                resourceCost: 30f,
+                cooldownDuration: 5.5f,
+                range: 5.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 46f,
+                baseRadius: 2.5f,
+                duration: 0.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Pillar stagger duration increased by 30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Pillar eruption damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Raises twin pillars, crushing enemies between them", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_16",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Rolling Boulder",
+                description: "Hurl an enormous rolling boulder that plows forward continuously, bowling through ranks of invaders.",
+                branchName: "Branch B — Earth and Stone Magic",
+                tier: 3,
+                prerequisiteAbilityId: "cursed_golem_active_14",
+                resourceCost: 35f,
+                cooldownDuration: 7.0f,
+                range: 10.0f,
+                effects: AbilityEffectType.Projectile | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 48f,
+                baseRadius: 1.8f,
                 duration: 1.5f,
                 milestones: new[]
                 {
-                    new AbilityRankMilestone(5, "Slam radius +25%", radiusMultiplier: 1.25f),
-                    new AbilityRankMilestone(10, "Slam damage +30%", damageMultiplier: 1.30f),
-                    new AbilityRankMilestone(15, "Stun duration +0.5 seconds", bonusUtility: 0.5f),
-                    new AbilityRankMilestone(20, "Mastery: Creates a lingering gravity vortex for 3 seconds", bonusUtility: 1f)
+                    new AbilityRankMilestone(5, "Rolling boulder speed and distance increased by 30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Crushing impact damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Rolling boulder leaves a trail of crushing tremors", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_17",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Crystal Eruption",
+                description: "Detonate sharp crystalline formations that erupt outwards in all directions, shredding invaders.",
+                branchName: "Branch B — Earth and Stone Magic",
+                tier: 3,
+                prerequisiteAbilityId: "cursed_golem_active_15",
+                resourceCost: 35f,
+                cooldownDuration: 7.0f,
+                range: 5.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Projectile,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 50f,
+                baseRadius: 4.0f,
+                duration: 0.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Crystal eruption radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Crystal shard damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Runic Charge cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Fires 6 piercing crystal shards outward in all directions", extraSummonsOrProjectiles: 6)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_18",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Tremor Field",
+                description: "Create a persistent zone of violent seismic vibrations that repeatedly staggers and slows enemies.",
+                branchName: "Branch B — Earth and Stone Magic",
+                tier: 3,
+                prerequisiteAbilityId: "cursed_golem_active_16",
+                resourceCost: 40f,
+                cooldownDuration: 8.0f,
+                range: 5.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 52f,
+                baseRadius: 5.0f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Tremor field radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Seismic pulse damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Tremor slow intensity and duration increased by 30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(20, "Mastery: Tremors pulse continuously, pulling invaders toward epicenter", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_19",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Living Stone",
+                description: "Awaken fractured stone fragments as mobile animated constructs that batter nearby enemies.",
+                branchName: "Branch B — Earth and Stone Magic",
+                tier: 4,
+                prerequisiteAbilityId: "cursed_golem_active_17",
+                resourceCost: 45f,
+                cooldownDuration: 9.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 25f,
+                baseRadius: 2.0f,
+                duration: 15.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Living Stone construct health and duration increased by 30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Construct smash damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Summons an additional stone fragment guardian (+1 summon)", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_20",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Mountain's Wrath",
+                description: "Unleash the catastrophic fury of tectonic plates, causing a chain of violent ground eruptions.",
+                branchName: "Branch B — Earth and Stone Magic",
+                tier: 4,
+                prerequisiteAbilityId: "cursed_golem_active_18",
+                resourceCost: 45f,
+                cooldownDuration: 10.0f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 75f,
+                baseRadius: 6.0f,
+                duration: 0.8f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Eruption chain radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Mountain's Wrath eruption damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Runic Charge cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Triple sequential eruptions tearing the surrounding earth", extraSummonsOrProjectiles: 2)
                 }
             ));
 

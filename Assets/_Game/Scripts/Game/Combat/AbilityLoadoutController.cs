@@ -1561,10 +1561,166 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
                     break;
 
-                case "cursed_golem_active_11": // Seismic Slam
-                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 4f, pullTowardCenter: true);
+                // Branch B — Earth and Stone Magic (Actives 11-20)
+                case "cursed_golem_active_11": // Stone Spike
+                    Vector2 spikePos = playerPos + aimDir * 2.5f;
+                    result.DamageDealt += DamageArea(spikePos, radius, damage, knockbackForce: 4f);
                     result.TargetsHit += _hitBuffer.Count;
-                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.85f, 0.65f, 0.25f, 0.85f), 0.4f);
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.35f, 2.5f);
+                        }
+                    }
+                    HazardZoneActor.Spawn(spikePos, radius, duration: 2.0f, damagePerTick: damage * 0.25f, tickInterval: 0.5f, slowPercent: 0.35f, slowDuration: 1.5f, color: new Color(0.6f, 0.5f, 0.4f, 0.5f), label: "[STONE_SPIKES]");
+                    SpawnVisualBurst(spikePos, radius * 2f, new Color(0.7f, 0.6f, 0.45f, 0.9f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, spikePos.x, spikePos.y);
+                    break;
+
+                case "cursed_golem_active_12": // Boulder Throw
+                    if (ProjectileManager.Instance != null)
+                    {
+                        ProjectileManager.Instance.FireCustom(
+                            Faction.Player,
+                            playerPos,
+                            aimDir,
+                            speed: 11f,
+                            radius: 0.45f,
+                            damage: damage,
+                            lifetime: 1.2f,
+                            color: new Color(0.7f, 0.6f, 0.45f),
+                            cueId: CueIds.InvaderStrike,
+                            pierce: rank >= 15 ? 2 : 1
+                        );
+                    }
+                    result.TargetsHit += 1;
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_13": // Rockfall
+                    Vector2 rockfallPos = playerPos + aimDir * 3.0f;
+                    result.DamageDealt += DamageArea(rockfallPos, radius, damage, knockbackForce: 4.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(rockfallPos, radius, duration: 2.5f, damagePerTick: damage * 0.25f, tickInterval: 0.4f, slowPercent: 0.3f, slowDuration: 1.0f, color: new Color(0.6f, 0.5f, 0.35f, 0.7f), label: "[ROCKFALL]");
+                    SpawnVisualBurst(rockfallPos, radius * 2.2f, new Color(0.65f, 0.55f, 0.4f, 0.9f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, rockfallPos.x, rockfallPos.y);
+                    break;
+
+                case "cursed_golem_active_14": // Stone Wall
+                    float wallBarrier = 50f * (1f + (rank >= 5 ? 0.30f : 0f));
+                    _player.SetBarrier(wallBarrier, duration: def.Duration);
+                    result.BarrierGranted += wallBarrier;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 4f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.55f, 0.5f, 0.45f, 0.85f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_15": // Earth Pillar
+                    Vector2 earthPillarPos = playerPos + aimDir * 2.5f;
+                    result.DamageDealt += DamageArea(earthPillarPos, radius, damage, knockbackForce: 6f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (rank >= 20)
+                    {
+                        result.DamageDealt += DamageArea(earthPillarPos + aimDir * 1.5f, radius, damage * 0.6f, knockbackForce: 6f);
+                        result.TargetsHit += _hitBuffer.Count;
+                    }
+                    SpawnVisualBurst(earthPillarPos, radius * 2f, new Color(0.6f, 0.5f, 0.35f, 0.95f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, earthPillarPos.x, earthPillarPos.y);
+                    break;
+
+                case "cursed_golem_active_16": // Rolling Boulder
+                    if (ProjectileManager.Instance != null)
+                    {
+                        ProjectileManager.Instance.FireCustom(
+                            Faction.Player,
+                            playerPos,
+                            aimDir,
+                            speed: 9f,
+                            radius: 0.6f,
+                            damage: damage,
+                            lifetime: 1.5f,
+                            color: new Color(0.65f, 0.55f, 0.4f),
+                            cueId: CueIds.InvaderStrike,
+                            pierce: 8
+                        );
+                    }
+                    Vector2 rollImpact = playerPos + aimDir * 3f;
+                    result.DamageDealt += DamageArea(rollImpact, radius, damage * 0.5f, knockbackForce: 5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(rollImpact, radius * 2f, new Color(0.7f, 0.6f, 0.5f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_17": // Crystal Eruption
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (ProjectileManager.Instance != null)
+                    {
+                        int shards = rank >= 20 ? 8 : 4;
+                        for (int s = 0; s < shards; s++)
+                        {
+                            float angle = s * (360f / shards) * Mathf.Deg2Rad;
+                            Vector2 sDir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+                            ProjectileManager.Instance.FireCustom(
+                                Faction.Player,
+                                playerPos,
+                                sDir,
+                                speed: 10f,
+                                radius: 0.25f,
+                                damage: damage * 0.3f,
+                                lifetime: 0.8f,
+                                color: new Color(0.4f, 0.9f, 0.8f),
+                                cueId: CueIds.InvaderStrike,
+                                pierce: 2
+                            );
+                        }
+                    }
+                    SpawnVisualBurst(playerPos, radius * 2.2f, new Color(0.35f, 0.85f, 0.75f, 0.9f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_18": // Tremor Field
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 3f, pullTowardCenter: rank >= 20);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.40f, 3.0f);
+                        }
+                    }
+                    HazardZoneActor.Spawn(playerPos, radius, duration: 4.0f, damagePerTick: damage * 0.25f, tickInterval: 0.5f, slowPercent: 0.4f, slowDuration: 1.5f, color: new Color(0.75f, 0.6f, 0.35f, 0.6f), label: "[TREMOR_FIELD]");
+                    SpawnVisualBurst(playerPos, radius * 2.2f, new Color(0.75f, 0.6f, 0.35f, 0.9f), 0.55f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_19": // Living Stone
+                    Vector2 stoneMinionPos = playerPos + aimDir * 2f;
+                    UndeadMinionActor.Spawn(UndeadMinionType.Hound, stoneMinionPos, overrideDamage: damage * 0.8f);
+                    if (rank >= 20)
+                    {
+                        UndeadMinionActor.Spawn(UndeadMinionType.Hound, stoneMinionPos + Vector2.up * 1f, overrideDamage: damage * 0.8f);
+                    }
+                    result.DamageDealt += DamageArea(stoneMinionPos, radius, damage * 0.5f, knockbackForce: 4f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(stoneMinionPos, radius * 2f, new Color(0.6f, 0.55f, 0.5f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, stoneMinionPos.x, stoneMinionPos.y);
+                    break;
+
+                case "cursed_golem_active_20": // Mountain's Wrath
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 7f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.50f, 3.5f);
+                        }
+                    }
+                    HazardZoneActor.Spawn(playerPos, radius, duration: 3.0f, damagePerTick: damage * 0.35f, tickInterval: 0.4f, slowPercent: 0.5f, slowDuration: 2.0f, color: new Color(0.85f, 0.5f, 0.2f, 0.7f), label: "[MOUNTAINS_WRATH]");
+                    SpawnVisualBurst(playerPos, radius * 2.5f, new Color(0.9f, 0.55f, 0.2f, 0.95f), 0.7f);
                     CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
                     break;
 

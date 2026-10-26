@@ -185,6 +185,18 @@ namespace FinalBoss.Core
         public const string GolemTremorFistsId = "cursed_golem_wave_09";
         public const string GolemWorldbreakerStrengthId = "cursed_golem_wave_10";
 
+        // Cursed Golem Wave Skills (Batch 2: 11-20)
+        public const string GolemCrystalMultiplicationId = "cursed_golem_wave_11";
+        public const string GolemBoulderSplittingId = "cursed_golem_wave_12";
+        public const string GolemBedrockExpansionId = "cursed_golem_wave_13";
+        public const string GolemJaggedTerrainId = "cursed_golem_wave_14";
+        public const string GolemQuakeResonanceId = "cursed_golem_wave_15";
+        public const string GolemCrystalDensityId = "cursed_golem_wave_16";
+        public const string GolemRollingDestructionId = "cursed_golem_wave_17";
+        public const string GolemMountainEchoId = "cursed_golem_wave_18";
+        public const string GolemEarthenConvergenceId = "cursed_golem_wave_19";
+        public const string GolemUnstableBedrockId = "cursed_golem_wave_20";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -909,6 +921,127 @@ namespace FinalBoss.Core
                     GolemWorldbreakerStrengthId,
                     "Worldbreaker Strength",
                     "Supreme ancient force shatters elite champions and bosses (+30% Damage)",
+                    RewardRarity.Epic,
+                    "cursed_golem",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.30f,
+                    maxRank: 5)
+            },
+            // Cursed Golem Wave Skills 11-20
+            {
+                GolemCrystalMultiplicationId,
+                new RewardDefinition(
+                    GolemCrystalMultiplicationId,
+                    "Crystal Multiplication",
+                    "Magical earth crystals multiply into additional projectiles (+1 Projectile)",
+                    RewardRarity.Uncommon,
+                    "cursed_golem",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                GolemBoulderSplittingId,
+                new RewardDefinition(
+                    GolemBoulderSplittingId,
+                    "Boulder Splitting",
+                    "Heavy thrown rocks shatter into secondary fragments on impact (+1 Projectile)",
+                    RewardRarity.Uncommon,
+                    "cursed_golem",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                GolemBedrockExpansionId,
+                new RewardDefinition(
+                    GolemBedrockExpansionId,
+                    "Bedrock Expansion",
+                    "Expand the effective zone of all earth area attacks (+1.5m Range)",
+                    RewardRarity.Common,
+                    "cursed_golem",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                GolemJaggedTerrainId,
+                new RewardDefinition(
+                    GolemJaggedTerrainId,
+                    "Jagged Terrain",
+                    "Erupted stone spikes leave lacerating shards (+15% Damage)",
+                    RewardRarity.Common,
+                    "cursed_golem",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                GolemQuakeResonanceId,
+                new RewardDefinition(
+                    GolemQuakeResonanceId,
+                    "Quake Resonance",
+                    "Tectonic tremors resonate through bedrock (+20% Damage)",
+                    RewardRarity.Rare,
+                    "cursed_golem",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                GolemCrystalDensityId,
+                new RewardDefinition(
+                    GolemCrystalDensityId,
+                    "Crystal Density",
+                    "Hardened crystalline minerals punch through enemy armor (+25% Damage)",
+                    RewardRarity.Rare,
+                    "cursed_golem",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                GolemRollingDestructionId,
+                new RewardDefinition(
+                    GolemRollingDestructionId,
+                    "Rolling Destruction",
+                    "Rolling boulders accelerate momentum (+12% Move Speed)",
+                    RewardRarity.Common,
+                    "cursed_golem",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.12f,
+                    maxRank: 5)
+            },
+            {
+                GolemMountainEchoId,
+                new RewardDefinition(
+                    GolemMountainEchoId,
+                    "Mountain Echo",
+                    "Ground slams release echoing harmonic aftershocks (+20% Damage)",
+                    RewardRarity.Rare,
+                    "cursed_golem",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                GolemEarthenConvergenceId,
+                new RewardDefinition(
+                    GolemEarthenConvergenceId,
+                    "Earthen Convergence",
+                    "Swirling stone fragments bind into dense protective armor (+6 Armor)",
+                    RewardRarity.Uncommon,
+                    "cursed_golem",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                GolemUnstableBedrockId,
+                new RewardDefinition(
+                    GolemUnstableBedrockId,
+                    "Unstable Bedrock",
+                    "Violent underground ruptures trigger secondary catastrophic eruptions (+30% Damage)",
                     RewardRarity.Epic,
                     "cursed_golem",
                     RewardModifierType.ProjectileDamagePercent,
