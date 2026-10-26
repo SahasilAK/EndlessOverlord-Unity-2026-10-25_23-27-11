@@ -19,6 +19,7 @@ namespace FinalBoss.Core
         public MerchantSystem Merchant { get; }
         public PersistentStats MetaStats { get; }
         public ArenaLayout Layout { get; set; }
+        public AbilityLoadout Loadout { get; set; }
 
         public float ElapsedTime { get; set; }
         public int TotalKills { get; set; }
@@ -44,6 +45,11 @@ namespace FinalBoss.Core
             Inventory = new PlayerInventory();
             Merchant = new MerchantSystem();
             Layout = ArenaGenerator.Generate(seed);
+            Loadout = new AbilityLoadout();
+            if (character != null && !string.IsNullOrEmpty(character.SignatureAbilityId))
+            {
+                Loadout.TryEquip(0, character.SignatureAbilityId, null, out _);
+            }
             HighestWave = 1;
         }
 

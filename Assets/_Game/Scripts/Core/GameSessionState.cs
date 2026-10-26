@@ -62,6 +62,14 @@ namespace FinalBoss.Core
             var metaStats = Profile != null ? Profile.GetPersistentStartingStats() : default(PersistentStats);
             long seed = customSeed.HasValue ? customSeed.Value : _seeds.NextSeed();
             Run = new RunContext(seed, _runCounter, info, metaStats);
+            if (Profile != null)
+            {
+                var charRec = Profile.GetOrAddCharacter(info.Id);
+                if (charRec.EquippedLoadout != null && charRec.EquippedLoadout.Count > 0)
+                {
+                    Run.Loadout = new AbilityLoadout(charRec.EquippedLoadout, charRec.AutocastSettings);
+                }
+            }
             return true;
         }
 

@@ -17,10 +17,13 @@ namespace FinalBoss.Game
         private Text _detail;
         private Text _walletText;
         private Button _startButton;
+        private Button _skillTreeButton;
         private MetaUpgradesView _upgradesView;
+        private SkillTreeView _skillTreeView;
         private readonly Dictionary<string, Image> _characterButtons = new Dictionary<string, Image>();
 
         public MetaUpgradesView UpgradesView => _upgradesView;
+        public SkillTreeView SkillTreeView => _skillTreeView;
 
         private void Start()
         {
@@ -85,16 +88,27 @@ namespace FinalBoss.Game
             UiFactory.Place(_detail.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0f, -270f), new Vector2(1400f, 80f));
 
             _startButton = UiFactory.CreateButton(select, "StartButton", "Start Run", OnStartClicked);
-            UiFactory.Place((RectTransform)_startButton.transform, new Vector2(0.5f, 0.5f), new Vector2(150f, -380f), new Vector2(340f, 90f));
+            UiFactory.Place((RectTransform)_startButton.transform, new Vector2(0.5f, 0.5f), new Vector2(270f, -380f), new Vector2(240f, 90f));
             _startButton.interactable = false;
+
+            _skillTreeButton = UiFactory.CreateButton(select, "SkillTreeButton", "Skill Tree", OnSkillTreeClicked);
+            UiFactory.Place((RectTransform)_skillTreeButton.transform, new Vector2(0.5f, 0.5f), new Vector2(0f, -380f), new Vector2(260f, 90f));
+            _skillTreeButton.interactable = false;
+
             var back = UiFactory.CreateButton(select, "BackButton", "Back", OnBackClicked);
-            UiFactory.Place((RectTransform)back.transform, new Vector2(0.5f, 0.5f), new Vector2(-150f, -380f), new Vector2(240f, 90f));
+            UiFactory.Place((RectTransform)back.transform, new Vector2(0.5f, 0.5f), new Vector2(-270f, -380f), new Vector2(200f, 90f));
 
             // Persistent Upgrades Modal
             var forgeGo = new GameObject("MetaUpgradesModal");
             forgeGo.transform.SetParent(canvas.transform, false);
             _upgradesView = forgeGo.AddComponent<MetaUpgradesView>();
             _upgradesView.Initialize();
+
+            // Skill Tree & Loadout Modal
+            var skillTreeGo = new GameObject("SkillTreeModal");
+            skillTreeGo.transform.SetParent(canvas.transform, false);
+            _skillTreeView = skillTreeGo.AddComponent<SkillTreeView>();
+            _skillTreeView.Initialize();
         }
 
         private int GetWallet()
@@ -144,12 +158,24 @@ namespace FinalBoss.Game
                 ? info.DisplayName + "  |  Resource: " + info.ResourceName
                 : "Select a character.";
             _startButton.interactable = info != null && info.Playable;
+            if (_skillTreeButton != null)
+                _skillTreeButton.interactable = info != null && info.Playable;
         }
 
         private void OnPlayClicked()
         {
             GameSession.State.OpenCharacterSelect();
             ShowSelect();
+        }
+
+        private void OnSkillTreeClicked()
+        {
+            if (_skillTreeView != null)
+            {
+                string charId = GameSession.State.SelectedCharacterId ?? CharacterCatalog.LichLordId;
+                var profile = GameSession.State.Profile ?? SaveStorage.Load();
+                _skillTreeView.Show(charId, profile, RefreshWallet);
+            }
         }
 
         private void OnQuitClicked()
@@ -191,5 +217,13 @@ namespace FinalBoss.Game
         // Test hooks (public so play-mode tests can drive the same paths as the buttons).
         public void SelectCharacterForTest(string id) { OnCharacterClicked(id); }
         public void OpenSelectForTest() { OnPlayClicked(); }
+        public void OpenSkillTreeForTest(string charId = null)
+        {
+            if (_skillTreeView != null)
+            {
+                string id = charId ?? GameSession.State.SelectedCharacterId ?? CharacterCatalog.LichLordId;
+                _skillTreeView.Show(id, GameSession.State.Profile ?? SaveStorage.Load());
+            }
+        }
     }
 }

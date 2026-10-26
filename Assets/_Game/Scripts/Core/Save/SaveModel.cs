@@ -17,6 +17,23 @@ namespace FinalBoss.Core
     }
 
     [Serializable]
+    public struct AbilityProgressRecord
+    {
+        public string AbilityId;
+        public int Rank;
+        public int MasteryXp;
+        public int AscensionRank;
+
+        public AbilityProgressRecord(string abilityId, int rank, int masteryXp = 0, int ascensionRank = 0)
+        {
+            AbilityId = abilityId;
+            Rank = rank;
+            MasteryXp = masteryXp;
+            AscensionRank = ascensionRank;
+        }
+    }
+
+    [Serializable]
     public struct CharacterRecord
     {
         public string CharacterId;
@@ -29,9 +46,57 @@ namespace FinalBoss.Core
         public int TotalRuns;
         public int TotalKills;
         public int TotalBossKills;
+        public List<AbilityProgressRecord> UnlockedAbilities;
+        public List<string> EquippedLoadout;
+        public List<bool> AutocastSettings;
 
         public int EarnedSkillPoints => 2 * Math.Max(0, Level - 1) + (Level / 10);
         public int AvailableSkillPoints => Math.Max(0, EarnedSkillPoints - SpentSkillPoints);
+
+        public void EnsureInitialized()
+        {
+            if (UnlockedAbilities == null)
+                UnlockedAbilities = new List<AbilityProgressRecord>();
+            if (EquippedLoadout == null)
+            {
+                EquippedLoadout = new List<string> { string.Empty, string.Empty, string.Empty, string.Empty, string.Empty };
+            }
+            while (EquippedLoadout.Count < 5)
+            {
+                EquippedLoadout.Add(string.Empty);
+            }
+            if (AutocastSettings == null)
+            {
+                AutocastSettings = new List<bool> { false, false, false, false, false };
+            }
+            while (AutocastSettings.Count < 5)
+            {
+                AutocastSettings.Add(false);
+            }
+
+            var charInfo = CharacterCatalog.Get(CharacterId);
+            if (charInfo != null && !string.IsNullOrEmpty(charInfo.SignatureAbilityId))
+            {
+                bool hasAbility = false;
+                for (int i = 0; i < UnlockedAbilities.Count; i++)
+                {
+                    if (UnlockedAbilities[i].AbilityId == charInfo.SignatureAbilityId)
+                    {
+                        hasAbility = true;
+                        break;
+                    }
+                }
+                if (!hasAbility)
+                {
+                    UnlockedAbilities.Add(new AbilityProgressRecord(charInfo.SignatureAbilityId, rank: 1));
+                }
+
+                if (string.IsNullOrEmpty(EquippedLoadout[0]))
+                {
+                    EquippedLoadout[0] = charInfo.SignatureAbilityId;
+                }
+            }
+        }
     }
 
     [Serializable]
@@ -105,7 +170,12 @@ namespace FinalBoss.Core
             for (int i = 0; i < Characters.Count; i++)
             {
                 if (Characters[i].CharacterId == characterId)
-                    return Characters[i];
+                {
+                    var rec = Characters[i];
+                    rec.EnsureInitialized();
+                    Characters[i] = rec;
+                    return rec;
+                }
             }
 
             var fresh = new CharacterRecord
@@ -115,6 +185,7 @@ namespace FinalBoss.Core
                 Experience = 0,
                 SpentSkillPoints = 0
             };
+            fresh.EnsureInitialized();
             Characters.Add(fresh);
             return fresh;
         }

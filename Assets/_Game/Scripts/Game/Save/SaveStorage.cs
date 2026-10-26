@@ -12,6 +12,23 @@ namespace FinalBoss.Game
     /// </summary>
     public static class SaveStorage
     {
+        private static PlayerSaveProfile _current;
+
+        public static PlayerSaveProfile CurrentProfile
+        {
+            get
+            {
+                if (_current == null) _current = Load();
+                return _current;
+            }
+            set => _current = value;
+        }
+
+        public static bool SaveCurrentProfile(string filePath = null)
+        {
+            return Save(CurrentProfile, filePath);
+        }
+
         public static string GetDefaultPath()
         {
             return Path.Combine(Application.persistentDataPath, "player_profile.json");
@@ -69,6 +86,7 @@ namespace FinalBoss.Game
                     var profile = JsonUtility.FromJson<PlayerSaveProfile>(json);
                     if (profile != null && profile.Version >= 1)
                     {
+                        _current = profile;
                         return profile;
                     }
                 }
@@ -88,6 +106,7 @@ namespace FinalBoss.Game
                     if (profile != null && profile.Version >= 1)
                     {
                         Debug.LogWarning("[SaveStorage] Successfully recovered profile from backup file.");
+                        _current = profile;
                         return profile;
                     }
                 }
@@ -99,6 +118,7 @@ namespace FinalBoss.Game
 
             // 3. Fallback: fresh profile
             var fresh = new PlayerSaveProfile();
+            _current = fresh;
             return fresh;
         }
 

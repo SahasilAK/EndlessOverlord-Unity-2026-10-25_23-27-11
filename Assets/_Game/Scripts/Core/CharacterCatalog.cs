@@ -105,7 +105,7 @@ namespace FinalBoss.Core
                 baseArmor: 6f,
                 startingWeapon: "Monarch's Hellblade",
                 basicAttackName: "Infernal Cleave",
-                signatureAbilityId: "demon_monarch_active_22",
+                signatureAbilityId: "demon_monarch_active_01",
                 signatureAbilityName: "Hellstep",
                 signatureResourceCost: 25f,
                 signatureCooldown: 3.5f,
@@ -124,7 +124,7 @@ namespace FinalBoss.Core
                 baseArmor: 2f,
                 startingWeapon: "Crimson Royal Rapier",
                 basicAttackName: "Crimson Needle",
-                signatureAbilityId: "vampire_queen_active_02",
+                signatureAbilityId: "vampire_queen_active_01",
                 signatureAbilityName: "Sanguine Burst",
                 signatureResourceCost: 25f,
                 signatureCooldown: 4.0f,
@@ -143,7 +143,7 @@ namespace FinalBoss.Core
                 baseArmor: 1f,
                 startingWeapon: "Scythe of the Forgotten",
                 basicAttackName: "Spectral Scythe",
-                signatureAbilityId: "shadow_reaper_active_11",
+                signatureAbilityId: "shadow_reaper_active_01",
                 signatureAbilityName: "Shadowstep",
                 signatureResourceCost: 3f, // 3 Marks cost
                 signatureCooldown: 2.5f,
@@ -162,7 +162,7 @@ namespace FinalBoss.Core
                 baseArmor: 15f,
                 startingWeapon: "Colossus Stone Fists",
                 basicAttackName: "Colossus Fist",
-                signatureAbilityId: "cursed_golem_active_22",
+                signatureAbilityId: "cursed_golem_active_01",
                 signatureAbilityName: "Rune of Protection",
                 signatureResourceCost: 25f,
                 signatureCooldown: 5.0f,
@@ -181,5 +181,7 @@ namespace FinalBoss.Core
             }
             return null;
         }
+
+        public static CharacterInfo Get(string id) => Find(id);
     }
 }

@@ -84,15 +84,35 @@ namespace FinalBoss.Game
                 ? $"   [{_run.Layout.Biome.Name} - {_run.Layout.TopologyType}]"
                 : "";
 
-            string sigInfo = "";
+            string slotsInfo = "";
             var player = ActorRegistry.Player;
             if (player != null)
             {
-                var sig = player.GetComponent<SignatureAbilityController>();
-                if (sig != null)
+                var loadout = player.GetComponent<AbilityLoadoutController>();
+                if (loadout != null)
                 {
-                    string status = sig.IsReady ? "READY (Press 1/E)" : sig.CooldownRemaining.ToString("0.0") + "s";
-                    sigInfo = $"\nSignature: [{sig.AbilityName}] - {status} (Cost: {sig.ResourceCost} {_model.ResourceName})";
+                    var sb = new System.Text.StringBuilder();
+                    sb.Append("\nAbilities:");
+                    for (int s = 0; s < AbilityLoadout.SlotCount; s++)
+                    {
+                        var def = loadout.GetSlotAbility(s);
+                        string keyLabel = s == 0 ? "1/E" : (s + 1).ToString();
+                        if (def != null)
+                        {
+                            float cd = loadout.GetSlotCooldown(s);
+                            float cost = loadout.GetSlotResourceCost(s);
+                            string autoTag = loadout.IsAutocastEnabled(s) ? "[AUTO]" : "";
+                            string status = cd <= 0f
+                                ? (loadout.HasSufficientResourceForSlot(s) ? "READY" : "NO_RES")
+                                : cd.ToString("0.0") + "s";
+                            sb.Append($"  [{keyLabel}:{def.Name} {autoTag} {status} ({cost:0})]");
+                        }
+                        else
+                        {
+                            sb.Append($"  [{keyLabel}:Empty]");
+                        }
+                    }
+                    slotsInfo = sb.ToString();
                 }
             }
 
@@ -101,7 +121,7 @@ namespace FinalBoss.Game
                 "HP " + Mathf.CeilToInt(_model.Health) + " / " + Mathf.CeilToInt(_model.MaxHealth) + "\n" +
                 _model.ResourceName + " " + Mathf.CeilToInt(_model.Resource) + " / " + Mathf.CeilToInt(_model.MaxResource) + "\n" +
                 "Wave " + _model.Wave + "   Gold " + _model.Gold + "   Score " + _model.Score + "\n" +
-                "Seed " + _run.Seed + "   State " + GameSession.Machine.Current + sigInfo;
+                "Seed " + _run.Seed + "   State " + GameSession.Machine.Current + slotsInfo;
         }
 
         /// <summary>Re-reads state-dependent text (flow state changes do not touch the HudModel).</summary>
