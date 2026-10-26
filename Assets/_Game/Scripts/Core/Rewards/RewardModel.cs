@@ -353,6 +353,18 @@ namespace FinalBoss.Core
         public const string QueenEternalRefinementId = "vampire_queen_wave_49";
         public const string QueenRedMoonFortuneId = "vampire_queen_wave_50";
 
+        // Shadow Reaper Wave Skills (Batch 1: 01-10)
+        public const string ReaperCrescentExtensionId = "shadow_reaper_wave_01";
+        public const string ReaperPhantomEdgeId = "shadow_reaper_wave_02";
+        public const string ReaperExecutionMomentumId = "shadow_reaper_wave_03";
+        public const string ReaperSpectralSharpnessId = "shadow_reaper_wave_04";
+        public const string ReaperTripleReapingId = "shadow_reaper_wave_05";
+        public const string ReaperHarvestSpiralId = "shadow_reaper_wave_06";
+        public const string ReaperSoulcutPenetrationId = "shadow_reaper_wave_07";
+        public const string ReaperReapingVelocityId = "shadow_reaper_wave_08";
+        public const string ReaperDreadfulPrecisionId = "shadow_reaper_wave_09";
+        public const string ReaperFinalCrescentId = "shadow_reaper_wave_10";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -2773,6 +2785,126 @@ namespace FinalBoss.Core
                     "vampire_queen",
                     RewardModifierType.ProjectileDamagePercent,
                     0.40f,
+                    maxRank: 5)
+            },
+            {
+                ReaperCrescentExtensionId,
+                new RewardDefinition(
+                    ReaperCrescentExtensionId,
+                    "Crescent Extension",
+                    "Spectral scythe arc reaches further across enemy lines (+1.5m Range)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                ReaperPhantomEdgeId,
+                new RewardDefinition(
+                    ReaperPhantomEdgeId,
+                    "Phantom Edge",
+                    "Scythe projection pierces deeply into invading formations (+1.5m Range)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                ReaperExecutionMomentumId,
+                new RewardDefinition(
+                    ReaperExecutionMomentumId,
+                    "Execution Momentum",
+                    "Reaping foes accelerates swift shadow footwork (+15% Move Speed)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                ReaperSpectralSharpnessId,
+                new RewardDefinition(
+                    ReaperSpectralSharpnessId,
+                    "Spectral Sharpness",
+                    "Honed scythe blades deliver increased reaping trauma (+20% Damage)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                ReaperTripleReapingId,
+                new RewardDefinition(
+                    ReaperTripleReapingId,
+                    "Triple Reaping",
+                    "Manifest an additional phantom scythe wave on attacks (+1 Projectile)",
+                    RewardRarity.Rare,
+                    "shadow_reaper",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 5)
+            },
+            {
+                ReaperHarvestSpiralId,
+                new RewardDefinition(
+                    ReaperHarvestSpiralId,
+                    "Harvest Spiral",
+                    "Scythe strikes release whirling spectral lacerations (+20% Damage)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                ReaperSoulcutPenetrationId,
+                new RewardDefinition(
+                    ReaperSoulcutPenetrationId,
+                    "Soulcut Penetration",
+                    "Spectral resonance shields the Reaper during lethal passes (+6 Armor)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                ReaperReapingVelocityId,
+                new RewardDefinition(
+                    ReaperReapingVelocityId,
+                    "Reaping Velocity",
+                    "Rapid cadence accelerates scythe attacks (+15% Attack Speed)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.AttackSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                ReaperDreadfulPrecisionId,
+                new RewardDefinition(
+                    ReaperDreadfulPrecisionId,
+                    "Dreadful Precision",
+                    "Pinpoint strikes against marked targets deal massive damage (+25% Damage, Epic)",
+                    RewardRarity.Epic,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                ReaperFinalCrescentId,
+                new RewardDefinition(
+                    ReaperFinalCrescentId,
+                    "Final Crescent",
+                    "The ultimate harvesting arc: obliterate all invaders in reach (+35% Damage, +40 Max HP, Mythic)",
+                    RewardRarity.Mythic,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.35f,
                     maxRank: 5)
             },
             {

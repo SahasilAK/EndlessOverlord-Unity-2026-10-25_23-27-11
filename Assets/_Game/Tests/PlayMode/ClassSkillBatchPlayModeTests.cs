@@ -2202,5 +2202,131 @@ namespace FinalBoss.Tests
             Assert.GreaterOrEqual(_player.BarrierAmount, 80f, "Crimson Coronation should grant coronation barrier.");
             Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Vampire Queen Branch E ritual attacks.");
         }
+
+        [UnityTest]
+        public IEnumerator ShadowReaper_BranchA_Part1_ScytheMastery_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.ShadowReaperId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.ShadowReaperId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.ShadowReaperId, "Branch A — Scythe Mastery", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.ShadowReaperId,
+                new List<string>
+                {
+                    "shadow_reaper_active_01", // Crescent Reap
+                    "shadow_reaper_active_02", // Soul Sever
+                    "shadow_reaper_active_03", // Grim Spin
+                    "shadow_reaper_active_04", // Phantom Slice
+                    "shadow_reaper_active_05"  // Executioner's Hook
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(10f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Shadow Reaper Branch A slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 25f, "Grim Spin should grant spin barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Shadow Reaper scythe attacks.");
+        }
+
+        [UnityTest]
+        public IEnumerator ShadowReaper_BranchA_Part2_ScytheMastery_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.ShadowReaperId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.ShadowReaperId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.ShadowReaperId, "Branch A — Scythe Mastery", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.ShadowReaperId,
+                new List<string>
+                {
+                    "shadow_reaper_active_06", // Twin Crescent
+                    "shadow_reaper_active_07", // Gravewheel
+                    "shadow_reaper_active_08", // Silent Decapitation
+                    "shadow_reaper_active_09", // Harvesting Dance
+                    "shadow_reaper_active_10"  // Reaper's Guillotine
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(10f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Shadow Reaper Branch A slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 50f, "Reaper's Guillotine should grant guillotine barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Shadow Reaper execution attacks.");
+        }
+
+        [UnityTest]
+        public IEnumerator ShadowReaper_AllFiveUltimates_ExecuteSuccessfully()
+        {
+            yield return StartArena(CharacterCatalog.ShadowReaperId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.ShadowReaperId, 250, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.ShadowReaperId, "Milestone Ultimates", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.ShadowReaperId,
+                new List<string>
+                {
+                    "shadow_reaper_ultimate_50",
+                    "shadow_reaper_ultimate_100",
+                    "shadow_reaper_ultimate_150",
+                    "shadow_reaper_ultimate_200",
+                    "shadow_reaper_ultimate_250"
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(10f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Shadow Reaper Ultimate slot {slot} should activate.");
+                yield return new WaitForSeconds(0.15f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 120f, "Eclipse Reaper should grant 120 barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take heavy damage from Shadow Reaper milestone ultimates.");
+        }
     }
 }

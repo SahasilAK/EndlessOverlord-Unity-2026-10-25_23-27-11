@@ -2642,7 +2642,90 @@ namespace FinalBoss.Game
                 // -------------------------------------------------------------
                 // SHADOW REAPER
                 // -------------------------------------------------------------
-                case "shadow_reaper_active_01": // Shadowstep
+                case "shadow_reaper_active_01": // Crescent Reap
+                    result.DamageDealt += DamageArc(playerPos, aimDir, radius, 150f, damage, knockbackForce: 2.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualArc(playerPos, aimDir, radius, new Color(0.7f, 0.3f, 0.95f, 0.9f), 0.25f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "shadow_reaper_active_02": // Soul Sever
+                    Vector2 srSeverPos = playerPos + aimDir * Math.Min(2.5f, def.Range > 0 ? def.Range : 2.5f);
+                    result.DamageDealt += DamageArea(srSeverPos, radius, damage * 1.25f, slowPercent: 0.50f, slowDuration: 2.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srSeverPos, radius * 2.2f, new Color(0.75f, 0.2f, 1f, 0.95f), 0.35f);
+                    CueBus.Raise(CueIds.InvaderStrike, srSeverPos.x, srSeverPos.y);
+                    break;
+
+                case "shadow_reaper_active_03": // Grim Spin
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 5.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(25f, duration: 3.5f);
+                    SpawnVisualBurst(playerPos, radius * 2.5f, new Color(0.65f, 0.15f, 0.9f, 0.9f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "shadow_reaper_active_04": // Phantom Slice
+                    Vector2 srSlicePos = playerPos + aimDir * Math.Min(4.5f, def.Range > 0 ? def.Range : 4.5f);
+                    result.DamageDealt += DamageArea(srSlicePos, radius, damage * 1.1f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srSlicePos, radius * 2.2f, new Color(0.6f, 0.25f, 0.85f, 0.9f), 0.35f);
+                    CueBus.Raise(CueIds.InvaderStrike, srSlicePos.x, srSlicePos.y);
+                    break;
+
+                case "shadow_reaper_active_05": // Executioner's Hook
+                    Vector2 srHookPos = playerPos + aimDir * Math.Min(4.0f, def.Range > 0 ? def.Range : 4.0f);
+                    result.DamageDealt += DamageArea(srHookPos, radius, damage, slowPercent: 0.70f, slowDuration: 3.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srHookPos, radius * 2.4f, new Color(0.8f, 0.2f, 0.95f, 0.9f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, srHookPos.x, srHookPos.y);
+                    break;
+
+                case "shadow_reaper_active_06": // Twin Crescent
+                    Vector2 srTwinPos = playerPos + aimDir * Math.Min(3.5f, def.Range > 0 ? def.Range : 3.5f);
+                    result.DamageDealt += DamageArea(srTwinPos, radius, damage * 1.35f, knockbackForce: 4.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srTwinPos, radius * 2.6f, new Color(0.7f, 0.15f, 1f, 0.95f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, srTwinPos.x, srTwinPos.y);
+                    break;
+
+                case "shadow_reaper_active_07": // Gravewheel
+                    Vector2 srWheelPos = playerPos + aimDir * Math.Min(4.0f, def.Range > 0 ? def.Range : 4.0f);
+                    float srWheelDur = def.Duration > 0 ? def.Duration : 2.0f;
+                    HazardZoneActor.Spawn(srWheelPos, radius, srWheelDur, damagePerTick: damage * 0.25f, tickInterval: 0.35f, color: new Color(0.6f, 0.15f, 0.8f, 0.6f), label: "[GRAVEWHEEL]");
+                    result.DamageDealt += DamageArea(srWheelPos, radius, damage * 0.5f, knockbackForce: -3.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srWheelPos, radius * 2.4f, new Color(0.7f, 0.2f, 0.9f, 0.9f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, srWheelPos.x, srWheelPos.y);
+                    break;
+
+                case "shadow_reaper_active_08": // Silent Decapitation
+                    Vector2 srDecapPos = playerPos + aimDir * Math.Min(3.0f, def.Range > 0 ? def.Range : 3.0f);
+                    result.DamageDealt += DamageArea(srDecapPos, radius, damage * 1.4f, knockbackForce: 6.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(35f, duration: 4.0f);
+                    SpawnVisualBurst(srDecapPos, radius * 2.6f, new Color(0.85f, 0.1f, 1f, 0.98f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, srDecapPos.x, srDecapPos.y);
+                    break;
+
+                case "shadow_reaper_active_09": // Harvesting Dance
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.35f, knockbackForce: 5.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(40f, duration: 4.0f);
+                    SpawnVisualBurst(playerPos, radius * 2.8f, new Color(0.75f, 0.15f, 0.95f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "shadow_reaper_active_10": // Reaper's Guillotine
+                    Vector2 srGuillotinePos = playerPos + aimDir * Math.Min(3.5f, def.Range > 0 ? def.Range : 3.5f);
+                    result.DamageDealt += DamageArea(srGuillotinePos, radius, damage * 1.6f, knockbackForce: 8.5f, slowPercent: 0.80f, slowDuration: 2.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(50f, duration: 5.0f);
+                    SpawnVisualBurst(srGuillotinePos, radius * 3.2f, new Color(0.9f, 0.1f, 1f, 1f), 0.6f);
+                    CueBus.Raise(CueIds.InvaderStrike, srGuillotinePos.x, srGuillotinePos.y);
+                    break;
+
+                case "shadow_reaper_active_shadowstep": // Legacy shadowstep alias
                     Vector2 reaperStart = playerPos;
                     Vector2 reaperDest = ValidateLandingDestination(reaperStart, reaperStart + aimDir * def.Range);
                     _player.Teleport(reaperDest);
@@ -2652,24 +2735,57 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.InvaderStrike, reaperDest.x, reaperDest.y);
                     break;
 
-                case "shadow_reaper_active_02": // Crescent Reap
-                    result.DamageDealt += DamageArc(playerPos, aimDir, radius, 150f, damage, knockbackForce: 2f);
-                    result.TargetsHit += _hitBuffer.Count;
-                    SpawnVisualArc(playerPos, aimDir, radius, new Color(0.7f, 0.3f, 0.95f, 0.85f), 0.25f);
-                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
-                    break;
-
-                case "shadow_reaper_active_11": // Umbral Shroud
+                case "shadow_reaper_active_11": // Umbral Shroud (legacy placeholder)
                     result.DamageDealt += DamageArea(playerPos, radius, damage, slowPercent: 0.5f, slowDuration: 4f);
                     result.TargetsHit += _hitBuffer.Count;
                     SpawnVisualBurst(playerPos, radius * 2f, new Color(0.3f, 0.1f, 0.5f, 0.8f), def.Duration);
                     CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
                     break;
 
+                // Milestone Ultimates
                 case "shadow_reaper_ultimate_50": // Dance of Ten Thousand Cuts
-                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 3f);
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 5.0f);
                     result.TargetsHit += _hitBuffer.Count;
-                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.8f, 0.2f, 1f, 0.9f), 0.5f);
+                    _player.SetBarrier(60f, duration: 4.0f);
+                    SpawnVisualBurst(playerPos, radius * 2.6f, new Color(0.85f, 0.2f, 1f, 0.95f), 0.6f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "shadow_reaper_ultimate_100": // Night Without Footsteps
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.25f, knockbackForce: 6.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(70f, duration: 5.0f);
+                    SpawnVisualBurst(playerPos, radius * 3.0f, new Color(0.7f, 0.1f, 0.95f, 0.95f), 0.7f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "shadow_reaper_ultimate_150": // Umbral Labyrinth
+                    float srLabDur = def.Duration > 0 ? def.Duration : 6.0f;
+                    HazardZoneActor.Spawn(playerPos, radius, srLabDur, damagePerTick: damage * 0.30f, tickInterval: 0.35f, slowPercent: 0.60f, slowDuration: 1.5f, color: new Color(0.4f, 0.05f, 0.6f, 0.65f), label: "[UMBRAL_LABYRINTH]");
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.35f, knockbackForce: 7.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(80f, duration: srLabDur);
+                    SpawnVisualBurst(playerPos, radius * 3.2f, new Color(0.8f, 0.15f, 1f, 0.98f), 0.75f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "shadow_reaper_ultimate_200": // Harvest of Names
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.5f, knockbackForce: 8.5f, slowPercent: 0.65f, slowDuration: 3.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(90f, duration: 6.0f);
+                    SpawnVisualBurst(playerPos, radius * 3.5f, new Color(0.9f, 0.1f, 1f, 1f), 0.8f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "shadow_reaper_ultimate_250": // Eclipse Reaper
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.8f, knockbackForce: 10.0f, slowPercent: 0.75f, slowDuration: 4.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(120f, duration: 8.0f);
+                    Vector2 srEclipseMinion1 = playerPos + aimDir * 2.0f;
+                    Vector2 srEclipseMinion2 = playerPos - aimDir * 2.0f;
+                    UndeadMinionActor.Spawn(UndeadMinionType.Captain, srEclipseMinion1, overrideDamage: damage * 0.9f, overrideMaxHp: 220f, lifetime: 8.0f);
+                    UndeadMinionActor.Spawn(UndeadMinionType.Captain, srEclipseMinion2, overrideDamage: damage * 0.9f, overrideMaxHp: 220f, lifetime: 8.0f);
+                    SpawnVisualBurst(playerPos, radius * 4.0f, new Color(1f, 0.05f, 1f, 1f), 0.9f);
                     CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
                     break;
 

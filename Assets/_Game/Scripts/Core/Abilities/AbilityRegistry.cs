@@ -4270,12 +4270,264 @@ namespace FinalBoss.Core
             // -------------------------------------------------------------
             // SHADOW REAPER
             // -------------------------------------------------------------
+            // Branch A — Scythe Mastery (Actives 01-10)
             Register(new AbilityDefinition(
                 id: "shadow_reaper_active_01",
                 characterId: CharacterCatalog.ShadowReaperId,
+                name: "Crescent Reap",
+                description: "Sweep a wide spectral scythe arc in front of the Reaper, cleaving through invaders and dealing bonus damage to wounded targets.",
+                branchName: "Branch A — Scythe Mastery",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 3f,
+                cooldownDuration: 3.0f,
+                range: 3.2f,
+                effects: AbilityEffectType.MeleeArc,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 42f,
+                baseRadius: 3.2f,
+                duration: 0.25f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Reap damage increased by 25%", damageMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Reap arc radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Refunds 1 Mark on hitting 3 or more enemies", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_02",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Soul Sever",
+                description: "Execute a heavy vertical scythe strike that severs the soul of a single target, dealing massive armor-piercing damage.",
+                branchName: "Branch A — Scythe Mastery",
+                tier: 1,
+                prerequisiteAbilityId: "shadow_reaper_active_01",
+                resourceCost: 2f,
+                cooldownDuration: 3.5f,
+                range: 3.5f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 48f,
+                baseRadius: 2.8f,
+                duration: 0.3f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Sever damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Inflicts 50% slow for 2 seconds", bonusUtility: 0.50f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Killing an enemy with Soul Sever generates 2 bonus Marks", bonusUtility: 2.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_03",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Grim Spin",
+                description: "Spin the scythe in a full 360-degree whirlwind of spectral steel, shredding all surrounding invaders.",
+                branchName: "Branch A — Scythe Mastery",
+                tier: 2,
+                prerequisiteAbilityId: "shadow_reaper_active_01",
+                resourceCost: 3f,
+                cooldownDuration: 4.5f,
+                range: 4.0f,
+                effects: AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 52f,
+                baseRadius: 4.2f,
+                duration: 0.35f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Spin radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Whirlwind damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Knocks enemies back 5m and grants 25 barrier", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_04",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Phantom Slice",
+                description: "Launch a flying crescent projectile of dark energy that pierces through a line of advancing invaders.",
+                branchName: "Branch A — Scythe Mastery",
+                tier: 2,
+                prerequisiteAbilityId: "shadow_reaper_active_02",
+                resourceCost: 2f,
+                cooldownDuration: 4.0f,
+                range: 7.5f,
+                effects: AbilityEffectType.Projectile | AbilityEffectType.MeleeArc,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 46f,
+                baseRadius: 1.5f,
+                duration: 0.8f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Launches +1 extra phantom crescent", extraSummonsOrProjectiles: 1),
+                    new AbilityRankMilestone(10, "Phantom crescent damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Crescents pierce through all targets without decaying", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_05",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Executioner's Hook",
+                description: "Hurl a hooked spectral blade that snags an enemy, dragging them into scythe range and stunning them.",
+                branchName: "Branch A — Scythe Mastery",
+                tier: 2,
+                prerequisiteAbilityId: "shadow_reaper_active_03",
+                resourceCost: 3f,
+                cooldownDuration: 5.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.Projectile | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 50f,
+                baseRadius: 2.5f,
+                duration: 0.4f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Hook reach increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Hook impact damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Dragged targets are slowed by 70% for 3 seconds", bonusUtility: 0.70f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_06",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Twin Crescent",
+                description: "Release dual overlapping scythe shockwaves in an X-pattern that cleaves enemies caught in the intersection.",
+                branchName: "Branch A — Scythe Mastery",
+                tier: 3,
+                prerequisiteAbilityId: "shadow_reaper_active_04",
+                resourceCost: 3f,
+                cooldownDuration: 5.5f,
+                range: 5.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.MeleeArc,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 60f,
+                baseRadius: 3.5f,
+                duration: 0.4f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Twin crescent area increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Cleave damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Enemies caught in intersection take 50% bonus damage", bonusUtility: 0.50f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_07",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Gravewheel",
+                description: "Hurl a spinning scythe like a wheel of doom that travels outward, carving through enemies before returning to the Reaper.",
+                branchName: "Branch A — Scythe Mastery",
+                tier: 3,
+                prerequisiteAbilityId: "shadow_reaper_active_05",
+                resourceCost: 3f,
+                cooldownDuration: 6.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.Projectile | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 64f,
+                baseRadius: 3.0f,
+                duration: 2.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Wheel travel distance increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Wheel carving damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Returning wheel pulls struck enemies toward the Reaper", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_08",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Silent Decapitation",
+                description: "A ruthless finishing slice from the shadows that inflicts catastrophic damage against wounded foes.",
+                branchName: "Branch A — Scythe Mastery",
+                tier: 3,
+                prerequisiteAbilityId: "shadow_reaper_active_06",
+                resourceCost: 3f,
+                cooldownDuration: 6.5f,
+                range: 4.0f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 72f,
+                baseRadius: 3.2f,
+                duration: 0.35f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Execution reach increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Decapitation damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 35 barrier on successful hit", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_09",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Harvesting Dance",
+                description: "Perform a rapid four-stage sequence of scythe pirouettes, slashing all nearby enemies and boosting movement speed.",
+                branchName: "Branch A — Scythe Mastery",
+                tier: 4,
+                prerequisiteAbilityId: "shadow_reaper_active_07",
+                resourceCost: 4f,
+                cooldownDuration: 7.5f,
+                range: 5.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.MeleeArc,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 84f,
+                baseRadius: 4.8f,
+                duration: 0.8f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Dance radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Dance flurry damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants +25% move speed and 40 barrier for 4 seconds", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_10",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Reaper's Guillotine",
+                description: "Summon an immense spectral guillotine scythe that crashes down from the heavens, splitting the earth and crushing all invaders.",
+                branchName: "Branch A — Scythe Mastery",
+                tier: 4,
+                prerequisiteAbilityId: "shadow_reaper_active_08",
+                resourceCost: 5f,
+                cooldownDuration: 9.5f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 105f,
+                baseRadius: 5.5f,
+                duration: 0.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Guillotine impact radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Guillotine crush damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Stuns targets for 2 seconds and grants 50 barrier", bonusUtility: 1.0f)
+                }
+            ));
+
+            // Legacy shadowstep alias
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_shadowstep",
+                characterId: CharacterCatalog.ShadowReaperId,
                 name: "Shadowstep",
                 description: "Teleport behind invaders and execute a devastating 360-degree shadow whirlwind.",
-                branchName: "Branch A — Umbral Mobility",
+                branchName: "Branch B — Shadow Movement",
                 tier: 1,
                 prerequisiteAbilityId: null,
                 resourceCost: 2f,
@@ -4295,56 +4547,7 @@ namespace FinalBoss.Core
                 }
             ));
 
-            Register(new AbilityDefinition(
-                id: "shadow_reaper_active_02",
-                characterId: CharacterCatalog.ShadowReaperId,
-                name: "Crescent Reap",
-                description: "Perform a sweeping 150-degree scythe execution, dealing amplified damage against wounded foes.",
-                branchName: "Branch B — Scythe Execution",
-                tier: 1,
-                prerequisiteAbilityId: null,
-                resourceCost: 3f,
-                cooldownDuration: 3f,
-                range: 2.8f,
-                effects: AbilityEffectType.MeleeArc,
-                targeting: AbilityTargetingRule.AimDirection,
-                baseDamage: 45f,
-                baseRadius: 2.8f,
-                duration: 0.25f,
-                milestones: new[]
-                {
-                    new AbilityRankMilestone(5, "Reap damage +25%", damageMultiplier: 1.25f),
-                    new AbilityRankMilestone(10, "Mark cost reduced to 2", resourceCostMultiplier: 0.67f),
-                    new AbilityRankMilestone(15, "Cooldown -20%", cooldownMultiplier: 0.80f),
-                    new AbilityRankMilestone(20, "Mastery: Slaying an enemy with Crescent Reap instantly refreshes its cooldown", bonusUtility: 1f)
-                }
-            ));
-
-            Register(new AbilityDefinition(
-                id: "shadow_reaper_active_11",
-                characterId: CharacterCatalog.ShadowReaperId,
-                name: "Umbral Shroud",
-                description: "Summon a patch of suffocating shadows that cripples enemy mobility and shrouds the Reaper.",
-                branchName: "Branch C — Shadow Veil",
-                tier: 2,
-                prerequisiteAbilityId: "shadow_reaper_active_01",
-                resourceCost: 2f,
-                cooldownDuration: 6f,
-                range: 4f,
-                effects: AbilityEffectType.CrowdControl | AbilityEffectType.Shield,
-                targeting: AbilityTargetingRule.Self,
-                baseDamage: 15f,
-                baseRadius: 4f,
-                duration: 4f,
-                milestones: new[]
-                {
-                    new AbilityRankMilestone(5, "Shroud radius +25%", radiusMultiplier: 1.25f),
-                    new AbilityRankMilestone(10, "Shroud duration +2 seconds", bonusUtility: 2f),
-                    new AbilityRankMilestone(15, "Slow potency +25%", bonusUtility: 0.25f),
-                    new AbilityRankMilestone(20, "Mastery: Shroud detonates on expiration dealing 40 shadow damage", damageMultiplier: 1.50f)
-                }
-            ));
-
+            // Milestone Ultimates
             Register(new AbilityDefinition(
                 id: "shadow_reaper_ultimate_50",
                 characterId: CharacterCatalog.ShadowReaperId,
@@ -4358,8 +4561,8 @@ namespace FinalBoss.Core
                 range: 8f,
                 effects: AbilityEffectType.RadialAoE | AbilityEffectType.Dash,
                 targeting: AbilityTargetingRule.AimDirection,
-                baseDamage: 75f,
-                baseRadius: 6f,
+                baseDamage: 110f,
+                baseRadius: 6.5f,
                 duration: 0.6f,
                 isUltimate: true,
                 requiredLevel: 50,
@@ -4369,6 +4572,114 @@ namespace FinalBoss.Core
                     new AbilityRankMilestone(10, "Flurry damage +40%", damageMultiplier: 1.40f),
                     new AbilityRankMilestone(15, "Mark cost reduced to 4", resourceCostMultiplier: 0.80f),
                     new AbilityRankMilestone(20, "Mastery: Spawns shadow phantoms continuing the flurry for 3 seconds", bonusUtility: 1f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_ultimate_100",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Night Without Footsteps",
+                description: "Enter an untargetable spectral state while multiple afterimages assault invaders across the dungeon.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "shadow_reaper_ultimate_50",
+                resourceCost: 5f,
+                cooldownDuration: 25f,
+                range: 8.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 135f,
+                baseRadius: 7.0f,
+                duration: 5.0f,
+                isUltimate: true,
+                requiredLevel: 100,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Spectral storm radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Phantom assault damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 70 barrier and complete crowd control immunity", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_ultimate_150",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Umbral Labyrinth",
+                description: "Create a supernatural shadow maze that slows enemies by 60% and unleashes chaining scythe detonations.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "shadow_reaper_ultimate_100",
+                resourceCost: 5f,
+                cooldownDuration: 30f,
+                range: 9.0f,
+                effects: AbilityEffectType.Hazard | AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 160f,
+                baseRadius: 7.5f,
+                duration: 6.0f,
+                isUltimate: true,
+                requiredLevel: 150,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Labyrinth radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Labyrinth detonation damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Labyrinth traps invaders and grants 80 barrier", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_ultimate_200",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Harvest of Names",
+                description: "Mark every enemy on the battlefield and execute weakened targets in a devastating chain reaction.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "shadow_reaper_ultimate_150",
+                resourceCost: 6f,
+                cooldownDuration: 35f,
+                range: 10.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 190f,
+                baseRadius: 8.0f,
+                duration: 2.0f,
+                isUltimate: true,
+                requiredLevel: 200,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Execution chain radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Chain execution damage increased by 45%", damageMultiplier: 1.45f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Executing targets refunds full Mark cost and grants 90 barrier", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_ultimate_250",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Eclipse Reaper",
+                description: "Transform into a colossal spectral executioner, unleashing cataclysmic scythe waves, shadow clones, and total oblivion.",
+                branchName: "Milestone Ultimates",
+                tier: 5,
+                prerequisiteAbilityId: "shadow_reaper_ultimate_200",
+                resourceCost: 6f,
+                cooldownDuration: 40f,
+                range: 12.0f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 240f,
+                baseRadius: 9.0f,
+                duration: 8.0f,
+                isUltimate: true,
+                requiredLevel: 250,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Eclipse aura radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Eclipse shockwave damage increased by 50%", damageMultiplier: 1.50f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Summons 2 Spectral Reapers, grants 120 barrier, and causes permanent slow", bonusUtility: 1.0f)
                 }
             ));
 

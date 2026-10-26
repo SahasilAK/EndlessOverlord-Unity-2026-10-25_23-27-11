@@ -144,9 +144,9 @@ namespace FinalBoss.Core
                 startingWeapon: "Scythe of the Forgotten",
                 basicAttackName: "Spectral Scythe",
                 signatureAbilityId: "shadow_reaper_active_01",
-                signatureAbilityName: "Shadowstep",
-                signatureResourceCost: 3f, // 3 Marks cost
-                signatureCooldown: 2.5f,
+                signatureAbilityName: "Crescent Reap",
+                signatureResourceCost: 3f,
+                signatureCooldown: 3.0f,
                 classColor: ColorData.FromHex("A855F7") // Midnight Amethyst Violet
             ),
 
