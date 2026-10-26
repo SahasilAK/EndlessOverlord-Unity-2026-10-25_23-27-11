@@ -116,7 +116,7 @@ namespace FinalBoss.Core
             AbilityTargetingRule targeting,
             float baseDamage,
             float baseRadius,
-            float duration,
+            float duration = 0f,
             bool isUltimate = false,
             int requiredLevel = 1,
             bool eligibleForAutocast = true,

@@ -263,5 +263,87 @@ namespace FinalBoss.Tests
                 }
             }
         }
+
+        [Test]
+        public void LichLord_BranchC_AllTenAbilitiesRegisteredAndValid()
+        {
+            var branchCIds = new[]
+            {
+                "lich_lord_active_21",
+                "lich_lord_active_22",
+                "lich_lord_active_23",
+                "lich_lord_active_24",
+                "lich_lord_active_25",
+                "lich_lord_active_26",
+                "lich_lord_active_27",
+                "lich_lord_active_28",
+                "lich_lord_active_29",
+                "lich_lord_active_30"
+            };
+
+            for (int i = 0; i < branchCIds.Length; i++)
+            {
+                string id = branchCIds[i];
+                var def = AbilityRegistry.Get(id);
+                Assert.IsNotNull(def, $"Ability {id} must be registered in AbilityRegistry.");
+                Assert.AreEqual(CharacterCatalog.LichLordId, def.CharacterId);
+                Assert.IsNotEmpty(def.Name);
+                Assert.IsNotEmpty(def.Description);
+                Assert.AreEqual("Branch C — Fire, Wind and Thunder Sorcery", def.BranchName);
+                Assert.GreaterOrEqual(def.Tier, 1);
+                Assert.LessOrEqual(def.Tier, 5);
+                Assert.Greater(def.ResourceCost, 0f);
+                Assert.Greater(def.CooldownDuration, 0f);
+                Assert.AreNotEqual(AbilityEffectType.None, def.Effects);
+                Assert.IsNotNull(def.Milestones);
+                Assert.AreEqual(4, def.Milestones.Count, $"Ability {id} must define milestones at ranks 5, 10, 15, and 20.");
+
+                // Milestone rank checks
+                Assert.AreEqual(5, def.Milestones[0].Rank);
+                Assert.AreEqual(10, def.Milestones[1].Rank);
+                Assert.AreEqual(15, def.Milestones[2].Rank);
+                Assert.AreEqual(20, def.Milestones[3].Rank);
+            }
+        }
+
+        [Test]
+        public void LichLord_BranchC_WaveSkills21Through30_RegisteredAndDraftExclusivity()
+        {
+            var expectedWaveSkills = new[]
+            {
+                "lich_lord_wave_21",
+                "lich_lord_wave_22",
+                "lich_lord_wave_23",
+                "lich_lord_wave_24",
+                "lich_lord_wave_25",
+                "lich_lord_wave_26",
+                "lich_lord_wave_27",
+                "lich_lord_wave_28",
+                "lich_lord_wave_29",
+                "lich_lord_wave_30"
+            };
+
+            foreach (var id in expectedWaveSkills)
+            {
+                var def = RewardRegistry.GetById(id);
+                Assert.IsNotNull(def, $"Wave skill {id} must be registered in RewardRegistry.");
+                Assert.AreEqual(CharacterCatalog.LichLordId, def.CharacterId, $"Skill {id} must be exclusive to Lich Lord.");
+                Assert.IsNotEmpty(def.Name);
+                Assert.IsNotEmpty(def.Description);
+                Assert.Greater(def.ValuePerRank, 0f);
+            }
+
+            // Test draft exclusion: Demon Monarch drafting should NEVER receive Lich Lord exclusive wave skills 21-30
+            var inv = new RewardInventory();
+            for (int seed = 1; seed <= 25; seed++)
+            {
+                var demonOffer = RewardDraftSystem.GenerateOffer(waveNumber: seed, seed: seed * 98765L, inventory: inv, characterId: CharacterCatalog.DemonMonarchId);
+                for (int c = 0; c < demonOffer.Choices.Count; c++)
+                {
+                    var choice = demonOffer.Choices[c];
+                    Assert.AreNotEqual(CharacterCatalog.LichLordId, choice.CharacterId, $"Demon Monarch must never be offered Lich Lord exclusive skill {choice.Id}");
+                }
+            }
+        }
     }
 }

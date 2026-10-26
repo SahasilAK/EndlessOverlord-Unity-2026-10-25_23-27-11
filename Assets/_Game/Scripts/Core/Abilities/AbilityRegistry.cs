@@ -569,6 +569,256 @@ namespace FinalBoss.Core
             ));
 
             Register(new AbilityDefinition(
+                id: "lich_lord_active_21",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Witchfire Orb",
+                description: "Hurl a crackling orb of green witchfire that detonates on contact, scorching nearby invaders.",
+                branchName: "Branch C — Fire, Wind and Thunder Sorcery",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 15f,
+                cooldownDuration: 2.2f,
+                range: 8.5f,
+                effects: AbilityEffectType.Projectile | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 22f,
+                baseRadius: 1.5f,
+                duration: 0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Orb velocity +35%", bonusUtility: 0.35f),
+                    new AbilityRankMilestone(10, "Impact blast radius +30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Witchfire burn damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(20, "Mastery: Launches 2 parallel Witchfire Orbs", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_22",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Graveflame Pillar",
+                description: "Erupt a column of violent dark flames at the target location, dealing heavy damage and leaving a burning ground zone.",
+                branchName: "Branch C — Fire, Wind and Thunder Sorcery",
+                tier: 2,
+                prerequisiteAbilityId: "lich_lord_active_21",
+                resourceCost: 24f,
+                cooldownDuration: 4.5f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 38f,
+                baseRadius: 2.2f,
+                duration: 2.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Pillar eruption damage +25%", damageMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Eruption radius +30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Leaves intense burning ground patch", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_23",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Ashen Gust",
+                description: "Unleash a fierce cone of ash and wind, dealing damage and violently repelling advancing invaders.",
+                branchName: "Branch C — Fire, Wind and Thunder Sorcery",
+                tier: 2,
+                prerequisiteAbilityId: "lich_lord_active_21",
+                resourceCost: 18f,
+                cooldownDuration: 4.0f,
+                range: 5.5f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 20f,
+                baseRadius: 5.5f,
+                duration: 0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Knockback distance +50%", bonusUtility: 0.50f),
+                    new AbilityRankMilestone(10, "Gust reach +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Gust damages and disorients targets", damageMultiplier: 1.30f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_24",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Static Cadaver",
+                description: "Electrify a targeted area or fallen remnant into a high-voltage trap that repeatedly zaps passing invaders.",
+                branchName: "Branch C — Fire, Wind and Thunder Sorcery",
+                tier: 3,
+                prerequisiteAbilityId: "lich_lord_active_22",
+                resourceCost: 26f,
+                cooldownDuration: 6.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 32f,
+                baseRadius: 2.8f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Discharge rate +30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Static shock damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Trap radius +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(20, "Mastery: Discharges a massive lightning burst upon expiry", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_25",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Deathbolt",
+                description: "Fire a concentrated bolt of lethal lightning that pierces through multiple enemies in a straight line.",
+                branchName: "Branch C — Fire, Wind and Thunder Sorcery",
+                tier: 3,
+                prerequisiteAbilityId: "lich_lord_active_23",
+                resourceCost: 25f,
+                cooldownDuration: 3.5f,
+                range: 10.0f,
+                effects: AbilityEffectType.Projectile | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 45f,
+                baseRadius: 0.35f,
+                duration: 0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Pierce up to 3 targets", bonusUtility: 3f),
+                    new AbilityRankMilestone(10, "Deathbolt damage +35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Generates lightning splash on every pierced target", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_26",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Corpse Spark",
+                description: "Cast an arcing spark of electrical necrosis that jumps rapidly between up to 4 nearby invaders.",
+                branchName: "Branch C — Fire, Wind and Thunder Sorcery",
+                tier: 4,
+                prerequisiteAbilityId: "lich_lord_active_24",
+                resourceCost: 30f,
+                cooldownDuration: 7.0f,
+                range: 8.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Projectile,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 34f,
+                baseRadius: 1.5f,
+                duration: 0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Jump chain jumps +1 (5 targets)", extraSummonsOrProjectiles: 1),
+                    new AbilityRankMilestone(10, "Electrical arc damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Stuns struck invaders for 1 second", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_27",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Storm of Ash",
+                description: "Conjure a turbulent burning windstorm that engulfs invaders in swirling embers and damaging heat.",
+                branchName: "Branch C — Fire, Wind and Thunder Sorcery",
+                tier: 4,
+                prerequisiteAbilityId: "lich_lord_active_23",
+                resourceCost: 36f,
+                cooldownDuration: 8.5f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 40f,
+                baseRadius: 3.5f,
+                duration: 5.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Ash cloud velocity +30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Continuous burn damage +35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Storm radius enlarged +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(20, "Mastery: Blinds and slows invaders inside the ash storm", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_28",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Phantom Cyclone",
+                description: "Unleash a spirit-filled tornado that drags nearby invaders toward its swirling core while ripping flesh.",
+                branchName: "Branch C — Fire, Wind and Thunder Sorcery",
+                tier: 4,
+                prerequisiteAbilityId: "lich_lord_active_25",
+                resourceCost: 38f,
+                cooldownDuration: 10.0f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Gravity | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 42f,
+                baseRadius: 3.2f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Vortex pull force +40%", bonusUtility: 0.40f),
+                    new AbilityRankMilestone(10, "Cyclone shred damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Duration extended by 1.5 seconds", bonusUtility: 1.5f),
+                    new AbilityRankMilestone(20, "Mastery: Cyclone launches phantom blades outward", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_29",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Ember Ossuary",
+                description: "Form an explosive circular barrier of blazing bone runes that detonate when invaders breach them.",
+                branchName: "Branch C — Fire, Wind and Thunder Sorcery",
+                tier: 5,
+                prerequisiteAbilityId: "lich_lord_active_27",
+                resourceCost: 52f,
+                cooldownDuration: 13.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 55f,
+                baseRadius: 4.5f,
+                duration: 3.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Rune ring diameter +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Bone detonation damage +35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Detonations ignite ground for 4 seconds", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_30",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Thunder Coffin",
+                description: "Trap an enemy commander in an electric lightning prison before detonating in a catastrophic thunderclap.",
+                branchName: "Branch C — Fire, Wind and Thunder Sorcery",
+                tier: 5,
+                prerequisiteAbilityId: "lich_lord_active_28",
+                resourceCost: 65f,
+                cooldownDuration: 16.0f,
+                range: 8.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 70f,
+                baseRadius: 3.5f,
+                duration: 2.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Cage immobilization duration +1.0s", bonusUtility: 1.0f),
+                    new AbilityRankMilestone(10, "Thunderclap detonation damage +40% (98 dmg)", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Thunderclap paralyzes all invaders within 6m", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
                 id: "lich_lord_ultimate_50",
                 characterId: CharacterCatalog.LichLordId,
                 name: "Army of the Damned",

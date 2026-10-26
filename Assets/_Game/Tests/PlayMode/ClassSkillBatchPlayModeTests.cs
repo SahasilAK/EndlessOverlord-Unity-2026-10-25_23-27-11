@@ -394,5 +394,132 @@ namespace FinalBoss.Tests
             // Verify minion was healed by Winter of the Dead
             Assert.Greater(minion.Health.Current, minionHpBefore, "Winter of the Dead should restore health to player summons.");
         }
+
+        [UnityTest]
+        public IEnumerator LichLord_BranchC_FireAndWind_CastAndDamageInvader()
+        {
+            yield return StartArena(CharacterCatalog.LichLordId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.LichLordId, 90, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.LichLordId, "Branch C — Fire, Wind and Thunder Sorcery", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.LichLordId,
+                new List<string>
+                {
+                    "lich_lord_active_21", // Witchfire Orb
+                    "lich_lord_active_22", // Graveflame Pillar
+                    "lich_lord_active_23", // Ashen Gust
+                    "lich_lord_active_27", // Storm of Ash
+                    "lich_lord_active_28"  // Phantom Cyclone
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            // Spawn invader in front of player
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 1.8f, InvaderArchetype.Swordsman);
+            float startHp = invader.Health.Current;
+
+            // 1. Cast Slot 0 (Witchfire Orb)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(0), "Slot 0 (Witchfire Orb) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 2. Cast Slot 1 (Graveflame Pillar)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(1), "Slot 1 (Graveflame Pillar) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 3. Cast Slot 2 (Ashen Gust)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(2), "Slot 2 (Ashen Gust) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 4. Cast Slot 3 (Storm of Ash)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(3), "Slot 3 (Storm of Ash) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 5. Cast Slot 4 (Phantom Cyclone)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(4), "Slot 4 (Phantom Cyclone) should activate.");
+            yield return new WaitForSeconds(0.3f);
+
+            var hazards = Object.FindObjectsByType<HazardZoneActor>();
+            Assert.GreaterOrEqual(hazards.Length, 2, "Graveflame Pillar, Storm of Ash or Cyclone should spawn hazard zones.");
+
+            Assert.Less(invader.Health.Current, startHp, "Invader should have received damage from fire and wind spells.");
+        }
+
+        [UnityTest]
+        public IEnumerator LichLord_BranchC_ThunderAndLightning_CastAndDamageInvader()
+        {
+            yield return StartArena(CharacterCatalog.LichLordId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.LichLordId, 100, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.LichLordId, "Branch C — Fire, Wind and Thunder Sorcery", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.LichLordId,
+                new List<string>
+                {
+                    "lich_lord_active_24", // Static Cadaver
+                    "lich_lord_active_25", // Deathbolt
+                    "lich_lord_active_26", // Corpse Spark
+                    "lich_lord_active_29", // Ember Ossuary
+                    "lich_lord_active_30"  // Thunder Coffin
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            // Spawn two invaders
+            var invader1 = InvaderActor.Spawn(_player.Position + Vector2.right * 1.5f, InvaderArchetype.Swordsman);
+            var invader2 = InvaderActor.Spawn(_player.Position + Vector2.right * 3.0f, InvaderArchetype.Swordsman);
+            float hp1Before = invader1.Health.Current;
+            float hp2Before = invader2.Health.Current;
+
+            // 1. Static Cadaver
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(0), "Slot 0 (Static Cadaver) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 2. Deathbolt
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(1), "Slot 1 (Deathbolt) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 3. Corpse Spark (chaining to invader 2)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(2), "Slot 2 (Corpse Spark) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 4. Ember Ossuary
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(3), "Slot 3 (Ember Ossuary) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 5. Thunder Coffin
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(4), "Slot 4 (Thunder Coffin) should activate.");
+            yield return new WaitForSeconds(0.3f);
+
+            Assert.Less(invader1.Health.Current, hp1Before, "Invader 1 should have received damage from lightning spells.");
+            Assert.Less(invader2.Health.Current, hp2Before, "Invader 2 should have received chained damage.");
+            Assert.IsTrue(invader1.IsSlowed, "Invader 1 should be trapped/slowed by Thunder Coffin / Static Cadaver.");
+        }
     }
 }

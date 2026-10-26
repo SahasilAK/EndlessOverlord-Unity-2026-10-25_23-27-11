@@ -142,11 +142,21 @@ namespace FinalBoss.Core
         public const string WinterChainsId = "lich_lord_wave_18";
         public const string StormNecromancyId = "lich_lord_wave_19";
         public const string ElementalGravesId = "lich_lord_wave_20";
+        public const string EssenceOverflowId = "lich_lord_wave_21";
+        public const string HarvestingAuraId = "lich_lord_wave_22";
+        public const string DoomEchoId = "lich_lord_wave_23";
+        public const string EbonHungerId = "lich_lord_wave_24";
+        public const string SoulFractureId = "lich_lord_wave_25";
+        public const string GraveCovenantId = "lich_lord_wave_26";
+        public const string HexMagnificationId = "lich_lord_wave_27";
+        public const string SoulDividendId = "lich_lord_wave_28";
+        public const string DarkResidueId = "lich_lord_wave_29";
+        public const string FinalWhisperId = "lich_lord_wave_30";
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
-        public const string AttackSpeedId = "lich_lord_wave_21";
-        public const string MaxHealthId = "lich_lord_wave_22";
-        public const string DamageId = "lich_lord_wave_30";
+        public const string AttackSpeedId = EssenceOverflowId;
+        public const string MaxHealthId = HarvestingAuraId;
+        public const string DamageId = FinalWhisperId;
         public const string MonarchId = "lich_lord_wave_mastery";
 
         private static readonly Dictionary<string, RewardDefinition> Registry = new Dictionary<string, RewardDefinition>
@@ -392,37 +402,121 @@ namespace FinalBoss.Core
                     maxRank: 5)
             },
             {
-                AttackSpeedId,
+                EssenceOverflowId,
                 new RewardDefinition(
-                    AttackSpeedId,
-                    "Grim Haste",
-                    "Quicken attack cycle (+20% Attack Speed)",
+                    EssenceOverflowId,
+                    "Essence Overflow",
+                    "Greater Essence storage quickens attack casting frequency (+20% Attack Speed)",
                     RewardRarity.Uncommon,
-                    "all",
+                    "lich_lord",
                     RewardModifierType.AttackSpeedPercent,
                     0.20f,
                     maxRank: 5)
             },
             {
-                MaxHealthId,
+                HarvestingAuraId,
                 new RewardDefinition(
-                    MaxHealthId,
-                    "Soul Harvest",
-                    "Harvest souls into permanent vitality (+30 Max HP)",
+                    HarvestingAuraId,
+                    "Harvesting Aura",
+                    "Nearby deaths weave harvested spiritual essence into vitality (+30 Max HP)",
                     RewardRarity.Uncommon,
-                    "all",
+                    "lich_lord",
                     RewardModifierType.MaxHealth,
                     30f,
                     maxRank: 5)
             },
             {
-                DamageId,
+                DoomEchoId,
                 new RewardDefinition(
-                    DamageId,
-                    "Doom Potency",
-                    "Amplify combat impact (+25% Damage)",
+                    DoomEchoId,
+                    "Doom Echo",
+                    "Execution marks resonate across targets (+15% Damage)",
                     RewardRarity.Rare,
-                    "all",
+                    "lich_lord",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                EbonHungerId,
+                new RewardDefinition(
+                    EbonHungerId,
+                    "Ebon Hunger",
+                    "Dark curses siphoning vitality strengthen combat life steal (+6% Life Steal)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.LifeStealPercent,
+                    0.06f,
+                    maxRank: 5)
+            },
+            {
+                SoulFractureId,
+                new RewardDefinition(
+                    SoulFractureId,
+                    "Soul Fracture",
+                    "Dark critical attacks splinter into additional projectiles (+1 Projectile)",
+                    RewardRarity.Epic,
+                    "lich_lord",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 2)
+            },
+            {
+                GraveCovenantId,
+                new RewardDefinition(
+                    GraveCovenantId,
+                    "Grave Covenant",
+                    "Pact of the grave accelerates cooldown recovery (+15% Dash Cooldown Recovery)",
+                    RewardRarity.Uncommon,
+                    "lich_lord",
+                    RewardModifierType.DashCooldownReductionPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                HexMagnificationId,
+                new RewardDefinition(
+                    HexMagnificationId,
+                    "Hex Magnification",
+                    "Enlarges spell range and reach of curses (+1.5m Range)",
+                    RewardRarity.Uncommon,
+                    "lich_lord",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                SoulDividendId,
+                new RewardDefinition(
+                    SoulDividendId,
+                    "Soul Dividend",
+                    "Elite essence infusions hasten the Lich Lord's pace (+12% Move Speed)",
+                    RewardRarity.Common,
+                    "lich_lord",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.12f,
+                    maxRank: 5)
+            },
+            {
+                DarkResidueId,
+                new RewardDefinition(
+                    DarkResidueId,
+                    "Dark Residue",
+                    "Spells leave persistent necrotic residue, increasing damage (+15% Damage)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                FinalWhisperId,
+                new RewardDefinition(
+                    FinalWhisperId,
+                    "Final Whisper",
+                    "Cursed deaths trigger devastating damage amplification (+25% Damage)",
+                    RewardRarity.Rare,
+                    "lich_lord",
                     RewardModifierType.ProjectileDamagePercent,
                     0.25f,
                     maxRank: 5)
