@@ -2006,5 +2006,84 @@ namespace FinalBoss.Tests
                 }
             }
         }
+
+        [Test]
+        public void ShadowReaper_BranchC_AllTenAbilitiesRegisteredAndValid()
+        {
+            var expectedIds = new[]
+            {
+                "shadow_reaper_active_21",
+                "shadow_reaper_active_22",
+                "shadow_reaper_active_23",
+                "shadow_reaper_active_24",
+                "shadow_reaper_active_25",
+                "shadow_reaper_active_26",
+                "shadow_reaper_active_27",
+                "shadow_reaper_active_28",
+                "shadow_reaper_active_29",
+                "shadow_reaper_active_30"
+            };
+
+            foreach (var id in expectedIds)
+            {
+                var def = AbilityRegistry.Get(id);
+                Assert.IsNotNull(def, $"Ability {id} must be registered.");
+                Assert.AreEqual(CharacterCatalog.ShadowReaperId, def.CharacterId);
+                Assert.IsNotEmpty(def.Name);
+                Assert.IsNotEmpty(def.Description);
+                Assert.AreEqual("Branch C — Haunting & Shadow Clones", def.BranchName);
+                Assert.Greater(def.BaseDamage, 0f);
+                Assert.Greater(def.BaseRadius, 0f);
+                Assert.Greater(def.CooldownDuration, 0f);
+                Assert.Greater(def.ResourceCost, 0f);
+                Assert.IsNotNull(def.Milestones);
+                Assert.AreEqual(4, def.Milestones.Count);
+
+                Assert.AreEqual(5, def.Milestones[0].Rank);
+                Assert.AreEqual(10, def.Milestones[1].Rank);
+                Assert.AreEqual(15, def.Milestones[2].Rank);
+                Assert.AreEqual(20, def.Milestones[3].Rank);
+            }
+        }
+
+        [Test]
+        public void ShadowReaper_BranchC_WaveSkills21Through30_RegisteredAndDraftExclusivity()
+        {
+            var expectedWaveSkills = new[]
+            {
+                "shadow_reaper_wave_21",
+                "shadow_reaper_wave_22",
+                "shadow_reaper_wave_23",
+                "shadow_reaper_wave_24",
+                "shadow_reaper_wave_25",
+                "shadow_reaper_wave_26",
+                "shadow_reaper_wave_27",
+                "shadow_reaper_wave_28",
+                "shadow_reaper_wave_29",
+                "shadow_reaper_wave_30"
+            };
+
+            foreach (var id in expectedWaveSkills)
+            {
+                var def = RewardRegistry.GetById(id);
+                Assert.IsNotNull(def, $"Wave skill {id} must be registered in RewardRegistry.");
+                Assert.AreEqual(CharacterCatalog.ShadowReaperId, def.CharacterId, $"Skill {id} must be exclusive to Shadow Reaper.");
+                Assert.IsNotEmpty(def.Name);
+                Assert.IsNotEmpty(def.Description);
+                Assert.Greater(def.ValuePerRank, 0f);
+            }
+
+            // Test draft exclusion: Demon Monarch drafting should NEVER receive Shadow Reaper exclusive wave skills 21-30
+            var inv = new RewardInventory();
+            for (int seed = 1; seed <= 25; seed++)
+            {
+                var monarchOffer = RewardDraftSystem.GenerateOffer(waveNumber: seed, seed: seed * 131313L, inventory: inv, characterId: CharacterCatalog.DemonMonarchId);
+                for (int c = 0; c < monarchOffer.Choices.Count; c++)
+                {
+                    var choice = monarchOffer.Choices[c];
+                    Assert.AreNotEqual(CharacterCatalog.ShadowReaperId, choice.CharacterId, $"Demon Monarch must never be offered Shadow Reaper exclusive skill {choice.Id}");
+                }
+            }
+        }
     }
 }

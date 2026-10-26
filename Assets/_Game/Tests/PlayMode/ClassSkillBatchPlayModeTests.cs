@@ -2412,5 +2412,89 @@ namespace FinalBoss.Tests
             Assert.GreaterOrEqual(_player.BarrierAmount, 60f, "Shadow Horizon should grant horizon barrier.");
             Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Shadow Reaper horizon abilities.");
         }
+
+        [UnityTest]
+        public IEnumerator ShadowReaper_BranchC_Part1_HauntingAndClones_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.ShadowReaperId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.ShadowReaperId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.ShadowReaperId, "Branch C — Haunting & Shadow Clones", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.ShadowReaperId,
+                new List<string>
+                {
+                    "shadow_reaper_active_21", // Whispering Shade
+                    "shadow_reaper_active_22", // Phantom Double
+                    "shadow_reaper_active_23", // Haunting Presence
+                    "shadow_reaper_active_24", // Shadow Trap
+                    "shadow_reaper_active_25"  // Wraith Ambush
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(10f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Shadow Reaper Branch C slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 35f, "Phantom Double should grant combat barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Shadow Reaper haunting abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator ShadowReaper_BranchC_Part2_HauntingAndClones_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.ShadowReaperId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.ShadowReaperId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.ShadowReaperId, "Branch C — Haunting & Shadow Clones", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.ShadowReaperId,
+                new List<string>
+                {
+                    "shadow_reaper_active_26", // Nightblade Echo
+                    "shadow_reaper_active_27", // Unseen Hunter
+                    "shadow_reaper_active_28", // Umbral Pursuer
+                    "shadow_reaper_active_29", // Phantom Circle
+                    "shadow_reaper_active_30"  // Council of Shadows
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(10f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Shadow Reaper Branch C slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 60f, "Council of Shadows should grant council barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Shadow Reaper shadow clone abilities.");
+        }
     }
 }

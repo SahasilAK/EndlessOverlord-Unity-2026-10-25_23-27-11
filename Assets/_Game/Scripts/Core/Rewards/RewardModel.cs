@@ -377,6 +377,18 @@ namespace FinalBoss.Core
         public const string ReaperRepositionedBladeId = "shadow_reaper_wave_19";
         public const string ReaperSpectralPursuitId = "shadow_reaper_wave_20";
 
+        // Shadow Reaper Wave Skills (Batch 3: 21-30)
+        public const string ReaperDoppelgangerMasteryId = "shadow_reaper_wave_21";
+        public const string ReaperExtendedHauntingId = "shadow_reaper_wave_22";
+        public const string ReaperPhantomMultiplicationId = "shadow_reaper_wave_23";
+        public const string ReaperHauntingReachId = "shadow_reaper_wave_24";
+        public const string ReaperDuplicatePrecisionId = "shadow_reaper_wave_25";
+        public const string ReaperEchoingScytheId = "shadow_reaper_wave_26";
+        public const string ReaperFearfulPresenceId = "shadow_reaper_wave_27";
+        public const string ReaperWraithCoordinationId = "shadow_reaper_wave_28";
+        public const string ReaperShadowRepetitionId = "shadow_reaper_wave_29";
+        public const string ReaperPhantomConvergenceId = "shadow_reaper_wave_30";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -3033,6 +3045,126 @@ namespace FinalBoss.Core
                     ReaperSpectralPursuitId,
                     "Spectral Pursuit",
                     "Relentless stalker: teleporting triggers colossal kinetic cascades (+35% Damage, +40 Max HP, Mythic)",
+                    RewardRarity.Mythic,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.35f,
+                    maxRank: 5)
+            },
+            {
+                ReaperDoppelgangerMasteryId,
+                new RewardDefinition(
+                    ReaperDoppelgangerMasteryId,
+                    "Doppelganger Mastery",
+                    "Improved shadow clone and spectral illusion damage (+20% Damage)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                ReaperExtendedHauntingId,
+                new RewardDefinition(
+                    ReaperExtendedHauntingId,
+                    "Extended Haunting",
+                    "Lengthened shade manifestation reinforces vitality (+35 Max HP)",
+                    RewardRarity.Uncommon,
+                    "shadow_reaper",
+                    RewardModifierType.MaxHealth,
+                    35f,
+                    maxRank: 5)
+            },
+            {
+                ReaperPhantomMultiplicationId,
+                new RewardDefinition(
+                    ReaperPhantomMultiplicationId,
+                    "Phantom Multiplication",
+                    "Spectral clones duplicate attacks with bonus phantasmal strikes (+1 Extra Projectile)",
+                    RewardRarity.Rare,
+                    "shadow_reaper",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 5)
+            },
+            {
+                ReaperHauntingReachId,
+                new RewardDefinition(
+                    ReaperHauntingReachId,
+                    "Haunting Reach",
+                    "Shadow apparitions project greater sweeping reach (+1.5m Range)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                ReaperDuplicatePrecisionId,
+                new RewardDefinition(
+                    ReaperDuplicatePrecisionId,
+                    "Duplicate Precision",
+                    "Spectral clones strike weak points with pinpoint lethality (+20% Damage)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                ReaperEchoingScytheId,
+                new RewardDefinition(
+                    ReaperEchoingScytheId,
+                    "Echoing Scythe",
+                    "Repeated scythe echoes accelerate combat cadence (+15% Attack Speed)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.AttackSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                ReaperFearfulPresenceId,
+                new RewardDefinition(
+                    ReaperFearfulPresenceId,
+                    "Fearful Presence",
+                    "Overwhelming spectral dread deflects enemy retaliation (+6 Armor)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                ReaperWraithCoordinationId,
+                new RewardDefinition(
+                    ReaperWraithCoordinationId,
+                    "Wraith Coordination",
+                    "Phantasmal coordination enhances evasive stride (+15% Move Speed)",
+                    RewardRarity.Common,
+                    "shadow_reaper",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                ReaperShadowRepetitionId,
+                new RewardDefinition(
+                    ReaperShadowRepetitionId,
+                    "Shadow Repetition",
+                    "Residual spectral echoes repeatedly strike foes (+25% Damage, Epic)",
+                    RewardRarity.Epic,
+                    "shadow_reaper",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                ReaperPhantomConvergenceId,
+                new RewardDefinition(
+                    ReaperPhantomConvergenceId,
+                    "Phantom Convergence",
+                    "All shadows converge into a devastating apocalyptic vortex (+35% Damage, +40 Max HP, Mythic)",
                     RewardRarity.Mythic,
                     "shadow_reaper",
                     RewardModifierType.ProjectileDamagePercent,

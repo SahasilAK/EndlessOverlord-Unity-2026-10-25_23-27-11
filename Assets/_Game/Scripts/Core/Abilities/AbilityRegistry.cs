@@ -4772,6 +4772,259 @@ namespace FinalBoss.Core
                 }
             ));
 
+            // =========================================================================
+            // Shadow Reaper — Branch C — Haunting & Shadow Clones (Actives 21-30)
+            // =========================================================================
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_21",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Whispering Shade",
+                description: "Summon a phantasmal shade at target area that repeatedly mimics scythe sweeps, cleaving nearby enemies.",
+                branchName: "Branch C — Haunting & Shadow Clones",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 2f,
+                cooldownDuration: 5.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 45f,
+                baseRadius: 3.5f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Shade duration increased by 25%", bonusUtility: 1.25f),
+                    new AbilityRankMilestone(10, "Shade cleave damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Shade attack radius increased by 30%", radiusMultiplier: 1.30f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_22",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Phantom Double",
+                description: "Conjure an agile combat clone that draws invader aggression and retaliates with whirling shadow blades.",
+                branchName: "Branch C — Haunting & Shadow Clones",
+                tier: 1,
+                prerequisiteAbilityId: "shadow_reaper_active_21",
+                resourceCost: 3f,
+                cooldownDuration: 6.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 52f,
+                baseRadius: 4.0f,
+                duration: 5.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Combat clone duration increased by 25%", bonusUtility: 1.25f),
+                    new AbilityRankMilestone(10, "Clone strike damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 35 barrier upon manifestation", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_23",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Haunting Presence",
+                description: "Radiate an overpowering spectral terror, slowing and inflicting fear upon all nearby invaders.",
+                branchName: "Branch C — Haunting & Shadow Clones",
+                tier: 2,
+                prerequisiteAbilityId: "shadow_reaper_active_21",
+                resourceCost: 2f,
+                cooldownDuration: 5.5f,
+                range: 5.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 48f,
+                baseRadius: 4.5f,
+                duration: 2.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Presence radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Terror shockwave damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Fear duration increased by 40%", bonusUtility: 1.40f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_24",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Shadow Trap",
+                description: "Inscribe a dormant spectral rune on the ground that detonates in a flurry of scythe claws when crossed.",
+                branchName: "Branch C — Haunting & Shadow Clones",
+                tier: 2,
+                prerequisiteAbilityId: "shadow_reaper_active_22",
+                resourceCost: 3f,
+                cooldownDuration: 6.0f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 60f,
+                baseRadius: 3.8f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Detonation radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Trap claw damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Inflicts 60% slow on detonation", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_25",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Wraith Ambush",
+                description: "Summon a stealthy wraith behind the highest-threat enemy that executes a devastating ambush strike.",
+                branchName: "Branch C — Haunting & Shadow Clones",
+                tier: 2,
+                prerequisiteAbilityId: "shadow_reaper_active_23",
+                resourceCost: 3f,
+                cooldownDuration: 6.5f,
+                range: 7.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 66f,
+                baseRadius: 3.2f,
+                duration: 0.4f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Ambush strike radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Puncture damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Refunds 1 Mark on hitting an elite or champion", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_26",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Nightblade Echo",
+                description: "Harness residual spectral vibrations to unleash a synchronized duplicate scythe cleave ahead.",
+                branchName: "Branch C — Haunting & Shadow Clones",
+                tier: 3,
+                prerequisiteAbilityId: "shadow_reaper_active_24",
+                resourceCost: 3f,
+                cooldownDuration: 5.5f,
+                range: 6.0f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 68f,
+                baseRadius: 4.0f,
+                duration: 0.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Echo arc width increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Echo damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Echo deals 40% increased critical damage", damageMultiplier: 1.40f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_27",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Unseen Hunter",
+                description: "Melt into the umbral realm, cloaking the Reaper in darkness while generating a protective shadow barrier.",
+                branchName: "Branch C — Haunting & Shadow Clones",
+                tier: 3,
+                prerequisiteAbilityId: "shadow_reaper_active_25",
+                resourceCost: 3f,
+                cooldownDuration: 7.0f,
+                range: 5.0f,
+                effects: AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 55f,
+                baseRadius: 4.0f,
+                duration: 3.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Stealth shroud duration increased by 25%", bonusUtility: 1.25f),
+                    new AbilityRankMilestone(10, "Shadow discharge damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 45 barrier during stealth", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_28",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Umbral Pursuer",
+                description: "Manifest a persistent hound of gloom that tirelessly stalks and rends distant invaders.",
+                branchName: "Branch C — Haunting & Shadow Clones",
+                tier: 3,
+                prerequisiteAbilityId: "shadow_reaper_active_26",
+                resourceCost: 4f,
+                cooldownDuration: 7.5f,
+                range: 8.0f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 72f,
+                baseRadius: 3.8f,
+                duration: 5.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Pursuer duration increased by 25%", bonusUtility: 1.25f),
+                    new AbilityRankMilestone(10, "Rending damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Pursuer inflicts 50% slow on targets struck", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_29",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Phantom Circle",
+                description: "Form an encircling ring of spectral mirages that converge inward, executing simultaneous scythe sweeps.",
+                branchName: "Branch C — Haunting & Shadow Clones",
+                tier: 4,
+                prerequisiteAbilityId: "shadow_reaper_active_27",
+                resourceCost: 4f,
+                cooldownDuration: 8.0f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Summon,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 84f,
+                baseRadius: 5.0f,
+                duration: 1.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Circle radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Converging strike damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Pulls enemies toward the center of the ring", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "shadow_reaper_active_30",
+                characterId: CharacterCatalog.ShadowReaperId,
+                name: "Council of Shadows",
+                description: "Assemble the full ghostly council: summon a cohort of formidable spectral duplicates to dominate the battlefield.",
+                branchName: "Branch C — Haunting & Shadow Clones",
+                tier: 4,
+                prerequisiteAbilityId: "shadow_reaper_active_28",
+                resourceCost: 5f,
+                cooldownDuration: 9.5f,
+                range: 8.0f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 98f,
+                baseRadius: 6.0f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Council radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Duplicate strike damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 60 barrier and summons 2 captain shades", bonusUtility: 1.0f)
+                }
+            ));
+
             // Legacy shadowstep alias
             Register(new AbilityDefinition(
                 id: "shadow_reaper_active_shadowstep",

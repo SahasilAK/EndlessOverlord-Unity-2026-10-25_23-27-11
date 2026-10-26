@@ -2851,6 +2851,134 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.InvaderStrike, srHorizonDest.x, srHorizonDest.y);
                     break;
 
+                // -------------------------------------------------------------
+                // SHADOW REAPER — Branch C — Haunting & Shadow Clones (Actives 21-30)
+                // -------------------------------------------------------------
+                case "shadow_reaper_active_21": // Whispering Shade
+                    Vector2 srShadePos = playerPos + aimDir * Math.Min(3.0f, def.Range > 0 ? def.Range : 3.0f);
+                    UndeadMinionActor.Spawn(UndeadMinionType.Hound, srShadePos, overrideDamage: damage * 0.8f, lifetime: 4.0f);
+                    result.SummonsCreated++;
+                    result.DamageDealt += DamageArea(srShadePos, radius, damage, knockbackForce: 3.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srShadePos, radius * 2.2f, new Color(0.75f, 0.15f, 0.95f, 0.85f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, srShadePos.x, srShadePos.y);
+                    break;
+
+                case "shadow_reaper_active_22": // Phantom Double
+                    Vector2 srDoublePos = playerPos + aimDir * Math.Min(2.5f, def.Range > 0 ? def.Range : 2.5f);
+                    UndeadMinionActor.Spawn(UndeadMinionType.Guardian, srDoublePos, overrideDamage: damage * 0.9f, overrideMaxHp: 180f, lifetime: 5.0f);
+                    result.SummonsCreated++;
+                    _player.SetBarrier(35f, duration: 4.0f);
+                    result.DamageDealt += DamageArea(srDoublePos, radius, damage * 1.1f, knockbackForce: 4.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srDoublePos, radius * 2.4f, new Color(0.8f, 0.2f, 1f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, srDoublePos.x, srDoublePos.y);
+                    break;
+
+                case "shadow_reaper_active_23": // Haunting Presence
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 3.0f, slowPercent: 0.60f, slowDuration: 2.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.5f, new Color(0.6f, 0.1f, 0.9f, 0.85f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "shadow_reaper_active_24": // Shadow Trap
+                    Vector2 srTrapPos = playerPos + aimDir * Math.Min(3.5f, def.Range > 0 ? def.Range : 3.5f);
+                    HazardZoneActor.Spawn(srTrapPos, radius, duration: 5.0f, damagePerTick: damage * 0.3f, tickInterval: 0.35f, slowPercent: 0.6f, slowDuration: 1.5f, color: new Color(0.35f, 0.05f, 0.5f, 0.6f), label: "[SHADOW_TRAP]");
+                    result.DamageDealt += DamageArea(srTrapPos, radius, damage * 1.15f, knockbackForce: 4.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srTrapPos, radius * 2.3f, new Color(0.7f, 0.15f, 0.9f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, srTrapPos.x, srTrapPos.y);
+                    break;
+
+                case "shadow_reaper_active_25": // Wraith Ambush
+                    Vector2 srAmbushPos = playerPos + aimDir * Math.Min(4.0f, def.Range > 0 ? def.Range : 4.0f);
+                    var srAmbushActors = ActorRegistry.AllActors;
+                    float srAmbushDist = float.MaxValue;
+                    for (int i = 0; i < srAmbushActors.Count; i++)
+                    {
+                        var a = srAmbushActors[i];
+                        if (a != null && a.Team == Faction.Invader && a.Alive)
+                        {
+                            float d = Vector2.Distance(playerPos, a.Position);
+                            if (d <= (def.Range > 0 ? def.Range : 7.5f) && d < srAmbushDist)
+                            {
+                                srAmbushDist = d;
+                                srAmbushPos = a.Position - aimDir * 0.5f;
+                            }
+                        }
+                    }
+                    UndeadMinionActor.Spawn(UndeadMinionType.Hound, srAmbushPos, overrideDamage: damage, lifetime: 3.0f);
+                    result.SummonsCreated++;
+                    result.DamageDealt += DamageArea(srAmbushPos, radius, damage * 1.3f, knockbackForce: 5.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srAmbushPos, radius * 2.4f, new Color(0.85f, 0.15f, 0.95f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, srAmbushPos.x, srAmbushPos.y);
+                    break;
+
+                case "shadow_reaper_active_26": // Nightblade Echo
+                    Vector2 srEchoPos = playerPos + aimDir * Math.Min(3.0f, def.Range > 0 ? def.Range : 3.0f);
+                    result.DamageDealt += DamageArea(srEchoPos, radius, damage * 1.25f, knockbackForce: 4.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srEchoPos, radius * 2.5f, new Color(0.75f, 0.1f, 1f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, srEchoPos.x, srEchoPos.y);
+                    break;
+
+                case "shadow_reaper_active_27": // Unseen Hunter
+                    _player.SetBarrier(45f, duration: 4.0f);
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 3.5f, slowPercent: 0.4f, slowDuration: 2.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.5f, new Color(0.65f, 0.1f, 0.85f, 0.85f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "shadow_reaper_active_28": // Umbral Pursuer
+                    Vector2 srPursuerPos = playerPos + aimDir * Math.Min(4.0f, def.Range > 0 ? def.Range : 4.0f);
+                    var srPursuerActors = ActorRegistry.AllActors;
+                    float srPursuerDist = float.MaxValue;
+                    for (int i = 0; i < srPursuerActors.Count; i++)
+                    {
+                        var a = srPursuerActors[i];
+                        if (a != null && a.Team == Faction.Invader && a.Alive)
+                        {
+                            float d = Vector2.Distance(playerPos, a.Position);
+                            if (d <= (def.Range > 0 ? def.Range : 8.0f) && d < srPursuerDist)
+                            {
+                                srPursuerDist = d;
+                                srPursuerPos = a.Position;
+                            }
+                        }
+                    }
+                    UndeadMinionActor.Spawn(UndeadMinionType.Hound, srPursuerPos, overrideDamage: damage * 1.1f, lifetime: 5.0f);
+                    result.SummonsCreated++;
+                    result.DamageDealt += DamageArea(srPursuerPos, radius, damage * 1.2f, knockbackForce: 4.0f, slowPercent: 0.5f, slowDuration: 2.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srPursuerPos, radius * 2.4f, new Color(0.8f, 0.2f, 0.9f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, srPursuerPos.x, srPursuerPos.y);
+                    break;
+
+                case "shadow_reaper_active_29": // Phantom Circle
+                    Vector2 srCircleCenter = playerPos + aimDir * Math.Min(3.0f, def.Range > 0 ? def.Range : 3.0f);
+                    UndeadMinionActor.Spawn(UndeadMinionType.Hound, srCircleCenter + Vector2.left * 1.5f, overrideDamage: damage * 0.7f, lifetime: 4.0f);
+                    UndeadMinionActor.Spawn(UndeadMinionType.Hound, srCircleCenter + Vector2.right * 1.5f, overrideDamage: damage * 0.7f, lifetime: 4.0f);
+                    result.SummonsCreated += 2;
+                    result.DamageDealt += DamageArea(srCircleCenter, radius * 1.25f, damage * 1.4f, knockbackForce: 5.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(srCircleCenter, radius * 2.8f, new Color(0.85f, 0.15f, 1f, 0.95f), 0.55f);
+                    CueBus.Raise(CueIds.InvaderStrike, srCircleCenter.x, srCircleCenter.y);
+                    break;
+
+                case "shadow_reaper_active_30": // Council of Shadows
+                    UndeadMinionActor.Spawn(UndeadMinionType.Captain, playerPos + Vector2.left * 1.8f, overrideDamage: damage * 1.1f, overrideMaxHp: 200f, lifetime: 6.0f);
+                    UndeadMinionActor.Spawn(UndeadMinionType.Captain, playerPos + Vector2.right * 1.8f, overrideDamage: damage * 1.1f, overrideMaxHp: 200f, lifetime: 6.0f);
+                    result.SummonsCreated += 2;
+                    _player.SetBarrier(60f, duration: 6.0f);
+                    result.DamageDealt += DamageArea(playerPos, radius * 1.3f, damage * 1.6f, knockbackForce: 7.0f, slowPercent: 0.6f, slowDuration: 3.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 3.2f, new Color(0.95f, 0.2f, 1f, 0.98f), 0.65f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
                 // Milestone Ultimates
                 case "shadow_reaper_ultimate_50": // Dance of Ten Thousand Cuts
                     result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 5.0f);
