@@ -1663,5 +1663,84 @@ namespace FinalBoss.Tests
                 }
             }
         }
+
+        [Test]
+        public void VampireQueen_BranchD_AllTenAbilitiesRegisteredAndValid()
+        {
+            var expectedIds = new[]
+            {
+                "vampire_queen_active_31",
+                "vampire_queen_active_32",
+                "vampire_queen_active_33",
+                "vampire_queen_active_34",
+                "vampire_queen_active_35",
+                "vampire_queen_active_36",
+                "vampire_queen_active_37",
+                "vampire_queen_active_38",
+                "vampire_queen_active_39",
+                "vampire_queen_active_40"
+            };
+
+            foreach (var id in expectedIds)
+            {
+                var def = AbilityRegistry.Get(id);
+                Assert.IsNotNull(def, $"Ability {id} must be registered.");
+                Assert.AreEqual(CharacterCatalog.VampireQueenId, def.CharacterId);
+                Assert.IsNotEmpty(def.Name);
+                Assert.IsNotEmpty(def.Description);
+                Assert.AreEqual("Branch D — Mist & Domination", def.BranchName);
+                Assert.Greater(def.BaseDamage, 0f);
+                Assert.Greater(def.BaseRadius, 0f);
+                Assert.Greater(def.CooldownDuration, 0f);
+                Assert.Greater(def.ResourceCost, 0f);
+                Assert.IsNotNull(def.Milestones);
+                Assert.AreEqual(4, def.Milestones.Count);
+
+                Assert.AreEqual(5, def.Milestones[0].Rank);
+                Assert.AreEqual(10, def.Milestones[1].Rank);
+                Assert.AreEqual(15, def.Milestones[2].Rank);
+                Assert.AreEqual(20, def.Milestones[3].Rank);
+            }
+        }
+
+        [Test]
+        public void VampireQueen_BranchD_WaveSkills31Through40_RegisteredAndDraftExclusivity()
+        {
+            var expectedWaveSkills = new[]
+            {
+                "vampire_queen_wave_31",
+                "vampire_queen_wave_32",
+                "vampire_queen_wave_33",
+                "vampire_queen_wave_34",
+                "vampire_queen_wave_35",
+                "vampire_queen_wave_36",
+                "vampire_queen_wave_37",
+                "vampire_queen_wave_38",
+                "vampire_queen_wave_39",
+                "vampire_queen_wave_40"
+            };
+
+            foreach (var id in expectedWaveSkills)
+            {
+                var def = RewardRegistry.GetById(id);
+                Assert.IsNotNull(def, $"Wave skill {id} must be registered in RewardRegistry.");
+                Assert.AreEqual(CharacterCatalog.VampireQueenId, def.CharacterId, $"Skill {id} must be exclusive to Vampire Queen.");
+                Assert.IsNotEmpty(def.Name);
+                Assert.IsNotEmpty(def.Description);
+                Assert.Greater(def.ValuePerRank, 0f);
+            }
+
+            // Test draft exclusion: Demon Monarch drafting should NEVER receive Vampire Queen exclusive wave skills 31-40
+            var inv = new RewardInventory();
+            for (int seed = 1; seed <= 25; seed++)
+            {
+                var monarchOffer = RewardDraftSystem.GenerateOffer(waveNumber: seed, seed: seed * 90909L, inventory: inv, characterId: CharacterCatalog.DemonMonarchId);
+                for (int c = 0; c < monarchOffer.Choices.Count; c++)
+                {
+                    var choice = monarchOffer.Choices[c];
+                    Assert.AreNotEqual(CharacterCatalog.VampireQueenId, choice.CharacterId, $"Demon Monarch must never be offered Vampire Queen exclusive skill {choice.Id}");
+                }
+            }
+        }
     }
 }

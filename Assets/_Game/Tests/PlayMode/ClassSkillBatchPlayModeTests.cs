@@ -2034,5 +2034,89 @@ namespace FinalBoss.Tests
             Assert.GreaterOrEqual(_player.BarrierAmount, 60f, "Queen's Dominion should grant dominion barrier.");
             Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Vampire Queen Branch C dominance abilities.");
         }
+
+        [UnityTest]
+        public IEnumerator VampireQueen_BranchD_Part1_MistAndDomination_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.VampireQueenId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.VampireQueenId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.VampireQueenId, "Branch D — Mist & Domination", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.VampireQueenId,
+                new List<string>
+                {
+                    "vampire_queen_active_31", // Crimson Mist
+                    "vampire_queen_active_32", // Hypnotic Gaze
+                    "vampire_queen_active_33", // Noble Command
+                    "vampire_queen_active_34", // Veil of Night
+                    "vampire_queen_active_35"  // Blood Illusion
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Vampire Queen Branch D slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 30f, "Crimson Mist or Blood Illusion should grant barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Vampire Queen Branch D mist abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator VampireQueen_BranchD_Part2_MistAndDomination_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.VampireQueenId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.VampireQueenId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.VampireQueenId, "Branch D — Mist & Domination", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.VampireQueenId,
+                new List<string>
+                {
+                    "vampire_queen_active_36", // Phantom Waltz
+                    "vampire_queen_active_37", // Scarlet Prison
+                    "vampire_queen_active_38", // Royal Decree
+                    "vampire_queen_active_39", // Midnight Embrace
+                    "vampire_queen_active_40"  // Dark Ballroom
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Vampire Queen Branch D slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 65f, "Dark Ballroom should grant ballroom barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Vampire Queen Branch D domination abilities.");
+        }
     }
 }

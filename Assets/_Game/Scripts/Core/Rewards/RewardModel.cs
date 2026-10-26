@@ -329,6 +329,18 @@ namespace FinalBoss.Core
         public const string QueenDominionVitalityId = "vampire_queen_wave_29";
         public const string QueenMatriarchOfNightId = "vampire_queen_wave_30";
 
+        // Vampire Queen Wave Skills (Batch 4: 31-40)
+        public const string QueenSilkstepId = "vampire_queen_wave_31";
+        public const string QueenAllureId = "vampire_queen_wave_32";
+        public const string QueenPhantomCourtId = "vampire_queen_wave_33";
+        public const string QueenVelvetDominionId = "vampire_queen_wave_34";
+        public const string QueenMistborneRecoveryId = "vampire_queen_wave_35";
+        public const string QueenScarletEleganceId = "vampire_queen_wave_36";
+        public const string QueenNocturnalGraceId = "vampire_queen_wave_37";
+        public const string QueenRoyalPresenceId = "vampire_queen_wave_38";
+        public const string QueenMasqueradeEchoId = "vampire_queen_wave_39";
+        public const string QueenMidnightWaltzId = "vampire_queen_wave_40";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -2506,6 +2518,126 @@ namespace FinalBoss.Core
                     "Matriarch of Night",
                     "Supreme ruler of the colony: all swarms and thralls dominate (+35% Damage, +1 Projectile, Epic)",
                     RewardRarity.Epic,
+                    "vampire_queen",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.35f,
+                    maxRank: 5)
+            },
+            {
+                QueenSilkstepId,
+                new RewardDefinition(
+                    QueenSilkstepId,
+                    "Silkstep",
+                    "Ghostly mist strides enhance evasive repositioning (+15% Move Speed)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                QueenAllureId,
+                new RewardDefinition(
+                    QueenAllureId,
+                    "Queen's Allure",
+                    "Mesmerizing imperial presence broadens lethal reach (+1.5m Range)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                QueenPhantomCourtId,
+                new RewardDefinition(
+                    QueenPhantomCourtId,
+                    "Phantom Court",
+                    "Illusory court retinues fortify the Queen's endurance (+35 Max HP)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.MaxHealth,
+                    35f,
+                    maxRank: 5)
+            },
+            {
+                QueenVelvetDominionId,
+                new RewardDefinition(
+                    QueenVelvetDominionId,
+                    "Velvet Dominion",
+                    "Charmed targets and dominated thralls suffer increased carnage (+20% Damage)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                QueenMistborneRecoveryId,
+                new RewardDefinition(
+                    QueenMistborneRecoveryId,
+                    "Mistborne Recovery",
+                    "Intangible mist absorbs vitality from nearby bleeders (+5% Life Steal)",
+                    RewardRarity.Rare,
+                    "vampire_queen",
+                    RewardModifierType.LifeStealPercent,
+                    0.05f,
+                    maxRank: 5)
+            },
+            {
+                QueenScarletEleganceId,
+                new RewardDefinition(
+                    QueenScarletEleganceId,
+                    "Scarlet Elegance",
+                    "Flawless aristocratic movement slips effortlessly through combat (+15% Move Speed)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                QueenNocturnalGraceId,
+                new RewardDefinition(
+                    QueenNocturnalGraceId,
+                    "Nocturnal Grace",
+                    "Graceful evasion resets with supernatural quickness (+20% Dash Cooldown Recovery)",
+                    RewardRarity.Rare,
+                    "vampire_queen",
+                    RewardModifierType.DashCooldownReductionPercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                QueenRoyalPresenceId,
+                new RewardDefinition(
+                    QueenRoyalPresenceId,
+                    "Royal Presence",
+                    "Awe-inspiring sovereignty blunts oncoming assault (+6 Armor)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                QueenMasqueradeEchoId,
+                new RewardDefinition(
+                    QueenMasqueradeEchoId,
+                    "Masquerade Echo",
+                    "Spectral illusions mimic needle and spell discharges (+1 Projectile)",
+                    RewardRarity.Rare,
+                    "vampire_queen",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 5)
+            },
+            {
+                QueenMidnightWaltzId,
+                new RewardDefinition(
+                    QueenMidnightWaltzId,
+                    "Midnight Waltz",
+                    "Pinnacle of predatory elegance: dance through death unharmed (+35% Damage, +40 Max HP, Mythic)",
+                    RewardRarity.Mythic,
                     "vampire_queen",
                     RewardModifierType.ProjectileDamagePercent,
                     0.35f,

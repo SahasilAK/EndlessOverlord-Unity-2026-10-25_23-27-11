@@ -3603,6 +3603,257 @@ namespace FinalBoss.Core
                 }
             ));
 
+            // Branch D — Mist & Domination (Actives 31-40)
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_31",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Crimson Mist",
+                description: "Disperse into a blood-infused mist, granting movement speed, passing through foes, and damaging nearby invaders.",
+                branchName: "Branch D — Mist & Domination",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 20f,
+                cooldownDuration: 4.5f,
+                range: 4.0f,
+                effects: AbilityEffectType.Dash | AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 32f,
+                baseRadius: 3.5f,
+                duration: 2.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Mist duration increased by 1.0s", bonusUtility: 1.0f),
+                    new AbilityRankMilestone(10, "Mist damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Crimson Mist grants 30 barrier and cleanses slows", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_32",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Hypnotic Gaze",
+                description: "Fix a piercing royal gaze upon invading foes, stunning them and forcing blood vessels to rupture.",
+                branchName: "Branch D — Mist & Domination",
+                tier: 1,
+                prerequisiteAbilityId: "vampire_queen_active_31",
+                resourceCost: 25f,
+                cooldownDuration: 5.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 38f,
+                baseRadius: 3.0f,
+                duration: 2.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Gaze range increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Rupture damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Charmed invaders suffer 60% slow and vulnerability", bonusUtility: 0.60f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_33",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Noble Command",
+                description: "Issue an aristocrat's absolute command, striking terror into surrounding foes and turning their momentum against each other.",
+                branchName: "Branch D — Mist & Domination",
+                tier: 2,
+                prerequisiteAbilityId: "vampire_queen_active_31",
+                resourceCost: 28f,
+                cooldownDuration: 5.5f,
+                range: 5.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 42f,
+                baseRadius: 4.5f,
+                duration: 1.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Command radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Command damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Blood Essence cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Knocks foes back 6m and applies 50% slow", bonusUtility: 0.50f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_34",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Veil of Night",
+                description: "Deploy a sprawling shroud of shadowy nocturnal fog that blinds invaders and continuously siphons their vital essence.",
+                branchName: "Branch D — Mist & Domination",
+                tier: 2,
+                prerequisiteAbilityId: "vampire_queen_active_32",
+                resourceCost: 30f,
+                cooldownDuration: 6.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.Hazard | AbilityEffectType.RadialAoE | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 45f,
+                baseRadius: 4.5f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Veil duration increased by 1.5s", bonusUtility: 1.5f),
+                    new AbilityRankMilestone(10, "Fog damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Standing in the veil restores 35 health to the Queen", bonusUtility: 0.35f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_35",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Blood Illusion",
+                description: "Conjure a crimson duplicate that taunts nearby invaders before violently detonating into crystalline shrapnel.",
+                branchName: "Branch D — Mist & Domination",
+                tier: 2,
+                prerequisiteAbilityId: "vampire_queen_active_33",
+                resourceCost: 32f,
+                cooldownDuration: 6.5f,
+                range: 5.0f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 48f,
+                baseRadius: 3.5f,
+                duration: 3.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Illusion duration increased by 1.5s", bonusUtility: 1.5f),
+                    new AbilityRankMilestone(10, "Detonation damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Illusion explosion grants 35 barrier", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_36",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Phantom Waltz",
+                description: "Perform a dizzying ballroom blink sequence, flashing across enemy ranks while delivering precise arterial strikes.",
+                branchName: "Branch D — Mist & Domination",
+                tier: 3,
+                prerequisiteAbilityId: "vampire_queen_active_34",
+                resourceCost: 35f,
+                cooldownDuration: 6.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.Dash | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 54f,
+                baseRadius: 3.5f,
+                duration: 0.8f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Waltz step range increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Strike damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Heals the Queen for 35% of all damage dealt during waltz", bonusUtility: 0.35f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_37",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Scarlet Prison",
+                description: "Encase target invaders in a cage of solidified coagulated blood, locking them in place while spikes impale them.",
+                branchName: "Branch D — Mist & Domination",
+                tier: 3,
+                prerequisiteAbilityId: "vampire_queen_active_35",
+                resourceCost: 38f,
+                cooldownDuration: 7.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.Hazard | AbilityEffectType.CrowdControl | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 58f,
+                baseRadius: 4.0f,
+                duration: 3.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Prison radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Spike damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Blood Essence cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Inflicts 75% slow and immobilizes trapped targets", bonusUtility: 0.75f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_38",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Royal Decree",
+                description: "Proclaim an imperial judgment across the ground, creating a zone of oppressive dominance that shatters enemy defenses.",
+                branchName: "Branch D — Mist & Domination",
+                tier: 3,
+                prerequisiteAbilityId: "vampire_queen_active_36",
+                resourceCost: 42f,
+                cooldownDuration: 7.5f,
+                range: 5.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 64f,
+                baseRadius: 5.5f,
+                duration: 2.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Decree radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Decree burst damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Weakens invaders, reducing their speed by 50% for 3 seconds", bonusUtility: 0.50f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_39",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Midnight Embrace",
+                description: "Summon the suffocating chill of midnight to seize enemies in a shadowy embrace, dealing catastrophic damage and stealing life.",
+                branchName: "Branch D — Mist & Domination",
+                tier: 4,
+                prerequisiteAbilityId: "vampire_queen_active_37",
+                resourceCost: 48f,
+                cooldownDuration: 8.5f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Heal | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 76f,
+                baseRadius: 4.5f,
+                duration: 2.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Embrace radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Midnight damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Blood Essence cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Siphons 45% of damage dealt back to the Queen as health", bonusUtility: 0.45f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_40",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Dark Ballroom",
+                description: "Transform the battlefield into a spectral nocturnal ballroom: waves of dark mist surge, granting massive barriers and devastating all who oppose the Queen.",
+                branchName: "Branch D — Mist & Domination",
+                tier: 4,
+                prerequisiteAbilityId: "vampire_queen_active_38",
+                resourceCost: 55f,
+                cooldownDuration: 10.0f,
+                range: 7.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Shield | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 92f,
+                baseRadius: 6.5f,
+                duration: 5.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Ballroom radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Ballroom shockwave damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Dark Ballroom grants a 65 point imperial blood barrier", bonusUtility: 1.0f)
+                }
+            ));
+
             // Legacy Needle alias
             Register(new AbilityDefinition(
                 id: "vampire_queen_active_needle",
