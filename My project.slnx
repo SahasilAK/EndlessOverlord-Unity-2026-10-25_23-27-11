@@ -1,3 +1,8 @@
 ﻿<Solution>
+  <Project Path="FinalBoss.Game.csproj" />
+  <Project Path="FinalBoss.Core.csproj" />
+  <Project Path="FinalBoss.Tests.EditMode.csproj" />
   <Project Path="Unity.2D.Welcome.csproj" />
+  <Project Path="FinalBoss.Editor.csproj" />
+  <Project Path="FinalBoss.Tests.PlayMode.csproj" />
 </Solution>
