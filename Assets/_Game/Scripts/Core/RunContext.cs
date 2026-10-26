@@ -1,7 +1,7 @@
 namespace FinalBoss.Core
 {
     /// <summary>
-    /// Ephemeral data for one run: the recorded seed, selected character and live HUD model.
+    /// Ephemeral data for one run: the recorded seed, selected character, live HUD model, and skill/reward inventory.
     /// Never persisted as permanent progression; a new instance is created for every new run.
     /// </summary>
     public sealed class RunContext
@@ -10,6 +10,7 @@ namespace FinalBoss.Core
         public int RunNumber { get; }
         public CharacterInfo Character { get; }
         public HudModel Hud { get; }
+        public RewardInventory Rewards { get; }
 
         public RunContext(long seed, int runNumber, CharacterInfo character)
         {
@@ -17,6 +18,7 @@ namespace FinalBoss.Core
             RunNumber = runNumber;
             Character = character;
             Hud = new HudModel(character.BaseMaxHealth, character.ResourceName, character.BaseMaxResource, wave: 1);
+            Rewards = new RewardInventory();
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using FinalBoss.Core;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ namespace FinalBoss.Game
 {
     /// <summary>
     /// Controls endless discrete wave progression, queued staggered spawning, active concurrency caps,
-    /// safe arena spawn positioning, and wave completion invariants.
+    /// safe arena spawn positioning, reward selection gating, and intermission UI flow.
     /// </summary>
     public sealed class WaveDirector : MonoBehaviour
     {
@@ -25,18 +26,20 @@ namespace FinalBoss.Game
         private readonly List<InvaderActor> _activeInvaders = new List<InvaderActor>();
         private float _spawnCooldown;
 
-        // Intermission / Dev Controls
+        // Reward & Intermission UI
+        private RewardModalView _rewardModal;
         private GameObject _intermissionPanel;
         private Text _bannerText;
-        private Text _countdownText;
+        private Text _upgradesText;
         private Button _nextWaveButton;
-        private float _autoAdvanceTimer;
+        private GameObject _merchantPopup;
         private bool _isIntermission;
 
         public WaveLedger Ledger => _ledger;
         public int CurrentWave => _ledger != null ? _ledger.WaveNumber : 1;
         public bool IsIntermission => _isIntermission;
         public int ActiveInvaderCount => _activeInvaders.Count;
+        public RewardModalView RewardModal => _rewardModal;
 
         /// <summary>Raised strictly once when a wave is cleared (all spawns exhausted AND all enemies dead).</summary>
         public event Action<int> WaveCompleted;
@@ -49,8 +52,8 @@ namespace FinalBoss.Game
             _ledger = new WaveLedger();
 
             _ledger.WaveCleared += OnWaveCleared;
-            _ledger.Changed += OnLedgerChanged;
 
+            BuildRewardModal();
             BuildIntermissionUi();
             StartWave(1);
         }
@@ -60,16 +63,37 @@ namespace FinalBoss.Game
             if (_ledger != null)
             {
                 _ledger.WaveCleared -= OnWaveCleared;
-                _ledger.Changed -= OnLedgerChanged;
             }
             ClearAllEnemies();
+        }
+
+        private void BuildRewardModal()
+        {
+            var modalGo = new GameObject("RewardModal");
+            modalGo.transform.SetParent(transform, false);
+            _rewardModal = modalGo.AddComponent<RewardModalView>();
+            _rewardModal.Initialize();
         }
 
         public void StartWave(int waveNumber)
         {
             _isIntermission = false;
+
+            if (GameSession.Machine.Current == RunState.ChoosingReward ||
+                GameSession.Machine.Current == RunState.Intermission ||
+                GameSession.Machine.Current == RunState.RunSetup)
+            {
+                GameSession.Machine.TryTransition(RunState.PlayingWave);
+            }
+
+            if (_rewardModal != null)
+                _rewardModal.Hide();
+
             if (_intermissionPanel != null)
                 _intermissionPanel.SetActive(false);
+
+            if (_merchantPopup != null)
+                _merchantPopup.SetActive(false);
 
             ClearAllEnemies();
             _spawnQueue.Clear();
@@ -95,20 +119,7 @@ namespace FinalBoss.Game
                 return;
 
             if (_isIntermission)
-            {
-                if (_autoAdvanceTimer > 0f)
-                {
-                    _autoAdvanceTimer -= Time.deltaTime;
-                    if (_countdownText != null)
-                        _countdownText.text = $"Next wave in {_autoAdvanceTimer:0.0}s (or click below)";
-
-                    if (_autoAdvanceTimer <= 0f)
-                    {
-                        StartWave(CurrentWave + 1);
-                    }
-                }
                 return;
-            }
 
             // Spawning loop
             if (_spawnQueue.Count > 0 && _activeInvaders.Count < MaxConcurrentEnemies)
@@ -171,20 +182,56 @@ namespace FinalBoss.Game
         private void OnWaveCleared(int waveNumber)
         {
             _isIntermission = true;
-            _autoAdvanceTimer = 4.0f; // 4s countdown or immediate button click
+            WaveCompleted?.Invoke(waveNumber);
 
-            if (_intermissionPanel != null)
-                _intermissionPanel.SetActive(true);
+            // Flow: Transition to ChoosingReward and present reward draft
+            GameSession.Machine.TryTransition(RunState.ChoosingReward);
 
+            var offer = RewardDraftSystem.GenerateOffer(waveNumber, _run.Seed, _run.Rewards, _run.Character.Id);
+            _rewardModal.Show(offer, _run.Rewards, () => OnRewardCommitted(waveNumber));
+        }
+
+        private void OnRewardCommitted(int waveNumber)
+        {
+            GameSession.Machine.TryTransition(RunState.Intermission);
+            ShowIntermissionScreen(waveNumber);
+        }
+
+        private void ShowIntermissionScreen(int waveNumber)
+        {
             if (_bannerText != null)
                 _bannerText.text = $"WAVE {waveNumber} CLEARED!";
 
-            WaveCompleted?.Invoke(waveNumber);
+            UpdateUpgradesSummary();
+
+            if (_intermissionPanel != null)
+                _intermissionPanel.SetActive(true);
         }
 
-        private void OnLedgerChanged()
+        private void UpdateUpgradesSummary()
         {
-            // Can be used for HUD or debug
+            if (_upgradesText == null || _run == null || _run.Rewards == null)
+                return;
+
+            var sb = new StringBuilder();
+            sb.AppendLine("ACTIVE UPGRADES:");
+            var ranks = _run.Rewards.GetAllRanks();
+            if (ranks.Count == 0)
+            {
+                sb.AppendLine("  (None acquired yet)");
+            }
+            else
+            {
+                foreach (var kvp in ranks)
+                {
+                    var def = RewardRegistry.GetById(kvp.Key);
+                    string name = def != null ? def.Name : kvp.Key;
+                    int max = def != null ? def.MaxRank : 5;
+                    sb.AppendLine($"  â€¢ {name} [Rank {kvp.Value}/{max}]");
+                }
+            }
+
+            _upgradesText.text = sb.ToString();
         }
 
         public void ClearAllEnemies()
@@ -207,22 +254,46 @@ namespace FinalBoss.Game
             var canvas = UiFactory.CreateCanvas("WaveIntermissionCanvas", 25);
             canvas.transform.SetParent(transform, false);
 
-            var panel = UiFactory.CreatePanel(canvas.transform, "IntermissionPanel", new Color(0.05f, 0.05f, 0.1f, 0.85f));
+            var panel = UiFactory.CreatePanel(canvas.transform, "IntermissionPanel", new Color(0.04f, 0.04f, 0.08f, 0.90f));
             _intermissionPanel = panel.gameObject;
 
-            _bannerText = UiFactory.CreateText(panel.transform, "Banner", "WAVE CLEARED!", 70, TextAnchor.MiddleCenter, new Color(1f, 0.9f, 0.3f));
-            UiFactory.Place(_bannerText.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0f, 150f), new Vector2(1000f, 120f));
+            _bannerText = UiFactory.CreateText(panel.transform, "Banner", "WAVE CLEARED!", 64, TextAnchor.MiddleCenter, new Color(1f, 0.9f, 0.3f));
+            UiFactory.Place(_bannerText.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0f, 260f), new Vector2(1000f, 100f));
 
-            _countdownText = UiFactory.CreateText(panel.transform, "Countdown", "", 28, TextAnchor.MiddleCenter, Color.white);
-            UiFactory.Place(_countdownText.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0f, 40f), new Vector2(800f, 60f));
+            _upgradesText = UiFactory.CreateText(panel.transform, "UpgradesSummary", "", 24, TextAnchor.UpperLeft, new Color(0.85f, 0.9f, 1f));
+            UiFactory.Place(_upgradesText.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0f, 80f), new Vector2(700f, 220f));
 
             _nextWaveButton = UiFactory.CreateButton(panel.transform, "NextWaveBtn", "NEXT WAVE", () => StartWave(CurrentWave + 1));
-            UiFactory.Place((RectTransform)_nextWaveButton.transform, new Vector2(0.5f, 0.5f), new Vector2(-160f, -60f), new Vector2(280f, 80f));
+            UiFactory.Place((RectTransform)_nextWaveButton.transform, new Vector2(0.5f, 0.5f), new Vector2(-200f, -140f), new Vector2(280f, 80f));
 
             var jumpBossBtn = UiFactory.CreateButton(panel.transform, "JumpBossBtn", "DEV: JUMP WAVE 10", () => StartWave(10));
-            UiFactory.Place((RectTransform)jumpBossBtn.transform, new Vector2(0.5f, 0.5f), new Vector2(160f, -60f), new Vector2(280f, 80f));
+            UiFactory.Place((RectTransform)jumpBossBtn.transform, new Vector2(0.5f, 0.5f), new Vector2(120f, -140f), new Vector2(280f, 80f));
 
+            var merchantBtn = UiFactory.CreateButton(panel.transform, "MerchantBtn", "MERCHANT", ToggleMerchantPopup);
+            UiFactory.Place((RectTransform)merchantBtn.transform, new Vector2(0.5f, 0.5f), new Vector2(0f, -240f), new Vector2(280f, 60f));
+
+            // Merchant popup
+            var merchantPanel = UiFactory.CreatePanel(panel.transform, "MerchantPopup", new Color(0.1f, 0.08f, 0.16f, 0.95f));
+            _merchantPopup = merchantPanel.gameObject;
+            UiFactory.Place(merchantPanel.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0f, 0f), new Vector2(600f, 300f));
+
+            var mTitle = UiFactory.CreateText(_merchantPopup.transform, "MTitle", "DUNGEON MERCHANT", 32, TextAnchor.MiddleCenter, new Color(1f, 0.8f, 0.2f));
+            UiFactory.Place(mTitle.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0f, 80f), new Vector2(500f, 60f));
+
+            var mBody = UiFactory.CreateText(_merchantPopup.transform, "MBody", "The Merchant is traveling between dimensions.\nFull inventory arriving in Phase P7.", 22, TextAnchor.MiddleCenter, Color.white);
+            UiFactory.Place(mBody.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0f, 0f), new Vector2(500f, 100f));
+
+            var mClose = UiFactory.CreateButton(_merchantPopup.transform, "MClose", "CLOSE", () => _merchantPopup.SetActive(false));
+            UiFactory.Place((RectTransform)mClose.transform, new Vector2(0.5f, 0.5f), new Vector2(0f, -80f), new Vector2(180f, 50f));
+
+            _merchantPopup.SetActive(false);
             _intermissionPanel.SetActive(false);
+        }
+
+        private void ToggleMerchantPopup()
+        {
+            if (_merchantPopup != null)
+                _merchantPopup.SetActive(!_merchantPopup.activeSelf);
         }
     }
 }

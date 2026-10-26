@@ -35,6 +35,13 @@ namespace FinalBoss.Core
             Changed?.Invoke();
         }
 
+        public void SetMaxHealth(float maxHealth)
+        {
+            MaxHealth = maxHealth < 1f ? 1f : maxHealth;
+            if (Health > MaxHealth) Health = MaxHealth;
+            Changed?.Invoke();
+        }
+
         public void SetResource(float value)
         {
             Resource = Clamp(value, 0f, MaxResource);

@@ -6,9 +6,11 @@ namespace FinalBoss.Game
     /// <summary>
     /// Graybox Lich Lord. Owns health, dash and facing; movement runs in FixedUpdate on a Rigidbody2D.
     /// Damage is decided here in the simulation layer, never by visuals.
+    /// Integrates with <see cref="RewardInventory"/> to apply real runtime stat buffs.
     /// </summary>
     public sealed class PlayerActor : MonoBehaviour, IDamageable
     {
+        private RunContext _run;
         private Rigidbody2D _rb;
         private SpriteRenderer _body;
         private Transform _aimMarker;
@@ -21,6 +23,7 @@ namespace FinalBoss.Game
         public Health Health { get; private set; }
         public Vector2 AimDirection { get; set; } = Vector2.right;
         public DashSim Dash { get { return _dash; } }
+        public RunContext Run { get { return _run; } }
 
         public int Id { get { return ActorRegistry.PlayerId; } }
         public Faction Team { get { return Faction.Player; } }
@@ -28,8 +31,11 @@ namespace FinalBoss.Game
         public float Radius { get { return CombatTuning.PlayerRadius; } }
         public bool Alive { get { return Health != null && !Health.IsDead; } }
 
+        public float LifeStealFraction => _run != null && _run.Rewards != null ? _run.Rewards.LifeStealFraction : 0f;
+
         public void Initialize(RunContext run, PlayerInputAdapter input)
         {
+            _run = run;
             _hud = run.Hud;
             _input = input;
             Health = new Health(run.Character.BaseMaxHealth);
@@ -63,6 +69,10 @@ namespace FinalBoss.Game
             Health.Changed += OnHealthChanged;
             if (_input != null)
                 _input.DashPressed += OnDashPressed;
+
+            if (_run != null && _run.Rewards != null)
+                _run.Rewards.RewardAcquired += OnRewardAcquired;
+
             ActorRegistry.Player = this;
             ActorRegistry.Register(this);
             OnHealthChanged();
@@ -74,9 +84,31 @@ namespace FinalBoss.Game
                 _input.DashPressed -= OnDashPressed;
             if (Health != null)
                 Health.Changed -= OnHealthChanged;
+            if (_run != null && _run.Rewards != null)
+                _run.Rewards.RewardAcquired -= OnRewardAcquired;
+
             ActorRegistry.Unregister(this);
             if (ActorRegistry.Player == this)
                 ActorRegistry.Player = null;
+        }
+
+        private void OnRewardAcquired(RewardDefinition def, int newRank)
+        {
+            if (def.ModifierType == RewardModifierType.MaxHealth)
+            {
+                Health.IncreaseMax(def.ValuePerRank, healDelta: true);
+                if (_hud != null)
+                {
+                    _hud.SetMaxHealth(Health.Max);
+                    _hud.SetHealth(Health.Current);
+                }
+            }
+            else if (def.ModifierType == RewardModifierType.DashCooldownReductionPercent)
+            {
+                float baseCd = CombatTuning.DashCooldown;
+                float reduction = _run != null ? _run.Rewards.BonusDashCooldownReductionPercent : 0f;
+                _dash.SetCooldownTime(baseCd * (1f - reduction));
+            }
         }
 
         private void OnHealthChanged()
@@ -98,7 +130,7 @@ namespace FinalBoss.Game
 
         private void FixedUpdate()
         {
-            if (!Alive)
+            if (!Alive || GameSession.Machine.Current != RunState.PlayingWave)
             {
                 _rb.linearVelocity = Vector2.zero;
                 return;
@@ -112,7 +144,8 @@ namespace FinalBoss.Game
             else
             {
                 Vector2 move = _input != null ? _input.Move : Vector2.zero;
-                MovementMath.Velocity(move.x, move.y, CombatTuning.PlayerMoveSpeed, out vx, out vy);
+                float speedMultiplier = 1f + (_run != null && _run.Rewards != null ? _run.Rewards.BonusMoveSpeedPercent : 0f);
+                MovementMath.Velocity(move.x, move.y, CombatTuning.PlayerMoveSpeed * speedMultiplier, out vx, out vy);
                 _rb.linearVelocity = new Vector2(vx, vy);
                 if (move.sqrMagnitude > 0.01f && !HasTargetAim)
                     AimDirection = move.normalized;
@@ -126,7 +159,6 @@ namespace FinalBoss.Game
         {
             if (_aimMarker != null)
             {
-                // Marker sits in front of the body in world space, regardless of the body's scale.
                 var d = AimDirection.sqrMagnitude > 0.0001f ? AimDirection.normalized : Vector2.right;
                 _aimMarker.position = (Vector3)(Position + d * 0.55f);
             }
@@ -143,7 +175,8 @@ namespace FinalBoss.Game
         {
             if (!Alive || _dash.Invulnerable)
                 return 0f;
-            float dealt = Health.TakeDamage(DamageCalculator.Compute(rawDamage, CombatTuning.PlayerArmor));
+            float armor = CombatTuning.PlayerArmor + (_run != null && _run.Rewards != null ? _run.Rewards.BonusArmor : 0f);
+            float dealt = Health.TakeDamage(DamageCalculator.Compute(rawDamage, armor));
             if (dealt > 0f)
             {
                 _flash = 0.12f;

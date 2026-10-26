@@ -166,7 +166,7 @@ namespace FinalBoss.Game
         private void OnPausePressed()
         {
             var machine = GameSession.Machine;
-            if (machine.Current == RunState.PlayingWave)
+            if (machine.Current == RunState.PlayingWave || machine.Current == RunState.ChoosingReward || machine.Current == RunState.Intermission)
                 machine.TryPause();
             else if (machine.Current == RunState.Paused)
                 machine.TryResume();
@@ -177,11 +177,11 @@ namespace FinalBoss.Game
         /// <summary>Single place that reacts to flow changes, so pause UI and time scale can never disagree.</summary>
         private void OnStateChanged(RunState previous, RunState current)
         {
-            bool paused = current == RunState.Paused;
+            bool paused = current == RunState.Paused || current == RunState.ChoosingReward || current == RunState.Intermission;
             bool dead = current == RunState.Death;
             Time.timeScale = (paused || dead) ? 0f : 1f;
             if (_pausePanel != null)
-                _pausePanel.SetActive(paused);
+                _pausePanel.SetActive(current == RunState.Paused);
             if (_deathPanel != null)
                 _deathPanel.SetActive(dead);
             if (_hud != null)

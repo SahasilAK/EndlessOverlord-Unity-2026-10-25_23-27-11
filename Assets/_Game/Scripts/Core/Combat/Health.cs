@@ -77,5 +77,17 @@ namespace FinalBoss.Core
             Changed?.Invoke();
             return healed;
         }
+
+        /// <summary>Updates maximum health and optionally increases current health.</summary>
+        public void IncreaseMax(float delta, bool healDelta = true)
+        {
+            if (IsDead || float.IsNaN(delta) || delta <= 0f) return;
+            Max += delta;
+            if (healDelta)
+            {
+                Current += delta;
+            }
+            Changed?.Invoke();
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using FinalBoss.Core;
 using UnityEngine;
@@ -19,6 +20,7 @@ namespace FinalBoss.Game
     /// Owns the projectile pool and steps every active projectile in FixedUpdate. Damage is applied here,
     /// from the simulation result, never from physics callbacks or animation events. If a target dies
     /// between firing and arrival the projectile simply continues (or expires) - nothing dereferences it.
+    /// Supports friendly fire separation and player life steal.
     /// </summary>
     public sealed class ProjectileManager : MonoBehaviour
     {
@@ -105,6 +107,17 @@ namespace FinalBoss.Game
                     {
                         float dealt = target.ReceiveDamage(bolt.State.Damage);
                         CueBus.Raise(CueIds.BoltHit, bolt.State.X, bolt.State.Y, dealt);
+
+                        // Life steal mechanic for player
+                        if (bolt.State.Owner == Faction.Player && ActorRegistry.Player != null && ActorRegistry.Player.Alive)
+                        {
+                            float ls = ActorRegistry.Player.LifeStealFraction;
+                            if (ls > 0f && dealt > 0f)
+                            {
+                                ActorRegistry.Player.Health.Heal(dealt * ls);
+                            }
+                        }
+
                         if (!target.Alive)
                             MarkDead(result.TargetId);
                     }
@@ -134,7 +147,7 @@ namespace FinalBoss.Game
 
     /// <summary>
     /// Necrotic Bolt auto attack. Acquires the nearest valid invader in range and fires on its own
-    /// cooldown; there is no attack button.
+    /// cooldown; there is no attack button. Integrates runtime damage, range, attack speed and multi-shot buffs.
     /// </summary>
     public sealed class AutoAttacker : MonoBehaviour
     {
@@ -150,6 +163,34 @@ namespace FinalBoss.Game
             _player = player;
             _projectiles = projectiles;
             _sim = new AutoAttackSim(CombatTuning.BoltCooldown);
+
+            if (_player != null && _player.Run != null && _player.Run.Rewards != null)
+            {
+                _player.Run.Rewards.RewardAcquired += OnRewardAcquired;
+                UpdateCooldown();
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (_player != null && _player.Run != null && _player.Run.Rewards != null)
+            {
+                _player.Run.Rewards.RewardAcquired -= OnRewardAcquired;
+            }
+        }
+
+        private void OnRewardAcquired(RewardDefinition def, int newRank)
+        {
+            if (def.ModifierType == RewardModifierType.AttackSpeedPercent)
+            {
+                UpdateCooldown();
+            }
+        }
+
+        private void UpdateCooldown()
+        {
+            float speedMult = 1f + (_player.Run != null && _player.Run.Rewards != null ? _player.Run.Rewards.BonusAttackSpeedPercent : 0f);
+            _sim.SetCooldownDuration(CombatTuning.BoltCooldown / speedMult);
         }
 
         private void FixedUpdate()
@@ -162,7 +203,9 @@ namespace FinalBoss.Game
 
             var pos = _player.Position;
             ActorRegistry.FillCandidates(_buffer);
-            int targetId = TargetSelector.FindNearest(pos.x, pos.y, CombatTuning.BoltRange, Faction.Player, _buffer);
+
+            float range = CombatTuning.BoltRange + (_player.Run != null && _player.Run.Rewards != null ? _player.Run.Rewards.BonusRange : 0f);
+            int targetId = TargetSelector.FindNearest(pos.x, pos.y, range, Faction.Player, _buffer);
 
             IDamageable target = null;
             bool valid = targetId != TargetSelector.None && ActorRegistry.TryGet(targetId, out target) && target.Alive;
@@ -174,7 +217,28 @@ namespace FinalBoss.Game
                 if (dir.sqrMagnitude < 1e-6f) dir = _player.AimDirection;
                 dir.Normalize();
                 _player.AimDirection = dir;
-                _projectiles.Fire(Faction.Player, pos, dir);
+
+                float damage = CombatTuning.BoltDamage * (1f + (_player.Run != null && _player.Run.Rewards != null ? _player.Run.Rewards.BonusDamagePercent : 0f));
+                int extra = _player.Run != null && _player.Run.Rewards != null ? _player.Run.Rewards.ExtraProjectiles : 0;
+
+                if (extra <= 0)
+                {
+                    _projectiles.FireCustom(Faction.Player, pos, dir, CombatTuning.BoltSpeed, CombatTuning.BoltRadius,
+                        damage, CombatTuning.BoltLifetime, new Color(0.6f, 1f, 0.55f), CueIds.BoltFire);
+                }
+                else
+                {
+                    float step = 12f;
+                    float startAngle = -step * extra * 0.5f;
+                    for (int p = 0; p <= extra; p++)
+                    {
+                        float angle = startAngle + step * p;
+                        Vector2 spreadDir = RotateVector(dir, angle);
+                        _projectiles.FireCustom(Faction.Player, pos, spreadDir, CombatTuning.BoltSpeed, CombatTuning.BoltRadius,
+                            damage, CombatTuning.BoltLifetime, new Color(0.6f, 1f, 0.55f), p == 0 ? CueIds.BoltFire : null);
+                    }
+                }
+
                 ShotsFired++;
             }
             else if (valid)
@@ -182,6 +246,14 @@ namespace FinalBoss.Game
                 Vector2 d = target.Position - pos;
                 if (d.sqrMagnitude > 1e-6f) _player.AimDirection = d.normalized;
             }
+        }
+
+        private static Vector2 RotateVector(Vector2 v, float degrees)
+        {
+            float rad = degrees * Mathf.Deg2Rad;
+            float cos = Mathf.Cos(rad);
+            float sin = Mathf.Sin(rad);
+            return new Vector2(v.x * cos - v.y * sin, v.x * sin + v.y * cos);
         }
     }
 }

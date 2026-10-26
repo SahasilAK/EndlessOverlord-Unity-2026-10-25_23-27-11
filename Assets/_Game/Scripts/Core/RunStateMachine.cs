@@ -10,6 +10,8 @@ namespace FinalBoss.Core
         CharacterSelect,
         RunSetup,
         PlayingWave,
+        ChoosingReward,
+        Intermission,
         Paused,
         Death,
         Results
@@ -26,8 +28,10 @@ namespace FinalBoss.Core
             { RunState.MainMenu,        new[] { RunState.CharacterSelect } },
             { RunState.CharacterSelect, new[] { RunState.MainMenu, RunState.RunSetup } },
             { RunState.RunSetup,        new[] { RunState.PlayingWave, RunState.MainMenu } },
-            { RunState.PlayingWave,     new[] { RunState.Paused, RunState.Death } },
-            { RunState.Paused,          new[] { RunState.PlayingWave, RunState.MainMenu } },
+            { RunState.PlayingWave,     new[] { RunState.Paused, RunState.Death, RunState.ChoosingReward } },
+            { RunState.ChoosingReward,  new[] { RunState.Intermission, RunState.PlayingWave, RunState.Paused, RunState.Death } },
+            { RunState.Intermission,    new[] { RunState.PlayingWave, RunState.Paused, RunState.Death, RunState.MainMenu } },
+            { RunState.Paused,          new[] { RunState.PlayingWave, RunState.ChoosingReward, RunState.Intermission, RunState.MainMenu } },
             { RunState.Death,           new[] { RunState.Results } },
             { RunState.Results,         new[] { RunState.MainMenu } },
         };
@@ -36,6 +40,7 @@ namespace FinalBoss.Core
         public event Action<RunState, RunState> Changed;
 
         public RunState Current { get; private set; }
+        private RunState _prePauseState = RunState.PlayingWave;
 
         public RunStateMachine(RunState initial = RunState.MainMenu)
         {
@@ -57,9 +62,24 @@ namespace FinalBoss.Core
             return true;
         }
 
-        public bool TryPause() { return Current == RunState.PlayingWave && TryTransition(RunState.Paused); }
+        public bool TryPause()
+        {
+            if (Current == RunState.PlayingWave || Current == RunState.ChoosingReward || Current == RunState.Intermission)
+            {
+                _prePauseState = Current;
+                return TryTransition(RunState.Paused);
+            }
+            return false;
+        }
 
-        public bool TryResume() { return Current == RunState.Paused && TryTransition(RunState.PlayingWave); }
+        public bool TryResume()
+        {
+            if (Current == RunState.Paused)
+            {
+                return TryTransition(_prePauseState);
+            }
+            return false;
+        }
 
         /// <summary>
         /// Unconditional reset used only for safe teardown/recovery (e.g. entering the menu scene from an
@@ -69,6 +89,7 @@ namespace FinalBoss.Core
         {
             var previous = Current;
             Current = state;
+            _prePauseState = RunState.PlayingWave;
             if (previous != state)
                 Changed?.Invoke(previous, state);
         }

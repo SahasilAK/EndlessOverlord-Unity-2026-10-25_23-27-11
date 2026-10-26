@@ -136,6 +136,13 @@ namespace FinalBoss.Core
         }
 
         public float CooldownRemaining { get { return _cooldown.Remaining; } }
+        public float CooldownDuration { get { return _cooldown.Duration; } }
+
+        public void SetCooldownDuration(float seconds)
+        {
+            if (!float.IsNaN(seconds) && seconds > 0.02f)
+                _cooldown.Duration = seconds;
+        }
 
         /// <summary>Advances time and returns true on the step the attack should fire.</summary>
         public bool Tick(float dt, bool hasValidTarget)
@@ -159,7 +166,13 @@ namespace FinalBoss.Core
     {
         public float Speed { get; }
         public float Duration { get; }
-        public float CooldownTime { get; }
+        public float CooldownTime { get; private set; }
+
+        public void SetCooldownTime(float seconds)
+        {
+            if (!float.IsNaN(seconds) && seconds > 0.05f)
+                CooldownTime = seconds;
+        }
 
         private float _active;
         private float _cooldown;
