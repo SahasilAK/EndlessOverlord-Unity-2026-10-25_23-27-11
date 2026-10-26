@@ -1114,5 +1114,89 @@ namespace FinalBoss.Tests
             Assert.GreaterOrEqual(_player.BarrierAmount, 100f, "Runeheart Awakening should grant massive barrier.");
             Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Cursed Golem Branch C runic abilities.");
         }
+
+        [UnityTest]
+        public IEnumerator CursedGolem_BranchD_Part1_FortressAndDefenseAbilities_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.CursedGolemId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.CursedGolemId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.CursedGolemId, "Branch D — Fortress and Defense", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.CursedGolemId,
+                new List<string>
+                {
+                    "cursed_golem_active_31", // Granite Skin
+                    "cursed_golem_active_32", // Living Fortress
+                    "cursed_golem_active_33", // Cursed Regeneration
+                    "cursed_golem_active_34", // Obsidian Shell
+                    "cursed_golem_active_35"  // Retaliation Quake
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Cursed Golem Branch D slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 60f, "Granite Skin / Living Fortress / Obsidian Shell should grant barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Cursed Golem Branch D fortress abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator CursedGolem_BranchD_Part2_FortressAndDefenseAbilities_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.CursedGolemId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.CursedGolemId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.CursedGolemId, "Branch D — Fortress and Defense", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.CursedGolemId,
+                new List<string>
+                {
+                    "cursed_golem_active_36", // Stoneheart Guard
+                    "cursed_golem_active_37", // Immovable Titan
+                    "cursed_golem_active_38", // Fortress Roar
+                    "cursed_golem_active_39", // Ancient Reassembly
+                    "cursed_golem_active_40"  // Adamantine Form
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Cursed Golem Branch D slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 150f, "Adamantine Form / Ancient Reassembly should grant massive barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Cursed Golem Branch D fortress abilities.");
+        }
     }
 }

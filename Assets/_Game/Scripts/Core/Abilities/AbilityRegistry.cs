@@ -2561,6 +2561,257 @@ namespace FinalBoss.Core
                 }
             ));
 
+            // Branch D — Fortress and Defense (Actives 31-40)
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_31",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Granite Skin",
+                description: "Harden your exterior stone plates into unyielding granite, gaining a barrier and releasing a concussive shock.",
+                branchName: "Branch D — Fortress and Defense",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 20f,
+                cooldownDuration: 4.5f,
+                range: 3.5f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 25f,
+                baseRadius: 3.0f,
+                duration: 5.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Granite Skin barrier increased by 25%", bonusUtility: 0.25f),
+                    new AbilityRankMilestone(10, "Shock damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Barrier capacity doubled to 120", bonusUtility: 60f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_32",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Living Fortress",
+                description: "Root your titanic bulk into the dungeon floor, gaining an impenetrable defense shield and staggering nearby foes.",
+                branchName: "Branch D — Fortress and Defense",
+                tier: 1,
+                prerequisiteAbilityId: "cursed_golem_active_31",
+                resourceCost: 25f,
+                cooldownDuration: 5.5f,
+                range: 4.0f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.CrowdControl | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 30f,
+                baseRadius: 3.5f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Fortress shield absorption increased by 30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Stagger damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Runic Charge cost reduced by 20%", resourceCostMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Emits a continuous concussive pulse every 2 seconds", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_33",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Cursed Regeneration",
+                description: "Channel dark earthen energy into your stone core to rapidly repair physical integrity and erect stone barriers.",
+                branchName: "Branch D — Fortress and Defense",
+                tier: 2,
+                prerequisiteAbilityId: "cursed_golem_active_31",
+                resourceCost: 30f,
+                cooldownDuration: 6.5f,
+                range: 3.0f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 20f,
+                baseRadius: 3.0f,
+                duration: 5.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Health restoration increased by 35%", bonusUtility: 0.35f),
+                    new AbilityRankMilestone(10, "Barrier granted increased to 50", bonusUtility: 20f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Cleanses negative status effects and restores additional health", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_34",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Obsidian Shell",
+                description: "Encase your outer chassis in sharp volcanic obsidian, absorbing damage and blasting razor obsidian shards outward.",
+                branchName: "Branch D — Fortress and Defense",
+                tier: 2,
+                prerequisiteAbilityId: "cursed_golem_active_32",
+                resourceCost: 30f,
+                cooldownDuration: 6.0f,
+                range: 4.5f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 40f,
+                baseRadius: 4.0f,
+                duration: 5.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Obsidian Shell barrier capacity increased by 30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Razor shard explosion damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Runic Charge cost reduced by 20%", resourceCostMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Shards cause bleeding lacerations dealing lingering damage", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_35",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Retaliation Quake",
+                description: "Store kinetic energy from incoming impacts, releasing a devastating seismic shockwave that knocks back all nearby invaders.",
+                branchName: "Branch D — Fortress and Defense",
+                tier: 2,
+                prerequisiteAbilityId: "cursed_golem_active_33",
+                resourceCost: 35f,
+                cooldownDuration: 6.5f,
+                range: 5.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 48f,
+                baseRadius: 4.5f,
+                duration: 0.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Retaliation shockwave radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Shockwave damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Double shockwave detonation with catastrophic knockback", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_36",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Stoneheart Guard",
+                description: "Surround your soulstone with impenetrable layered bedrock shields, slowing attackers and absorbing heavy damage.",
+                branchName: "Branch D — Fortress and Defense",
+                tier: 3,
+                prerequisiteAbilityId: "cursed_golem_active_34",
+                resourceCost: 40f,
+                cooldownDuration: 7.5f,
+                range: 5.0f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 42f,
+                baseRadius: 4.0f,
+                duration: 6.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Stoneheart barrier absorption increased by 30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Guard aura damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Enemies struck within the aura have movement slowed by 60%", bonusUtility: 0.60f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_37",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Immovable Titan",
+                description: "Assume the posture of an ancient mountain colossus, gaining massive barrier and crushing the earth underfoot.",
+                branchName: "Branch D — Fortress and Defense",
+                tier: 3,
+                prerequisiteAbilityId: "cursed_golem_active_35",
+                resourceCost: 40f,
+                cooldownDuration: 8.0f,
+                range: 5.5f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 52f,
+                baseRadius: 5.0f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Titan barrier capacity increased by 35%", bonusUtility: 0.35f),
+                    new AbilityRankMilestone(10, "Earth crush impact damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Runic Charge cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Grants complete knockback immunity and barrier pulses", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_38",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Fortress Roar",
+                description: "Emit a resonating seismic bellow from your stone throat, crippling all nearby invaders and shattering their armor.",
+                branchName: "Branch D — Fortress and Defense",
+                tier: 3,
+                prerequisiteAbilityId: "cursed_golem_active_36",
+                resourceCost: 35f,
+                cooldownDuration: 7.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 46f,
+                baseRadius: 5.5f,
+                duration: 3.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Roar range increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Fortress Roar damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Stuns affected invaders for 1.5 seconds", bonusUtility: 1.5f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_39",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Ancient Reassembly",
+                description: "Re-knit splintered masonry and broken runes, instantly repairing health and generating a massive protective bulwark.",
+                branchName: "Branch D — Fortress and Defense",
+                tier: 4,
+                prerequisiteAbilityId: "cursed_golem_active_37",
+                resourceCost: 50f,
+                cooldownDuration: 10.0f,
+                range: 5.0f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 35f,
+                baseRadius: 4.5f,
+                duration: 7.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Health reassembly increased by 40%", bonusUtility: 0.40f),
+                    new AbilityRankMilestone(10, "Bulwark barrier increased to 120", bonusUtility: 40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Reassembly triggers a retaliatory stone shrapnel blast", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_40",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Adamantine Form",
+                description: "Transmute your stone frame into unbreakable adamantine, granting supreme barrier defenses and releasing catastrophic seismic tremors.",
+                branchName: "Branch D — Fortress and Defense",
+                tier: 4,
+                prerequisiteAbilityId: "cursed_golem_active_38",
+                resourceCost: 55f,
+                cooldownDuration: 12.0f,
+                range: 7.0f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE | AbilityEffectType.Transform | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 85f,
+                baseRadius: 6.5f,
+                duration: 8.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Adamantine barrier capacity increased to 200", bonusUtility: 50f),
+                    new AbilityRankMilestone(10, "Seismic tremor shockwave damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Adamantine Form continuously retaliates with crushing waves upon taking hits", bonusUtility: 1.0f)
+                }
+            ));
+
             // Milestone Ultimates (Levels 50 through 250)
             Register(new AbilityDefinition(
                 id: "cursed_golem_ultimate_50",

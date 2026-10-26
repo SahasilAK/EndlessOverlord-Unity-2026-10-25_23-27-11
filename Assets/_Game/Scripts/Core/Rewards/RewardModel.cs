@@ -209,6 +209,18 @@ namespace FinalBoss.Core
         public const string GolemRuneCascadeId = "cursed_golem_wave_29";
         public const string GolemForgottenLanguageId = "cursed_golem_wave_30";
 
+        // Cursed Golem Wave Skills (Batch 4: 31-40)
+        public const string GolemAdamantinePlatingId = "cursed_golem_wave_31";
+        public const string GolemUnbreakableCoreId = "cursed_golem_wave_32";
+        public const string GolemStoneRegenerationId = "cursed_golem_wave_33";
+        public const string GolemFortressRetaliationId = "cursed_golem_wave_34";
+        public const string GolemObsidianReflectionId = "cursed_golem_wave_35";
+        public const string GolemColossusStabilityId = "cursed_golem_wave_36";
+        public const string GolemMountainShelterId = "cursed_golem_wave_37";
+        public const string GolemLivingStoneRecoveryId = "cursed_golem_wave_38";
+        public const string GolemHardenedSoulstoneId = "cursed_golem_wave_39";
+        public const string GolemGuardiansPatienceId = "cursed_golem_wave_40";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -1179,6 +1191,127 @@ namespace FinalBoss.Core
                     "cursed_golem",
                     RewardModifierType.ProjectileDamagePercent,
                     0.30f,
+                    maxRank: 5)
+            },
+            // Cursed Golem Wave Skills 31-40
+            {
+                GolemAdamantinePlatingId,
+                new RewardDefinition(
+                    GolemAdamantinePlatingId,
+                    "Adamantine Plating",
+                    "Dense crystalline plating dramatically increases physical armor (+6 Armor)",
+                    RewardRarity.Common,
+                    "cursed_golem",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                GolemUnbreakableCoreId,
+                new RewardDefinition(
+                    GolemUnbreakableCoreId,
+                    "Unbreakable Core",
+                    "Fortify the golem heart, expanding maximum durability (+40 Max HP)",
+                    RewardRarity.Common,
+                    "cursed_golem",
+                    RewardModifierType.MaxHealth,
+                    40f,
+                    maxRank: 5)
+            },
+            {
+                GolemStoneRegenerationId,
+                new RewardDefinition(
+                    GolemStoneRegenerationId,
+                    "Stone Regeneration",
+                    "Gradually repair damaged stone plates by siphoning strike energy (+6% Life Steal)",
+                    RewardRarity.Rare,
+                    "cursed_golem",
+                    RewardModifierType.LifeStealPercent,
+                    0.06f,
+                    maxRank: 5)
+            },
+            {
+                GolemFortressRetaliationId,
+                new RewardDefinition(
+                    GolemFortressRetaliationId,
+                    "Fortress Retaliation",
+                    "Blocked hits splinter into retaliatory projectile shards (+1 Projectile)",
+                    RewardRarity.Uncommon,
+                    "cursed_golem",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                GolemObsidianReflectionId,
+                new RewardDefinition(
+                    GolemObsidianReflectionId,
+                    "Obsidian Reflection",
+                    "Reflect kinetic shockwaves back into attacking ranks (+20% Damage)",
+                    RewardRarity.Rare,
+                    "cursed_golem",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                GolemColossusStabilityId,
+                new RewardDefinition(
+                    GolemColossusStabilityId,
+                    "Colossus Stability",
+                    "Titanic immovable mass wards off all mortal blows (+8 Armor)",
+                    RewardRarity.Uncommon,
+                    "cursed_golem",
+                    RewardModifierType.Armor,
+                    8f,
+                    maxRank: 5)
+            },
+            {
+                GolemMountainShelterId,
+                new RewardDefinition(
+                    GolemMountainShelterId,
+                    "Mountain Shelter",
+                    "Sheltering stone bulwarks heavily deflect incoming damage (+8 Armor)",
+                    RewardRarity.Rare,
+                    "cursed_golem",
+                    RewardModifierType.Armor,
+                    8f,
+                    maxRank: 5)
+            },
+            {
+                GolemLivingStoneRecoveryId,
+                new RewardDefinition(
+                    GolemLivingStoneRecoveryId,
+                    "Living Stone Recovery",
+                    "Deep earth vitality drastically boosts surviving health threshold (+50 Max HP)",
+                    RewardRarity.Epic,
+                    "cursed_golem",
+                    RewardModifierType.MaxHealth,
+                    50f,
+                    maxRank: 5)
+            },
+            {
+                GolemHardenedSoulstoneId,
+                new RewardDefinition(
+                    GolemHardenedSoulstoneId,
+                    "Hardened Soulstone",
+                    "Infuse soulstone core with impervious granite wards (+10 Armor)",
+                    RewardRarity.Rare,
+                    "cursed_golem",
+                    RewardModifierType.Armor,
+                    10f,
+                    maxRank: 5)
+            },
+            {
+                GolemGuardiansPatienceId,
+                new RewardDefinition(
+                    GolemGuardiansPatienceId,
+                    "Guardian's Patience",
+                    "Enduring timeless ages accelerates defensive recovery (+20% Dash Cooldown Recovery)",
+                    RewardRarity.Rare,
+                    "cursed_golem",
+                    RewardModifierType.DashCooldownReductionPercent,
+                    0.20f,
                     maxRank: 5)
             },
             {

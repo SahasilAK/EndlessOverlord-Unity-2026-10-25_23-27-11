@@ -787,5 +787,85 @@ namespace FinalBoss.Tests
                 }
             }
         }
+
+        [Test]
+        public void CursedGolem_BranchD_AllTenAbilitiesRegisteredAndValid()
+        {
+            var branchDIds = new[]
+            {
+                "cursed_golem_active_31",
+                "cursed_golem_active_32",
+                "cursed_golem_active_33",
+                "cursed_golem_active_34",
+                "cursed_golem_active_35",
+                "cursed_golem_active_36",
+                "cursed_golem_active_37",
+                "cursed_golem_active_38",
+                "cursed_golem_active_39",
+                "cursed_golem_active_40"
+            };
+
+            for (int i = 0; i < branchDIds.Length; i++)
+            {
+                string id = branchDIds[i];
+                var def = AbilityRegistry.Get(id);
+                Assert.IsNotNull(def, $"Ability {id} must be registered in AbilityRegistry.");
+                Assert.AreEqual(CharacterCatalog.CursedGolemId, def.CharacterId);
+                Assert.IsNotEmpty(def.Name);
+                Assert.IsNotEmpty(def.Description);
+                Assert.AreEqual("Branch D — Fortress and Defense", def.BranchName);
+                Assert.GreaterOrEqual(def.Tier, 1);
+                Assert.LessOrEqual(def.Tier, 5);
+                Assert.Greater(def.ResourceCost, 0f);
+                Assert.Greater(def.CooldownDuration, 0f);
+                Assert.IsNotNull(def.Milestones);
+                Assert.AreEqual(4, def.Milestones.Count, $"Ability {id} must define milestones at ranks 5, 10, 15, and 20.");
+
+                Assert.AreEqual(5, def.Milestones[0].Rank);
+                Assert.AreEqual(10, def.Milestones[1].Rank);
+                Assert.AreEqual(15, def.Milestones[2].Rank);
+                Assert.AreEqual(20, def.Milestones[3].Rank);
+            }
+        }
+
+        [Test]
+        public void CursedGolem_BranchD_WaveSkills31Through40_RegisteredAndDraftExclusivity()
+        {
+            var expectedWaveSkills = new[]
+            {
+                "cursed_golem_wave_31",
+                "cursed_golem_wave_32",
+                "cursed_golem_wave_33",
+                "cursed_golem_wave_34",
+                "cursed_golem_wave_35",
+                "cursed_golem_wave_36",
+                "cursed_golem_wave_37",
+                "cursed_golem_wave_38",
+                "cursed_golem_wave_39",
+                "cursed_golem_wave_40"
+            };
+
+            foreach (var id in expectedWaveSkills)
+            {
+                var def = RewardRegistry.GetById(id);
+                Assert.IsNotNull(def, $"Wave skill {id} must be registered in RewardRegistry.");
+                Assert.AreEqual(CharacterCatalog.CursedGolemId, def.CharacterId, $"Skill {id} must be exclusive to Cursed Golem.");
+                Assert.IsNotEmpty(def.Name);
+                Assert.IsNotEmpty(def.Description);
+                Assert.Greater(def.ValuePerRank, 0f);
+            }
+
+            // Test draft exclusion: Demon Monarch drafting should NEVER receive Cursed Golem exclusive wave skills 31-40
+            var inv = new RewardInventory();
+            for (int seed = 1; seed <= 25; seed++)
+            {
+                var demonOffer = RewardDraftSystem.GenerateOffer(waveNumber: seed, seed: seed * 88888L, inventory: inv, characterId: CharacterCatalog.DemonMonarchId);
+                for (int c = 0; c < demonOffer.Choices.Count; c++)
+                {
+                    var choice = demonOffer.Choices[c];
+                    Assert.AreNotEqual(CharacterCatalog.CursedGolemId, choice.CharacterId, $"Demon Monarch must never be offered Cursed Golem exclusive skill {choice.Id}");
+                }
+            }
+        }
     }
 }
