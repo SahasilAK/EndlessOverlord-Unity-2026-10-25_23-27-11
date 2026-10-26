@@ -3101,22 +3101,48 @@ namespace FinalBoss.Core
                 }
             ));
 
+            // Branch B — Precision & Rapier (Actives 11-20)
             Register(new AbilityDefinition(
-                id: "vampire_queen_active_needle",
+                id: "vampire_queen_active_11",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Rapier Thrust",
+                description: "Execute a blindingly fast forward rapier thrust that pierces enemy defenses and inflicts bleeding.",
+                branchName: "Branch B — Precision & Rapier",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 15f,
+                cooldownDuration: 2.0f,
+                range: 4.0f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 32f,
+                baseRadius: 3.5f,
+                duration: 0.2f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Thrust reach increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Thrust damage increased by 25%", damageMultiplier: 1.25f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Piercing thrusts heal the Queen for 35% of damage dealt", bonusUtility: 0.35f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_12",
                 characterId: CharacterCatalog.VampireQueenId,
                 name: "Crimson Needle",
                 description: "Cast rapid piercing crystal blood needles that tear through lines of invaders.",
                 branchName: "Branch B — Precision & Rapier",
                 tier: 1,
-                prerequisiteAbilityId: null,
-                resourceCost: 15f,
-                cooldownDuration: 3f,
-                range: 10f,
-                effects: AbilityEffectType.Projectile,
+                prerequisiteAbilityId: "vampire_queen_active_11",
+                resourceCost: 18f,
+                cooldownDuration: 3.0f,
+                range: 9.0f,
+                effects: AbilityEffectType.Projectile | AbilityEffectType.Heal,
                 targeting: AbilityTargetingRule.AimDirection,
-                baseDamage: 20f,
-                baseRadius: 0.5f,
-                duration: 1f,
+                baseDamage: 28f,
+                baseRadius: 0.8f,
+                duration: 0.8f,
                 milestones: new[]
                 {
                     new AbilityRankMilestone(5, "Fires +1 extra needle", extraSummonsOrProjectiles: 1),
@@ -3127,27 +3153,228 @@ namespace FinalBoss.Core
             ));
 
             Register(new AbilityDefinition(
-                id: "vampire_queen_active_11",
+                id: "vampire_queen_active_13",
                 characterId: CharacterCatalog.VampireQueenId,
-                name: "Bat Swarm",
-                description: "Summon a ferocious swarm of spectral bats that harass enemies and hinder their movement.",
-                branchName: "Branch C — Swarm & Dominance",
+                name: "Riposte",
+                description: "Adopt a graceful defensive fencing guard, parrying incoming attacks and executing an instantaneous counter-thrust.",
+                branchName: "Branch B — Precision & Rapier",
                 tier: 2,
-                prerequisiteAbilityId: "vampire_queen_active_01",
-                resourceCost: 30f,
-                cooldownDuration: 7f,
-                range: 8f,
-                effects: AbilityEffectType.Summon | AbilityEffectType.Projectile | AbilityEffectType.CrowdControl,
-                targeting: AbilityTargetingRule.NearestInvader,
-                baseDamage: 18f,
-                baseRadius: 3f,
-                duration: 5f,
+                prerequisiteAbilityId: "vampire_queen_active_11",
+                resourceCost: 20f,
+                cooldownDuration: 4.5f,
+                range: 4.5f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 44f,
+                baseRadius: 4.0f,
+                duration: 0.35f,
                 milestones: new[]
                 {
-                    new AbilityRankMilestone(5, "Bat swarm size +2", extraSummonsOrProjectiles: 2),
-                    new AbilityRankMilestone(10, "Slow potency +30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(5, "Riposte reach and angle increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Counter-thrust damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Blood Essence cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Successful riposte grants a 35 point protective blood barrier", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_14",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Fencing Lunge",
+                description: "Lunge forward with aristocratic speed, impaling all foes in your path and passing through their ranks.",
+                branchName: "Branch B — Precision & Rapier",
+                tier: 2,
+                prerequisiteAbilityId: "vampire_queen_active_12",
+                resourceCost: 25f,
+                cooldownDuration: 5.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.Dash | AbilityEffectType.MeleeArc,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 46f,
+                baseRadius: 3.0f,
+                duration: 0.25f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Lunge travel distance increased by 30%", radiusMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Lunge damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Fencing Lunge grants +25% move speed for 3 seconds", bonusUtility: 0.25f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_15",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Needle Rain",
+                description: "Launch a dense barrage of crystalline scarlet needles skyward that rains down upon targeted enemies.",
+                branchName: "Branch B — Precision & Rapier",
+                tier: 2,
+                prerequisiteAbilityId: "vampire_queen_active_13",
+                resourceCost: 30f,
+                cooldownDuration: 5.5f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 48f,
+                baseRadius: 4.2f,
+                duration: 3.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Needle Rain radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Barrage impact damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Blood Essence cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Needles embed in targets, exploding after 2 seconds for secondary damage", extraSummonsOrProjectiles: 3)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_16",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Arterial Flurry",
+                description: "Unleash a rapid sequence of surgical rapier strikes that carve into enemy arteries with precision.",
+                branchName: "Branch B — Precision & Rapier",
+                tier: 3,
+                prerequisiteAbilityId: "vampire_queen_active_14",
+                resourceCost: 35f,
+                cooldownDuration: 6.0f,
+                range: 4.5f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 56f,
+                baseRadius: 4.0f,
+                duration: 0.45f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Flurry reach increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Flurry damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Restores 30% of total flurry damage dealt as health", bonusUtility: 0.30f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_17",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Crystal Volley",
+                description: "Conjure orbiting shards of crystallized blood and fire them simultaneously in a devastating spread.",
+                branchName: "Branch B — Precision & Rapier",
+                tier: 3,
+                prerequisiteAbilityId: "vampire_queen_active_15",
+                resourceCost: 35f,
+                cooldownDuration: 6.5f,
+                range: 8.0f,
+                effects: AbilityEffectType.Projectile | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 60f,
+                baseRadius: 2.0f,
+                duration: 0.8f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Volley shard count increased by 2", extraSummonsOrProjectiles: 2),
+                    new AbilityRankMilestone(10, "Crystal shard damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Blood Essence cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Shards pierce through all enemies and shatter into shrapnel", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_18",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Peerless Feint",
+                description: "Perform a deceptive fencing feint, teleporting behind the target and striking with devastating fatal force.",
+                branchName: "Branch B — Precision & Rapier",
+                tier: 3,
+                prerequisiteAbilityId: "vampire_queen_active_16",
+                resourceCost: 35f,
+                cooldownDuration: 6.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.Dash | AbilityEffectType.MeleeArc | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 64f,
+                baseRadius: 3.5f,
+                duration: 0.3f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Feint range increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Backstab damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Feint stuns the primary target for 1.5 seconds", bonusUtility: 1.5f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_19",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Grand Battement",
+                description: "Perform an aristocratic sweeping rapier slash that launches a high-frequency blade wave slicing through the arena.",
+                branchName: "Branch B — Precision & Rapier",
+                tier: 4,
+                prerequisiteAbilityId: "vampire_queen_active_17",
+                resourceCost: 45f,
+                cooldownDuration: 7.5f,
+                range: 7.5f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.Projectile,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 75f,
+                baseRadius: 4.5f,
+                duration: 0.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Blade wave width and travel distance increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Blade wave damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Blood Essence cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Blade wave inflicts 60% slow and bleeds enemies for 3 seconds", bonusUtility: 0.60f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_20",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Aristocratic Execution",
+                description: "Channel the full refinement of vampiric nobility, executing an immaculate multi-target fencing assault that decimates all in range.",
+                branchName: "Branch B — Precision & Rapier",
+                tier: 4,
+                prerequisiteAbilityId: "vampire_queen_active_18",
+                resourceCost: 55f,
+                cooldownDuration: 9.5f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.MeleeArc | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 92f,
+                baseRadius: 6.0f,
+                duration: 0.6f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Execution radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Execution damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Execution resets its own cooldown if it slays 3 or more invaders", bonusUtility: 1.0f)
+                }
+            ));
+
+            // Legacy Needle alias
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_needle",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Crimson Needle",
+                description: "Cast rapid piercing crystal blood needles that tear through lines of invaders.",
+                branchName: "Branch B — Precision & Rapier",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 18f,
+                cooldownDuration: 3f,
+                range: 9f,
+                effects: AbilityEffectType.Projectile,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 28f,
+                baseRadius: 0.8f,
+                duration: 0.8f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Fires +1 extra needle", extraSummonsOrProjectiles: 1),
+                    new AbilityRankMilestone(10, "Needle damage +25%", damageMultiplier: 1.25f),
                     new AbilityRankMilestone(15, "Cooldown -20%", cooldownMultiplier: 0.80f),
-                    new AbilityRankMilestone(20, "Mastery: Bats return 100% of damage as Blood Essence", bonusUtility: 1f)
+                    new AbilityRankMilestone(20, "Mastery: Fires a 5-needle fan tearing through all targets", extraSummonsOrProjectiles: 3)
                 }
             ));
 

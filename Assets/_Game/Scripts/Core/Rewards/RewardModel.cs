@@ -305,6 +305,18 @@ namespace FinalBoss.Core
         public const string QueenSovereignSiphonId = "vampire_queen_wave_09";
         public const string QueenEmpressOfBloodId = "vampire_queen_wave_10";
 
+        // Vampire Queen Wave Skills (Batch 2: 11-20)
+        public const string QueenHeartPiercerId = "vampire_queen_wave_11";
+        public const string QueenRapierCadenceId = "vampire_queen_wave_12";
+        public const string QueenFlawlessLungeId = "vampire_queen_wave_13";
+        public const string QueenCrystalNeedlesId = "vampire_queen_wave_14";
+        public const string QueenArterialStrikeId = "vampire_queen_wave_15";
+        public const string QueenNoblesArmorId = "vampire_queen_wave_16";
+        public const string QueenSanguineReachId = "vampire_queen_wave_17";
+        public const string QueenBloodFeastId = "vampire_queen_wave_18";
+        public const string QueenAristocraticEleganceId = "vampire_queen_wave_19";
+        public const string QueenGrandDuchessId = "vampire_queen_wave_20";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -2239,6 +2251,127 @@ namespace FinalBoss.Core
                     QueenEmpressOfBloodId,
                     "Empress of Blood",
                     "Supreme aristocratic authority: blood surges grant colossal power (+30% Damage, +8% Life Steal, Epic)",
+                    RewardRarity.Epic,
+                    "vampire_queen",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.30f,
+                    maxRank: 5)
+            },
+            // Vampire Queen Wave Skills 11-20
+            {
+                QueenHeartPiercerId,
+                new RewardDefinition(
+                    QueenHeartPiercerId,
+                    "Heart Piercer",
+                    "Precision thrusts pierce directly into enemy vital organs (+25% Damage)",
+                    RewardRarity.Rare,
+                    "vampire_queen",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                QueenRapierCadenceId,
+                new RewardDefinition(
+                    QueenRapierCadenceId,
+                    "Rapier Cadence",
+                    "Mastery of the rapier accelerates consecutive thrusts (+15% Attack Speed)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.AttackSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                QueenFlawlessLungeId,
+                new RewardDefinition(
+                    QueenFlawlessLungeId,
+                    "Flawless Lunge",
+                    "Acrobatic fencing lunges recover evasive mobility (+20% Dash Cooldown Recovery)",
+                    RewardRarity.Rare,
+                    "vampire_queen",
+                    RewardModifierType.DashCooldownReductionPercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                QueenCrystalNeedlesId,
+                new RewardDefinition(
+                    QueenCrystalNeedlesId,
+                    "Crystal Needles",
+                    "Fencing precision fires additional crystal needles on attacks (+1 Projectile)",
+                    RewardRarity.Uncommon,
+                    "vampire_queen",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                QueenArterialStrikeId,
+                new RewardDefinition(
+                    QueenArterialStrikeId,
+                    "Arterial Strike",
+                    "Surgical cuts open flowing arteries (+20% Damage)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                QueenNoblesArmorId,
+                new RewardDefinition(
+                    QueenNoblesArmorId,
+                    "Noble's Armor",
+                    "Tailored crimson velvet reinforced with hardened blood (+6 Armor)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                QueenSanguineReachId,
+                new RewardDefinition(
+                    QueenSanguineReachId,
+                    "Sanguine Reach",
+                    "Extend the reach of rapier lunges and needle volleys (+1.5m Range)",
+                    RewardRarity.Uncommon,
+                    "vampire_queen",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                QueenBloodFeastId,
+                new RewardDefinition(
+                    QueenBloodFeastId,
+                    "Blood Feast",
+                    "Savor the exquisite vintage of pierced invaders (+7% Life Steal)",
+                    RewardRarity.Rare,
+                    "vampire_queen",
+                    RewardModifierType.LifeStealPercent,
+                    0.07f,
+                    maxRank: 5)
+            },
+            {
+                QueenAristocraticEleganceId,
+                new RewardDefinition(
+                    QueenAristocraticEleganceId,
+                    "Aristocratic Elegance",
+                    "Effortless graceful strides glide across the battlefield (+15% Move Speed)",
+                    RewardRarity.Uncommon,
+                    "vampire_queen",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                QueenGrandDuchessId,
+                new RewardDefinition(
+                    QueenGrandDuchessId,
+                    "Grand Duchess",
+                    "Aristocratic perfection: peerless elegance and lethality (+30% Damage, +40 Max HP, Epic)",
                     RewardRarity.Epic,
                     "vampire_queen",
                     RewardModifierType.ProjectileDamagePercent,

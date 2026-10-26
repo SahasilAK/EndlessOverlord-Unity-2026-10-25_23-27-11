@@ -1866,5 +1866,89 @@ namespace FinalBoss.Tests
             Assert.GreaterOrEqual(_player.BarrierAmount, 100f, "Vampire Queen ultimates should grant massive barrier.");
             Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Vampire Queen ultimates.");
         }
+
+        [UnityTest]
+        public IEnumerator VampireQueen_BranchB_Part1_PrecisionAndRapier_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.VampireQueenId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.VampireQueenId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.VampireQueenId, "Branch B — Precision & Rapier", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.VampireQueenId,
+                new List<string>
+                {
+                    "vampire_queen_active_11", // Rapier Thrust
+                    "vampire_queen_active_12", // Crimson Needle
+                    "vampire_queen_active_13", // Riposte
+                    "vampire_queen_active_14", // Fencing Lunge
+                    "vampire_queen_active_15"  // Needle Rain
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Vampire Queen Branch B slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 35f, "Riposte should grant barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Vampire Queen Branch B precision attacks.");
+        }
+
+        [UnityTest]
+        public IEnumerator VampireQueen_BranchB_Part2_PrecisionAndRapier_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.VampireQueenId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.VampireQueenId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.VampireQueenId, "Branch B — Precision & Rapier", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.VampireQueenId,
+                new List<string>
+                {
+                    "vampire_queen_active_16", // Arterial Flurry
+                    "vampire_queen_active_17", // Crystal Volley
+                    "vampire_queen_active_18", // Peerless Feint
+                    "vampire_queen_active_19", // Grand Battement
+                    "vampire_queen_active_20"  // Aristocratic Execution
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Vampire Queen Branch B slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 50f, "Aristocratic Execution should grant execution barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Vampire Queen Branch B precision attacks.");
+        }
     }
 }

@@ -2028,7 +2028,23 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.InvaderStrike, heartPos.x, heartPos.y);
                     break;
 
-                case "vampire_queen_active_needle": // Crimson Needle
+                // Branch B — Precision & Rapier (Actives 11-20)
+                case "vampire_queen_active_11": // Rapier Thrust
+                    Vector2 vqThrustPos = playerPos + aimDir * 2.2f;
+                    result.DamageDealt += DamageArea(vqThrustPos, radius, damage, knockbackForce: 4.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (result.DamageDealt > 0f)
+                    {
+                        float thrustHeal = result.DamageDealt * (0.20f + (rank >= 20 ? 0.15f : 0f));
+                        _player.Health.Heal(thrustHeal);
+                        result.HealingDone += thrustHeal;
+                    }
+                    SpawnVisualBurst(vqThrustPos, radius * 2.0f, new Color(0.95f, 0.1f, 0.2f, 0.95f), 0.3f);
+                    CueBus.Raise(CueIds.InvaderStrike, vqThrustPos.x, vqThrustPos.y);
+                    break;
+
+                case "vampire_queen_active_12": // Crimson Needle
+                case "vampire_queen_active_needle":
                     int needleCount = 1 + (rank >= 5 ? 1 : 0) + (rank >= 20 ? 3 : 0);
                     for (int n = 0; n < needleCount; n++)
                     {
@@ -2053,15 +2069,108 @@ namespace FinalBoss.Game
                             );
                         }
                     }
-                    result.TargetsHit += needleCount; // Counts as active projectile attempt
+                    result.TargetsHit += needleCount;
                     CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
                     break;
 
-                case "vampire_queen_active_11": // Bat Swarm
-                    result.DamageDealt += DamageArea(playerPos + aimDir * 3f, radius, damage, slowPercent: 0.4f, slowDuration: 3f);
+                case "vampire_queen_active_13": // Riposte
+                    Vector2 ripostePos = playerPos + aimDir * 2.0f;
+                    result.DamageDealt += DamageArea(ripostePos, radius, damage * 1.2f, knockbackForce: 5.5f);
                     result.TargetsHit += _hitBuffer.Count;
-                    SpawnVisualBurst(playerPos + aimDir * 3f, radius * 2f, new Color(0.7f, 0.1f, 0.3f, 0.8f), 0.4f);
-                    CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    _player.SetBarrier(35f, duration: 3.5f);
+                    SpawnVisualBurst(ripostePos, radius * 2.2f, new Color(1f, 0.2f, 0.3f, 0.95f), 0.35f);
+                    CueBus.Raise(CueIds.InvaderStrike, ripostePos.x, ripostePos.y);
+                    break;
+
+                case "vampire_queen_active_14": // Fencing Lunge
+                    Vector2 vqLungeStart = playerPos;
+                    Vector2 vqLungeDest = ValidateLandingDestination(vqLungeStart, vqLungeStart + aimDir * def.Range);
+                    _player.Teleport(vqLungeDest);
+                    result.DamageDealt += DamageArea(vqLungeDest, radius, damage, knockbackForce: 5.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(vqLungeStart, radius * 1.8f, new Color(0.9f, 0.1f, 0.25f, 0.8f), 0.25f);
+                    SpawnVisualBurst(vqLungeDest, radius * 2.2f, new Color(1f, 0.2f, 0.35f, 0.95f), 0.35f);
+                    CueBus.Raise(CueIds.PlayerDash, vqLungeDest.x, vqLungeDest.y);
+                    break;
+
+                case "vampire_queen_active_15": // Needle Rain
+                    Vector2 rainPos = playerPos + aimDir * 3.5f;
+                    result.DamageDealt += DamageArea(rainPos, radius, damage, knockbackForce: 3.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(rainPos, radius, duration: def.Duration > 0 ? def.Duration : 3.0f, damagePerTick: damage * 0.3f, tickInterval: 0.4f, slowPercent: 0.35f, slowDuration: 1.5f, color: new Color(0.95f, 0.1f, 0.2f, 0.6f), label: "[NEEDLE_RAIN]");
+                    SpawnVisualBurst(rainPos, radius * 2.5f, new Color(1f, 0.15f, 0.3f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.BoltFire, rainPos.x, rainPos.y);
+                    break;
+
+                case "vampire_queen_active_16": // Arterial Flurry
+                    Vector2 flurryPos = playerPos + aimDir * 2.5f;
+                    result.DamageDealt += DamageArea(flurryPos, radius, damage * 1.25f, knockbackForce: 4.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (result.DamageDealt > 0f)
+                    {
+                        float flurryHeal = result.DamageDealt * 0.30f;
+                        _player.Health.Heal(flurryHeal);
+                        result.HealingDone += flurryHeal;
+                        CueBus.Raise(CueIds.ClericHeal, playerPos.x, playerPos.y, flurryHeal);
+                    }
+                    SpawnVisualBurst(flurryPos, radius * 2.4f, new Color(0.95f, 0.05f, 0.15f, 0.95f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, flurryPos.x, flurryPos.y);
+                    break;
+
+                case "vampire_queen_active_17": // Crystal Volley
+                    Vector2 volleyPos = playerPos + aimDir * 3.5f;
+                    result.DamageDealt += DamageArea(volleyPos, radius, damage, knockbackForce: 4.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(volleyPos, radius * 2.4f, new Color(1f, 0.2f, 0.4f, 0.95f), 0.4f);
+                    CueBus.Raise(CueIds.BoltFire, volleyPos.x, volleyPos.y);
+                    break;
+
+                case "vampire_queen_active_18": // Peerless Feint
+                    Vector2 feintStart = playerPos;
+                    Vector2 feintDest = ValidateLandingDestination(feintStart, feintStart + aimDir * def.Range);
+                    _player.Teleport(feintDest);
+                    result.DamageDealt += DamageArea(feintDest, radius, damage * 1.35f, knockbackForce: 6.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.7f, 1.5f);
+                        }
+                    }
+                    SpawnVisualBurst(feintStart, radius * 2f, new Color(0.85f, 0.05f, 0.2f, 0.85f), 0.3f);
+                    SpawnVisualBurst(feintDest, radius * 2.5f, new Color(1f, 0.15f, 0.3f, 0.95f), 0.4f);
+                    CueBus.Raise(CueIds.PlayerDash, feintDest.x, feintDest.y);
+                    break;
+
+                case "vampire_queen_active_19": // Grand Battement
+                    Vector2 battementPos = playerPos + aimDir * 3.5f;
+                    result.DamageDealt += DamageArea(battementPos, radius, damage * 1.3f, knockbackForce: 6.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.6f, 2.0f);
+                        }
+                    }
+                    SpawnVisualBurst(battementPos, radius * 2.8f, new Color(1f, 0.1f, 0.25f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, battementPos.x, battementPos.y);
+                    break;
+
+                case "vampire_queen_active_20": // Aristocratic Execution
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.5f, knockbackForce: 8.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (result.DamageDealt > 0f)
+                    {
+                        float execHeal = result.DamageDealt * 0.45f;
+                        _player.Health.Heal(execHeal);
+                        result.HealingDone += execHeal;
+                        CueBus.Raise(CueIds.ClericHeal, playerPos.x, playerPos.y, execHeal);
+                    }
+                    _player.SetBarrier(50f, duration: 4.0f);
+                    SpawnVisualBurst(playerPos, radius * 3.2f, new Color(1f, 0.05f, 0.2f, 0.98f), 0.7f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
                     break;
 
                 // Milestone Ultimates
