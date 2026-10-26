@@ -1996,6 +1996,133 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
                     break;
 
+                // Branch E — Gravity and Cataclysm (Actives 41-50)
+                case "cursed_golem_active_41": // Gravity Pull
+                    Vector2 pullPos = playerPos + aimDir * 3.0f;
+                    result.DamageDealt += DamageArea(pullPos, radius, damage, knockbackForce: -5f, pullTowardCenter: true);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(pullPos, radius * 2f, new Color(0.5f, 0.2f, 0.6f, 0.9f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, pullPos.x, pullPos.y);
+                    break;
+
+                case "cursed_golem_active_42": // Crushing Field
+                    Vector2 fieldPos = playerPos + aimDir * 3.0f;
+                    result.DamageDealt += DamageArea(fieldPos, radius, damage, knockbackForce: 0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.50f, 3.0f);
+                        }
+                    }
+                    HazardZoneActor.Spawn(fieldPos, radius, duration: 3.5f, damagePerTick: damage * 0.3f, tickInterval: 0.4f, slowPercent: 0.50f, slowDuration: 1.5f, color: new Color(0.45f, 0.15f, 0.55f, 0.6f), label: "[CRUSHING_FIELD]");
+                    SpawnVisualBurst(fieldPos, radius * 2f, new Color(0.45f, 0.15f, 0.55f, 0.9f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, fieldPos.x, fieldPos.y);
+                    break;
+
+                case "cursed_golem_active_43": // Meteoric Fist
+                    Vector2 meteoricPos = playerPos + aimDir * 3.0f;
+                    result.DamageDealt += DamageArea(meteoricPos, radius, damage, knockbackForce: 6f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(meteoricPos, radius * 2.2f, new Color(0.85f, 0.35f, 0.15f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, meteoricPos.x, meteoricPos.y);
+                    break;
+
+                case "cursed_golem_active_44": // Gravitic Pulse
+                    float pulseKb = rank >= 5 ? 9f : 6f;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: pulseKb);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.4f, new Color(0.6f, 0.3f, 0.75f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_45": // Stone Orbit
+                    float orbitBarrier = 70f * (1f + (rank >= 5 ? 0.30f : 0f));
+                    _player.SetBarrier(orbitBarrier, duration: def.Duration);
+                    result.BarrierGranted += orbitBarrier;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 3.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (ProjectileManager.Instance != null)
+                    {
+                        int orbitProjectiles = rank >= 20 ? 6 : 4;
+                        for (int p = 0; p < orbitProjectiles; p++)
+                        {
+                            float ang = p * (360f / orbitProjectiles) * Mathf.Deg2Rad;
+                            Vector2 oDir = new Vector2(Mathf.Cos(ang), Mathf.Sin(ang));
+                            ProjectileManager.Instance.FireCustom(
+                                Faction.Player,
+                                playerPos,
+                                oDir,
+                                speed: 8f,
+                                radius: 0.3f,
+                                damage: damage * 0.35f,
+                                lifetime: 0.9f,
+                                color: new Color(0.55f, 0.45f, 0.6f),
+                                cueId: CueIds.InvaderStrike,
+                                pierce: 3
+                            );
+                        }
+                    }
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.55f, 0.45f, 0.6f, 0.9f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_46": // Gravity Prison
+                    Vector2 prisonPos = playerPos + aimDir * 3.0f;
+                    result.DamageDealt += DamageArea(prisonPos, radius, damage, knockbackForce: -4f, pullTowardCenter: true);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.65f, 3.0f);
+                        }
+                    }
+                    HazardZoneActor.Spawn(prisonPos, radius, duration: 4.0f, damagePerTick: damage * 0.35f, tickInterval: 0.4f, slowPercent: 0.65f, slowDuration: 1.5f, color: new Color(0.35f, 0.1f, 0.45f, 0.65f), label: "[GRAVITY_PRISON]");
+                    SpawnVisualBurst(prisonPos, radius * 2.2f, new Color(0.4f, 0.15f, 0.5f, 0.9f), 0.55f);
+                    CueBus.Raise(CueIds.InvaderStrike, prisonPos.x, prisonPos.y);
+                    break;
+
+                case "cursed_golem_active_47": // Falling Mountain
+                    Vector2 mtnPos = playerPos + aimDir * 3.5f;
+                    result.DamageDealt += DamageArea(mtnPos, radius, damage, knockbackForce: 7f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(mtnPos, radius, duration: 3.5f, damagePerTick: damage * 0.3f, tickInterval: 0.45f, slowPercent: 0.45f, slowDuration: 1.5f, color: new Color(0.6f, 0.45f, 0.35f, 0.6f), label: "[FALLING_MOUNTAIN]");
+                    SpawnVisualBurst(mtnPos, radius * 2.5f, new Color(0.65f, 0.5f, 0.35f, 0.95f), 0.65f);
+                    CueBus.Raise(CueIds.InvaderStrike, mtnPos.x, mtnPos.y);
+                    break;
+
+                case "cursed_golem_active_48": // Worldstone Core
+                    float worldstoneBarrier = 110f * (1f + (rank >= 5 ? 0.35f : 0f));
+                    _player.SetBarrier(worldstoneBarrier, duration: def.Duration);
+                    result.BarrierGranted += worldstoneBarrier;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 4f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.2f, new Color(0.65f, 0.35f, 0.8f, 0.9f), 0.55f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_49": // Titan's Judgment
+                    Vector2 judgmentPos = playerPos + aimDir * 3.5f;
+                    result.DamageDealt += DamageArea(judgmentPos, radius, damage, knockbackForce: 8f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(judgmentPos, radius, duration: 4.0f, damagePerTick: damage * 0.4f, tickInterval: 0.4f, slowPercent: 0.55f, slowDuration: 2.0f, color: new Color(0.7f, 0.3f, 0.2f, 0.65f), label: "[TITANS_JUDGMENT]");
+                    SpawnVisualBurst(judgmentPos, radius * 2.6f, new Color(0.8f, 0.35f, 0.2f, 0.95f), 0.7f);
+                    CueBus.Raise(CueIds.InvaderStrike, judgmentPos.x, judgmentPos.y);
+                    break;
+
+                case "cursed_golem_active_50": // Colossus Ascension
+                    float ascensionBarrier = rank >= 5 ? 220f : 160f;
+                    _player.SetBarrier(ascensionBarrier, duration: def.Duration);
+                    result.BarrierGranted += ascensionBarrier;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 9f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(playerPos, radius, duration: 5.0f, damagePerTick: damage * 0.4f, tickInterval: 0.45f, slowPercent: 0.6f, slowDuration: 2.5f, color: new Color(0.55f, 0.25f, 0.7f, 0.65f), label: "[COLOSSUS_ASCENSION]");
+                    SpawnVisualBurst(playerPos, radius * 3f, new Color(0.6f, 0.25f, 0.75f, 0.95f), 0.85f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
                 // Milestone Ultimates
                 case "cursed_golem_ultimate_50": // Colossus Awakening
                     _player.SetBarrier(120f, duration: def.Duration);

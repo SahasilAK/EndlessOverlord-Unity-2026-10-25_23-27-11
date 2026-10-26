@@ -2812,6 +2812,257 @@ namespace FinalBoss.Core
                 }
             ));
 
+            // Branch E — Gravity and Cataclysm (Actives 41-50)
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_41",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Gravity Pull",
+                description: "Create a localized gravitational anomaly, pulling all surrounding invaders toward the epicenter.",
+                branchName: "Branch E — Gravity and Cataclysm",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 20f,
+                cooldownDuration: 4.5f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 30f,
+                baseRadius: 4.0f,
+                duration: 1.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Gravity Pull radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Gravity anomaly damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Runic Charge cost reduced by 20%", resourceCostMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Epicenter violently implodes, dealing 25 bonus damage", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_42",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Crushing Field",
+                description: "Dramatically increase gravitational pressure in an area, crushing invaders downward and halting movement.",
+                branchName: "Branch E — Gravity and Cataclysm",
+                tier: 1,
+                prerequisiteAbilityId: "cursed_golem_active_41",
+                resourceCost: 25f,
+                cooldownDuration: 5.5f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 36f,
+                baseRadius: 4.5f,
+                duration: 3.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Crushing Field duration extended by 1.5 seconds", bonusUtility: 1.5f),
+                    new AbilityRankMilestone(10, "Crushing pressure damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Enemies inside take 50% movement slow and lose armor", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_43",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Meteoric Fist",
+                description: "Leap into the air and bring down a magically reinforced fist like a falling meteor, obliterating ground targets.",
+                branchName: "Branch E — Gravity and Cataclysm",
+                tier: 2,
+                prerequisiteAbilityId: "cursed_golem_active_41",
+                resourceCost: 35f,
+                cooldownDuration: 6.0f,
+                range: 5.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 55f,
+                baseRadius: 4.5f,
+                duration: 0.6f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Meteoric impact radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Meteor strike damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Runic Charge cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Detonates a secondary shockwave blasting invaders away", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_44",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Gravitic Pulse",
+                description: "Release an expanding wave of repulsive gravitational force, flinging away all invaders.",
+                branchName: "Branch E — Gravity and Cataclysm",
+                tier: 2,
+                prerequisiteAbilityId: "cursed_golem_active_42",
+                resourceCost: 30f,
+                cooldownDuration: 6.0f,
+                range: 5.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 44f,
+                baseRadius: 5.0f,
+                duration: 0.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Pulse knockback force increased by 50%", bonusUtility: 0.50f),
+                    new AbilityRankMilestone(10, "Gravitic Pulse damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Flinging enemies into walls stuns them for 1.5 seconds", bonusUtility: 1.5f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_45",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Stone Orbit",
+                description: "Summon dense gravitating boulders that orbit your chassis, shredding encroaching invaders and deflecting blows.",
+                branchName: "Branch E — Gravity and Cataclysm",
+                tier: 2,
+                prerequisiteAbilityId: "cursed_golem_active_43",
+                resourceCost: 35f,
+                cooldownDuration: 7.0f,
+                range: 4.0f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE | AbilityEffectType.Projectile,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 40f,
+                baseRadius: 3.5f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Stone Orbit barrier capacity increased by 30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Orbiting boulder strike damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Summons 2 additional orbiting stone projectiles", extraSummonsOrProjectiles: 2)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_46",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Gravity Prison",
+                description: "Trap targeted invaders inside a compressed hyper-gravity vortex, suspending and crushing them.",
+                branchName: "Branch E — Gravity and Cataclysm",
+                tier: 3,
+                prerequisiteAbilityId: "cursed_golem_active_44",
+                resourceCost: 40f,
+                cooldownDuration: 7.5f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 52f,
+                baseRadius: 4.5f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Gravity Prison duration extended by 1 second", bonusUtility: 1.0f),
+                    new AbilityRankMilestone(10, "Vortex crush damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Trapped enemies explode when the prison collapses", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_47",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Falling Mountain",
+                description: "Tear a colossal mountain mass from the sky, dropping it onto the battlefield with cataclysmic impact.",
+                branchName: "Branch E — Gravity and Cataclysm",
+                tier: 3,
+                prerequisiteAbilityId: "cursed_golem_active_45",
+                resourceCost: 45f,
+                cooldownDuration: 8.5f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 68f,
+                baseRadius: 5.5f,
+                duration: 1.2f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Mountain impact radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Falling Mountain impact damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Runic Charge cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Leaves impassable tumbling stone debris that shocks attackers", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_48",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Worldstone Core",
+                description: "Overcharge your primordial core with cataclysmic worldstone energy, supercharging shields and radiating kinetic pulses.",
+                branchName: "Branch E — Gravity and Cataclysm",
+                tier: 3,
+                prerequisiteAbilityId: "cursed_golem_active_46",
+                resourceCost: 45f,
+                cooldownDuration: 9.0f,
+                range: 5.5f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE | AbilityEffectType.Transform,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 50f,
+                baseRadius: 5.0f,
+                duration: 6.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Worldstone Core barrier capacity increased by 35%", bonusUtility: 0.35f),
+                    new AbilityRankMilestone(10, "Kinetic pulse damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Periodically detonates gravity bursts pulling enemies close", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_49",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Titan's Judgment",
+                description: "Channel all gravitational mass into an earth-shattering ground slam, fracturing tectonic faults across the battlefield.",
+                branchName: "Branch E — Gravity and Cataclysm",
+                tier: 4,
+                prerequisiteAbilityId: "cursed_golem_active_47",
+                resourceCost: 50f,
+                cooldownDuration: 10.0f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 80f,
+                baseRadius: 6.0f,
+                duration: 1.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Judgment slam radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Titan's Judgment damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Fissures erupt with secondary magma plumes dealing 40 damage", extraSummonsOrProjectiles: 3)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_50",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Colossus Ascension",
+                description: "Ascend to primordial cataclysm form, generating a gargantuan barrier, manipulating gravity, and triggering continuous seismic collapses.",
+                branchName: "Branch E — Gravity and Cataclysm",
+                tier: 4,
+                prerequisiteAbilityId: "cursed_golem_active_48",
+                resourceCost: 60f,
+                cooldownDuration: 13.0f,
+                range: 7.5f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE | AbilityEffectType.Transform | AbilityEffectType.CrowdControl | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 95f,
+                baseRadius: 7.0f,
+                duration: 9.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Ascension barrier capacity increased to 220", bonusUtility: 60f),
+                    new AbilityRankMilestone(10, "Cataclysmic collapse damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Continuously drags all invaders inward and crushes them every second", bonusUtility: 1.0f)
+                }
+            ));
+
             // Milestone Ultimates (Levels 50 through 250)
             Register(new AbilityDefinition(
                 id: "cursed_golem_ultimate_50",

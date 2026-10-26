@@ -1198,5 +1198,89 @@ namespace FinalBoss.Tests
             Assert.GreaterOrEqual(_player.BarrierAmount, 150f, "Adamantine Form / Ancient Reassembly should grant massive barrier.");
             Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Cursed Golem Branch D fortress abilities.");
         }
+
+        [UnityTest]
+        public IEnumerator CursedGolem_BranchE_Part1_GravityAndCataclysmAbilities_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.CursedGolemId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.CursedGolemId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.CursedGolemId, "Branch E — Gravity and Cataclysm", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.CursedGolemId,
+                new List<string>
+                {
+                    "cursed_golem_active_41", // Gravity Pull
+                    "cursed_golem_active_42", // Crushing Field
+                    "cursed_golem_active_43", // Meteoric Fist
+                    "cursed_golem_active_44", // Gravitic Pulse
+                    "cursed_golem_active_45"  // Stone Orbit
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Cursed Golem Branch E slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 70f, "Stone Orbit should grant barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Cursed Golem Branch E gravity abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator CursedGolem_BranchE_Part2_GravityAndCataclysmAbilities_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.CursedGolemId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.CursedGolemId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.CursedGolemId, "Branch E — Gravity and Cataclysm", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.CursedGolemId,
+                new List<string>
+                {
+                    "cursed_golem_active_46", // Gravity Prison
+                    "cursed_golem_active_47", // Falling Mountain
+                    "cursed_golem_active_48", // Worldstone Core
+                    "cursed_golem_active_49", // Titan's Judgment
+                    "cursed_golem_active_50"  // Colossus Ascension
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Cursed Golem Branch E slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 160f, "Colossus Ascension should grant massive barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Cursed Golem Branch E gravity and cataclysm abilities.");
+        }
     }
 }

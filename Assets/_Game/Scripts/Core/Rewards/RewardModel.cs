@@ -221,6 +221,18 @@ namespace FinalBoss.Core
         public const string GolemHardenedSoulstoneId = "cursed_golem_wave_39";
         public const string GolemGuardiansPatienceId = "cursed_golem_wave_40";
 
+        // Cursed Golem Wave Skills (Batch 5: 41-50)
+        public const string GolemGravityCompressionId = "cursed_golem_wave_41";
+        public const string GolemOrbitingMassId = "cursed_golem_wave_42";
+        public const string GolemGraviticMomentumId = "cursed_golem_wave_43";
+        public const string GolemCollapsingPressureId = "cursed_golem_wave_44";
+        public const string GolemWorldstoneConductorId = "cursed_golem_wave_45";
+        public const string GolemAncientMineralWealthId = "cursed_golem_wave_46";
+        public const string GolemColossusTributeId = "cursed_golem_wave_47";
+        public const string GolemLostForgeWisdomId = "cursed_golem_wave_48";
+        public const string GolemWorldstoneFortuneId = "cursed_golem_wave_49";
+        public const string GolemEternalMountainId = "cursed_golem_wave_50";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -1313,6 +1325,127 @@ namespace FinalBoss.Core
                     RewardModifierType.DashCooldownReductionPercent,
                     0.20f,
                     maxRank: 5)
+            },
+            // Cursed Golem Wave Skills 41-50
+            {
+                GolemGravityCompressionId,
+                new RewardDefinition(
+                    GolemGravityCompressionId,
+                    "Gravity Compression",
+                    "Compress gravitational shockwaves to crush enemy ranks (+20% Damage)",
+                    RewardRarity.Common,
+                    "cursed_golem",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                GolemOrbitingMassId,
+                new RewardDefinition(
+                    GolemOrbitingMassId,
+                    "Orbiting Mass",
+                    "Empower rotating stone shields and fragments (+1 Projectile)",
+                    RewardRarity.Uncommon,
+                    "cursed_golem",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                GolemGraviticMomentumId,
+                new RewardDefinition(
+                    GolemGraviticMomentumId,
+                    "Gravitic Momentum",
+                    "Harness converging kinetic force to amplify strike power (+25% Damage)",
+                    RewardRarity.Rare,
+                    "cursed_golem",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                GolemCollapsingPressureId,
+                new RewardDefinition(
+                    GolemCollapsingPressureId,
+                    "Collapsing Pressure",
+                    "Intensify singularity fields, expanding effective pull reach (+1.5m Range)",
+                    RewardRarity.Common,
+                    "cursed_golem",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                GolemWorldstoneConductorId,
+                new RewardDefinition(
+                    GolemWorldstoneConductorId,
+                    "Worldstone Conductor",
+                    "Conductive rune matrices siphon lifeforce through cataclysmic impacts (+6% Life Steal)",
+                    RewardRarity.Rare,
+                    "cursed_golem",
+                    RewardModifierType.LifeStealPercent,
+                    0.06f,
+                    maxRank: 5)
+            },
+            {
+                GolemAncientMineralWealthId,
+                new RewardDefinition(
+                    GolemAncientMineralWealthId,
+                    "Ancient Mineral Wealth",
+                    "Deep geological veins harden structural integrity (+6 Armor)",
+                    RewardRarity.Common,
+                    "cursed_golem",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                GolemColossusTributeId,
+                new RewardDefinition(
+                    GolemColossusTributeId,
+                    "Colossus Tribute",
+                    "Tribute of crushed conquerors expands the titan frame (+45 Max HP)",
+                    RewardRarity.Uncommon,
+                    "cursed_golem",
+                    RewardModifierType.MaxHealth,
+                    45f,
+                    maxRank: 5)
+            },
+            {
+                GolemLostForgeWisdomId,
+                new RewardDefinition(
+                    GolemLostForgeWisdomId,
+                    "Lost Forge Wisdom",
+                    "Ancient dwarven forgecraft increases weapon strike speed (+15% Attack Speed)",
+                    RewardRarity.Rare,
+                    "cursed_golem",
+                    RewardModifierType.AttackSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                GolemWorldstoneFortuneId,
+                new RewardDefinition(
+                    GolemWorldstoneFortuneId,
+                    "Worldstone Fortune",
+                    "Cataclysmic resonance shatters invader defenses (+20% Damage)",
+                    RewardRarity.Rare,
+                    "cursed_golem",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                GolemEternalMountainId,
+                new RewardDefinition(
+                    GolemEternalMountainId,
+                    "Eternal Mountain",
+                    "Become as permanent as the bedrock peaks (+60 Max HP, +8 Armor)",
+                    RewardRarity.Mythic,
+                    "cursed_golem",
+                    RewardModifierType.MaxHealth,
+                    60f,
+                    maxRank: 3)
             },
             {
                 MonarchId,
