@@ -1,0 +1,18 @@
+{
+    "name": "FinalBoss.Game",
+    "rootNamespace": "FinalBoss.Game",
+    "references": [
+        "FinalBoss.Core",
+        "Unity.InputSystem",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

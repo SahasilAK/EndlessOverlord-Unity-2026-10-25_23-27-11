@@ -1,0 +1,19 @@
+{
+    "name": "FinalBoss.Editor",
+    "rootNamespace": "FinalBoss.EditorTools",
+    "references": [
+        "FinalBoss.Core",
+        "FinalBoss.Game"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
