@@ -197,6 +197,18 @@ namespace FinalBoss.Core
         public const string GolemEarthenConvergenceId = "cursed_golem_wave_19";
         public const string GolemUnstableBedrockId = "cursed_golem_wave_20";
 
+        // Cursed Golem Wave Skills (Batch 3: 21-30)
+        public const string GolemRunicReservoirId = "cursed_golem_wave_21";
+        public const string GolemAncientInscriptionId = "cursed_golem_wave_22";
+        public const string GolemRuneMultiplicationId = "cursed_golem_wave_23";
+        public const string GolemResonatingSymbolsId = "cursed_golem_wave_24";
+        public const string GolemRunicReclamationId = "cursed_golem_wave_25";
+        public const string GolemGlyphAmplificationId = "cursed_golem_wave_26";
+        public const string GolemStoneheartCircuitId = "cursed_golem_wave_27";
+        public const string GolemAncientConfigurationId = "cursed_golem_wave_28";
+        public const string GolemRuneCascadeId = "cursed_golem_wave_29";
+        public const string GolemForgottenLanguageId = "cursed_golem_wave_30";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -1042,6 +1054,127 @@ namespace FinalBoss.Core
                     GolemUnstableBedrockId,
                     "Unstable Bedrock",
                     "Violent underground ruptures trigger secondary catastrophic eruptions (+30% Damage)",
+                    RewardRarity.Epic,
+                    "cursed_golem",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.30f,
+                    maxRank: 5)
+            },
+            // Cursed Golem Wave Skills 21-30
+            {
+                GolemRunicReservoirId,
+                new RewardDefinition(
+                    GolemRunicReservoirId,
+                    "Runic Reservoir",
+                    "Ancient runes store vital essence, boosting resilience (+30 Max HP)",
+                    RewardRarity.Common,
+                    "cursed_golem",
+                    RewardModifierType.MaxHealth,
+                    30f,
+                    maxRank: 5)
+            },
+            {
+                GolemAncientInscriptionId,
+                new RewardDefinition(
+                    GolemAncientInscriptionId,
+                    "Ancient Inscription",
+                    "Carved primordial runes empower all golem strikes (+15% Damage)",
+                    RewardRarity.Common,
+                    "cursed_golem",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                GolemRuneMultiplicationId,
+                new RewardDefinition(
+                    GolemRuneMultiplicationId,
+                    "Rune Multiplication",
+                    "Active runes fracture into supplementary energy bolts (+1 Projectile)",
+                    RewardRarity.Uncommon,
+                    "cursed_golem",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                GolemResonatingSymbolsId,
+                new RewardDefinition(
+                    GolemResonatingSymbolsId,
+                    "Resonating Symbols",
+                    "Interlocking runic symbols harmonize, boosting damage (+20% Damage)",
+                    RewardRarity.Rare,
+                    "cursed_golem",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                GolemRunicReclamationId,
+                new RewardDefinition(
+                    GolemRunicReclamationId,
+                    "Runic Reclamation",
+                    "Siphon vitality through runic impact cycles (+6% Life Steal)",
+                    RewardRarity.Rare,
+                    "cursed_golem",
+                    RewardModifierType.LifeStealPercent,
+                    0.06f,
+                    maxRank: 5)
+            },
+            {
+                GolemGlyphAmplificationId,
+                new RewardDefinition(
+                    GolemGlyphAmplificationId,
+                    "Glyph Amplification",
+                    "Intensify runic glyph radiance to overpower invaders (+25% Damage)",
+                    RewardRarity.Rare,
+                    "cursed_golem",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                GolemStoneheartCircuitId,
+                new RewardDefinition(
+                    GolemStoneheartCircuitId,
+                    "Stoneheart Circuit",
+                    "Runic energy channels through stone veins, enhancing durability (+6 Armor)",
+                    RewardRarity.Uncommon,
+                    "cursed_golem",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                GolemAncientConfigurationId,
+                new RewardDefinition(
+                    GolemAncientConfigurationId,
+                    "Ancient Configuration",
+                    "Optimal geometric rune alignments extend spell range (+1.5m Range)",
+                    RewardRarity.Common,
+                    "cursed_golem",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                GolemRuneCascadeId,
+                new RewardDefinition(
+                    GolemRuneCascadeId,
+                    "Rune Cascade",
+                    "Rune detonations cascade into secondary shockwave bursts (+1 Projectile)",
+                    RewardRarity.Uncommon,
+                    "cursed_golem",
+                    RewardModifierType.ExtraProjectiles,
+                    1f,
+                    maxRank: 3)
+            },
+            {
+                GolemForgottenLanguageId,
+                new RewardDefinition(
+                    GolemForgottenLanguageId,
+                    "Forgotten Language",
+                    "Master the forgotten runic tongue for devastating combat supremacy (+30% Damage)",
                     RewardRarity.Epic,
                     "cursed_golem",
                     RewardModifierType.ProjectileDamagePercent,

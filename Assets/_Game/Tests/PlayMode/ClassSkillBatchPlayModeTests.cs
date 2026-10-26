@@ -1030,5 +1030,89 @@ namespace FinalBoss.Tests
 
             Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Cursed Golem Branch B earth abilities.");
         }
+
+        [UnityTest]
+        public IEnumerator CursedGolem_BranchC_Part1_AncientRunicAbilities_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.CursedGolemId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.CursedGolemId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.CursedGolemId, "Branch C — Ancient Runic Magic", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.CursedGolemId,
+                new List<string>
+                {
+                    "cursed_golem_active_21", // Rune of Crushing
+                    "cursed_golem_active_22", // Rune of Protection
+                    "cursed_golem_active_23", // Rune of Binding
+                    "cursed_golem_active_24", // Rune of Reflection
+                    "cursed_golem_active_25"  // Rune of Detonation
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Cursed Golem Branch C slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 60f, "Rune of Protection/Reflection should grant barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Cursed Golem Branch C runic abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator CursedGolem_BranchC_Part2_AncientRunicAbilities_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.CursedGolemId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.CursedGolemId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.CursedGolemId, "Branch C — Ancient Runic Magic", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.CursedGolemId,
+                new List<string>
+                {
+                    "cursed_golem_active_26", // Rune of Reinforcement
+                    "cursed_golem_active_27", // Rune of Reversal
+                    "cursed_golem_active_28", // Rune of Resonance
+                    "cursed_golem_active_29", // Ancient Rune Circle
+                    "cursed_golem_active_30"  // Runeheart Awakening
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Cursed Golem Branch C slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 100f, "Runeheart Awakening should grant massive barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Cursed Golem Branch C runic abilities.");
+        }
     }
 }

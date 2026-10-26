@@ -2059,32 +2059,6 @@ namespace FinalBoss.Core
                 }
             ));
 
-            // Signature & Branch C Ability: Rune of Protection
-            Register(new AbilityDefinition(
-                id: "cursed_golem_active_22",
-                characterId: CharacterCatalog.CursedGolemId,
-                name: "Rune of Protection",
-                description: "Channel a runic barrier that absorbs incoming damage and emits a tremor shockwave upon impact.",
-                branchName: "Branch C — Ancient Runic Magic",
-                tier: 1,
-                prerequisiteAbilityId: null,
-                resourceCost: 25f,
-                cooldownDuration: 6f,
-                range: 3.5f,
-                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
-                targeting: AbilityTargetingRule.Self,
-                baseDamage: 15f,
-                baseRadius: 3.5f,
-                duration: 8f,
-                milestones: new[]
-                {
-                    new AbilityRankMilestone(5, "Barrier absorption +30%", bonusUtility: 0.30f),
-                    new AbilityRankMilestone(10, "Cooldown -20%", cooldownMultiplier: 0.80f),
-                    new AbilityRankMilestone(15, "Tremor shockwave damage +40%", damageMultiplier: 1.40f),
-                    new AbilityRankMilestone(20, "Mastery: Barrier absorbs 100 HP and emits seismic shockwave on expiration", bonusUtility: 1f)
-                }
-            ));
-
             // Branch B — Earth and Stone Magic (Actives 11-20)
             Register(new AbilityDefinition(
                 id: "cursed_golem_active_11",
@@ -2333,6 +2307,257 @@ namespace FinalBoss.Core
                     new AbilityRankMilestone(10, "Mountain's Wrath eruption damage increased by 35%", damageMultiplier: 1.35f),
                     new AbilityRankMilestone(15, "Runic Charge cost reduced by 25%", resourceCostMultiplier: 0.75f),
                     new AbilityRankMilestone(20, "Mastery: Triple sequential eruptions tearing the surrounding earth", extraSummonsOrProjectiles: 2)
+                }
+            ));
+
+            // Branch C — Ancient Runic Magic (Actives 21-30)
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_21",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Rune of Crushing",
+                description: "Inscribe a crushing rune on your stone fists that empowers physical impacts and releases concussive bursts.",
+                branchName: "Branch C — Ancient Runic Magic",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 20f,
+                cooldownDuration: 4.0f,
+                range: 3.5f,
+                effects: AbilityEffectType.MeleeArc | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 36f,
+                baseRadius: 2.5f,
+                duration: 0.4f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Rune of Crushing cooldown reduced by 15%", cooldownMultiplier: 0.85f),
+                    new AbilityRankMilestone(10, "Crushing impact damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Runic Charge cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Releases a secondary crushing shockwave dealing 20 damage", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_22",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Rune of Protection",
+                description: "Channel a runic barrier that absorbs incoming damage and emits a tremor shockwave upon impact.",
+                branchName: "Branch C — Ancient Runic Magic",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 25f,
+                cooldownDuration: 6.0f,
+                range: 3.5f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 15f,
+                baseRadius: 3.5f,
+                duration: 8.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Barrier absorption +30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Cooldown -20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(15, "Tremor shockwave damage +40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(20, "Mastery: Barrier absorbs 100 HP and emits seismic shockwave on expiration", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_23",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Rune of Binding",
+                description: "Inscribe an ancient binding rune that locks invaders in place with impenetrable runic chains.",
+                branchName: "Branch C — Ancient Runic Magic",
+                tier: 2,
+                prerequisiteAbilityId: "cursed_golem_active_21",
+                resourceCost: 25f,
+                cooldownDuration: 5.0f,
+                range: 5.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 38f,
+                baseRadius: 3.0f,
+                duration: 2.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Immobilize duration increased by 30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Binding rune damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Binding rune shatters upon ending, damaging all anchored foes", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_24",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Rune of Reflection",
+                description: "Erect an arcane runic mirror that grants an absorption barrier and reflects kinetic force back at attackers.",
+                branchName: "Branch C — Ancient Runic Magic",
+                tier: 2,
+                prerequisiteAbilityId: "cursed_golem_active_22",
+                resourceCost: 30f,
+                cooldownDuration: 6.0f,
+                range: 4.0f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 30f,
+                baseRadius: 3.5f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Reflection barrier absorption increased by 30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Retaliatory shockwave damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Reflection triggers a retaliatory concussive nova", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_25",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Rune of Detonation",
+                description: "Plant a volatile runic glyph that violently detonates when invaders step near, tearing the earth.",
+                branchName: "Branch C — Ancient Runic Magic",
+                tier: 2,
+                prerequisiteAbilityId: "cursed_golem_active_23",
+                resourceCost: 30f,
+                cooldownDuration: 5.5f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 48f,
+                baseRadius: 3.5f,
+                duration: 3.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Detonation radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Detonation damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Runic Charge cost reduced by 20%", resourceCostMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Detonates into 3 secondary cluster runic explosions", extraSummonsOrProjectiles: 3)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_26",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Rune of Reinforcement",
+                description: "Etch protective fortification runes into stone armor, surging defense and pulsing restorative wards.",
+                branchName: "Branch C — Ancient Runic Magic",
+                tier: 3,
+                prerequisiteAbilityId: "cursed_golem_active_24",
+                resourceCost: 35f,
+                cooldownDuration: 7.0f,
+                range: 3.5f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.Heal | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 25f,
+                baseRadius: 3.5f,
+                duration: 8.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Fortification barrier absorption increased by 30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(15, "Restores 30 health upon activation", bonusUtility: 30.0f),
+                    new AbilityRankMilestone(20, "Mastery: Doubled barrier capacity and continuously reflects damage", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_27",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Rune of Reversal",
+                description: "Unleash an inverted gravitic rune that reverses incoming momentum, blasting invaders away.",
+                branchName: "Branch C — Ancient Runic Magic",
+                tier: 3,
+                prerequisiteAbilityId: "cursed_golem_active_25",
+                resourceCost: 35f,
+                cooldownDuration: 7.0f,
+                range: 5.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 50f,
+                baseRadius: 4.5f,
+                duration: 0.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Reversal knockback force doubled", bonusUtility: 1.0f),
+                    new AbilityRankMilestone(10, "Reversal damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Blasts a ring of reversed kinetic projectiles outward", extraSummonsOrProjectiles: 6)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_28",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Rune of Resonance",
+                description: "Link runic frequencies across the battlefield, triggering a harmonic chain reaction between invaders.",
+                branchName: "Branch C — Ancient Runic Magic",
+                tier: 3,
+                prerequisiteAbilityId: "cursed_golem_active_26",
+                resourceCost: 40f,
+                cooldownDuration: 7.5f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 54f,
+                baseRadius: 4.0f,
+                duration: 0.6f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Resonance chain radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Resonance damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Runic Charge cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Chained targets explode, dealing 25 damage to adjacent enemies", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_29",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Ancient Rune Circle",
+                description: "Inscribe an enormous runic circle on the floor, enhancing the golem while burning and crippling all intruders.",
+                branchName: "Branch C — Ancient Runic Magic",
+                tier: 4,
+                prerequisiteAbilityId: "cursed_golem_active_27",
+                resourceCost: 45f,
+                cooldownDuration: 9.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 60f,
+                baseRadius: 5.5f,
+                duration: 5.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Rune circle radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Circle burn damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants 60 barrier upon entering and pulls invaders toward center", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "cursed_golem_active_30",
+                characterId: CharacterCatalog.CursedGolemId,
+                name: "Runeheart Awakening",
+                description: "Awaken the primordial runic core within your chest, supercharging all runic magic and triggering catastrophic surges.",
+                branchName: "Branch C — Ancient Runic Magic",
+                tier: 4,
+                prerequisiteAbilityId: "cursed_golem_active_28",
+                resourceCost: 50f,
+                cooldownDuration: 11.0f,
+                range: 7.0f,
+                effects: AbilityEffectType.Shield | AbilityEffectType.RadialAoE | AbilityEffectType.Transform,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 80f,
+                baseRadius: 6.5f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Awakening radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Surge damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Grants an additional 60 barrier", bonusUtility: 60.0f),
+                    new AbilityRankMilestone(20, "Mastery: Awakened runeheart permanently radiates tectonic pulses for the duration", bonusUtility: 1.0f)
                 }
             ));
 

@@ -1551,16 +1551,6 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
                     break;
 
-                case "cursed_golem_active_22": // Rune of Protection
-                    float barrierHp = 60f * (1f + (rank >= 5 ? 0.30f : 0f));
-                    _player.SetBarrier(barrierHp, duration: def.Duration);
-                    result.BarrierGranted += barrierHp;
-                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 3.5f);
-                    result.TargetsHit += _hitBuffer.Count;
-                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.1f, 0.8f, 0.7f, 0.85f), 0.4f);
-                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
-                    break;
-
                 // Branch B — Earth and Stone Magic (Actives 11-20)
                 case "cursed_golem_active_11": // Stone Spike
                     Vector2 spikePos = playerPos + aimDir * 2.5f;
@@ -1721,6 +1711,141 @@ namespace FinalBoss.Game
                     }
                     HazardZoneActor.Spawn(playerPos, radius, duration: 3.0f, damagePerTick: damage * 0.35f, tickInterval: 0.4f, slowPercent: 0.5f, slowDuration: 2.0f, color: new Color(0.85f, 0.5f, 0.2f, 0.7f), label: "[MOUNTAINS_WRATH]");
                     SpawnVisualBurst(playerPos, radius * 2.5f, new Color(0.9f, 0.55f, 0.2f, 0.95f), 0.7f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                // Branch C — Ancient Runic Magic (Actives 21-30)
+                case "cursed_golem_active_21": // Rune of Crushing
+                    Vector2 crushingPos = playerPos + aimDir * 1.5f;
+                    result.DamageDealt += DamageArea(crushingPos, radius, damage, knockbackForce: 4.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (rank >= 20)
+                    {
+                        result.DamageDealt += DamageArea(crushingPos + aimDir * 1f, radius * 1.2f, 20f, knockbackForce: 4f);
+                        result.TargetsHit += _hitBuffer.Count;
+                    }
+                    SpawnVisualBurst(crushingPos, radius * 2f, new Color(0.2f, 0.8f, 0.7f, 0.9f), 0.35f);
+                    CueBus.Raise(CueIds.InvaderStrike, crushingPos.x, crushingPos.y);
+                    break;
+
+                case "cursed_golem_active_22": // Rune of Protection
+                    float barrierHp = 60f * (1f + (rank >= 5 ? 0.30f : 0f));
+                    _player.SetBarrier(barrierHp, duration: def.Duration);
+                    result.BarrierGranted += barrierHp;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 3.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.1f, 0.8f, 0.7f, 0.85f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_23": // Rune of Binding
+                    Vector2 runeBindPos = playerPos + aimDir * 2.5f;
+                    result.DamageDealt += DamageArea(runeBindPos, radius, damage, knockbackForce: 0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.80f, 2.0f * (1f + (rank >= 5 ? 0.30f : 0f)));
+                        }
+                    }
+                    SpawnVisualBurst(runeBindPos, radius * 2f, new Color(0.3f, 0.85f, 0.75f, 0.9f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, runeBindPos.x, runeBindPos.y);
+                    break;
+
+                case "cursed_golem_active_24": // Rune of Reflection
+                    float reflectBarrier = 65f * (1f + (rank >= 5 ? 0.30f : 0f));
+                    _player.SetBarrier(reflectBarrier, duration: def.Duration);
+                    result.BarrierGranted += reflectBarrier;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 4f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.4f, 0.95f, 0.85f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_25": // Rune of Detonation
+                    Vector2 detPos = playerPos + aimDir * 2.5f;
+                    result.DamageDealt += DamageArea(detPos, radius, damage, knockbackForce: 5.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(detPos, radius, duration: 3.0f, damagePerTick: damage * 0.3f, tickInterval: 0.4f, slowPercent: 0.3f, slowDuration: 1.0f, color: new Color(0.2f, 0.9f, 0.6f, 0.6f), label: "[DETONATION_RUNE]");
+                    SpawnVisualBurst(detPos, radius * 2.2f, new Color(0.2f, 0.9f, 0.6f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, detPos.x, detPos.y);
+                    break;
+
+                case "cursed_golem_active_26": // Rune of Reinforcement
+                    float reinfBarrier = 75f * (1f + (rank >= 5 ? 0.30f : 0f));
+                    _player.SetBarrier(reinfBarrier, duration: def.Duration);
+                    result.BarrierGranted += reinfBarrier;
+                    float reinfHeal = rank >= 15 ? 30f : 15f;
+                    _player.Health?.Heal(reinfHeal);
+                    result.HealingDone += reinfHeal;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 3f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.25f, 0.8f, 0.9f, 0.85f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_27": // Rune of Reversal
+                    float revKb = rank >= 5 ? 8f : 5f;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: revKb);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (ProjectileManager.Instance != null && rank >= 20)
+                    {
+                        for (int p = 0; p < 6; p++)
+                        {
+                            float ang = p * 60f * Mathf.Deg2Rad;
+                            Vector2 pDir = new Vector2(Mathf.Cos(ang), Mathf.Sin(ang));
+                            ProjectileManager.Instance.FireCustom(
+                                Faction.Player,
+                                playerPos,
+                                pDir,
+                                speed: 10f,
+                                radius: 0.3f,
+                                damage: damage * 0.4f,
+                                lifetime: 0.8f,
+                                color: new Color(0.2f, 0.85f, 0.7f),
+                                cueId: CueIds.InvaderStrike,
+                                pierce: 2
+                            );
+                        }
+                    }
+                    SpawnVisualBurst(playerPos, radius * 2.2f, new Color(0.3f, 0.9f, 0.8f, 0.9f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_28": // Rune of Resonance
+                    Vector2 resPos = playerPos + aimDir * 2.5f;
+                    result.DamageDealt += DamageArea(resPos, radius, damage, knockbackForce: 4f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(resPos, radius * 2.2f, new Color(0.4f, 0.95f, 0.75f, 0.9f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, resPos.x, resPos.y);
+                    break;
+
+                case "cursed_golem_active_29": // Ancient Rune Circle
+                    _player.SetBarrier(60f, duration: 5.0f);
+                    result.BarrierGranted += 60f;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 3f, pullTowardCenter: rank >= 20);
+                    result.TargetsHit += _hitBuffer.Count;
+                    for (int i = 0; i < _hitBuffer.Count; i++)
+                    {
+                        if (_hitBuffer[i] is InvaderActor invader && invader.Alive)
+                        {
+                            invader.ApplySlow(0.40f, 3.0f);
+                        }
+                    }
+                    HazardZoneActor.Spawn(playerPos, radius, duration: 5.0f, damagePerTick: damage * 0.3f, tickInterval: 0.5f, slowPercent: 0.4f, slowDuration: 1.5f, color: new Color(0.15f, 0.85f, 0.7f, 0.5f), label: "[ANCIENT_RUNE_CIRCLE]");
+                    SpawnVisualBurst(playerPos, radius * 2.2f, new Color(0.15f, 0.85f, 0.7f, 0.9f), 0.6f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "cursed_golem_active_30": // Runeheart Awakening
+                    float awakeningBarrier = rank >= 15 ? 160f : 100f;
+                    _player.SetBarrier(awakeningBarrier, duration: def.Duration);
+                    result.BarrierGranted += awakeningBarrier;
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 7f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    HazardZoneActor.Spawn(playerPos, radius, duration: 4.0f, damagePerTick: damage * 0.35f, tickInterval: 0.4f, slowPercent: 0.5f, slowDuration: 2.0f, color: new Color(0.3f, 0.95f, 0.85f, 0.6f), label: "[RUNEHEART]");
+                    SpawnVisualBurst(playerPos, radius * 2.5f, new Color(0.3f, 0.95f, 0.85f, 0.95f), 0.8f);
                     CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
                     break;
 
