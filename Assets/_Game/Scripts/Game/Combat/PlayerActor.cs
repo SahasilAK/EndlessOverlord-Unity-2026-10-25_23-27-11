@@ -47,7 +47,8 @@ namespace FinalBoss.Game
             _run = run;
             _hud = run.Hud;
             _input = input;
-            Health = new Health(run.Character.BaseMaxHealth);
+            float startingMaxHp = run.Character.BaseMaxHealth + run.MetaStats.BonusMaxHealth;
+            Health = new Health(startingMaxHp);
             _dash = new DashSim(CombatTuning.DashSpeed, CombatTuning.DashDuration, CombatTuning.DashCooldown);
 
             _rb = gameObject.AddComponent<Rigidbody2D>();
@@ -121,7 +122,7 @@ namespace FinalBoss.Game
         private void RecalculateMaxHealth()
         {
             if (_run == null || Health == null) return;
-            float baseMax = _run.Character.BaseMaxHealth;
+            float baseMax = _run.Character.BaseMaxHealth + _run.MetaStats.BonusMaxHealth;
             float rewardHp = _run.Rewards != null ? _run.Rewards.BonusMaxHealth : 0f;
             float equipHp = _run.Inventory != null ? _run.Inventory.GetEquippedStats().FlatMaxHealth : 0f;
             float targetMax = baseMax + rewardHp + equipHp;
@@ -182,7 +183,8 @@ namespace FinalBoss.Game
             {
                 Vector2 move = _input != null ? _input.Move : Vector2.zero;
                 var equipStats = _run != null && _run.Inventory != null ? _run.Inventory.GetEquippedStats() : default(ItemStats);
-                float speedMultiplier = 1f + (_run != null && _run.Rewards != null ? _run.Rewards.BonusMoveSpeedPercent : 0f) + equipStats.MoveSpeedPercent;
+                float metaSpeed = _run != null ? _run.MetaStats.BonusMoveSpeedPercent : 0f;
+                float speedMultiplier = 1f + (_run != null && _run.Rewards != null ? _run.Rewards.BonusMoveSpeedPercent : 0f) + equipStats.MoveSpeedPercent + metaSpeed;
                 MovementMath.Velocity(move.x, move.y, CombatTuning.PlayerMoveSpeed * speedMultiplier, out vx, out vy);
                 _rb.linearVelocity = new Vector2(vx, vy);
                 if (move.sqrMagnitude > 0.01f && !HasTargetAim)
@@ -214,7 +216,8 @@ namespace FinalBoss.Game
             if (!Alive || _dash.Invulnerable)
                 return 0f;
             var equipStats = _run != null && _run.Inventory != null ? _run.Inventory.GetEquippedStats() : default(ItemStats);
-            float armor = CombatTuning.PlayerArmor + (_run != null && _run.Rewards != null ? _run.Rewards.BonusArmor : 0f) + equipStats.FlatArmor;
+            float metaArmor = _run != null ? _run.MetaStats.BonusArmor : 0f;
+            float armor = CombatTuning.PlayerArmor + (_run != null && _run.Rewards != null ? _run.Rewards.BonusArmor : 0f) + equipStats.FlatArmor + metaArmor;
             float dealt = Health.TakeDamage(DamageCalculator.Compute(rawDamage, armor));
             if (dealt > 0f)
             {

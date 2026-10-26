@@ -118,9 +118,13 @@ namespace FinalBoss.Game
             _spawnCooldown = 0.5f;
             _ledger.StartWave(waveNumber, spec.Spawns.Count);
 
-            if (_run != null && _run.Hud != null)
+            if (_run != null)
             {
-                _run.Hud.SetWave(waveNumber);
+                if (waveNumber > _run.HighestWave) _run.HighestWave = waveNumber;
+                if (_run.Hud != null)
+                {
+                    _run.Hud.SetWave(waveNumber);
+                }
             }
         }
 
@@ -181,10 +185,16 @@ namespace FinalBoss.Game
         {
             _activeInvaders.Remove(actor);
 
-            if (_run != null && _run.Hud != null)
+            if (_run != null)
             {
-                _run.Hud.SetResource(_run.Hud.Resource + actor.SoulReward);
-                _run.Hud.AddScore(actor.ScoreReward);
+                _run.TotalKills++;
+                if (actor.IsBoss) _run.BossesSlain++;
+
+                if (_run.Hud != null)
+                {
+                    _run.Hud.SetResource(_run.Hud.Resource + actor.SoulReward);
+                    _run.Hud.AddScore(actor.ScoreReward);
+                }
             }
 
             _ledger.TryRecordDeath();

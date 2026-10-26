@@ -13,6 +13,7 @@ namespace FinalBoss.Core
         public RunStateMachine Machine { get; }
         public string SelectedCharacterId { get; private set; }
         public RunContext Run { get; private set; }
+        public PlayerSaveProfile Profile { get; set; }
 
         public GameSessionState(long seedEntropy)
         {
@@ -58,7 +59,8 @@ namespace FinalBoss.Core
             if (!Machine.TryTransition(RunState.RunSetup))
                 return false;
             _runCounter++;
-            Run = new RunContext(_seeds.NextSeed(), _runCounter, info);
+            var metaStats = Profile != null ? Profile.GetPersistentStartingStats() : default(PersistentStats);
+            Run = new RunContext(_seeds.NextSeed(), _runCounter, info, metaStats);
             return true;
         }
 

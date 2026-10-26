@@ -231,8 +231,9 @@ namespace FinalBoss.Game
                 _player.AimDirection = dir;
 
                 var equipStats = _player.Run != null && _player.Run.Inventory != null ? _player.Run.Inventory.GetEquippedStats() : default(ItemStats);
+                float metaDmg = _player.Run != null ? _player.Run.MetaStats.BonusDamagePercent : 0f;
                 float baseDmg = CombatTuning.BoltDamage + equipStats.FlatDamage;
-                float dmgMult = 1f + (_player.Run != null && _player.Run.Rewards != null ? _player.Run.Rewards.BonusDamagePercent : 0f) + equipStats.DamagePercent;
+                float dmgMult = 1f + (_player.Run != null && _player.Run.Rewards != null ? _player.Run.Rewards.BonusDamagePercent : 0f) + equipStats.DamagePercent + metaDmg;
                 float damage = baseDmg * dmgMult;
                 int extra = _player.Run != null && _player.Run.Rewards != null ? _player.Run.Rewards.ExtraProjectiles : 0;
 

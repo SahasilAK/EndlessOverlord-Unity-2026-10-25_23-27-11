@@ -3,6 +3,7 @@
     "rootNamespace": "FinalBoss.Tests",
     "references": [
         "FinalBoss.Core",
+        "FinalBoss.Game",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],

@@ -6,8 +6,8 @@ namespace FinalBoss.Game
 {
     /// <summary>
     /// Graybox arena scene driver. Initialises the run (seed/character), builds a placeholder floor and
-    /// player marker, binds the HUD, and handles Pause / Resume / Return to menu through the explicit
-    /// state machine. P2 adds the player actor, dash, auto attack, sandbox invader and death handling.
+    /// player marker, binds the HUD, and handles Pause / Resume / Death / Results through the explicit
+    /// state machine. Integrates physical pickups, wave director, combat actors, and results view.
     /// </summary>
     public sealed class ArenaController : MonoBehaviour
     {
@@ -15,6 +15,7 @@ namespace FinalBoss.Game
         private HudView _hud;
         private PlayerActor _player;
         private WaveDirector _waveDirector;
+        private ResultsView _resultsView;
         private GameObject _pausePanel;
         private GameObject _deathPanel;
         private bool _returning;
@@ -22,10 +23,16 @@ namespace FinalBoss.Game
         public PlayerInputAdapter Input { get { return _input; } }
         public PlayerActor Player { get { return _player; } }
         public WaveDirector WaveDirector { get { return _waveDirector; } }
+        public ResultsView ResultsView => _resultsView;
 
         private void Start()
         {
             var session = GameSession.State;
+            if (session.Profile == null)
+            {
+                session.Profile = SaveStorage.Load();
+            }
+
             if (session.Run == null)
             {
                 // Arena opened directly in the editor: start a default run so the scene is testable.
@@ -54,10 +61,19 @@ namespace FinalBoss.Game
                 _input.PausePressed -= OnPausePressed;
             if (_player != null && _player.Health != null)
                 _player.Health.Died -= OnPlayerDied;
+
             // Combat teardown: nothing from this arena may leak into the next run.
             ActorRegistry.Clear();
             CueBus.ClearSubscribers();
-            Time.timeScale = 1f;   // never leave the game frozen after leaving the arena
+            Time.timeScale = 1f;
+        }
+
+        private void Update()
+        {
+            if (GameSession.Machine.Current == RunState.PlayingWave && GameSession.Run != null)
+            {
+                GameSession.Run.ElapsedTime += Time.deltaTime;
+            }
         }
 
         private void BuildPlaceholderWorld(RunContext run)
@@ -93,6 +109,11 @@ namespace FinalBoss.Game
             var directorGo = new GameObject("WaveDirector");
             _waveDirector = directorGo.AddComponent<WaveDirector>();
             _waveDirector.Initialize(run);
+
+            var resultsGo = new GameObject("ResultsView");
+            resultsGo.transform.SetParent(transform, false);
+            _resultsView = resultsGo.AddComponent<ResultsView>();
+            _resultsView.Initialize(ReturnToMenu);
 
             if (cam != null)
             {
@@ -147,19 +168,29 @@ namespace FinalBoss.Game
             UiFactory.Place((RectTransform)back.transform, new Vector2(0.5f, 0.5f), new Vector2(0f, -80f), new Vector2(420f, 90f));
             _pausePanel.SetActive(false);
 
-            // Minimal death panel (full results screen and meta rewards arrive in a later phase).
-            var deathPanel = UiFactory.CreatePanel(canvas.transform, "DeathPanel", new Color(0.25f, 0f, 0f, 0.75f));
+            // Death panel
+            var deathPanel = UiFactory.CreatePanel(canvas.transform, "DeathPanel", new Color(0.25f, 0f, 0f, 0.85f));
             _deathPanel = deathPanel.gameObject;
             var deathTitle = UiFactory.CreateText(deathPanel.transform, "DeathTitle", "YOU DIED", 90, TextAnchor.MiddleCenter, Color.white);
             UiFactory.Place(deathTitle.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0f, 160f), new Vector2(900f, 140f));
-            var deathBack = UiFactory.CreateButton(deathPanel.transform, "DeathReturnButton", "Return to Menu", () => ReturnToMenu());
-            UiFactory.Place((RectTransform)deathBack.transform, new Vector2(0.5f, 0.5f), new Vector2(0f, -20f), new Vector2(420f, 90f));
+            var deathResults = UiFactory.CreateButton(deathPanel.transform, "DeathResultsButton", "VIEW RESULTS", ShowResults);
+            UiFactory.Place((RectTransform)deathResults.transform, new Vector2(0.5f, 0.5f), new Vector2(0f, -20f), new Vector2(420f, 90f));
             _deathPanel.SetActive(false);
+        }
+
+        public void ShowResults()
+        {
+            if (_deathPanel != null)
+                _deathPanel.SetActive(false);
+
+            GameSession.Machine.TryTransition(RunState.Results);
+            var summary = GameSession.Run != null ? GameSession.Run.BuildSummary() : new RunSummary { CharacterId = "lich_lord" };
+            var profile = GameSession.State.Profile ?? SaveStorage.Load();
+            _resultsView.Show(summary, profile);
         }
 
         private void OnPlayerDied()
         {
-            // Safe if invoked while paused or already dead: the transition table rejects anything invalid.
             GameSession.Machine.TryTransition(RunState.Death);
         }
 
@@ -177,7 +208,7 @@ namespace FinalBoss.Game
         /// <summary>Single place that reacts to flow changes, so pause UI and time scale can never disagree.</summary>
         private void OnStateChanged(RunState previous, RunState current)
         {
-            bool paused = current == RunState.Paused || current == RunState.ChoosingReward || current == RunState.Intermission || current == RunState.Merchant;
+            bool paused = current == RunState.Paused || current == RunState.ChoosingReward || current == RunState.Intermission || current == RunState.Merchant || current == RunState.Results;
             bool dead = current == RunState.Death;
             Time.timeScale = (paused || dead) ? 0f : 1f;
             if (_pausePanel != null)

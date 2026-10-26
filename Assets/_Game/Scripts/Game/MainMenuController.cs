@@ -8,19 +8,25 @@ namespace FinalBoss.Game
     /// <summary>
     /// Main menu and character select. Lists every catalog character; only playable ones are
     /// clickable, the rest are disabled and labelled "Coming later".
+    /// Integrates Soul Forge persistent upgrades between runs.
     /// </summary>
     public sealed class MainMenuController : MonoBehaviour
     {
         private GameObject _mainPanel;
         private GameObject _selectPanel;
         private Text _detail;
+        private Text _walletText;
         private Button _startButton;
+        private MetaUpgradesView _upgradesView;
         private readonly Dictionary<string, Image> _characterButtons = new Dictionary<string, Image>();
+
+        public MetaUpgradesView UpgradesView => _upgradesView;
 
         private void Start()
         {
             // Safe entry: whatever state we arrive in, clear leftover run data and show the menu.
             GameSession.State.ReturnToMenu();
+            GameSession.State.Profile = SaveStorage.Load();
             Time.timeScale = 1f;
             BuildUi();
             ShowMain();
@@ -43,10 +49,18 @@ namespace FinalBoss.Game
             _mainPanel = main.gameObject;
             var title = UiFactory.CreateText(main, "Title", "FINAL BOSS: ETERNAL DUNGEON", 80, TextAnchor.MiddleCenter, Color.white);
             UiFactory.Place(title.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0f, 260f), new Vector2(1500f, 140f));
+
+            _walletText = UiFactory.CreateText(main, "Wallet", $"Ender Souls: {GetWallet()}", 26, TextAnchor.MiddleRight, new Color(0.85f, 0.6f, 1f));
+            UiFactory.Place(_walletText.rectTransform, new Vector2(1f, 1f), new Vector2(-60f, -40f), new Vector2(400f, 50f));
+
             var play = UiFactory.CreateButton(main, "PlayButton", "Play", OnPlayClicked);
-            UiFactory.Place((RectTransform)play.transform, new Vector2(0.5f, 0.5f), new Vector2(0f, 20f), new Vector2(420f, 90f));
+            UiFactory.Place((RectTransform)play.transform, new Vector2(0.5f, 0.5f), new Vector2(0f, 40f), new Vector2(420f, 85f));
+
+            var forge = UiFactory.CreateButton(main, "ForgeButton", "Soul Forge (Upgrades)", OnForgeClicked);
+            UiFactory.Place((RectTransform)forge.transform, new Vector2(0.5f, 0.5f), new Vector2(0f, -60f), new Vector2(420f, 85f));
+
             var quit = UiFactory.CreateButton(main, "QuitButton", "Quit", OnQuitClicked);
-            UiFactory.Place((RectTransform)quit.transform, new Vector2(0.5f, 0.5f), new Vector2(0f, -100f), new Vector2(420f, 90f));
+            UiFactory.Place((RectTransform)quit.transform, new Vector2(0.5f, 0.5f), new Vector2(0f, -160f), new Vector2(420f, 85f));
 
             // Character select panel
             var select = UiFactory.CreateRect("SelectPanel", canvas.transform);
@@ -75,12 +89,39 @@ namespace FinalBoss.Game
             _startButton.interactable = false;
             var back = UiFactory.CreateButton(select, "BackButton", "Back", OnBackClicked);
             UiFactory.Place((RectTransform)back.transform, new Vector2(0.5f, 0.5f), new Vector2(-150f, -380f), new Vector2(240f, 90f));
+
+            // Persistent Upgrades Modal
+            var forgeGo = new GameObject("MetaUpgradesModal");
+            forgeGo.transform.SetParent(canvas.transform, false);
+            _upgradesView = forgeGo.AddComponent<MetaUpgradesView>();
+            _upgradesView.Initialize();
+        }
+
+        private int GetWallet()
+        {
+            return GameSession.State.Profile != null ? GameSession.State.Profile.MetaWallet : 0;
+        }
+
+        private void RefreshWallet()
+        {
+            if (_walletText != null)
+                _walletText.text = $"Ender Souls: {GetWallet()}";
+        }
+
+        private void OnForgeClicked()
+        {
+            if (_upgradesView != null)
+            {
+                var profile = GameSession.State.Profile ?? SaveStorage.Load();
+                _upgradesView.Show(profile, RefreshWallet);
+            }
         }
 
         private void ShowMain()
         {
             _mainPanel.SetActive(true);
             _selectPanel.SetActive(false);
+            RefreshWallet();
         }
 
         private void ShowSelect()
