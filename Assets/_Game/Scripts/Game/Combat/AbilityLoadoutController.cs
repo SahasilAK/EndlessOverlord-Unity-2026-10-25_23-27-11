@@ -2444,6 +2444,129 @@ namespace FinalBoss.Game
                     CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
                     break;
 
+                case "vampire_queen_active_41": // Blood Covenant
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 4.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(35f + (rank >= 20 ? 15f : 0f), duration: def.Duration > 0 ? def.Duration : 3.5f);
+                    SpawnVisualBurst(playerPos, radius * 2.2f, new Color(0.9f, 0.05f, 0.2f, 0.9f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "vampire_queen_active_42": // Crimson Chalice
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 0.8f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    float vqChaliceHeal = 35f;
+                    _player.Health.Heal(vqChaliceHeal);
+                    result.HealingDone += vqChaliceHeal;
+                    CueBus.Raise(CueIds.ClericHeal, playerPos.x, playerPos.y, vqChaliceHeal);
+                    _player.SetBarrier(25f, duration: 3.0f);
+                    SpawnVisualBurst(playerPos, radius * 2.4f, new Color(1f, 0.1f, 0.25f, 0.95f), 0.45f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "vampire_queen_active_43": // Scarlet Resurrection
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.1f, knockbackForce: 7.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    float vqResHeal = 40f;
+                    _player.Health.Heal(vqResHeal);
+                    result.HealingDone += vqResHeal;
+                    CueBus.Raise(CueIds.ClericHeal, playerPos.x, playerPos.y, vqResHeal);
+                    _player.SetBarrier(40f, duration: 4.0f);
+                    SpawnVisualBurst(playerPos, radius * 2.6f, new Color(1f, 0.05f, 0.15f, 0.98f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "vampire_queen_active_44": // Throne of Thorns
+                    float vqThroneDur = def.Duration > 0 ? def.Duration : 4.0f;
+                    HazardZoneActor.Spawn(playerPos, radius, vqThroneDur, damagePerTick: damage * 0.28f, tickInterval: 0.35f, slowPercent: 0.60f, slowDuration: 1.2f, color: new Color(0.85f, 0.05f, 0.15f, 0.6f), label: "[THRONE_OF_THORNS]");
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 0.5f, slowPercent: 0.60f, slowDuration: 2.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.5f, new Color(0.9f, 0.1f, 0.2f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "vampire_queen_active_45": // Royal Feast
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.2f, knockbackForce: 5.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (result.DamageDealt > 0f)
+                    {
+                        float vqFeastHeal = result.DamageDealt * 0.50f;
+                        _player.Health.Heal(vqFeastHeal);
+                        result.HealingDone += vqFeastHeal;
+                        CueBus.Raise(CueIds.ClericHeal, playerPos.x, playerPos.y, vqFeastHeal);
+                    }
+                    SpawnVisualBurst(playerPos, radius * 2.8f, new Color(0.95f, 0.05f, 0.25f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "vampire_queen_active_46": // Queen's Masquerade
+                    Vector2 vqMasqPos1 = playerPos + aimDir * Math.Min(3.0f, def.Range > 0 ? def.Range : 3.0f);
+                    Vector2 vqMasqPos2 = playerPos - aimDir * 2.0f;
+                    UndeadMinionActor.Spawn(UndeadMinionType.Hound, vqMasqPos1, overrideDamage: damage * 0.85f, overrideMaxHp: 120f, lifetime: def.Duration > 0 ? def.Duration : 4.0f);
+                    UndeadMinionActor.Spawn(UndeadMinionType.Hound, vqMasqPos2, overrideDamage: damage * 0.85f, overrideMaxHp: 120f, lifetime: def.Duration > 0 ? def.Duration : 4.0f);
+                    result.DamageDealt += DamageArea(vqMasqPos1, radius, damage * 0.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(playerPos, radius * 2.8f, new Color(0.8f, 0.05f, 0.35f, 0.9f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "vampire_queen_active_47": // Blood Seraph
+                    Vector2 vqSeraphPos = playerPos + aimDir * Math.Min(3.5f, def.Range > 0 ? def.Range : 3.5f);
+                    result.DamageDealt += DamageArea(vqSeraphPos, radius, damage * 1.25f, knockbackForce: 6.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(40f, duration: 4.0f);
+                    SpawnVisualBurst(vqSeraphPos, radius * 2.6f, new Color(1f, 0.05f, 0.2f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.InvaderStrike, vqSeraphPos.x, vqSeraphPos.y);
+                    break;
+
+                case "vampire_queen_active_48": // Sanguine Dominion
+                    Vector2 vqDomPos = playerPos + aimDir * Math.Min(4.5f, def.Range > 0 ? def.Range : 4.5f);
+                    float vqDomDur = def.Duration > 0 ? def.Duration : 4.5f;
+                    HazardZoneActor.Spawn(vqDomPos, radius, vqDomDur, damagePerTick: damage * 0.28f, tickInterval: 0.35f, slowPercent: 0.55f, slowDuration: 1.5f, color: new Color(0.75f, 0.02f, 0.22f, 0.65f), label: "[SANGUINE_DOMINION]");
+                    result.DamageDealt += DamageArea(vqDomPos, radius, damage * 0.5f, slowPercent: 0.55f, slowDuration: 2.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    float vqDomHeal2 = 30f;
+                    _player.Health.Heal(vqDomHeal2);
+                    result.HealingDone += vqDomHeal2;
+                    CueBus.Raise(CueIds.ClericHeal, playerPos.x, playerPos.y, vqDomHeal2);
+                    SpawnVisualBurst(vqDomPos, radius * 2.8f, new Color(0.85f, 0.05f, 0.25f, 0.95f), 0.55f);
+                    CueBus.Raise(CueIds.InvaderStrike, vqDomPos.x, vqDomPos.y);
+                    break;
+
+                case "vampire_queen_active_49": // Eternal Thirst
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.35f, knockbackForce: 6.0f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (result.DamageDealt > 0f)
+                    {
+                        float vqThirstHeal = result.DamageDealt * 0.60f;
+                        _player.Health.Heal(vqThirstHeal);
+                        result.HealingDone += vqThirstHeal;
+                        CueBus.Raise(CueIds.ClericHeal, playerPos.x, playerPos.y, vqThirstHeal);
+                    }
+                    _player.SetBarrier(45f, duration: 4.0f);
+                    SpawnVisualBurst(playerPos, radius * 3.0f, new Color(1f, 0.02f, 0.15f, 0.98f), 0.6f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
+                case "vampire_queen_active_50": // Crimson Coronation
+                    result.DamageDealt += DamageArea(playerPos, radius, damage * 1.6f, knockbackForce: 9.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    _player.SetBarrier(80f, duration: def.Duration > 0 ? def.Duration : 6.0f);
+                    Vector2 vqCoroPos1 = playerPos + aimDir * 2.0f;
+                    Vector2 vqCoroPos2 = playerPos - aimDir * 2.0f;
+                    UndeadMinionActor.Spawn(UndeadMinionType.Captain, vqCoroPos1, overrideDamage: damage * 0.9f, overrideMaxHp: 200f, lifetime: def.Duration > 0 ? def.Duration : 6.0f);
+                    UndeadMinionActor.Spawn(UndeadMinionType.Captain, vqCoroPos2, overrideDamage: damage * 0.9f, overrideMaxHp: 200f, lifetime: def.Duration > 0 ? def.Duration : 6.0f);
+                    if (result.DamageDealt > 0f)
+                    {
+                        float vqCoroHeal = result.DamageDealt * 0.40f;
+                        _player.Health.Heal(vqCoroHeal);
+                        result.HealingDone += vqCoroHeal;
+                        CueBus.Raise(CueIds.ClericHeal, playerPos.x, playerPos.y, vqCoroHeal);
+                    }
+                    SpawnVisualBurst(playerPos, radius * 3.5f, new Color(1f, 0.05f, 0.2f, 1f), 0.8f);
+                    CueBus.Raise(CueIds.InvaderStrike, playerPos.x, playerPos.y);
+                    break;
+
                 // Milestone Ultimates
                 case "vampire_queen_ultimate_50": // Crimson Masquerade
                     result.DamageDealt += DamageArea(playerPos, radius, damage);

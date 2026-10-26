@@ -3854,6 +3854,257 @@ namespace FinalBoss.Core
                 }
             ));
 
+            // Branch E — Forbidden Royal Blood Rituals (Actives 41-50)
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_41",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Blood Covenant",
+                description: "Form an ancient forbidden pact, sacrificing a fraction of life to unleash a searing crimson wave and erect an enduring barrier.",
+                branchName: "Branch E — Forbidden Royal Blood Rituals",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 20f,
+                cooldownDuration: 4.5f,
+                range: 5.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 36f,
+                baseRadius: 4.0f,
+                duration: 3.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Covenant radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Covenant burst damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Grants a 35 point royal blood shield", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_42",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Crimson Chalice",
+                description: "Drink from the consecrated royal chalice, recovering vital health, emitting a cleansing pulse, and damaging nearby invaders.",
+                branchName: "Branch E — Forbidden Royal Blood Rituals",
+                tier: 1,
+                prerequisiteAbilityId: "vampire_queen_active_41",
+                resourceCost: 25f,
+                cooldownDuration: 5.0f,
+                range: 4.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 40f,
+                baseRadius: 4.0f,
+                duration: 1.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Chalice pulse radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Pulse damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Chalice restores 35 health to the Queen", bonusUtility: 0.35f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_43",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Scarlet Resurrection",
+                description: "Invoke primordial ancestral bloodlines to blast encroaching invaders backward and trigger powerful cellular rejuvenation.",
+                branchName: "Branch E — Forbidden Royal Blood Rituals",
+                tier: 2,
+                prerequisiteAbilityId: "vampire_queen_active_41",
+                resourceCost: 30f,
+                cooldownDuration: 6.0f,
+                range: 5.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Heal | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 46f,
+                baseRadius: 4.8f,
+                duration: 2.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Resurrection blast radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Blast damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Blood Essence cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Knocks enemies back 7m and restores 40 health", bonusUtility: 0.40f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_44",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Throne of Thorns",
+                description: "Raise a jagged perimeter of calcified blood thorn pillars that continuously impale and shred advancing invaders.",
+                branchName: "Branch E — Forbidden Royal Blood Rituals",
+                tier: 2,
+                prerequisiteAbilityId: "vampire_queen_active_42",
+                resourceCost: 32f,
+                cooldownDuration: 6.0f,
+                range: 5.5f,
+                effects: AbilityEffectType.Hazard | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 48f,
+                baseRadius: 4.5f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Throne duration increased by 1.5s", bonusUtility: 1.5f),
+                    new AbilityRankMilestone(10, "Thorn impale damage increased by 30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Thorns inflict 60% slow and cause bleeding", bonusUtility: 0.60f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_45",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Royal Feast",
+                description: "Channel imperial blood dominance to violently siphon life force from surrounding invaders, gorging on their vitality.",
+                branchName: "Branch E — Forbidden Royal Blood Rituals",
+                tier: 2,
+                prerequisiteAbilityId: "vampire_queen_active_43",
+                resourceCost: 35f,
+                cooldownDuration: 6.5f,
+                range: 5.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 52f,
+                baseRadius: 5.0f,
+                duration: 1.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Feast drain radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Feast damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Restores 50% of damage dealt back as player health", bonusUtility: 0.50f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_46",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Queen's Masquerade",
+                description: "Unleash a flurry of dancing spectral masquerade illusions that swirl across the battlefield, distracting and slicing invaders.",
+                branchName: "Branch E — Forbidden Royal Blood Rituals",
+                tier: 3,
+                prerequisiteAbilityId: "vampire_queen_active_44",
+                resourceCost: 40f,
+                cooldownDuration: 7.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 60f,
+                baseRadius: 4.5f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Masquerade duration increased by 1.5s", bonusUtility: 1.5f),
+                    new AbilityRankMilestone(10, "Spectral dancer damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Blood Essence cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Dancers erupt into blood bursts upon expiration", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_47",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Blood Seraph",
+                description: "Manifest monumental wings of razor-sharp crystalline blood, sweeping forward to cleave enemy formations.",
+                branchName: "Branch E — Forbidden Royal Blood Rituals",
+                tier: 3,
+                prerequisiteAbilityId: "vampire_queen_active_45",
+                resourceCost: 42f,
+                cooldownDuration: 7.0f,
+                range: 5.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 65f,
+                baseRadius: 4.5f,
+                duration: 1.2f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Seraph wing reach increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Wing sweep damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Wing sweep grants a 40 point royal blood barrier", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_48",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Sanguine Dominion",
+                description: "Claim complete sovereignty over the earth, saturating the floor with blood energy that slows invaders and strengthens blood magic.",
+                branchName: "Branch E — Forbidden Royal Blood Rituals",
+                tier: 3,
+                prerequisiteAbilityId: "vampire_queen_active_46",
+                resourceCost: 45f,
+                cooldownDuration: 8.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.Hazard | AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AreaCursorOrAim,
+                baseDamage: 70f,
+                baseRadius: 5.5f,
+                duration: 4.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Dominion area radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Blood saturation damage increased by 35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Blood Essence cost reduced by 25%", resourceCostMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Slows enemies by 55% and restores 30 health", bonusUtility: 0.55f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_49",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Eternal Thirst",
+                description: "Awaken an all-consuming predatory frenzy: razor crimson claws shred all nearby invaders with extreme lifesteal.",
+                branchName: "Branch E — Forbidden Royal Blood Rituals",
+                tier: 4,
+                prerequisiteAbilityId: "vampire_queen_active_47",
+                resourceCost: 50f,
+                cooldownDuration: 8.5f,
+                range: 5.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 82f,
+                baseRadius: 5.0f,
+                duration: 2.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Thirst shred radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Frenzy damage increased by 40%", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Siphons 60% of damage dealt back to the Queen as health", bonusUtility: 0.60f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "vampire_queen_active_50",
+                characterId: CharacterCatalog.VampireQueenId,
+                name: "Crimson Coronation",
+                description: "Ascend to the absolute pinnacle of vampiric royalty: unleash a catastrophic scarlet cataclysm, summon elite guardians, and erect an impenetrable shield.",
+                branchName: "Branch E — Forbidden Royal Blood Rituals",
+                tier: 4,
+                prerequisiteAbilityId: "vampire_queen_active_48",
+                resourceCost: 60f,
+                cooldownDuration: 11.0f,
+                range: 8.0f,
+                effects: AbilityEffectType.Summon | AbilityEffectType.RadialAoE | AbilityEffectType.Shield,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 105f,
+                baseRadius: 7.0f,
+                duration: 6.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Coronation shockwave radius increased by 25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Cataclysm burst damage increased by 45%", damageMultiplier: 1.45f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Summons 2 Elite Vanguard Thralls and grants 80 royal barrier", bonusUtility: 1.0f)
+                }
+            ));
+
             // Legacy Needle alias
             Register(new AbilityDefinition(
                 id: "vampire_queen_active_needle",

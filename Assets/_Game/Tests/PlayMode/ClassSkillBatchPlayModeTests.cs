@@ -2118,5 +2118,89 @@ namespace FinalBoss.Tests
             Assert.GreaterOrEqual(_player.BarrierAmount, 65f, "Dark Ballroom should grant ballroom barrier.");
             Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Vampire Queen Branch D domination abilities.");
         }
+
+        [UnityTest]
+        public IEnumerator VampireQueen_BranchE_Part1_BloodRituals_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.VampireQueenId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.VampireQueenId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.VampireQueenId, "Branch E — Forbidden Royal Blood Rituals", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.VampireQueenId,
+                new List<string>
+                {
+                    "vampire_queen_active_41", // Blood Covenant
+                    "vampire_queen_active_42", // Crimson Chalice
+                    "vampire_queen_active_43", // Scarlet Resurrection
+                    "vampire_queen_active_44", // Throne of Thorns
+                    "vampire_queen_active_45"  // Royal Feast
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Vampire Queen Branch E slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 35f, "Blood Covenant or Scarlet Resurrection should grant barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Vampire Queen Branch E blood ritual abilities.");
+        }
+
+        [UnityTest]
+        public IEnumerator VampireQueen_BranchE_Part2_BloodRituals_ExecuteAndDamageInvaders()
+        {
+            yield return StartArena(CharacterCatalog.VampireQueenId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.VampireQueenId, 50, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.VampireQueenId, "Branch E — Forbidden Royal Blood Rituals", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.VampireQueenId,
+                new List<string>
+                {
+                    "vampire_queen_active_46", // Queen's Masquerade
+                    "vampire_queen_active_47", // Blood Seraph
+                    "vampire_queen_active_48", // Sanguine Dominion
+                    "vampire_queen_active_49", // Eternal Thirst
+                    "vampire_queen_active_50"  // Crimson Coronation
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 2f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            for (int slot = 0; slot < 5; slot++)
+            {
+                GameSession.Run.Hud.AddResource(100f);
+                Assert.IsTrue(loadout.TryActivateSlot(slot), $"Vampire Queen Branch E slot {slot} should activate.");
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            Assert.GreaterOrEqual(_player.BarrierAmount, 80f, "Crimson Coronation should grant coronation barrier.");
+            Assert.Less(invader.Health.Current, startHp, "Invader should take damage from Vampire Queen Branch E ritual attacks.");
+        }
     }
 }

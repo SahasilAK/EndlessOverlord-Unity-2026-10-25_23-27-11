@@ -341,6 +341,18 @@ namespace FinalBoss.Core
         public const string QueenMasqueradeEchoId = "vampire_queen_wave_39";
         public const string QueenMidnightWaltzId = "vampire_queen_wave_40";
 
+        // Vampire Queen Wave Skills (Batch 5: 41-50)
+        public const string QueenAncientBloodlineId = "vampire_queen_wave_41";
+        public const string QueenImmortalAppetiteId = "vampire_queen_wave_42";
+        public const string QueenVelvetArmorId = "vampire_queen_wave_43";
+        public const string QueenCrimsonTreasuryId = "vampire_queen_wave_44";
+        public const string QueenNobleSpoilsId = "vampire_queen_wave_45";
+        public const string QueenBloodJewelCollectorId = "vampire_queen_wave_46";
+        public const string QueenRoyalInvestmentId = "vampire_queen_wave_47";
+        public const string QueenAncientProficiencyId = "vampire_queen_wave_48";
+        public const string QueenEternalRefinementId = "vampire_queen_wave_49";
+        public const string QueenRedMoonFortuneId = "vampire_queen_wave_50";
+
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -2641,6 +2653,126 @@ namespace FinalBoss.Core
                     "vampire_queen",
                     RewardModifierType.ProjectileDamagePercent,
                     0.35f,
+                    maxRank: 5)
+            },
+            {
+                QueenAncientBloodlineId,
+                new RewardDefinition(
+                    QueenAncientBloodlineId,
+                    "Ancient Bloodline",
+                    "Primeval royal lineage bestows boundless vitality (+50 Max HP)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.MaxHealth,
+                    50f,
+                    maxRank: 5)
+            },
+            {
+                QueenImmortalAppetiteId,
+                new RewardDefinition(
+                    QueenImmortalAppetiteId,
+                    "Immortal Appetite",
+                    "Inquenchable thirst extracts greater vitality from prey (+8% Life Steal)",
+                    RewardRarity.Rare,
+                    "vampire_queen",
+                    RewardModifierType.LifeStealPercent,
+                    0.08f,
+                    maxRank: 5)
+            },
+            {
+                QueenVelvetArmorId,
+                new RewardDefinition(
+                    QueenVelvetArmorId,
+                    "Velvet Armor",
+                    "Enchanted blood silk repels enemy blades (+8 Armor)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.Armor,
+                    8f,
+                    maxRank: 5)
+            },
+            {
+                QueenCrimsonTreasuryId,
+                new RewardDefinition(
+                    QueenCrimsonTreasuryId,
+                    "Crimson Treasury",
+                    "Blood wealth fuels rapid combat cadence (+15% Attack Speed)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.AttackSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                QueenNobleSpoilsId,
+                new RewardDefinition(
+                    QueenNobleSpoilsId,
+                    "Noble Spoils",
+                    "Aristocratic prowess enhances striking damage (+20% Damage)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                QueenBloodJewelCollectorId,
+                new RewardDefinition(
+                    QueenBloodJewelCollectorId,
+                    "Blood Jewel Collector",
+                    "Crystalline blood jewels project power further (+1.5m Range)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.AttackRange,
+                    1.5f,
+                    maxRank: 5)
+            },
+            {
+                QueenRoyalInvestmentId,
+                new RewardDefinition(
+                    QueenRoyalInvestmentId,
+                    "Royal Investment",
+                    "Imperial wealth empowers swift footwork (+15% Move Speed)",
+                    RewardRarity.Common,
+                    "vampire_queen",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                QueenAncientProficiencyId,
+                new RewardDefinition(
+                    QueenAncientProficiencyId,
+                    "Ancient Proficiency",
+                    "Centuries of tactical instinct expedite evasive recovery (+20% Dash Cooldown Recovery)",
+                    RewardRarity.Rare,
+                    "vampire_queen",
+                    RewardModifierType.DashCooldownReductionPercent,
+                    0.20f,
+                    maxRank: 5)
+            },
+            {
+                QueenEternalRefinementId,
+                new RewardDefinition(
+                    QueenEternalRefinementId,
+                    "Eternal Refinement",
+                    "Mastery of immortal fencing and sorcery (+25% Damage, +1 Projectile, Epic)",
+                    RewardRarity.Epic,
+                    "vampire_queen",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.25f,
+                    maxRank: 5)
+            },
+            {
+                QueenRedMoonFortuneId,
+                new RewardDefinition(
+                    QueenRedMoonFortuneId,
+                    "Red Moon Fortune",
+                    "Auspicious crimson celestial tide empowers absolute supremacy (+40% Damage, +50 Max HP, Mythic)",
+                    RewardRarity.Mythic,
+                    "vampire_queen",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.40f,
                     maxRank: 5)
             },
             {
