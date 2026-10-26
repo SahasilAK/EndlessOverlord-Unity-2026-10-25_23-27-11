@@ -12,22 +12,18 @@ namespace FinalBoss.Tests
 {
     public sealed class ClassSkillBatchPlayModeTests
     {
-        private Keyboard _keyboard;
         private ArenaController _arena;
         private PlayerActor _player;
 
         [SetUp]
         public void SetUp()
         {
-            _keyboard = InputSystem.AddDevice<Keyboard>();
             ResetLichLordProfile();
         }
 
         [TearDown]
         public void TearDown()
         {
-            if (_keyboard != null)
-                InputSystem.RemoveDevice(_keyboard);
             Time.timeScale = 1f;
             ResetLichLordProfile();
         }
@@ -520,6 +516,138 @@ namespace FinalBoss.Tests
             Assert.Less(invader1.Health.Current, hp1Before, "Invader 1 should have received damage from lightning spells.");
             Assert.Less(invader2.Health.Current, hp2Before, "Invader 2 should have received chained damage.");
             Assert.IsTrue(invader1.IsSlowed, "Invader 1 should be trapped/slowed by Thunder Coffin / Static Cadaver.");
+        }
+
+        [UnityTest]
+        public IEnumerator LichLord_BranchD_LifeDrainAndCurses_CastAndHealPlayer()
+        {
+            yield return StartArena(CharacterCatalog.LichLordId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.LichLordId, 95, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.LichLordId, "Branch D — Forbidden Dark Magic", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.LichLordId,
+                new List<string>
+                {
+                    "lich_lord_active_31", // Soul Siphon
+                    "lich_lord_active_32", // Hex of Frailty
+                    "lich_lord_active_33", // Withering Field
+                    "lich_lord_active_35", // Spirit Leech
+                    "lich_lord_active_36"  // Doom Bind
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            // Damage player to verify siphon healing
+            _player.ReceiveDamage(25f);
+            float playerHpBefore = _player.Health.Current;
+
+            // Spawn high-health boss invader in front of player so it survives all 5 spell casts
+            var invader = InvaderActor.Spawn(_player.Position + Vector2.right * 1.5f, InvaderArchetype.RoyalChampion);
+            float startHp = invader.Health.Current;
+
+            // 1. Cast Slot 0 (Soul Siphon)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(0), "Slot 0 (Soul Siphon) should activate.");
+            yield return new WaitForSeconds(0.1f);
+            Assert.Greater(_player.Health.Current, playerHpBefore, "Soul Siphon should heal the player upon damaging target.");
+
+            // 2. Cast Slot 1 (Hex of Frailty)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(1), "Slot 1 (Hex of Frailty) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 3. Cast Slot 2 (Withering Field)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(2), "Slot 2 (Withering Field) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 4. Cast Slot 3 (Spirit Leech)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(3), "Slot 3 (Spirit Leech) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 5. Cast Slot 4 (Doom Bind)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(4), "Slot 4 (Doom Bind) should activate.");
+            yield return new WaitForSeconds(0.3f);
+
+            Assert.Less(invader.Health.Current, startHp, "Invader should have received damage from dark magic spells.");
+            Assert.IsTrue(invader.IsSlowed, "Invader should have root/slow applied by Doom Bind.");
+        }
+
+        [UnityTest]
+        public IEnumerator LichLord_BranchD_BlackSun_EbonGrasp_UmbralNova_CastAndDamage()
+        {
+            yield return StartArena(CharacterCatalog.LichLordId);
+
+            var profile = SaveStorage.Load();
+            DevHarness.SetCharacterLevel(CharacterCatalog.LichLordId, 100, profile);
+            DevHarness.UnlockBranch(CharacterCatalog.LichLordId, "Branch D — Forbidden Dark Magic", profile);
+            DevHarness.EquipLoadout(
+                CharacterCatalog.LichLordId,
+                new List<string>
+                {
+                    "lich_lord_active_34", // Black Sun
+                    "lich_lord_active_37", // Ebon Grasp
+                    "lich_lord_active_38", // Curse Spread
+                    "lich_lord_active_39", // Death Sentence
+                    "lich_lord_active_40"  // Umbral Nova
+                },
+                profile,
+                activeRunLoadout: GameSession.Run.Loadout
+            );
+            SaveStorage.Save(profile);
+            SaveStorage.CurrentProfile = profile;
+
+            var loadout = _player.GetComponent<AbilityLoadoutController>();
+            Assert.IsNotNull(loadout);
+            loadout.SyncLoadoutFromRun();
+
+            // Spawn two invaders
+            var invader1 = InvaderActor.Spawn(_player.Position + Vector2.right * 1.5f, InvaderArchetype.Swordsman);
+            var invader2 = InvaderActor.Spawn(_player.Position + Vector2.right * 3.0f, InvaderArchetype.Swordsman);
+            float hp1Before = invader1.Health.Current;
+            float hp2Before = invader2.Health.Current;
+
+            // 1. Black Sun (gravity hazard)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(0), "Slot 0 (Black Sun) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 2. Ebon Grasp (ground claw hazard)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(1), "Slot 1 (Ebon Grasp) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 3. Curse Spread (chain jumping)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(2), "Slot 2 (Curse Spread) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 4. Death Sentence
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(3), "Slot 3 (Death Sentence) should activate.");
+            yield return new WaitForSeconds(0.1f);
+
+            // 5. Umbral Nova (massive void explosion)
+            GameSession.Run.Hud.AddResource(100f);
+            Assert.IsTrue(loadout.TryActivateSlot(4), "Slot 4 (Umbral Nova) should activate.");
+            yield return new WaitForSeconds(0.3f);
+
+            var hazards = Object.FindObjectsByType<HazardZoneActor>();
+            Assert.GreaterOrEqual(hazards.Length, 2, "Black Sun and Ebon Grasp should create hazard zones.");
+
+            Assert.Less(invader1.Health.Current, hp1Before, "Invader 1 should have received damage from forbidden void spells.");
+            Assert.Less(invader2.Health.Current, hp2Before, "Invader 2 should have received chained/aoe damage.");
         }
     }
 }

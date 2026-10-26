@@ -819,6 +819,256 @@ namespace FinalBoss.Core
             ));
 
             Register(new AbilityDefinition(
+                id: "lich_lord_active_31",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Soul Siphon",
+                description: "Tear vital soul essence from nearby invaders, dealing necrotic damage and siphoning health back to the Lich Lord.",
+                branchName: "Branch D — Forbidden Dark Magic",
+                tier: 1,
+                prerequisiteAbilityId: null,
+                resourceCost: 16f,
+                cooldownDuration: 3.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 22f,
+                baseRadius: 2.5f,
+                duration: 0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Life siphon healing ratio +30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Siphon damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Restores 15 Soul Essence on hit", bonusUtility: 15f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_32",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Hex of Frailty",
+                description: "Cast an ancient enervating hex over an area, dealing damage and crippling enemy defenses for 4 seconds.",
+                branchName: "Branch D — Forbidden Dark Magic",
+                tier: 2,
+                prerequisiteAbilityId: "lich_lord_active_31",
+                resourceCost: 20f,
+                cooldownDuration: 4.5f,
+                range: 7.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 24f,
+                baseRadius: 3.0f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Hex vulnerability duration +2s", bonusUtility: 2f),
+                    new AbilityRankMilestone(10, "Initial hex damage +35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Hex area radius +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(20, "Mastery: Cursed enemies take 30% increased damage from all sources", bonusUtility: 0.30f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_33",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Withering Field",
+                description: "Infect the battlefield ground with a decaying necrotic zone that continuously withers and saps invader vitality.",
+                branchName: "Branch D — Forbidden Dark Magic",
+                tier: 2,
+                prerequisiteAbilityId: "lich_lord_active_31",
+                resourceCost: 24f,
+                cooldownDuration: 5.0f,
+                range: 6.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 30f,
+                baseRadius: 3.0f,
+                duration: 4.5f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Decay tick frequency +30%", bonusUtility: 0.30f),
+                    new AbilityRankMilestone(10, "Withering damage per tick +35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Enemies in field are slowed by 40%", bonusUtility: 0.40f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_34",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Black Sun",
+                description: "Summon a dense sphere of gravitational darkness that drags approaching invaders inward while crushing them.",
+                branchName: "Branch D — Forbidden Dark Magic",
+                tier: 3,
+                prerequisiteAbilityId: "lich_lord_active_33",
+                resourceCost: 30f,
+                cooldownDuration: 7.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Gravity | AbilityEffectType.Hazard,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 38f,
+                baseRadius: 3.5f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Singularity gravitational pull +40%", bonusUtility: 0.40f),
+                    new AbilityRankMilestone(10, "Orb crush damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Orb expansion radius +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(20, "Mastery: Black Sun implodes in a massive void shockwave", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_35",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Spirit Leech",
+                description: "Launch a parasitic shadowy wraith that latches onto the target, continuously draining health back to the Lich.",
+                branchName: "Branch D — Forbidden Dark Magic",
+                tier: 3,
+                prerequisiteAbilityId: "lich_lord_active_32",
+                resourceCost: 25f,
+                cooldownDuration: 5.5f,
+                range: 8.0f,
+                effects: AbilityEffectType.Projectile | AbilityEffectType.Heal,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 35f,
+                baseRadius: 0.3f,
+                duration: 3.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Leech healing ratio +35%", bonusUtility: 0.35f),
+                    new AbilityRankMilestone(10, "Spirit drain damage +35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Spawns 2 leeching spirits simultaneously", extraSummonsOrProjectiles: 1)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_36",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Doom Bind",
+                description: "Burst shadowy tendrils from the earth, dealing crushing damage and locking all enemies in place with root bonds.",
+                branchName: "Branch D — Forbidden Dark Magic",
+                tier: 4,
+                prerequisiteAbilityId: "lich_lord_active_35",
+                resourceCost: 32f,
+                cooldownDuration: 7.5f,
+                range: 7.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 36f,
+                baseRadius: 3.2f,
+                duration: 3.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Root bind duration increased to 4.0s", bonusUtility: 1.0f),
+                    new AbilityRankMilestone(10, "Shadow crush damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Bind area +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(20, "Mastery: Bound invaders are disarmed and cannot strike for 2s", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_37",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Ebon Grasp",
+                description: "Summon clawing skeletal limbs from subterranean graves, tearing through invaders and heavily slowing movement.",
+                branchName: "Branch D — Forbidden Dark Magic",
+                tier: 4,
+                prerequisiteAbilityId: "lich_lord_active_33",
+                resourceCost: 34f,
+                cooldownDuration: 8.0f,
+                range: 6.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Hazard | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.AimDirection,
+                baseDamage: 40f,
+                baseRadius: 3.5f,
+                duration: 4.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Skeletal hand snare slow increased to 70%", bonusUtility: 0.20f),
+                    new AbilityRankMilestone(10, "Clawing grasp damage +35%", damageMultiplier: 1.35f),
+                    new AbilityRankMilestone(15, "Grasp area +25%", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(20, "Mastery: Slain enemies in area spawn temporary bone sentinels", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_38",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Curse Spread",
+                description: "Transmit a virulent wave of darkness that damages a target and leaps to infect neighboring enemies with active curses.",
+                branchName: "Branch D — Forbidden Dark Magic",
+                tier: 4,
+                prerequisiteAbilityId: "lich_lord_active_32",
+                resourceCost: 30f,
+                cooldownDuration: 6.5f,
+                range: 8.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.Projectile,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 32f,
+                baseRadius: 2.0f,
+                duration: 0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Contagion jump chain targets +1 (5 targets)", extraSummonsOrProjectiles: 1),
+                    new AbilityRankMilestone(10, "Curse damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Spreads all active debuffs to nearby targets", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_39",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Death Sentence",
+                description: "Brand a powerful invader with an ominous execution glyph, delivering massive necrotic damage when the timer expires.",
+                branchName: "Branch D — Forbidden Dark Magic",
+                tier: 5,
+                prerequisiteAbilityId: "lich_lord_active_36",
+                resourceCost: 48f,
+                cooldownDuration: 12.0f,
+                range: 8.5f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.NearestInvader,
+                baseDamage: 65f,
+                baseRadius: 2.5f,
+                duration: 2.0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Sentence mark damage +30%", damageMultiplier: 1.30f),
+                    new AbilityRankMilestone(10, "Execution deals double damage below 50% HP", bonusUtility: 1.0f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 25%", cooldownMultiplier: 0.75f),
+                    new AbilityRankMilestone(20, "Mastery: Slain target transfers Death Sentence to nearest survivor", bonusUtility: 1.0f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
+                id: "lich_lord_active_40",
+                characterId: CharacterCatalog.LichLordId,
+                name: "Umbral Nova",
+                description: "Release an apocalyptic shockwave of pure void darkness across the arena, obliterating invaders in a massive blast radius.",
+                branchName: "Branch D — Forbidden Dark Magic",
+                tier: 5,
+                prerequisiteAbilityId: "lich_lord_active_34",
+                resourceCost: 60f,
+                cooldownDuration: 15.0f,
+                range: 10.0f,
+                effects: AbilityEffectType.RadialAoE | AbilityEffectType.CrowdControl,
+                targeting: AbilityTargetingRule.Self,
+                baseDamage: 75f,
+                baseRadius: 8.0f,
+                duration: 0f,
+                milestones: new[]
+                {
+                    new AbilityRankMilestone(5, "Nova radius +25% (10m area)", radiusMultiplier: 1.25f),
+                    new AbilityRankMilestone(10, "Cataclysmic void damage +40% (105 dmg)", damageMultiplier: 1.40f),
+                    new AbilityRankMilestone(15, "Cooldown reduced by 20%", cooldownMultiplier: 0.80f),
+                    new AbilityRankMilestone(20, "Mastery: Slain enemies restore 10 HP and 10 Soul Essence each", bonusUtility: 10f)
+                }
+            ));
+
+            Register(new AbilityDefinition(
                 id: "lich_lord_ultimate_50",
                 characterId: CharacterCatalog.LichLordId,
                 name: "Army of the Damned",

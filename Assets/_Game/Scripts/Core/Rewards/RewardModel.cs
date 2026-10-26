@@ -152,6 +152,16 @@ namespace FinalBoss.Core
         public const string SoulDividendId = "lich_lord_wave_28";
         public const string DarkResidueId = "lich_lord_wave_29";
         public const string FinalWhisperId = "lich_lord_wave_30";
+        public const string MarrowBarrierId = "lich_lord_wave_31";
+        public const string PhylacterySparkId = "lich_lord_wave_32";
+        public const string SpectralDriftId = "lich_lord_wave_33";
+        public const string TombShelterId = "lich_lord_wave_34";
+        public const string GraveReflectionId = "lich_lord_wave_35";
+        public const string FrozenReliquaryId = "lich_lord_wave_36";
+        public const string DeathlessPatienceId = "lich_lord_wave_37";
+        public const string BoneSanctuaryId = "lich_lord_wave_38";
+        public const string NecroticRecoveryId = "lich_lord_wave_39";
+        public const string KingsRemainsId = "lich_lord_wave_40";
         public const string RangeId = TempestBonesId;
         public const string LifeStealId = ElementalGravesId;
         public const string AttackSpeedId = EssenceOverflowId;
@@ -519,6 +529,126 @@ namespace FinalBoss.Core
                     "lich_lord",
                     RewardModifierType.ProjectileDamagePercent,
                     0.25f,
+                    maxRank: 5)
+            },
+            {
+                MarrowBarrierId,
+                new RewardDefinition(
+                    MarrowBarrierId,
+                    "Marrow Barrier",
+                    "Bone plating regenerates, reinforcing defensive protection (+5 Armor)",
+                    RewardRarity.Common,
+                    "lich_lord",
+                    RewardModifierType.Armor,
+                    5f,
+                    maxRank: 5)
+            },
+            {
+                PhylacterySparkId,
+                new RewardDefinition(
+                    PhylacterySparkId,
+                    "Phylactery Spark",
+                    "The eternal spark bolsters maximum deathless vitality (+35 Max HP)",
+                    RewardRarity.Uncommon,
+                    "lich_lord",
+                    RewardModifierType.MaxHealth,
+                    35f,
+                    maxRank: 5)
+            },
+            {
+                SpectralDriftId,
+                new RewardDefinition(
+                    SpectralDriftId,
+                    "Spectral Drift",
+                    "Phasing through the ethereal plane hastens stride (+12% Move Speed)",
+                    RewardRarity.Common,
+                    "lich_lord",
+                    RewardModifierType.MoveSpeedPercent,
+                    0.12f,
+                    maxRank: 5)
+            },
+            {
+                TombShelterId,
+                new RewardDefinition(
+                    TombShelterId,
+                    "Tomb Shelter",
+                    "Nearby ancient mausoleum wards deflect heavy blows (+6 Armor)",
+                    RewardRarity.Uncommon,
+                    "lich_lord",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                GraveReflectionId,
+                new RewardDefinition(
+                    GraveReflectionId,
+                    "Grave Reflection",
+                    "Mirror necrotic energy back into offensive spell impact (+15% Damage)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                FrozenReliquaryId,
+                new RewardDefinition(
+                    FrozenReliquaryId,
+                    "Frozen Reliquary",
+                    "Relic chill preserves evasion energy faster (+15% Dash Cooldown Recovery)",
+                    RewardRarity.Uncommon,
+                    "lich_lord",
+                    RewardModifierType.DashCooldownReductionPercent,
+                    0.15f,
+                    maxRank: 5)
+            },
+            {
+                DeathlessPatienceId,
+                new RewardDefinition(
+                    DeathlessPatienceId,
+                    "Deathless Patience",
+                    "Enduring timeless centuries yields permanent fortitude (+40 Max HP)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.MaxHealth,
+                    40f,
+                    maxRank: 5)
+            },
+            {
+                BoneSanctuaryId,
+                new RewardDefinition(
+                    BoneSanctuaryId,
+                    "Bone Sanctuary",
+                    "Constructed bone walls absorb crushing physical impacts (+6 Armor)",
+                    RewardRarity.Uncommon,
+                    "lich_lord",
+                    RewardModifierType.Armor,
+                    6f,
+                    maxRank: 5)
+            },
+            {
+                NecroticRecoveryId,
+                new RewardDefinition(
+                    NecroticRecoveryId,
+                    "Necrotic Recovery",
+                    "Extract vital essence from every strike (+6% Life Steal)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.LifeStealPercent,
+                    0.06f,
+                    maxRank: 5)
+            },
+            {
+                KingsRemainsId,
+                new RewardDefinition(
+                    KingsRemainsId,
+                    "King's Remains",
+                    "Regal remnants empower all deathly magic (+20% Damage)",
+                    RewardRarity.Rare,
+                    "lich_lord",
+                    RewardModifierType.ProjectileDamagePercent,
+                    0.20f,
                     maxRank: 5)
             },
             {

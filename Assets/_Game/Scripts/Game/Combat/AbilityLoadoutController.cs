@@ -836,6 +836,206 @@ namespace FinalBoss.Game
                     }
                     break;
 
+                case "lich_lord_active_31": // Soul Siphon
+                    Vector2 siphonPos = playerPos + aimDir * 2.5f;
+                    result.DamageDealt += DamageArea(siphonPos, radius, damage);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (result.DamageDealt > 0f)
+                    {
+                        float heal = result.DamageDealt * (0.35f + (rank >= 5 ? 0.15f : 0f));
+                        _player.Health?.Heal(heal);
+                        result.HealingDone += heal;
+                    }
+                    if (rank >= 20 && _run?.Hud != null)
+                    {
+                        _run.Hud.AddResource(15f);
+                    }
+                    SpawnVisualBurst(siphonPos, radius * 2f, new Color(0.6f, 0.1f, 0.7f, 0.85f), 0.3f);
+                    CueBus.Raise(CueIds.InvaderStrike, siphonPos.x, siphonPos.y);
+                    break;
+
+                case "lich_lord_active_32": // Hex of Frailty
+                    Vector2 hexPos = playerPos + aimDir * Math.Min(3.5f, def.Range > 0 ? def.Range : 3.5f);
+                    result.DamageDealt += DamageArea(hexPos, radius, damage, slowPercent: 0.35f, slowDuration: def.Duration > 0 ? def.Duration : 4f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(hexPos, radius * 2f, new Color(0.5f, 0.05f, 0.65f, 0.85f), 0.4f);
+                    CueBus.Raise(CueIds.BoltFire, hexPos.x, hexPos.y);
+                    break;
+
+                case "lich_lord_active_33": // Withering Field
+                    Vector2 witheringPos = playerPos + aimDir * Math.Min(3.5f, def.Range > 0 ? def.Range : 3.5f);
+                    float witheringDur = def.Duration > 0f ? def.Duration : 4.5f;
+                    HazardZoneActor.Spawn(witheringPos, radius, witheringDur, damagePerTick: damage * 0.25f, tickInterval: 0.35f, slowPercent: 0.4f, slowDuration: 1.0f, color: new Color(0.35f, 0.1f, 0.45f, 0.5f), label: "[WITHERING]");
+                    result.DamageDealt += DamageArea(witheringPos, radius, damage * 0.35f, slowPercent: 0.4f, slowDuration: 2f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(witheringPos, radius * 2f, new Color(0.4f, 0.1f, 0.5f, 0.75f), 0.35f);
+                    CueBus.Raise(CueIds.BoltFire, witheringPos.x, witheringPos.y);
+                    break;
+
+                case "lich_lord_active_34": // Black Sun
+                    Vector2 sunPos = playerPos + aimDir * Math.Min(3.5f, def.Range > 0 ? def.Range : 3.5f);
+                    float sunDur = def.Duration > 0f ? def.Duration : 4f;
+                    HazardZoneActor.Spawn(sunPos, radius, sunDur, damagePerTick: damage * 0.3f, tickInterval: 0.3f, color: new Color(0.15f, 0.02f, 0.25f, 0.6f), label: "[BLACK_SUN]");
+                    result.DamageDealt += DamageArea(sunPos, radius, damage * 0.4f, pullTowardCenter: true);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(sunPos, radius * 2f, new Color(0.2f, 0.05f, 0.35f, 0.95f), 0.5f);
+                    CueBus.Raise(CueIds.PlayerDash, sunPos.x, sunPos.y);
+                    break;
+
+                case "lich_lord_active_35": // Spirit Leech
+                    IDamageable leechTarget = null;
+                    float closestLeechDist = float.MaxValue;
+                    var leechActors = ActorRegistry.AllActors;
+                    for (int i = 0; i < leechActors.Count; i++)
+                    {
+                        var a = leechActors[i];
+                        if (a != null && a.Team == Faction.Invader && a.Alive)
+                        {
+                            float d = Vector2.Distance(playerPos, a.Position);
+                            if (d <= (def.Range > 0 ? def.Range : 8f) && d < closestLeechDist)
+                            {
+                                closestLeechDist = d;
+                                leechTarget = a;
+                            }
+                        }
+                    }
+                    if (leechTarget != null)
+                    {
+                        float dealt = leechTarget.ReceiveDamage(damage);
+                        result.DamageDealt += dealt;
+                        result.TargetsHit++;
+                        float heal = dealt * 0.45f;
+                        _player.Health?.Heal(heal);
+                        result.HealingDone += heal;
+                        SpawnVisualBurst(leechTarget.Position, 1.5f, new Color(0.5f, 0.1f, 0.6f, 0.9f), 0.3f);
+                        CueBus.Raise(CueIds.InvaderStrike, leechTarget.Position.x, leechTarget.Position.y);
+                    }
+                    else
+                    {
+                        result.DamageDealt += DamageArea(playerPos + aimDir * 3f, radius, damage * 0.5f);
+                        result.TargetsHit += _hitBuffer.Count;
+                        SpawnVisualBurst(playerPos + aimDir * 3f, radius * 2f, new Color(0.5f, 0.1f, 0.6f, 0.8f), 0.3f);
+                    }
+                    break;
+
+                case "lich_lord_active_36": // Doom Bind
+                    Vector2 bindPos = playerPos + aimDir * Math.Min(3.5f, def.Range > 0 ? def.Range : 3.5f);
+                    result.DamageDealt += DamageArea(bindPos, radius, damage, slowPercent: 0.90f, slowDuration: def.Duration > 0 ? def.Duration : 3f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(bindPos, radius * 2f, new Color(0.25f, 0.05f, 0.4f, 0.9f), 0.4f);
+                    CueBus.Raise(CueIds.InvaderStrike, bindPos.x, bindPos.y);
+                    break;
+
+                case "lich_lord_active_37": // Ebon Grasp
+                    Vector2 graspPos = playerPos + aimDir * Math.Min(3.5f, def.Range > 0 ? def.Range : 3.5f);
+                    float graspDur = def.Duration > 0f ? def.Duration : 4f;
+                    HazardZoneActor.Spawn(graspPos, radius, graspDur, damagePerTick: damage * 0.25f, tickInterval: 0.35f, slowPercent: 0.65f, slowDuration: 1.0f, color: new Color(0.3f, 0.15f, 0.35f, 0.5f), label: "[EBON_GRASP]");
+                    result.DamageDealt += DamageArea(graspPos, radius, damage * 0.35f, slowPercent: 0.65f, slowDuration: 2.5f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    SpawnVisualBurst(graspPos, radius * 2f, new Color(0.35f, 0.1f, 0.45f, 0.8f), 0.35f);
+                    CueBus.Raise(CueIds.BoltFire, graspPos.x, graspPos.y);
+                    break;
+
+                case "lich_lord_active_38": // Curse Spread
+                    var curseHits = new List<IDamageable>();
+                    var curseCandidates = ActorRegistry.AllActors;
+                    Vector2 curseOrigin = playerPos;
+                    float curseRange = def.Range > 0 ? def.Range : 8.0f;
+                    int maxCurseJumps = 4 + (rank >= 5 ? 1 : 0);
+                    for (int jump = 0; jump < maxCurseJumps; jump++)
+                    {
+                        IDamageable nextCurse = null;
+                        float bestCurseDist = float.MaxValue;
+                        for (int i = 0; i < curseCandidates.Count; i++)
+                        {
+                            var a = curseCandidates[i];
+                            if (a != null && a.Team == Faction.Invader && a.Alive && !curseHits.Contains(a))
+                            {
+                                float d = Vector2.Distance(curseOrigin, a.Position);
+                                if (d <= curseRange && d < bestCurseDist)
+                                {
+                                    bestCurseDist = d;
+                                    nextCurse = a;
+                                }
+                            }
+                        }
+                        if (nextCurse == null) break;
+                        curseHits.Add(nextCurse);
+                        curseOrigin = nextCurse.Position;
+                        curseRange = 5.5f;
+                    }
+
+                    if (curseHits.Count > 0)
+                    {
+                        for (int i = 0; i < curseHits.Count; i++)
+                        {
+                            var target = curseHits[i];
+                            float dealt = target.ReceiveDamage(damage * (1f - i * 0.12f));
+                            result.DamageDealt += dealt;
+                            result.TargetsHit++;
+                            if (target is InvaderActor inv) inv.ApplySlow(0.4f, 3.0f);
+                            SpawnVisualBurst(target.Position, 1.2f, new Color(0.6f, 0.1f, 0.7f, 0.9f), 0.2f);
+                        }
+                        CueBus.Raise(CueIds.BoltFire, playerPos.x, playerPos.y);
+                    }
+                    else
+                    {
+                        Vector2 curseFallback = playerPos + aimDir * 2.5f;
+                        result.DamageDealt += DamageArea(curseFallback, radius, damage);
+                        result.TargetsHit += _hitBuffer.Count;
+                        SpawnVisualBurst(curseFallback, radius * 2f, new Color(0.5f, 0.1f, 0.65f, 0.8f), 0.25f);
+                        CueBus.Raise(CueIds.BoltFire, curseFallback.x, curseFallback.y);
+                    }
+                    break;
+
+                case "lich_lord_active_39": // Death Sentence
+                    IDamageable sentenceTarget = null;
+                    float closestSentenceDist = float.MaxValue;
+                    var sentenceActors = ActorRegistry.AllActors;
+                    for (int i = 0; i < sentenceActors.Count; i++)
+                    {
+                        var a = sentenceActors[i];
+                        if (a != null && a.Team == Faction.Invader && a.Alive)
+                        {
+                            float d = Vector2.Distance(playerPos, a.Position);
+                            if (d <= (def.Range > 0 ? def.Range : 8.5f) && d < closestSentenceDist)
+                            {
+                                closestSentenceDist = d;
+                                sentenceTarget = a;
+                            }
+                        }
+                    }
+                    if (sentenceTarget != null)
+                    {
+                        float dealt = sentenceTarget.ReceiveDamage(damage);
+                        result.DamageDealt += dealt;
+                        result.TargetsHit++;
+                        if (sentenceTarget is InvaderActor inv) inv.ApplySlow(0.85f, 3f);
+                        SpawnVisualBurst(sentenceTarget.Position, 2f, new Color(0.8f, 0.05f, 0.2f, 0.95f), 0.5f);
+                        CueBus.Raise(CueIds.InvaderStrike, sentenceTarget.Position.x, sentenceTarget.Position.y);
+                    }
+                    else
+                    {
+                        Vector2 sentenceFallback = playerPos + aimDir * 3f;
+                        result.DamageDealt += DamageArea(sentenceFallback, radius, damage, slowPercent: 0.85f, slowDuration: 3f);
+                        result.TargetsHit += _hitBuffer.Count;
+                        SpawnVisualBurst(sentenceFallback, radius * 2f, new Color(0.8f, 0.05f, 0.2f, 0.9f), 0.4f);
+                        CueBus.Raise(CueIds.BoltFire, sentenceFallback.x, sentenceFallback.y);
+                    }
+                    break;
+
+                case "lich_lord_active_40": // Umbral Nova
+                    result.DamageDealt += DamageArea(playerPos, radius, damage, knockbackForce: 5.5f, slowPercent: 0.7f, slowDuration: 4f);
+                    result.TargetsHit += _hitBuffer.Count;
+                    if (rank >= 20 && _player.Health != null && _run?.Hud != null)
+                    {
+                        _player.Health.Heal(25f);
+                        _run.Hud.AddResource(20f);
+                    }
+                    SpawnVisualBurst(playerPos, radius * 2f, new Color(0.15f, 0.02f, 0.25f, 0.95f), 0.6f);
+                    CueBus.Raise(CueIds.BossEnrage, playerPos.x, playerPos.y);
+                    break;
+
                 case "lich_lord_ultimate_50": // Army of the Damned
                     for (int i = 0; i < summonCount + 1; i++)
                     {
