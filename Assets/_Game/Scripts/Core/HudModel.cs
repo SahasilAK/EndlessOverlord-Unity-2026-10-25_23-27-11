@@ -25,7 +25,7 @@ namespace FinalBoss.Core
             Health = maxHealth;
             ResourceName = resourceName;
             MaxResource = maxResource;
-            Resource = maxResource;
+            Resource = 0f;   // class resources start empty and are earned through combat events
             Wave = wave;
         }
 
