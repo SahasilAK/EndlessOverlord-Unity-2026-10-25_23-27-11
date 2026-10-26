@@ -231,7 +231,8 @@ namespace FinalBoss.Game
 
                 if (_run.Hud != null)
                 {
-                    _run.Hud.SetResource(_run.Hud.Resource + actor.SoulReward);
+                    float reward = _run.Character != null && _run.Character.Id == CharacterCatalog.ShadowReaperId ? 1f : actor.SoulReward;
+                    _run.Hud.AddResource(reward);
                     _run.Hud.AddScore(actor.ScoreReward);
                 }
             }

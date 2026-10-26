@@ -107,6 +107,9 @@ namespace FinalBoss.Game
             var attacker = playerGo.AddComponent<AutoAttacker>();
             attacker.Initialize(_player, projectiles);
 
+            var signature = playerGo.AddComponent<SignatureAbilityController>();
+            signature.Initialize(_player, _input, run);
+
             new GameObject("CuePresenter").AddComponent<CuePresenter>();
             var directorGo = new GameObject("WaveDirector");
             _waveDirector = directorGo.AddComponent<WaveDirector>();

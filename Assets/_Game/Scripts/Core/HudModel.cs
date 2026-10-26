@@ -19,14 +19,30 @@ namespace FinalBoss.Core
         public int Gold { get; private set; }
         public long Score { get; private set; }
 
-        public HudModel(float maxHealth, string resourceName, float maxResource, int wave)
+        public HudModel(float maxHealth, string resourceName, float maxResource, int wave, float initialResource = 0f)
         {
             MaxHealth = maxHealth;
             Health = maxHealth;
             ResourceName = resourceName;
             MaxResource = maxResource;
-            Resource = 0f;   // class resources start empty and are earned through combat events
+            Resource = Clamp(initialResource, 0f, maxResource);
             Wave = wave;
+        }
+
+        public void AddResource(float amount)
+        {
+            SetResource(Resource + amount);
+        }
+
+        public bool TrySpendResource(float amount)
+        {
+            if (amount <= 0f) return true;
+            if (Resource >= amount)
+            {
+                SetResource(Resource - amount);
+                return true;
+            }
+            return false;
         }
 
         public void SetHealth(float value)

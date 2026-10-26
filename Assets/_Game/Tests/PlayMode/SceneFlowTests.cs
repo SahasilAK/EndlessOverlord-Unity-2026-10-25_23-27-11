@@ -40,7 +40,7 @@ namespace FinalBoss.Tests
             menu.OpenSelectForTest();
             Assert.AreEqual(RunState.CharacterSelect, GameSession.Machine.Current);
 
-            menu.SelectCharacterForTest("demon_monarch");   // coming later: must be rejected
+            menu.SelectCharacterForTest("unplayable_character");   // unknown/unplayable character: must be rejected
             Assert.IsNull(GameSession.State.SelectedCharacterId);
             Assert.IsFalse(menu.StartSelectedRun(), "run must not start without a playable selection");
 

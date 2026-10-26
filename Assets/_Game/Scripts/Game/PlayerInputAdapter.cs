@@ -50,6 +50,8 @@ namespace FinalBoss.Game
                 _skills[i] = new InputAction("Skill" + (i + 1), InputActionType.Button);
                 _skills[i].AddBinding("<Keyboard>/" + (i + 1));
             }
+            _skills[0].AddBinding("<Keyboard>/e");
+            _skills[0].AddBinding("<Mouse>/rightButton");
         }
 
         private void OnEnable()

@@ -139,9 +139,9 @@ namespace FinalBoss.Core
                 new RewardDefinition(
                     ArmorId,
                     "Bone Reinforcement",
-                    "Strengthen undead bone plating (+5 Armor)",
+                    "Strengthen protective armor plating (+5 Armor)",
                     RewardRarity.Common,
-                    "lich_lord",
+                    "all",
                     RewardModifierType.Armor,
                     5f,
                     maxRank: 5)
@@ -151,9 +151,9 @@ namespace FinalBoss.Core
                 new RewardDefinition(
                     MoveSpeedId,
                     "Death March",
-                    "Hasten unliving footsteps (+12% Move Speed)",
+                    "Hasten footsteps (+12% Move Speed)",
                     RewardRarity.Common,
-                    "lich_lord",
+                    "all",
                     RewardModifierType.MoveSpeedPercent,
                     0.12f,
                     maxRank: 5)
@@ -163,9 +163,9 @@ namespace FinalBoss.Core
                 new RewardDefinition(
                     AttackSpeedId,
                     "Grim Haste",
-                    "Quicken necrotic cast cycle (+20% Attack Speed)",
+                    "Quicken attack cycle (+20% Attack Speed)",
                     RewardRarity.Uncommon,
-                    "lich_lord",
+                    "all",
                     RewardModifierType.AttackSpeedPercent,
                     0.20f,
                     maxRank: 5)
@@ -175,9 +175,9 @@ namespace FinalBoss.Core
                 new RewardDefinition(
                     RangeId,
                     "Crypt Reach",
-                    "Extend necrotic bolt travel distance (+2.0m Range)",
+                    "Extend attack range (+2.0m Range)",
                     RewardRarity.Uncommon,
-                    "lich_lord",
+                    "all",
                     RewardModifierType.AttackRange,
                     2.0f,
                     maxRank: 5)
@@ -189,7 +189,7 @@ namespace FinalBoss.Core
                     "Soul Harvest",
                     "Harvest souls into permanent vitality (+30 Max HP)",
                     RewardRarity.Uncommon,
-                    "lich_lord",
+                    "all",
                     RewardModifierType.MaxHealth,
                     30f,
                     maxRank: 5)
@@ -199,9 +199,9 @@ namespace FinalBoss.Core
                 new RewardDefinition(
                     DamageId,
                     "Doom Potency",
-                    "Amplify necrotic projectile impact (+25% Damage)",
+                    "Amplify combat impact (+25% Damage)",
                     RewardRarity.Rare,
-                    "lich_lord",
+                    "all",
                     RewardModifierType.ProjectileDamagePercent,
                     0.25f,
                     maxRank: 5)
@@ -211,9 +211,9 @@ namespace FinalBoss.Core
                 new RewardDefinition(
                     LifeStealId,
                     "Siphon Vitality",
-                    "Leech life on projectile hit (+8% Life Steal)",
+                    "Leech life on combat hit (+8% Life Steal)",
                     RewardRarity.Rare,
-                    "lich_lord",
+                    "all",
                     RewardModifierType.LifeStealPercent,
                     0.08f,
                     maxRank: 5)
@@ -223,9 +223,9 @@ namespace FinalBoss.Core
                 new RewardDefinition(
                     ExtraProjId,
                     "Grave Barrage",
-                    "Necrotic bolts fire an additional spread bolt (+1 Projectile)",
+                    "Attack with an additional spread strike (+1 Projectile)",
                     RewardRarity.Epic,
-                    "lich_lord",
+                    "all",
                     RewardModifierType.ExtraProjectiles,
                     1f,
                     maxRank: 3)
@@ -237,7 +237,7 @@ namespace FinalBoss.Core
                     "Eternal Monarch",
                     "Mastery of death: massive damage surge (+50% Damage). Requires Doom Potency.",
                     RewardRarity.Mythic,
-                    "lich_lord",
+                    "all",
                     RewardModifierType.ProjectileDamagePercent,
                     0.50f,
                     maxRank: 1,

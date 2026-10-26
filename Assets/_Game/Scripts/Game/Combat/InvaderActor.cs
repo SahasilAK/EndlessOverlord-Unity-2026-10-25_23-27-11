@@ -55,6 +55,14 @@ namespace FinalBoss.Game
         public bool Alive => Health != null && !Health.IsDead;
         public MeleeAttackSim Melee => _melee;
 
+        public void ApplyKnockback(Vector2 impulse)
+        {
+            if (_rb != null && Alive)
+            {
+                _rb.linearVelocity += impulse;
+            }
+        }
+
         public static InvaderActor Spawn(Vector2 position, InvaderArchetype archetype = InvaderArchetype.Swordsman, bool isElite = false)
         {
             string name = isElite ? $"Elite_{archetype}" : archetype.ToString();

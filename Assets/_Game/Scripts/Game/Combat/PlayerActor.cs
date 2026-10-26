@@ -62,7 +62,9 @@ namespace FinalBoss.Game
 
             _body = gameObject.AddComponent<SpriteRenderer>();
             _body.sprite = PlaceholderSprites.Square;
-            _baseColor = new Color(0.45f, 0.85f, 0.9f);
+            _baseColor = _run != null && _run.Character != null
+                ? _run.Character.ClassColor.ToUnityColor()
+                : new Color(0.45f, 0.85f, 0.9f);
             _body.color = _baseColor;
             _body.sortingOrder = 10;
             transform.localScale = new Vector3(CombatTuning.PlayerRadius * 2f, CombatTuning.PlayerRadius * 2f, 1f);
@@ -166,6 +168,38 @@ namespace FinalBoss.Game
             }
         }
 
+        private float _barrierAmount;
+        private float _barrierDuration;
+        private GameObject _barrierVisual;
+
+        public float BarrierAmount => _barrierAmount;
+
+        public void SetBarrier(float amount, float duration)
+        {
+            _barrierAmount = amount;
+            _barrierDuration = duration;
+            if (_barrierVisual == null)
+            {
+                _barrierVisual = new GameObject("BarrierVisual");
+                _barrierVisual.transform.SetParent(transform, false);
+                _barrierVisual.transform.localScale = new Vector3(1.4f, 1.4f, 1f);
+                var sr = _barrierVisual.AddComponent<SpriteRenderer>();
+                sr.sprite = PlaceholderSprites.Square;
+                sr.color = new Color(0.2f, 0.9f, 0.85f, 0.45f);
+                sr.sortingOrder = 9;
+            }
+            _barrierVisual.SetActive(true);
+        }
+
+        public void Teleport(Vector2 destination)
+        {
+            if (_rb != null)
+            {
+                _rb.position = destination;
+            }
+            transform.position = (Vector3)destination;
+        }
+
         private void FixedUpdate()
         {
             if (!Alive || GameSession.Machine.Current != RunState.PlayingWave)
@@ -185,7 +219,8 @@ namespace FinalBoss.Game
                 var equipStats = _run != null && _run.Inventory != null ? _run.Inventory.GetEquippedStats() : default(ItemStats);
                 float metaSpeed = _run != null ? _run.MetaStats.BonusMoveSpeedPercent : 0f;
                 float speedMultiplier = 1f + (_run != null && _run.Rewards != null ? _run.Rewards.BonusMoveSpeedPercent : 0f) + equipStats.MoveSpeedPercent + metaSpeed;
-                MovementMath.Velocity(move.x, move.y, CombatTuning.PlayerMoveSpeed * speedMultiplier, out vx, out vy);
+                float baseSpeed = _run != null && _run.Character != null ? _run.Character.BaseMoveSpeed : CombatTuning.PlayerMoveSpeed;
+                MovementMath.Velocity(move.x, move.y, baseSpeed * speedMultiplier, out vx, out vy);
                 _rb.linearVelocity = new Vector2(vx, vy);
                 if (move.sqrMagnitude > 0.01f && !HasTargetAim)
                     AimDirection = move.normalized;
@@ -197,6 +232,16 @@ namespace FinalBoss.Game
 
         private void Update()
         {
+            if (_barrierDuration > 0f)
+            {
+                _barrierDuration -= Time.deltaTime;
+                if (_barrierDuration <= 0f || _barrierAmount <= 0f)
+                {
+                    _barrierAmount = 0f;
+                    if (_barrierVisual != null) _barrierVisual.SetActive(false);
+                }
+            }
+
             if (_aimMarker != null)
             {
                 var d = AimDirection.sqrMagnitude > 0.0001f ? AimDirection.normalized : Vector2.right;
@@ -215,10 +260,38 @@ namespace FinalBoss.Game
         {
             if (!Alive || _dash.Invulnerable)
                 return 0f;
+
             var equipStats = _run != null && _run.Inventory != null ? _run.Inventory.GetEquippedStats() : default(ItemStats);
             float metaArmor = _run != null ? _run.MetaStats.BonusArmor : 0f;
-            float armor = CombatTuning.PlayerArmor + (_run != null && _run.Rewards != null ? _run.Rewards.BonusArmor : 0f) + equipStats.FlatArmor + metaArmor;
-            float dealt = Health.TakeDamage(DamageCalculator.Compute(rawDamage, armor));
+            float baseArmor = _run != null && _run.Character != null ? _run.Character.BaseArmor : CombatTuning.PlayerArmor;
+            float armor = baseArmor + (_run != null && _run.Rewards != null ? _run.Rewards.BonusArmor : 0f) + equipStats.FlatArmor + metaArmor;
+            float damageAfterArmor = DamageCalculator.Compute(rawDamage, armor);
+
+            // Barrier absorption (e.g. Cursed Golem Rune of Protection)
+            if (_barrierAmount > 0f)
+            {
+                float absorbed = Mathf.Min(_barrierAmount, damageAfterArmor);
+                _barrierAmount -= absorbed;
+                damageAfterArmor -= absorbed;
+
+                if (_run != null && _run.Character != null && _run.Character.Id == CharacterCatalog.CursedGolemId && _run.Hud != null)
+                {
+                    _run.Hud.AddResource(15f); // Golem gains Runic Charge when absorbing hits
+                }
+
+                if (_barrierAmount <= 0f && _barrierVisual != null)
+                {
+                    _barrierVisual.SetActive(false);
+                }
+            }
+
+            // Demon Monarch gains Infernal Fury on taking damage
+            if (_run != null && _run.Character != null && _run.Character.Id == CharacterCatalog.DemonMonarchId && _run.Hud != null)
+            {
+                _run.Hud.AddResource(10f);
+            }
+
+            float dealt = Health.TakeDamage(damageAfterArmor);
             if (dealt > 0f)
             {
                 _flash = 0.12f;

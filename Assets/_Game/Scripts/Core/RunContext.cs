@@ -39,7 +39,7 @@ namespace FinalBoss.Core
             MetaStats = metaStats;
 
             float startingMaxHp = character.BaseMaxHealth + metaStats.BonusMaxHealth;
-            Hud = new HudModel(startingMaxHp, character.ResourceName, character.BaseMaxResource, wave: 1);
+            Hud = new HudModel(startingMaxHp, character.ResourceName, character.BaseMaxResource, wave: 1, initialResource: character.StartingResource);
             Rewards = new RewardInventory();
             Inventory = new PlayerInventory();
             Merchant = new MerchantSystem();

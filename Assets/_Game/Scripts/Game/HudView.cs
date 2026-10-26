@@ -50,6 +50,9 @@ namespace FinalBoss.Game
                 var m = _boundInput.Move;
                 _inputText.text = "Move " + m.x.ToString("0.00") + "," + m.y.ToString("0.00") + "   Last: " + _lastAction;
             }
+
+            // Keep signature ability cooldown updated on HUD
+            Refresh();
         }
 
         private void OnDestroy()
@@ -81,12 +84,24 @@ namespace FinalBoss.Game
                 ? $"   [{_run.Layout.Biome.Name} - {_run.Layout.TopologyType}]"
                 : "";
 
+            string sigInfo = "";
+            var player = ActorRegistry.Player;
+            if (player != null)
+            {
+                var sig = player.GetComponent<SignatureAbilityController>();
+                if (sig != null)
+                {
+                    string status = sig.IsReady ? "READY (Press 1/E)" : sig.CooldownRemaining.ToString("0.0") + "s";
+                    sigInfo = $"\nSignature: [{sig.AbilityName}] - {status} (Cost: {sig.ResourceCost} {_model.ResourceName})";
+                }
+            }
+
             _statusText.text =
                 _run.Character.DisplayName + "   (run #" + _run.RunNumber + ")" + biomeLabel + "\n" +
                 "HP " + Mathf.CeilToInt(_model.Health) + " / " + Mathf.CeilToInt(_model.MaxHealth) + "\n" +
                 _model.ResourceName + " " + Mathf.CeilToInt(_model.Resource) + " / " + Mathf.CeilToInt(_model.MaxResource) + "\n" +
                 "Wave " + _model.Wave + "   Gold " + _model.Gold + "   Score " + _model.Score + "\n" +
-                "Seed " + _run.Seed + "   State " + GameSession.Machine.Current;
+                "Seed " + _run.Seed + "   State " + GameSession.Machine.Current + sigInfo;
         }
 
         /// <summary>Re-reads state-dependent text (flow state changes do not touch the HudModel).</summary>

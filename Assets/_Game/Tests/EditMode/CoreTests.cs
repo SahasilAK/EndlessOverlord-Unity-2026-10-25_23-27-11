@@ -62,7 +62,7 @@ namespace FinalBoss.Tests
         public void CannotSelectUnavailableOrUnknownCharacters()
         {
             var s = new GameSessionState(1);
-            Assert.IsFalse(s.TrySelectCharacter("demon_monarch"));
+            Assert.IsFalse(s.TrySelectCharacter("unknown_character"));
             Assert.IsFalse(s.TrySelectCharacter("nobody"));
             Assert.IsNull(s.SelectedCharacterId);
             Assert.IsFalse(s.TryStartRun());
@@ -158,13 +158,13 @@ namespace FinalBoss.Tests
         }
 
         [Test]
-        public void CatalogHasFiveCharactersAndOnlyLichIsPlayable()
+        public void CatalogHasFiveCharactersAndAllArePlayable()
         {
             Assert.AreEqual(5, CharacterCatalog.Characters.Count);
             int playable = 0;
             foreach (var c in CharacterCatalog.Characters)
-                if (c.Playable) { playable++; Assert.AreEqual(CharacterCatalog.LichLordId, c.Id); }
-            Assert.AreEqual(1, playable);
+                if (c.Playable) playable++;
+            Assert.AreEqual(5, playable);
         }
 
         [Test]
