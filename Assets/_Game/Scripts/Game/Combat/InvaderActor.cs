@@ -281,6 +281,46 @@ namespace FinalBoss.Game
                 {
                     customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_20_seraphina_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
                 }
+                else if (BossId.Equals("boss_darius", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_21_darius_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_kallista", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_22_kallista_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_corvin", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_23_corvin_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_thorgar", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_24_thorgar_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_alyssa", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_25_alyssa_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_garrick", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_26_garrick_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_roland", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_27_roland_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_witchhunter_kaelen", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_28_witchhunter_kaelen_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_isabelle", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_29_isabelle_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_cassian", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_30_cassian_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
             }
             else
             {

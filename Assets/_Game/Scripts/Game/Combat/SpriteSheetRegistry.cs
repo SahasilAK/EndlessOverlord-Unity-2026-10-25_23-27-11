@@ -18,7 +18,7 @@ namespace FinalBoss.Game
         {
             if (string.IsNullOrEmpty(relativePath)) return null;
 
-            if (_cache.TryGetValue(relativePath, out var existing))
+            if (_cache.TryGetValue(relativePath, out var existing) && existing != null && existing.Length > 0 && existing[0] != null)
             {
                 return existing;
             }
@@ -33,7 +33,8 @@ namespace FinalBoss.Game
             var tex = new Texture2D(frameWidth * frameCount, frameHeight, TextureFormat.RGBA32, false)
             {
                 filterMode = FilterMode.Point,
-                wrapMode = TextureWrapMode.Clamp
+                wrapMode = TextureWrapMode.Clamp,
+                hideFlags = HideFlags.DontUnloadUnusedAsset
             };
 
             if (!tex.LoadImage(bytes))
@@ -49,10 +50,16 @@ namespace FinalBoss.Game
                 var rect = new Rect(i * frameWidth, 0, frameWidth, frameHeight);
                 sprites[i] = Sprite.Create(tex, rect, pivot, ppu);
                 sprites[i].name = $"{Path.GetFileNameWithoutExtension(relativePath)}_{i}";
+                sprites[i].hideFlags = HideFlags.DontUnloadUnusedAsset;
             }
 
             _cache[relativePath] = sprites;
             return sprites;
+        }
+
+        public static void ClearCache()
+        {
+            _cache.Clear();
         }
 
         public static Sprite GetIdleSprite(string relativePath, int frameWidth, int frameHeight, int frameCount, Vector2 pivot, float ppu = 32f)

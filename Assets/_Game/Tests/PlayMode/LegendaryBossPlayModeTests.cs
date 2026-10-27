@@ -1,3 +1,4 @@
+using UnityEngine.InputSystem;
 using System.Collections;
 using FinalBoss.Core;
 using FinalBoss.Game;
@@ -12,6 +13,12 @@ namespace FinalBoss.Tests
     {
         private ArenaController _arena;
         private PlayerActor _player;
+
+        [SetUp]
+        public void SetUp()
+        {
+            InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
+        }
 
         [TearDown]
         public void TearDown()
@@ -133,6 +140,35 @@ namespace FinalBoss.Tests
             }
 
             Assert.IsTrue(boss.Alive, "Boss should survive test duration.");
+        }
+        [UnityTest]
+        public IEnumerator LegendaryBoss_AllThirtyBosses_SpawnWithCustomPixelArtSprites()
+        {
+            yield return StartArena(6004);
+            _player.GetComponent<AutoAttacker>().enabled = false;
+
+            var allBosses = LegendaryBossCatalog.All;
+            Assert.AreEqual(30, allBosses.Count, "Must have 30 bosses in catalog.");
+
+            foreach (var bossDef in allBosses)
+            {
+                var boss = InvaderActor.Spawn(
+                    _player.Position + new Vector2(3f, 0f),
+                    bossDef.Archetype,
+                    false,
+                    bossDef.Id,
+                    BossModifier.None);
+
+                Assert.IsNotNull(boss, $"Boss {bossDef.Id} must spawn");
+                var sr = boss.GetComponent<SpriteRenderer>();
+                Assert.IsNotNull(sr, $"Boss {bossDef.Id} must have SpriteRenderer");
+                Assert.IsNotNull(sr.sprite, $"Boss {bossDef.Id} sprite must not be null");
+                Assert.AreNotEqual(PlaceholderSprites.Square, sr.sprite, $"Boss {bossDef.Id} must have custom pixel art sprite, not square placeholder");
+                Assert.AreEqual(48, sr.sprite.rect.width, $"Boss {bossDef.Id} sprite frame width should be 48");
+                Assert.AreEqual(48, sr.sprite.rect.height, $"Boss {bossDef.Id} sprite frame height should be 48");
+
+                Object.Destroy(boss.gameObject);
+            }
         }
     }
 }
