@@ -171,13 +171,24 @@ namespace FinalBoss.Game
 
             Color rarityCol = LootPickupActor.GetRarityColor(item.Definition.Rarity);
 
+            // Item Icon
+            var iconSprite = SpriteSheetRegistry.GetItemSprite(item.Definition);
+            if (iconSprite != null)
+            {
+                var iconGo = new GameObject("Icon", typeof(RectTransform));
+                iconGo.transform.SetParent(card.transform, false);
+                var iconImg = iconGo.AddComponent<Image>();
+                iconImg.sprite = iconSprite;
+                UiFactory.Place((RectTransform)iconGo.transform, new Vector2(0f, 0.5f), new Vector2(35f, 0f), new Vector2(50f, 50f));
+            }
+
             // Name & slot
             var nameTxt = UiFactory.CreateText(card.transform, "Name", $"{item.Definition.Name} [{item.Definition.Slot}]", 22, TextAnchor.UpperLeft, rarityCol);
-            UiFactory.Place(nameTxt.rectTransform, new Vector2(0f, 1f), new Vector2(15f, -12f), new Vector2(360f, 30f));
+            UiFactory.Place(nameTxt.rectTransform, new Vector2(0f, 1f), new Vector2(70f, -12f), new Vector2(320f, 30f));
 
             // Stats
             var statsTxt = UiFactory.CreateText(card.transform, "Stats", item.Definition.Stats.GetSummary(), 18, TextAnchor.UpperLeft, Color.white);
-            UiFactory.Place(statsTxt.rectTransform, new Vector2(0f, 1f), new Vector2(15f, -42f), new Vector2(360f, 50f));
+            UiFactory.Place(statsTxt.rectTransform, new Vector2(0f, 1f), new Vector2(70f, -42f), new Vector2(320f, 50f));
 
             // Price & Buy
             var buyBtn = UiFactory.CreateButton(card.transform, "BuyBtn", $"BUY ({item.BuyPrice}g)", () =>
@@ -225,9 +236,19 @@ namespace FinalBoss.Game
             }
             else
             {
+                var iconSprite = SpriteSheetRegistry.GetItemSprite(item.Definition);
+                if (iconSprite != null)
+                {
+                    var iconGo = new GameObject("Icon", typeof(RectTransform));
+                    iconGo.transform.SetParent(row.transform, false);
+                    var iconImg = iconGo.AddComponent<Image>();
+                    iconImg.sprite = iconSprite;
+                    UiFactory.Place((RectTransform)iconGo.transform, new Vector2(0f, 0.5f), new Vector2(25f, 0f), new Vector2(38f, 38f));
+                }
+
                 Color rarityCol = LootPickupActor.GetRarityColor(item.Definition.Rarity);
                 var infoTxt = UiFactory.CreateText(row.transform, "Info", $"{item.Definition.Name}: {item.Definition.Stats.GetSummary()}", 19, TextAnchor.MiddleLeft, rarityCol);
-                UiFactory.Place(infoTxt.rectTransform, new Vector2(0f, 0.5f), new Vector2(15f, 0f), new Vector2(400f, 40f));
+                UiFactory.Place(infoTxt.rectTransform, new Vector2(0f, 0.5f), new Vector2(55f, 0f), new Vector2(360f, 40f));
 
                 var unequipBtn = UiFactory.CreateButton(row.transform, "UnequipBtn", "UNEQUIP", () =>
                 {
@@ -291,9 +312,19 @@ namespace FinalBoss.Game
             var img = card.AddComponent<Image>();
             img.color = new Color(0.14f, 0.16f, 0.22f, 0.92f);
 
+            var iconSprite = SpriteSheetRegistry.GetItemSprite(item.Definition);
+            if (iconSprite != null)
+            {
+                var iconGo = new GameObject("Icon", typeof(RectTransform));
+                iconGo.transform.SetParent(card.transform, false);
+                var iconImg = iconGo.AddComponent<Image>();
+                iconImg.sprite = iconSprite;
+                UiFactory.Place((RectTransform)iconGo.transform, new Vector2(0f, 0.5f), new Vector2(25f, 0f), new Vector2(38f, 38f));
+            }
+
             Color rarityCol = LootPickupActor.GetRarityColor(item.Definition.Rarity);
             var infoTxt = UiFactory.CreateText(card.transform, "Info", $"{item.Definition.Name} [{item.Definition.Slot}]: {item.Definition.Stats.GetSummary()}", 18, TextAnchor.MiddleLeft, rarityCol);
-            UiFactory.Place(infoTxt.rectTransform, new Vector2(0f, 0.5f), new Vector2(15f, 0f), new Vector2(400f, 40f));
+            UiFactory.Place(infoTxt.rectTransform, new Vector2(0f, 0.5f), new Vector2(55f, 0f), new Vector2(360f, 40f));
 
             var equipBtn = UiFactory.CreateButton(card.transform, "EquipBtn", "EQUIP", () =>
             {

@@ -62,9 +62,18 @@ namespace FinalBoss.Game
             pickup._inventory = inventory;
 
             var sr = go.AddComponent<SpriteRenderer>();
-            var customChest = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Props/loot_item_chest.png", 24, 24, 1, new Vector2(0.5f, 0.5f), 32f);
-            sr.sprite = customChest != null ? customChest : PlaceholderSprites.Square;
-            sr.color = GetRarityColor(item.Definition.Rarity);
+            var customItem = SpriteSheetRegistry.GetItemSprite(item.Definition);
+            if (customItem != null)
+            {
+                sr.sprite = customItem;
+                sr.color = Color.white;
+            }
+            else
+            {
+                var customChest = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Props/loot_item_chest.png", 24, 24, 1, new Vector2(0.5f, 0.5f), 32f);
+                sr.sprite = customChest != null ? customChest : PlaceholderSprites.Square;
+                sr.color = GetRarityColor(item.Definition.Rarity);
+            }
             sr.sortingOrder = 8;
             pickup._sr = sr;
 

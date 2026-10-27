@@ -190,11 +190,13 @@ namespace FinalBoss.Game
             switch (type)
             {
                 case UndeadMinionType.Spearman:
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Summons/sum_grave_spearman_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
                     color = new Color(0.7f, 0.9f, 0.85f, 0.95f);
                     scale = 0.75f;
                     tagText = "[SPEARMAN]";
                     break;
                 case UndeadMinionType.Hound:
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Summons/sum_grave_hound_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
                     color = new Color(0.55f, 0.6f, 0.65f, 0.95f);
                     scale = 0.55f;
                     tagText = "[HOUND]";
@@ -212,6 +214,7 @@ namespace FinalBoss.Game
                     tagText = "[GUARDIAN]";
                     break;
                 case UndeadMinionType.Captain:
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Summons/sum_wight_captain_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
                     color = new Color(1.0f, 0.9f, 0.5f, 0.95f);
                     scale = 0.85f;
                     tagText = "[CAPTAIN]";
@@ -223,11 +226,13 @@ namespace FinalBoss.Game
                     tagText = "[SCAVENGER]";
                     break;
                 case UndeadMinionType.Abomination:
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Summons/sum_dread_abomination_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
                     color = new Color(0.4f, 0.7f, 0.4f, 0.95f);
                     scale = 1.25f;
                     tagText = "[ABOMINATION]";
                     break;
                 case UndeadMinionType.Dragon:
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Summons/sum_skeletal_dragon_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
                     color = new Color(0.35f, 0.2f, 0.65f, 0.95f);
                     scale = 1.45f;
                     tagText = "[DRAGON]";
@@ -240,7 +245,7 @@ namespace FinalBoss.Game
             }
 
             _sr.sprite = customSprite != null ? customSprite : PlaceholderSprites.Square;
-            _sr.color = color;
+            _sr.color = customSprite != null ? Color.white : color;
             transform.localScale = new Vector3(scale, scale, 1f);
 
             var labelGo = new GameObject("Label");
