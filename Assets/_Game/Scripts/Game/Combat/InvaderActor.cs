@@ -197,8 +197,113 @@ namespace FinalBoss.Game
             transform.localScale = new Vector3(Radius * 2f, Radius * 2f, 1f);
 
             _body = gameObject.AddComponent<SpriteRenderer>();
-            _body.sprite = PlaceholderSprites.Square;
-            _body.color = _baseColor;
+
+            Sprite customSprite = null;
+            if (IsBoss && !string.IsNullOrEmpty(BossId))
+            {
+                if (BossId.Equals("boss_valerius", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_01_valerius_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_cassandra", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_02_cassandra_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_ignis", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_03_ignis_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_malakor", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_04_malakor_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_kraag", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_05_kraag_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_elara", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_06_elara_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_sylas", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_07_sylas_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_eisen", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_08_eisen_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_vaelin", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_09_vaelin_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_alden", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_10_alden_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+            }
+            else
+            {
+                switch (Archetype)
+                {
+                    case InvaderArchetype.Swordsman:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_01_swordsman_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.Archer:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_02_archer_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.Crossbowman:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_03_crossbowman_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.Spearman:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_04_spearman_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.Berserker:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_03_berserker_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.Rogue:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_04_rogue_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.Knight:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_05_knight_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.Paladin:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_09_paladin_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.Cleric:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_10_cleric_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.Priest:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_11_priest_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.FireMage:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_08_fire_mage_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.IceMage:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_13_ice_mage_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.LightningMage:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_14_lightning_mage_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.ArcaneWizard:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_15_arcane_wizard_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.WitchHunter:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_16_witch_hunter_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                }
+            }
+
+            if (customSprite != null)
+            {
+                _body.sprite = customSprite;
+                _body.color = _baseColor;
+            }
+            else
+            {
+                _body.sprite = PlaceholderSprites.Square;
+                _body.color = _baseColor;
+            }
             _body.sortingOrder = IsBoss ? 8 : 5;
 
             // Telegraph

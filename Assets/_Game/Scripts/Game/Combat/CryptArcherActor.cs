@@ -57,8 +57,20 @@ namespace FinalBoss.Game
             col.radius = 0.5f;
 
             _sr = gameObject.AddComponent<SpriteRenderer>();
-            _sr.sprite = PlaceholderSprites.Square;
-            _sr.color = new Color(0.6f, 0.85f, 1f, 0.95f);
+            var customSprite = SpriteSheetRegistry.GetIdleSprite(
+                "_Game/Art/Characters/Summons/sum_crypt_archer_sheet.png",
+                32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+
+            if (customSprite != null)
+            {
+                _sr.sprite = customSprite;
+                _sr.color = new Color(0.6f, 0.85f, 1f, 0.95f);
+            }
+            else
+            {
+                _sr.sprite = PlaceholderSprites.Square;
+                _sr.color = new Color(0.6f, 0.85f, 1f, 0.95f);
+            }
             _sr.sortingOrder = 8;
 
             var labelGo = new GameObject("Label");

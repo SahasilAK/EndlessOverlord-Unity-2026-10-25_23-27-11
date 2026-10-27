@@ -180,12 +180,12 @@ namespace FinalBoss.Game
             col.radius = 0.5f;
 
             _sr = gameObject.AddComponent<SpriteRenderer>();
-            _sr.sprite = PlaceholderSprites.Square;
             _sr.sortingOrder = 8;
 
             Color color;
             float scale;
             string tagText;
+            Sprite customSprite = null;
 
             switch (type)
             {
@@ -200,11 +200,13 @@ namespace FinalBoss.Game
                     tagText = "[HOUND]";
                     break;
                 case UndeadMinionType.Mage:
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Summons/sum_bone_mage_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
                     color = new Color(0.6f, 0.5f, 0.95f, 0.95f);
                     scale = 0.65f;
                     tagText = "[MAGE]";
                     break;
                 case UndeadMinionType.Guardian:
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Summons/sum_bone_sentinel_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
                     color = new Color(0.85f, 0.85f, 0.92f, 0.95f);
                     scale = 0.95f;
                     tagText = "[GUARDIAN]";
@@ -215,6 +217,7 @@ namespace FinalBoss.Game
                     tagText = "[CAPTAIN]";
                     break;
                 case UndeadMinionType.Scavenger:
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Summons/sum_corpse_collector_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
                     color = new Color(0.5f, 0.9f, 0.5f, 0.95f);
                     scale = 0.6f;
                     tagText = "[SCAVENGER]";
@@ -236,6 +239,7 @@ namespace FinalBoss.Game
                     break;
             }
 
+            _sr.sprite = customSprite != null ? customSprite : PlaceholderSprites.Square;
             _sr.color = color;
             transform.localScale = new Vector3(scale, scale, 1f);
 

@@ -90,10 +90,10 @@ namespace FinalBoss.Game
             if (_run != null && _run.Inventory != null)
                 _run.Inventory.Changed += OnEquipmentChanged;
 
-            if (_run != null && _run.Character != null && _run.Character.Id == CharacterCatalog.LichLordId)
+            if (_run != null && _run.Character != null)
             {
                 var presenter = gameObject.AddComponent<LichLordVisualPresenter>();
-                presenter.Initialize(this, _body);
+                presenter.Initialize(this, _body, _run.Character.Id);
             }
 
             ActorRegistry.Player = this;

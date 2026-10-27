@@ -32,7 +32,7 @@ namespace FinalBoss.Game
 
             // 1. Floor
             var floor = CreateSpriteObject("ArenaFloor", root.transform, new Vector3(0f, 0f, 1f),
-                new Vector2(layout.Width, layout.Height), floorCol, -10);
+                new Vector2(layout.Width, layout.Height), floorCol, -10, "_Game/Art/Environment/Dungeons/biome_01_floor.png", 32, 32);
 
             // 2. Walls
             var wallsGroup = new GameObject("Walls");
@@ -41,7 +41,7 @@ namespace FinalBoss.Game
             {
                 var w = layout.Walls[i];
                 var wallObj = CreateSpriteObject(w.Name, wallsGroup.transform, w.Position.ToUnity3(),
-                    w.Size.ToUnity(), wallCol, -5);
+                    w.Size.ToUnity(), wallCol, -5, "_Game/Art/Environment/Dungeons/biome_01_wall.png", 32, 32);
                 var col = wallObj.AddComponent<BoxCollider2D>();
                 col.size = Vector2.one;
             }
@@ -53,7 +53,7 @@ namespace FinalBoss.Game
             {
                 var ob = layout.Obstacles[i];
                 var obObj = CreateSpriteObject(ob.Name, obstaclesGroup.transform, ob.Position.ToUnity3(),
-                    ob.Size.ToUnity(), obsCol, -4);
+                    ob.Size.ToUnity(), obsCol, -4, "_Game/Art/Environment/Dungeons/biome_01_pillar.png", 32, 32);
 
                 if (ob.Shape == ObstacleShape.Circle)
                 {
@@ -74,7 +74,7 @@ namespace FinalBoss.Game
             {
                 var p = layout.Portals[i];
                 var portalObj = CreateSpriteObject(p.Name, portalsGroup.transform, p.Position.ToUnity3(),
-                    new Vector2(1.6f, 1.6f), portalCol, -3);
+                    new Vector2(1.6f, 1.6f), portalCol, -3, "_Game/Art/Environment/Dungeons/biome_01_portal.png", 48, 48);
 
                 // Portal pulsing visual indicator component
                 portalObj.AddComponent<PortalMarker>().Initialize(p, portalCol);
@@ -101,7 +101,7 @@ namespace FinalBoss.Game
             return root;
         }
 
-        private static GameObject CreateSpriteObject(string name, Transform parent, Vector3 pos, Vector2 size, Color color, int sortingOrder)
+        private static GameObject CreateSpriteObject(string name, Transform parent, Vector3 pos, Vector2 size, Color color, int sortingOrder, string customTexturePath = null, int fw = 32, int fh = 32)
         {
             var go = new GameObject(name);
             go.transform.SetParent(parent, false);
@@ -109,7 +109,12 @@ namespace FinalBoss.Game
             go.transform.localScale = new Vector3(size.x, size.y, 1f);
 
             var sr = go.AddComponent<SpriteRenderer>();
-            sr.sprite = PlaceholderSprites.Square;
+            Sprite custom = null;
+            if (!string.IsNullOrEmpty(customTexturePath))
+            {
+                custom = SpriteSheetRegistry.GetIdleSprite(customTexturePath, fw, fh, 1, new Vector2(0.5f, 0.5f), 32f);
+            }
+            sr.sprite = custom != null ? custom : PlaceholderSprites.Square;
             sr.color = color;
             sr.sortingOrder = sortingOrder;
 
