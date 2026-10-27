@@ -21,6 +21,7 @@ namespace FinalBoss.Tests
         [SetUp]
         public void SetUp()
         {
+            InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
             _keyboard = Keyboard.current ?? InputSystem.AddDevice<Keyboard>();
             _keyboard.MakeCurrent();
         }

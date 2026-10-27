@@ -41,8 +41,10 @@ namespace FinalBoss.Game
                 return null;
             }
 
-            var sprites = new Sprite[frameCount];
-            for (int i = 0; i < frameCount; i++)
+            int count = frameWidth > 0 ? (tex.width / frameWidth) : frameCount;
+            if (count <= 0) count = frameCount;
+            var sprites = new Sprite[count];
+            for (int i = 0; i < count; i++)
             {
                 var rect = new Rect(i * frameWidth, 0, frameWidth, frameHeight);
                 sprites[i] = Sprite.Create(tex, rect, pivot, ppu);

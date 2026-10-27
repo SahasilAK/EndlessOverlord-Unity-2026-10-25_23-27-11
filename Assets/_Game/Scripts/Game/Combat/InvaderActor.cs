@@ -241,6 +241,46 @@ namespace FinalBoss.Game
                 {
                     customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_10_alden_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
                 }
+                else if (BossId.Equals("boss_vespera", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_11_vespera_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_kaelen_monk", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_12_kaelen_monk_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_morvath", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_13_morvath_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_gerald", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_14_gerald_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_theron", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_15_theron_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_bran", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_16_bran_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_zephyr", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_17_zephyr_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_aurelius", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_18_aurelius_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_ragnar", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_19_ragnar_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
+                else if (BossId.Equals("boss_seraphina", StringComparison.OrdinalIgnoreCase))
+                {
+                    customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Bosses/boss_20_seraphina_sheet.png", 48, 48, 6, new Vector2(0.5f, 0.08f), 32f);
+                }
             }
             else
             {
