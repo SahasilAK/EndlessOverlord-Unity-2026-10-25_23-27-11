@@ -40,7 +40,8 @@ namespace FinalBoss.Game
             pickup._hud = hud;
 
             var sr = go.AddComponent<SpriteRenderer>();
-            sr.sprite = PlaceholderSprites.Square;
+            var customCoin = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Props/loot_gold_coin.png", 16, 16, 1, new Vector2(0.5f, 0.5f), 32f);
+            sr.sprite = customCoin != null ? customCoin : PlaceholderSprites.Square;
             sr.color = new Color(1f, 0.85f, 0.2f); // Gold coin yellow
             sr.sortingOrder = 8;
             pickup._sr = sr;
@@ -61,7 +62,8 @@ namespace FinalBoss.Game
             pickup._inventory = inventory;
 
             var sr = go.AddComponent<SpriteRenderer>();
-            sr.sprite = PlaceholderSprites.Square;
+            var customChest = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Props/loot_item_chest.png", 24, 24, 1, new Vector2(0.5f, 0.5f), 32f);
+            sr.sprite = customChest != null ? customChest : PlaceholderSprites.Square;
             sr.color = GetRarityColor(item.Definition.Rarity);
             sr.sortingOrder = 8;
             pickup._sr = sr;

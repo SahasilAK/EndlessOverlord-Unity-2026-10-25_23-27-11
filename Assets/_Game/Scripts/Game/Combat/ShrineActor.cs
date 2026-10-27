@@ -38,7 +38,8 @@ namespace FinalBoss.Game
                 _renderer = gameObject.AddComponent<SpriteRenderer>();
             }
 
-            _renderer.sprite = PlaceholderSprites.Square;
+            var customAltar = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Props/shrine_altar.png", 32, 32, 1, new Vector2(0.5f, 0.2f), 32f);
+            _renderer.sprite = customAltar != null ? customAltar : PlaceholderSprites.Square;
             _renderer.sortingOrder = 5;
             transform.localScale = new Vector3(0.9f, 1.4f, 1f);
 

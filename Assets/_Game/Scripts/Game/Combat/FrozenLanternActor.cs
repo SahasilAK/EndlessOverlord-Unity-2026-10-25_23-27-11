@@ -33,7 +33,8 @@ namespace FinalBoss.Game
 
             go.transform.localScale = new Vector3(0.45f, 0.45f, 1f);
             var sr = go.AddComponent<SpriteRenderer>();
-            sr.sprite = PlaceholderSprites.Square;
+            var customLantern = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Props/prop_frozen_lantern.png", 32, 32, 1, new Vector2(0.5f, 0.1f), 32f);
+            sr.sprite = customLantern != null ? customLantern : PlaceholderSprites.Square;
             sr.color = new Color(0.4f, 0.85f, 1f, 0.9f);
             sr.sortingOrder = 9;
 

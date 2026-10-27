@@ -291,6 +291,24 @@ namespace FinalBoss.Game
                     case InvaderArchetype.WitchHunter:
                         customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_16_witch_hunter_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
                         break;
+                    case InvaderArchetype.MonsterHunter:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_17_monster_hunter_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.Ranger:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_18_ranger_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.Druid:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_19_druid_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.Alchemist:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_20_alchemist_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.ShieldGuardian:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_23_shield_guardian_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
+                    case InvaderArchetype.BattleMonk:
+                        customSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/Characters/Invaders/inv_24_battle_monk_sheet.png", 32, 32, 6, new Vector2(0.5f, 0.1f), 32f);
+                        break;
                 }
             }
 
