@@ -1,0 +1,23 @@
+source,line,code,action
+Assets/_Game/Scripts/Game/ArenaController.cs,136,sr.sprite = PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/ArenaController.cs,148,renderer.sprite = PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/AbilityLoadoutController.cs,4190,sr.sprite = PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/AbilityLoadoutController.cs,4206,sr.sprite = PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/BoneSentinelActor.cs,66,_sr.sprite = PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/CryptArcherActor.cs,71,_sr.sprite = PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/FrozenLanternActor.cs,37,sr.sprite = customLantern != null ? customLantern : PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/HazardZoneActor.cs,55,sr.sprite = customPool != null ? customPool : PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/InvaderActor.cs,429,_body.sprite = PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/InvaderActor.cs,438,_telegraph.sprite = PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/InvaderActor.cs,449,bgr.sprite = PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/InvaderActor.cs,456,fr.sprite = PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/LootPickupActor.cs,44,sr.sprite = customCoin != null ? customCoin : PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/LootPickupActor.cs,74,sr.sprite = customChest != null ? customChest : PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/PlayerActor.cs,66,_body.sprite = PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/PlayerActor.cs,78,mr.sprite = PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/PlayerActor.cs,259,sr.sprite = customBarrier != null ? customBarrier : PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/ProjectilesAndAttack.cs,56,sr.sprite = customBolt != null ? customBolt : PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/ProjectilesAndAttack.cs,430,sr.sprite = customSlash != null ? customSlash : PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/ShrineActor.cs,42,_renderer.sprite = customAltar != null ? customAltar : PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Combat/UndeadMinionActor.cs,247,_sr.sprite = customSprite != null ? customSprite : PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive
+Assets/_Game/Scripts/Game/Dungeons/DungeonPresenter.cs,129,sr.sprite = custom != null ? custom : PlaceholderSprites.Square;,Review: replace art placeholder or retain intentional UI primitive

@@ -75,4 +75,9 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 docs/
+!docs/
+docs/*
+!docs/assent_gen/
+asset_prompt.retired/
+docs/assent_gen/staging/
 .vscode/
