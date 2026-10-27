@@ -50,8 +50,18 @@ namespace FinalBoss.Game
             var main = UiFactory.CreateRect("MainPanel", canvas.transform);
             UiFactory.Stretch(main);
             _mainPanel = main.gameObject;
-            var title = UiFactory.CreateText(main, "Title", "FINAL BOSS: ETERNAL DUNGEON", 80, TextAnchor.MiddleCenter, Color.white);
-            UiFactory.Place(title.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0f, 260f), new Vector2(1500f, 140f));
+            var logoSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/UI/Frames/ui_logo_title_crest.png", 320, 96, 1, new Vector2(0.5f, 0.5f), 16f);
+            if (logoSprite != null)
+            {
+                var logoGo = new GameObject("TitleLogo", typeof(RectTransform));
+                logoGo.transform.SetParent(main, false);
+                var logoImg = logoGo.AddComponent<Image>();
+                logoImg.sprite = logoSprite;
+                UiFactory.Place((RectTransform)logoGo.transform, new Vector2(0.5f, 0.5f), new Vector2(0f, 320f), new Vector2(640f, 192f));
+            }
+
+            var title = UiFactory.CreateText(main, "Title", "FINAL BOSS: ETERNAL DUNGEON", 72, TextAnchor.MiddleCenter, Color.white);
+            UiFactory.Place(title.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0f, 210f), new Vector2(1500f, 100f));
 
             _walletText = UiFactory.CreateText(main, "Wallet", $"Ender Souls: {GetWallet()}", 26, TextAnchor.MiddleRight, new Color(0.85f, 0.6f, 1f));
             UiFactory.Place(_walletText.rectTransform, new Vector2(1f, 1f), new Vector2(-60f, -40f), new Vector2(400f, 50f));

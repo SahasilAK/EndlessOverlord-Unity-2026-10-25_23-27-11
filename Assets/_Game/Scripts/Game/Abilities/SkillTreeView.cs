@@ -143,7 +143,16 @@ namespace FinalBoss.Game
                 rt.sizeDelta = new Vector2(slotWidth, 70f);
 
                 var bg = slotGo.AddComponent<Image>();
-                bg.color = def != null ? new Color(0.12f, 0.16f, 0.25f, 0.95f) : new Color(0.08f, 0.08f, 0.12f, 0.8f);
+                var slotBgSprite = SpriteSheetRegistry.GetIdleSprite("_Game/Art/UI/HUD/ui_hud_hotbar_slot_frame.png", 32, 32, 1, new Vector2(0.5f, 0.5f), 16f);
+                if (slotBgSprite != null)
+                {
+                    bg.sprite = slotBgSprite;
+                    bg.color = def != null ? Color.white : new Color(0.6f, 0.6f, 0.6f, 0.8f);
+                }
+                else
+                {
+                    bg.color = def != null ? new Color(0.12f, 0.16f, 0.25f, 0.95f) : new Color(0.08f, 0.08f, 0.12f, 0.8f);
+                }
 
                 string keyLabel = s == 0 ? "1/E" : (s + 1).ToString();
                 var label = UiFactory.CreateText(slotGo.transform, "Label", $"SLOT {keyLabel}\n{abilityName}", 16, TextAnchor.MiddleCenter, Color.white);
@@ -215,6 +224,19 @@ namespace FinalBoss.Game
                 string titleStr = $"{def.Name} [{rankText}] - {def.BranchName}";
                 string statsStr = $"Cost: {effCost:0} | CD: {effCd:0.1}s | Range: {def.Range:0}m | Mastery XP: {progress.MasteryXp}/{AbilityProgressionMath.GetXpRequiredForNextRank(rank)}";
                 string descStr = def.Description;
+
+                string badgePath = !isUnlocked
+                    ? "_Game/Art/UI/Badges/ui_skill_node_locked.png"
+                    : (rank >= def.MaxRank ? "_Game/Art/UI/Badges/ui_skill_node_mastered.png" : "_Game/Art/UI/Badges/ui_skill_node_active.png");
+                var badgeSprite = SpriteSheetRegistry.GetIdleSprite(badgePath, 28, 28, 1, new Vector2(0.5f, 0.5f), 16f);
+                if (badgeSprite != null)
+                {
+                    var badgeGo = new GameObject("Badge", typeof(RectTransform));
+                    badgeGo.transform.SetParent(cardGo.transform, false);
+                    var badgeImg = badgeGo.AddComponent<Image>();
+                    badgeImg.sprite = badgeSprite;
+                    UiFactory.Place((RectTransform)badgeGo.transform, new Vector2(0f, 0.5f), new Vector2(40f, 0f), new Vector2(52f, 52f));
+                }
 
                 var txt = UiFactory.CreateText(cardGo.transform, "Info", $"{titleStr}\n{statsStr}\n{descStr}", 15, TextAnchor.MiddleLeft, Color.white);
                 UiFactory.Place(txt.rectTransform, new Vector2(0f, 0.5f), new Vector2(320f, 0f), new Vector2(600f, 90f));
