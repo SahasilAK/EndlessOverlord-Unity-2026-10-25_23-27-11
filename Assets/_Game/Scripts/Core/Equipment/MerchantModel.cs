@@ -91,15 +91,15 @@ namespace FinalBoss.Core
                 return false;
             }
 
-            if (hud == null || hud.Gold < target.BuyPrice)
-            {
-                error = "Insufficient gold.";
-                return false;
-            }
-
             if (inventory == null || !inventory.CanAddItem)
             {
                 error = "Inventory is full.";
+                return false;
+            }
+
+            if (hud == null || hud.Gold < target.BuyPrice)
+            {
+                error = "Insufficient gold.";
                 return false;
             }
 

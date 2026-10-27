@@ -20,6 +20,37 @@ namespace FinalBoss.Core
         Legendary
     }
 
+    public enum WeaponCategory
+    {
+        None = 0,
+        OneHandedSword = 1,
+        TwoHandedSword = 2,
+        Dagger = 3,
+        Spear = 4,
+        Axe = 5,
+        Hammer = 6,
+        Bow = 7,
+        Crossbow = 8,
+        Staff = 9,
+        Wand = 10,
+        Spellbook = 11,
+        MagicalOrb = 12,
+        Scythe = 13,
+        Claws = 14,
+        CursedRelic = 15
+    }
+
+    public enum ItemEnchantment
+    {
+        None = 0,
+        Flaming = 1,
+        Freezing = 2,
+        Vampiric = 3,
+        Thunderous = 4,
+        Warded = 5,
+        VoidTouched = 6
+    }
+
     [Serializable]
     public struct ItemStats
     {
@@ -72,6 +103,7 @@ namespace FinalBoss.Core
         public ItemStats Stats { get; }
         public int BaseBuyPrice { get; }
         public int BaseSellPrice { get; }
+        public WeaponCategory WeaponCategory { get; }
 
         public ItemDefinition(
             string id,
@@ -81,7 +113,8 @@ namespace FinalBoss.Core
             ItemRarity rarity,
             ItemStats stats,
             int baseBuyPrice,
-            int baseSellPrice)
+            int baseSellPrice,
+            WeaponCategory weaponCategory = WeaponCategory.None)
         {
             Id = id;
             Name = name;
@@ -91,6 +124,7 @@ namespace FinalBoss.Core
             Stats = stats;
             BaseBuyPrice = baseBuyPrice;
             BaseSellPrice = baseSellPrice;
+            WeaponCategory = weaponCategory;
         }
     }
 
@@ -104,12 +138,78 @@ namespace FinalBoss.Core
         public int BuyPrice { get; }
         public int SellPrice { get; }
 
+        public int Level { get; private set; } = 1;
+        public int CurrentXp { get; private set; } = 0;
+        public int MaxLevel => 5;
+        public int XpToNextLevel => Level >= MaxLevel ? 0 : Level * 100;
+        public ItemEnchantment Enchantment { get; private set; } = ItemEnchantment.None;
+
         public ItemInstance(ItemDefinition definition, string instanceId = null, int? customBuyPrice = null, int? customSellPrice = null)
         {
             Definition = definition ?? throw new ArgumentNullException(nameof(definition));
             InstanceId = !string.IsNullOrEmpty(instanceId) ? instanceId : $"item_inst_{_nextId++}";
             BuyPrice = customBuyPrice ?? definition.BaseBuyPrice;
             SellPrice = customSellPrice ?? definition.BaseSellPrice;
+        }
+
+        public bool AddMasteryXp(int xp)
+        {
+            if (Level >= MaxLevel || xp <= 0) return false;
+            CurrentXp += xp;
+            bool leveledUp = false;
+            while (Level < MaxLevel && CurrentXp >= XpToNextLevel)
+            {
+                CurrentXp -= XpToNextLevel;
+                Level++;
+                leveledUp = true;
+            }
+            return leveledUp;
+        }
+
+        public void ApplyEnchantment(ItemEnchantment enchantment)
+        {
+            Enchantment = enchantment;
+        }
+
+        public ItemStats GetEffectiveStats()
+        {
+            var baseStats = Definition.Stats;
+            float mult = 1f + (Level - 1) * 0.15f; // +15% stats per level
+            var result = new ItemStats
+            {
+                FlatDamage = baseStats.FlatDamage * mult,
+                DamagePercent = baseStats.DamagePercent * mult,
+                AttackSpeedPercent = baseStats.AttackSpeedPercent * mult,
+                FlatArmor = baseStats.FlatArmor * mult,
+                FlatMaxHealth = baseStats.FlatMaxHealth * mult,
+                MoveSpeedPercent = baseStats.MoveSpeedPercent * mult,
+                LifeStealPercent = baseStats.LifeStealPercent * mult,
+                CooldownReductionPercent = baseStats.CooldownReductionPercent * mult
+            };
+
+            switch (Enchantment)
+            {
+                case ItemEnchantment.Flaming:
+                    result.FlatDamage += 4f * Level;
+                    break;
+                case ItemEnchantment.Freezing:
+                    result.AttackSpeedPercent += 0.08f;
+                    break;
+                case ItemEnchantment.Vampiric:
+                    result.LifeStealPercent += 0.05f;
+                    break;
+                case ItemEnchantment.Thunderous:
+                    result.DamagePercent += 0.10f;
+                    break;
+                case ItemEnchantment.Warded:
+                    result.FlatArmor += 5f * Level;
+                    break;
+                case ItemEnchantment.VoidTouched:
+                    result.CooldownReductionPercent += 0.08f;
+                    break;
+            }
+
+            return result;
         }
     }
 
@@ -123,90 +223,93 @@ namespace FinalBoss.Core
         public const string SkullRingId = "item_skull_ring";
         public const string AmuletOfTormentId = "item_amulet_of_torment";
 
-        private static readonly Dictionary<string, ItemDefinition> Items = new Dictionary<string, ItemDefinition>
+        private static readonly Dictionary<string, ItemDefinition> Items = new Dictionary<string, ItemDefinition>(StringComparer.OrdinalIgnoreCase);
+
+        static ItemCatalog()
         {
-            {
-                BoneWandId,
-                new ItemDefinition(
-                    BoneWandId,
-                    "Bone Wand",
-                    "A carved skeletal wand channels focused necrotic blasts.",
-                    ItemSlot.Weapon,
-                    ItemRarity.Common,
-                    new ItemStats { FlatDamage = 4f, AttackSpeedPercent = 0.10f },
-                    baseBuyPrice: 20,
-                    baseSellPrice: 10)
-            },
-            {
-                DeathScytheId,
-                new ItemDefinition(
-                    DeathScytheId,
-                    "Death Scythe",
-                    "A cruel scythe blade that harvests the life essence of struck foes.",
-                    ItemSlot.Weapon,
-                    ItemRarity.Rare,
-                    new ItemStats { FlatDamage = 10f, LifeStealPercent = 0.12f },
-                    baseBuyPrice: 50,
-                    baseSellPrice: 25)
-            },
-            {
-                CryptRobesId,
-                new ItemDefinition(
-                    CryptRobesId,
-                    "Crypt Robes",
-                    "Ancient burial shrouds reinforced with bone splints.",
-                    ItemSlot.Armor,
-                    ItemRarity.Common,
-                    new ItemStats { FlatArmor = 6f, FlatMaxHealth = 25f },
-                    baseBuyPrice: 20,
-                    baseSellPrice: 10)
-            },
-            {
-                NecroticShroudId,
-                new ItemDefinition(
-                    NecroticShroudId,
-                    "Necrotic Shroud",
-                    "A heavy mantle steeped in dark sorcery, shielding the wearer from harm.",
-                    ItemSlot.Armor,
-                    ItemRarity.Rare,
-                    new ItemStats { FlatArmor = 14f, FlatMaxHealth = 60f },
-                    baseBuyPrice: 50,
-                    baseSellPrice: 25)
-            },
-            {
+            Initialize();
+        }
+
+        private static void Initialize()
+        {
+            if (Items.Count > 0) return;
+
+            // Baseline Accessories
+            Register(new ItemDefinition(
                 SkullRingId,
-                new ItemDefinition(
-                    SkullRingId,
-                    "Skull Ring",
-                    "A bone band enchanted to quicken feet and reflexes.",
-                    ItemSlot.Accessory,
-                    ItemRarity.Common,
-                    new ItemStats { MoveSpeedPercent = 0.12f, CooldownReductionPercent = 0.10f },
-                    baseBuyPrice: 20,
-                    baseSellPrice: 10)
-            },
-            {
+                "Skull Ring",
+                "A bone band enchanted to quicken feet and reflexes.",
+                ItemSlot.Accessory,
+                ItemRarity.Common,
+                new ItemStats { MoveSpeedPercent = 0.12f, CooldownReductionPercent = 0.10f },
+                baseBuyPrice: 20,
+                baseSellPrice: 10));
+
+            Register(new ItemDefinition(
                 AmuletOfTormentId,
-                new ItemDefinition(
-                    AmuletOfTormentId,
-                    "Amulet of Torment",
-                    "Gems charged with trapped agony elevate vitality and necrotic spell potency.",
-                    ItemSlot.Accessory,
-                    ItemRarity.Rare,
-                    new ItemStats { FlatMaxHealth = 30f, DamagePercent = 0.15f },
-                    baseBuyPrice: 50,
-                    baseSellPrice: 25)
+                "Amulet of Torment",
+                "Gems charged with trapped agony elevate vitality and necrotic spell potency.",
+                ItemSlot.Accessory,
+                ItemRarity.Rare,
+                new ItemStats { FlatMaxHealth = 30f, DamagePercent = 0.15f },
+                baseBuyPrice: 50,
+                baseSellPrice: 25));
+
+            Register(new ItemDefinition(
+                "item_bloodstone_pendant",
+                "Bloodstone Pendant",
+                "Pulsing ruby pendant granting parasitic life drain.",
+                ItemSlot.Accessory,
+                ItemRarity.Uncommon,
+                new ItemStats { LifeStealPercent = 0.08f, FlatMaxHealth = 20f },
+                baseBuyPrice: 40,
+                baseSellPrice: 20));
+
+            Register(new ItemDefinition(
+                "item_crown_of_damnation",
+                "Crown of Damnation",
+                "Black spiked circlet amplifying dark magic catastrophically.",
+                ItemSlot.Accessory,
+                ItemRarity.Legendary,
+                new ItemStats { DamagePercent = 0.30f, CooldownReductionPercent = 0.20f, FlatMaxHealth = 50f },
+                baseBuyPrice: 300,
+                baseSellPrice: 150));
+
+            // Weapons from WeaponCatalog (150 items across 15 categories)
+            foreach (var wpn in WeaponCatalog.All)
+            {
+                Register(wpn);
             }
-        };
+
+            // Armors from ArmorCatalog (30 armor families)
+            foreach (var arm in ArmorCatalog.All)
+            {
+                Register(arm);
+            }
+        }
+
+        public static void Register(ItemDefinition def)
+        {
+            if (def != null)
+                Items[def.Id] = def;
+        }
 
         public static ItemDefinition GetById(string id)
         {
-            ItemDefinition def;
-            Items.TryGetValue(id, out def);
+            if (Items.Count == 0) Initialize();
+            if (string.IsNullOrEmpty(id)) return null;
+            Items.TryGetValue(id, out var def);
             return def;
         }
 
-        public static IEnumerable<ItemDefinition> All => Items.Values;
+        public static IEnumerable<ItemDefinition> All
+        {
+            get
+            {
+                if (Items.Count == 0) Initialize();
+                return Items.Values;
+            }
+        }
     }
 
     /// <summary>
@@ -401,9 +504,9 @@ namespace FinalBoss.Core
         public ItemStats GetEquippedStats()
         {
             ItemStats total = default(ItemStats);
-            if (EquippedWeapon != null) total.Add(EquippedWeapon.Definition.Stats);
-            if (EquippedArmor != null) total.Add(EquippedArmor.Definition.Stats);
-            if (EquippedAccessory != null) total.Add(EquippedAccessory.Definition.Stats);
+            if (EquippedWeapon != null) total.Add(EquippedWeapon.GetEffectiveStats());
+            if (EquippedArmor != null) total.Add(EquippedArmor.GetEffectiveStats());
+            if (EquippedAccessory != null) total.Add(EquippedAccessory.GetEffectiveStats());
             return total;
         }
     }
