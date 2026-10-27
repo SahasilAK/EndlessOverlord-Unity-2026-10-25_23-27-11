@@ -255,7 +255,8 @@ namespace FinalBoss.Game
                 _barrierVisual.transform.SetParent(transform, false);
                 _barrierVisual.transform.localScale = new Vector3(1.4f, 1.4f, 1f);
                 var sr = _barrierVisual.AddComponent<SpriteRenderer>();
-                sr.sprite = PlaceholderSprites.Square;
+                var customBarrier = SpriteSheetRegistry.GetIdleSprite("_Game/Art/VFX/vfx_barrier_shield.png", 32, 32, 1, new Vector2(0.5f, 0.5f), 32f);
+                sr.sprite = customBarrier != null ? customBarrier : PlaceholderSprites.Square;
                 sr.color = new Color(0.2f, 0.9f, 0.85f, 0.45f);
                 sr.sortingOrder = 9;
             }

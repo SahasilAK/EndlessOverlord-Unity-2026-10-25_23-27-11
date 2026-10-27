@@ -51,7 +51,8 @@ namespace FinalBoss.Game
             hazard._velocity = velocity;
 
             var sr = go.AddComponent<SpriteRenderer>();
-            sr.sprite = PlaceholderSprites.Square;
+            var customPool = SpriteSheetRegistry.GetIdleSprite("_Game/Art/VFX/vfx_hazard_pool.png", 32, 32, 1, new Vector2(0.5f, 0.5f), 32f);
+            sr.sprite = customPool != null ? customPool : PlaceholderSprites.Square;
             sr.color = color == default ? new Color(0.3f, 0.7f, 1f, 0.35f) : color;
             sr.sortingOrder = 3;
             hazard._sr = sr;

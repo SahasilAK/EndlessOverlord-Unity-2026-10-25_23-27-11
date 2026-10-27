@@ -52,7 +52,8 @@ namespace FinalBoss.Game
             go.transform.SetParent(transform, false);
             go.transform.localScale = new Vector3(CombatTuning.BoltRadius * 2f, CombatTuning.BoltRadius * 2f, 1f);
             var sr = go.AddComponent<SpriteRenderer>();
-            sr.sprite = PlaceholderSprites.Square;
+            var customBolt = SpriteSheetRegistry.GetIdleSprite("_Game/Art/VFX/vfx_projectile_bolt.png", 16, 16, 1, new Vector2(0.5f, 0.5f), 32f);
+            sr.sprite = customBolt != null ? customBolt : PlaceholderSprites.Square;
             sr.color = new Color(0.6f, 1f, 0.55f);
             sr.sortingOrder = 15;
             return go.AddComponent<BoltProjectile>();
@@ -425,7 +426,8 @@ namespace FinalBoss.Game
             go.transform.localScale = new Vector3(size, size * 0.4f, 1f);
 
             var sr = go.AddComponent<SpriteRenderer>();
-            sr.sprite = PlaceholderSprites.Square;
+            var customSlash = SpriteSheetRegistry.GetIdleSprite("_Game/Art/VFX/vfx_melee_slash.png", 32, 16, 1, new Vector2(0.5f, 0.5f), 32f);
+            sr.sprite = customSlash != null ? customSlash : PlaceholderSprites.Square;
             sr.color = color;
             sr.sortingOrder = 12;
 

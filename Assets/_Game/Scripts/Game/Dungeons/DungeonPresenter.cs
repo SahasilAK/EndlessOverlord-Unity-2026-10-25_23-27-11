@@ -30,9 +30,21 @@ namespace FinalBoss.Game
             Color portalCol = biome != null ? biome.PortalColor.ToUnityColor() : new Color(0.2f, 0.8f, 0.9f);
             Color accentCol = biome != null ? biome.AccentColor.ToUnityColor() : Color.yellow;
 
+            int biomeId = (biome != null && biome.Id > 0) ? biome.Id : 1;
+            string biomePrefix = biomeId switch
+            {
+                2 => "biome_02",
+                3 => "biome_03",
+                _ => "biome_01"
+            };
+            string floorTex = $"_Game/Art/Environment/Dungeons/{biomePrefix}_floor.png";
+            string wallTex = $"_Game/Art/Environment/Dungeons/{biomePrefix}_wall.png";
+            string pillarTex = $"_Game/Art/Environment/Dungeons/{biomePrefix}_pillar.png";
+            string portalTex = $"_Game/Art/Environment/Dungeons/{biomePrefix}_portal.png";
+
             // 1. Floor
             var floor = CreateSpriteObject("ArenaFloor", root.transform, new Vector3(0f, 0f, 1f),
-                new Vector2(layout.Width, layout.Height), floorCol, -10, "_Game/Art/Environment/Dungeons/biome_01_floor.png", 32, 32);
+                new Vector2(layout.Width, layout.Height), floorCol, -10, floorTex, 32, 32);
 
             // 2. Walls
             var wallsGroup = new GameObject("Walls");
@@ -41,7 +53,7 @@ namespace FinalBoss.Game
             {
                 var w = layout.Walls[i];
                 var wallObj = CreateSpriteObject(w.Name, wallsGroup.transform, w.Position.ToUnity3(),
-                    w.Size.ToUnity(), wallCol, -5, "_Game/Art/Environment/Dungeons/biome_01_wall.png", 32, 32);
+                    w.Size.ToUnity(), wallCol, -5, wallTex, 32, 32);
                 var col = wallObj.AddComponent<BoxCollider2D>();
                 col.size = Vector2.one;
             }
@@ -53,7 +65,7 @@ namespace FinalBoss.Game
             {
                 var ob = layout.Obstacles[i];
                 var obObj = CreateSpriteObject(ob.Name, obstaclesGroup.transform, ob.Position.ToUnity3(),
-                    ob.Size.ToUnity(), obsCol, -4, "_Game/Art/Environment/Dungeons/biome_01_pillar.png", 32, 32);
+                    ob.Size.ToUnity(), obsCol, -4, pillarTex, 32, 32);
 
                 if (ob.Shape == ObstacleShape.Circle)
                 {
@@ -74,7 +86,7 @@ namespace FinalBoss.Game
             {
                 var p = layout.Portals[i];
                 var portalObj = CreateSpriteObject(p.Name, portalsGroup.transform, p.Position.ToUnity3(),
-                    new Vector2(1.6f, 1.6f), portalCol, -3, "_Game/Art/Environment/Dungeons/biome_01_portal.png", 48, 48);
+                    new Vector2(1.6f, 1.6f), portalCol, -3, portalTex, 48, 48);
 
                 // Portal pulsing visual indicator component
                 portalObj.AddComponent<PortalMarker>().Initialize(p, portalCol);
