@@ -147,7 +147,11 @@ namespace FinalBoss.Game
             float baseCd = CombatTuning.DashCooldown;
             float rewardRed = _run.Rewards != null ? _run.Rewards.BonusDashCooldownReductionPercent : 0f;
             float equipRed = _run.Inventory != null ? _run.Inventory.GetEquippedStats().CooldownReductionPercent : 0f;
-            float totalRed = Math.Min(0.75f, rewardRed + equipRed);
+            var mutationDef = _run.ActiveMutation != DungeonMutationType.None
+                ? InRunEventCatalog.GetMutation(_run.ActiveMutation)
+                : null;
+            float mutCdr = mutationDef != null ? mutationDef.CooldownReductionBonus : 0f;
+            float totalRed = Math.Min(0.75f, rewardRed + equipRed + mutCdr + _shrineCdrBonus);
             _dash.SetCooldownTime(baseCd * (1f - totalRed));
         }
 
@@ -173,8 +177,51 @@ namespace FinalBoss.Game
         private GameObject _barrierVisual;
         private float _slowMultiplier = 1f;
         private float _slowTimer;
+        private float _shrineDamageBonus;
+        private float _shrineSpeedBonus;
+        private float _shrineCdrBonus;
+        private float _shrineBuffTimer;
 
         public float BarrierAmount => _barrierAmount;
+        public float ShrineDamageBonus => _shrineDamageBonus;
+        public float ShrineSpeedBonus => _shrineSpeedBonus;
+        public float ShrineCdrBonus => _shrineCdrBonus;
+
+        public bool ActivateShrine(ShrineInstance shrine)
+        {
+            if (shrine == null || !Alive || _run == null) return false;
+            if (!shrine.TryActivate(Health.Current, out float hpCost, out float barrierGranted, out int goldGranted))
+                return false;
+
+            if (hpCost > 0f)
+            {
+                Health.TakeDamage(hpCost);
+            }
+            if (barrierGranted > 0f)
+            {
+                SetBarrier(barrierGranted, shrine.Definition.Duration);
+            }
+            if (goldGranted > 0 && _run.Hud != null)
+            {
+                _run.Hud.AddGold(goldGranted);
+                _run.Hud.AddScore(goldGranted * 10);
+            }
+
+            if (shrine.Definition.Type == ShrineType.Blood)
+            {
+                _shrineDamageBonus = 0.35f;
+                _shrineBuffTimer = shrine.Definition.Duration;
+            }
+            else if (shrine.Definition.Type == ShrineType.Frenzy)
+            {
+                _shrineSpeedBonus = 0.40f;
+                _shrineCdrBonus = 0.30f;
+                _shrineBuffTimer = shrine.Definition.Duration;
+                UpdateDashCooldown();
+            }
+
+            return true;
+        }
 
         public void ApplySlow(float slowPercent, float duration)
         {
@@ -240,7 +287,11 @@ namespace FinalBoss.Game
                 Vector2 move = _input != null ? _input.Move : Vector2.zero;
                 var equipStats = _run != null && _run.Inventory != null ? _run.Inventory.GetEquippedStats() : default(ItemStats);
                 float metaSpeed = _run != null ? _run.MetaStats.BonusMoveSpeedPercent : 0f;
-                float speedMultiplier = 1f + (_run != null && _run.Rewards != null ? _run.Rewards.BonusMoveSpeedPercent : 0f) + equipStats.MoveSpeedPercent + metaSpeed;
+                var mutationDef = _run != null && _run.ActiveMutation != DungeonMutationType.None
+                    ? InRunEventCatalog.GetMutation(_run.ActiveMutation)
+                    : null;
+                float mutSpeed = mutationDef != null ? mutationDef.MoveSpeedMultiplierBonus : 0f;
+                float speedMultiplier = 1f + (_run != null && _run.Rewards != null ? _run.Rewards.BonusMoveSpeedPercent : 0f) + equipStats.MoveSpeedPercent + metaSpeed + mutSpeed + _shrineSpeedBonus;
                 float baseSpeed = _run != null && _run.Character != null ? _run.Character.BaseMoveSpeed : CombatTuning.PlayerMoveSpeed;
                 MovementMath.Velocity(move.x, move.y, baseSpeed * speedMultiplier * _slowMultiplier, out vx, out vy);
                 _rb.linearVelocity = new Vector2(vx, vy);
@@ -261,6 +312,18 @@ namespace FinalBoss.Game
                 {
                     _barrierAmount = 0f;
                     if (_barrierVisual != null) _barrierVisual.SetActive(false);
+                }
+            }
+
+            if (_shrineBuffTimer > 0f)
+            {
+                _shrineBuffTimer -= Time.deltaTime;
+                if (_shrineBuffTimer <= 0f)
+                {
+                    _shrineDamageBonus = 0f;
+                    _shrineSpeedBonus = 0f;
+                    _shrineCdrBonus = 0f;
+                    UpdateDashCooldown();
                 }
             }
 

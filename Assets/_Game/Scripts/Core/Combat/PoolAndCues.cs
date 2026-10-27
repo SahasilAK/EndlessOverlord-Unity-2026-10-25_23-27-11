@@ -108,6 +108,13 @@ namespace FinalBoss.Core
         public const string SpellCastMetal = "cue.spell.metal";
         public const string MagicMasteryLevelUp = "cue.magic.mastery";
         public const string SpellEvolved = "cue.spell.evolved";
+
+        // In-Run Events
+        public const string CrusadeEvent = "cue.event.crusade";
+        public const string TreasureHeroSpawn = "cue.event.treasure_hero";
+        public const string ShrineActivated = "cue.event.shrine";
+        public const string DungeonMutationActive = "cue.event.mutation";
+        public const string DoubleBossSpawn = "cue.event.double_boss";
     }
 
     /// <summary>

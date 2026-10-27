@@ -24,6 +24,7 @@ namespace FinalBoss.Game
 
         private readonly Queue<InvaderSpawnDef> _spawnQueue = new Queue<InvaderSpawnDef>();
         private readonly List<InvaderActor> _activeInvaders = new List<InvaderActor>();
+        private readonly List<ShrineActor> _activeShrines = new List<ShrineActor>();
         private float _spawnCooldown;
 
         // Reward, Merchant & Intermission UI
@@ -115,8 +116,53 @@ namespace FinalBoss.Game
                 _spawnQueue.Enqueue(spec.Spawns[i]);
             }
 
+            // Evaluate In-Run Events
+            if (_run != null)
+            {
+                var eventType = InRunEventDirector.EvaluateWaveEvent(_run.Seed, waveNumber);
+                _run.LastWaveEvent = eventType;
+
+                if (eventType == InRunEventType.HolyCrusade)
+                {
+                    _spawnQueue.Enqueue(new InvaderSpawnDef(InvaderArchetype.Paladin, isElite: true, 0.4f, null, BossModifier.Barrier));
+                    _spawnQueue.Enqueue(new InvaderSpawnDef(InvaderArchetype.HolyTemplar, isElite: true, 0.7f, null, BossModifier.Barrier));
+                    _spawnQueue.Enqueue(new InvaderSpawnDef(InvaderArchetype.Paladin, isElite: false, 1.0f));
+                    _spawnQueue.Enqueue(new InvaderSpawnDef(InvaderArchetype.HolyTemplar, isElite: false, 1.3f));
+                    CueBus.Raise(CueIds.CrusadeEvent, 0f, 0f, waveNumber);
+                }
+                else if (eventType == InRunEventType.TreasureHero)
+                {
+                    _spawnQueue.Enqueue(new InvaderSpawnDef(InvaderArchetype.WitchHunter, isElite: true, 0.6f));
+                    CueBus.Raise(CueIds.TreasureHeroSpawn, 0f, 0f, waveNumber);
+                }
+                else if (eventType == InRunEventType.MagicalShrine)
+                {
+                    var shrineType = InRunEventDirector.PickShrineType(_run.Seed, waveNumber);
+                    Vector2 shrinePos = new Vector2(3.5f, 2.0f);
+                    var shrineActor = ShrineActor.Spawn(shrinePos, shrineType);
+                    _activeShrines.Add(shrineActor);
+                    _run.ActiveShrines.Add(shrineActor.Instance);
+                }
+                else if (eventType == InRunEventType.DungeonMutation)
+                {
+                    var mutation = InRunEventDirector.PickMutationType(_run.Seed, waveNumber);
+                    _run.ActiveMutation = mutation;
+                    CueBus.Raise(CueIds.DungeonMutationActive, 0f, 0f, (float)mutation);
+                }
+                else if (eventType == InRunEventType.DoubleBoss)
+                {
+                    var boss1 = LegendaryBossCatalog.GetByIndex((waveNumber * 3) % LegendaryBossCatalog.All.Count);
+                    var boss2 = LegendaryBossCatalog.GetByIndex((waveNumber * 7 + 1) % LegendaryBossCatalog.All.Count);
+                    if (boss1 != null)
+                        _spawnQueue.Enqueue(new InvaderSpawnDef(boss1.Archetype, isElite: false, 0.3f, boss1.Id, BossModifier.Enrage));
+                    if (boss2 != null && boss2.Id != boss1?.Id)
+                        _spawnQueue.Enqueue(new InvaderSpawnDef(boss2.Archetype, isElite: false, 1.5f, boss2.Id, BossModifier.ElementalOvercharge));
+                    CueBus.Raise(CueIds.DoubleBossSpawn, 0f, 0f, waveNumber);
+                }
+            }
+
             _spawnCooldown = 0.5f;
-            _ledger.StartWave(waveNumber, spec.Spawns.Count);
+            _ledger.StartWave(waveNumber, _spawnQueue.Count);
 
             if (_run != null)
             {
@@ -332,6 +378,15 @@ namespace FinalBoss.Game
                 }
             }
             _activeInvaders.Clear();
+
+            for (int i = _activeShrines.Count - 1; i >= 0; i--)
+            {
+                if (_activeShrines[i] != null)
+                {
+                    Destroy(_activeShrines[i].gameObject);
+                }
+            }
+            _activeShrines.Clear();
         }
 
         private void BuildIntermissionUi()

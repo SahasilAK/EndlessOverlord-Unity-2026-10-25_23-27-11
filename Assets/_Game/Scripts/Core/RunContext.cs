@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace FinalBoss.Core
 {
@@ -21,6 +22,9 @@ namespace FinalBoss.Core
         public ArenaLayout Layout { get; set; }
         public AbilityLoadout Loadout { get; set; }
         public MagicSchoolProgression Magic { get; }
+        public DungeonMutationType ActiveMutation { get; set; } = DungeonMutationType.None;
+        public InRunEventType LastWaveEvent { get; set; } = InRunEventType.None;
+        public List<ShrineInstance> ActiveShrines { get; } = new List<ShrineInstance>();
 
         public float ElapsedTime { get; set; }
         public int TotalKills { get; set; }
