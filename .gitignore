@@ -77,7 +77,6 @@ crashlytics-build.properties
 docs/
 !docs/
 docs/*
-!docs/assent_gen/
 asset_prompt.retired/
 docs/assent_gen/staging/
 .vscode/
