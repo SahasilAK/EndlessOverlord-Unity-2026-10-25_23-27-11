@@ -31,6 +31,8 @@ namespace FinalBoss.Game
         public Vector2 Position { get { return _rb != null ? _rb.position : (Vector2)transform.position; } }
         public float Radius { get { return CombatTuning.PlayerRadius; } }
         public bool Alive { get { return Health != null && !Health.IsDead; } }
+        public Vector2 Velocity => _rb != null ? _rb.linearVelocity : Vector2.zero;
+        public float FlashTimer => _flash;
 
         public float LifeStealFraction
         {
@@ -87,6 +89,12 @@ namespace FinalBoss.Game
 
             if (_run != null && _run.Inventory != null)
                 _run.Inventory.Changed += OnEquipmentChanged;
+
+            if (_run != null && _run.Character != null && _run.Character.Id == CharacterCatalog.LichLordId)
+            {
+                var presenter = gameObject.AddComponent<LichLordVisualPresenter>();
+                presenter.Initialize(this, _body);
+            }
 
             ActorRegistry.Player = this;
             ActorRegistry.Register(this);
@@ -350,6 +358,8 @@ namespace FinalBoss.Game
         {
             if (spell == null || _run == null || !Alive)
                 return SpellCastResult.Fail("", "Invalid cast.");
+
+            GetComponent<LichLordVisualPresenter>()?.TriggerCastVisual(0.2f);
 
             float targetDistance = target != null ? Vector2.Distance(Position, target.Position) : 0f;
             int availableTargets = target != null ? 1 : 0;

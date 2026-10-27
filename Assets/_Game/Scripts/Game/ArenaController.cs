@@ -153,6 +153,7 @@ namespace FinalBoss.Game
         private void BuildUi(RunContext run)
         {
             UiFactory.EnsureEventSystem();
+            gameObject.AddComponent<AudioCuePresenter>();
 
             var inputGo = new GameObject("PlayerInputAdapter");
             _input = inputGo.AddComponent<PlayerInputAdapter>();
