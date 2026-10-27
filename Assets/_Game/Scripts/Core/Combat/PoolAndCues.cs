@@ -84,6 +84,30 @@ namespace FinalBoss.Core
         public const string Explosion = "cue.explosion";
         public const string FrostNova = "cue.frost.nova";
         public const string LightningStrike = "cue.lightning.strike";
+
+        // Magic Schools & Spells
+        public const string SpellCastFire = "cue.spell.fire";
+        public const string SpellCastIce = "cue.spell.ice";
+        public const string SpellCastLightning = "cue.spell.lightning";
+        public const string SpellCastWater = "cue.spell.water";
+        public const string SpellCastWind = "cue.spell.wind";
+        public const string SpellCastEarth = "cue.spell.earth";
+        public const string SpellCastPoison = "cue.spell.poison";
+        public const string SpellCastBlood = "cue.spell.blood";
+        public const string SpellCastShadow = "cue.spell.shadow";
+        public const string SpellCastLight = "cue.spell.light";
+        public const string SpellCastHoly = "cue.spell.holy";
+        public const string SpellCastDark = "cue.spell.dark";
+        public const string SpellCastNecromancy = "cue.spell.necromancy";
+        public const string SpellCastSpirit = "cue.spell.spirit";
+        public const string SpellCastArcane = "cue.spell.arcane";
+        public const string SpellCastNature = "cue.spell.nature";
+        public const string SpellCastVoid = "cue.spell.void";
+        public const string SpellCastChaos = "cue.spell.chaos";
+        public const string SpellCastTime = "cue.spell.time";
+        public const string SpellCastMetal = "cue.spell.metal";
+        public const string MagicMasteryLevelUp = "cue.magic.mastery";
+        public const string SpellEvolved = "cue.spell.evolved";
     }
 
     /// <summary>

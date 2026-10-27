@@ -276,6 +276,47 @@ namespace FinalBoss.Game
                             : _flash > 0f ? Color.red
                             : _baseColor;
             }
+
+            if (_run != null && _run.Magic != null)
+            {
+                _run.Magic.Tick(Time.deltaTime);
+            }
+        }
+
+        public SpellCastResult CastSpell(SpellInstance spell, IDamageable target)
+        {
+            if (spell == null || _run == null || !Alive)
+                return SpellCastResult.Fail("", "Invalid cast.");
+
+            float targetDistance = target != null ? Vector2.Distance(Position, target.Position) : 0f;
+            int availableTargets = target != null ? 1 : 0;
+            float availableResource = _run.Hud != null ? _run.Hud.Resource : float.MaxValue;
+            var equipStats = _run.Inventory != null ? _run.Inventory.GetEquippedStats() : default(ItemStats);
+
+            var result = SpellCastSimulator.ExecuteSpell(
+                spell,
+                _run.Magic,
+                Position.x,
+                Position.y,
+                targetDistance,
+                availableTargets,
+                availableResource,
+                equipStats.FlatDamage * 0.02f
+            );
+
+            if (result.Success)
+            {
+                if (_run.Hud != null && spell.Definition.ResourceCost > 0f)
+                {
+                    _run.Hud.TrySpendResource(spell.Definition.ResourceCost);
+                }
+                if (target != null && result.DamageDealt > 0f)
+                {
+                    target.ReceiveDamage(result.DamageDealt);
+                }
+            }
+
+            return result;
         }
 
         public float ReceiveDamage(float rawDamage)

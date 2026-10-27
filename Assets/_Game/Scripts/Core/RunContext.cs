@@ -20,6 +20,7 @@ namespace FinalBoss.Core
         public PersistentStats MetaStats { get; }
         public ArenaLayout Layout { get; set; }
         public AbilityLoadout Loadout { get; set; }
+        public MagicSchoolProgression Magic { get; }
 
         public float ElapsedTime { get; set; }
         public int TotalKills { get; set; }
@@ -46,6 +47,7 @@ namespace FinalBoss.Core
             Merchant = new MerchantSystem();
             Layout = ArenaGenerator.Generate(seed);
             Loadout = new AbilityLoadout();
+            Magic = new MagicSchoolProgression();
             if (character != null && !string.IsNullOrEmpty(character.SignatureAbilityId))
             {
                 Loadout.TryEquip(0, character.SignatureAbilityId, null, out _);
